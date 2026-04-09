@@ -1,5 +1,54 @@
 extends layout
+block styles
+  link(rel="stylesheet", href="../stylesheets/index.css")
 
 block content
-  h1= title
-  p Welcome to #{title}
+  //- Seção de Boas-vindas
+  section.welcome-section
+    .welcome-container
+      .welcome-content
+        h1.welcome-title Boas vindas ao AudioSense!
+        p.welcome-description
+          | O AudioSense é um espaço que promove o aprendizado de audiodescrição e 
+          | acessibilidade, contando com um espaço colaborativo, onde você poderá interagir 
+          | com outros usuários.
+        a.welcome-button#welcomeAuthBtn(href="/login") Entre ou Cadastre-se
+
+      .welcome-icon
+        img(src="../images/boasvindas.png" alt="Ilustração de boas-vindas: duas pessoas colaborando")
+
+  //- Seção de Estatísticas
+  section.stats-section
+    .stats-container
+      //- Card: Usuários
+      .stat-card
+        .stat-icon
+          i.bi.bi-people-fill
+        h3.stat-title Usuários da plataforma
+        p.stat-value
+          span#total-discentes 0
+          |  Discentes
+          br
+          span#total-docentes 0
+          |  Docentes
+
+      //- Card: Conteúdo audiovisual
+      .stat-card
+        .stat-icon
+          i.bi.bi-images
+        h3.stat-title Conteúdo audiovisual
+        p.stat-value
+          span#total-audiovisual 0
+          |  Obras recomendadas
+
+      //- Card: Materiais educacionais
+      .stat-card
+        .stat-icon
+          i.bi.bi-journal-richtext
+        h3.stat-title Materiais educacionais
+        p.stat-value
+          span#total-materiais 0
+          |  Materiais disponíveis
+
+  //- Scripts específicos da página
+  script(src="../javascripts/index.js")
