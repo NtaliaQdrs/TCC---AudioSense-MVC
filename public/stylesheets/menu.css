@@ -1,0 +1,229 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* MENU SUPERIOR */
+.top-bar {
+    background-color: #1f4677;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    height: 55px;
+    width: 100%; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.logo img {
+    width: 59px;  
+    height: auto;
+    margin-left: 0px;
+    display: block;
+    transform: scale(1.5); /* Aumenta em 50% o tamanho */
+    transform-origin: left center; /* Garante que ela cresça a partir da esquerda */
+    
+}
+
+.menu-links {
+    display: flex;
+    margin-left: 120px;
+    margin-top: -10px;
+    gap: 160px; /* aumenta bastante o espaço entre links */
+}
+
+.menu-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 19px;
+    border-radius: 30px;
+    padding: 6px 10px; /* área clicável maior */
+}
+
+.menu-links a:last-child { /* coloca o 'sobre nós' um pouco mais pra direita */
+    position: relative;
+    left: -20px; 
+}
+
+.menu-links a:hover {
+    background-color: #4972a4;
+}
+
+.menu-right {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* separa bem a busca do perfil */
+     margin-top: -6px;
+}
+
+.search-box {
+    position: relative;
+    width: 320px;
+    margin-right: 50px;
+}
+
+.search-box input {
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    width: 380px; /* barra de pesquisa mais longa */
+    font-size: 15px;
+    padding: 10px 16px 10px 42px; /* espaço pra lupa */
+}
+
+
+.search-box i {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #494848;
+    font-size: 16px;
+    pointer-events: none; /* não atrapalha o clique */
+}
+
+
+
+/* Container do menu de perfil */
+.profile-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Botão de perfil */
+#profileBtn {
+    background-color: #E9CCEF;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-right: 50px;
+    font-size: 16px;
+    width: 140px;
+    height: 40px;
+}
+
+#profileBtn:hover {
+    background-color: #be99c7;
+}
+
+/* Ícone */
+#perfil-logo {
+    color: #000000;
+    border-radius: 50%;
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+/* TEXTO */
+#profileBtn a {
+    color: #000000;
+    font-size: 18px;
+    margin-left: 8px;
+    margin-top: 4px;
+    
+}
+
+/* Menu dropdown (inicialmente oculto) */
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 250px;
+    margin-top: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+/* Menu dropdown ATIVO */
+.profile-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Itens do dropdown */
+.dropdown-item {
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 540;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+    color: #1f4677;
+    
+
+}
+
+.dropdown-item.logout:hover {
+    background-color: #FFE5E5;
+    color: #D32F2F;
+}
+
+/* Ícones do dropdown */
+.dropdown-item i {
+    font-size: 18px;
+}
+
+/* Divisor */
+.dropdown-divider {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* MENU SECUNDÁRIO */
+.sub-menu {
+    background-color: #E9CCEF;
+    padding: 22px 0;
+    display: flex;
+    justify-content: center;
+    gap: 45px; /* mais espaço entre os botões */
+    margin-top: 50px;
+}
+
+.sub-menu button {
+    background-color: #1f4677;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    width: 220px;           
+    height: 43px; 
+    padding: 14px 40px; 
+    font-size: 17px;
+    cursor: pointer;
+}
+
+
+.sub-menu button:hover {
+    background-color: #4972a4;
+}

@@ -1,0 +1,78 @@
+doctype html
+html(lang="pt-br")
+  head
+    title= title
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    
+    //- Use / para caminhos absolutos no Express
+    link(rel='stylesheet', href='/stylesheets/menu.css')
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
+
+  body
+    //- MENU PRINCIPAL
+    header.top-bar
+      .logo
+        img(src="/images/audiosense.png" alt="AudioSense")
+
+      nav.menu-links
+        a(href="/") Início
+        a(href="#") Configurações
+        a(href="#") Sobre nós
+
+      .menu-right
+        .search-box
+          i.bi.bi-search
+          input(type="text" placeholder="Pesquise...")
+
+        //- Perfil
+        .profile-menu
+          button#profileBtn.profile-button
+            a Perfil
+            i#perfil-logo.bi.bi-person-circle
+
+          //- Menu dropdown
+          #profileDropdown.profile-dropdown
+            a.dropdown-item(href="/perfil")
+              i.bi.bi-person
+              |   Meu Perfil
+
+            a.dropdown-item(href="#configuracoes")
+              i.bi.bi-gear
+              |   Configurações
+
+            //- Opção específica para DISCENTE
+            a#minhasAudiodescricoes.dropdown-item(href="#minhas-audiodescricoes" style="display: none;")
+              i.bi.bi-headphones
+              |   Minhas Audiodescrições
+
+            //- Opção específica para DOCENTE
+            a#meusMateriais.dropdown-item(href="#meus-materiais" style="display: none;")
+              i.bi.bi-file-earmark
+              |   Meus Materiais
+
+            //- FUNCIONALIDADES DE ADMIN
+            a#adminPainel.dropdown-item(href="#" style="display: none;" onclick="irParaPainelAdmin(event)")
+              i.bi.bi-shield-lock
+              |   Painel do Administrador
+
+            hr.dropdown-divider
+
+            a#logoutBtn.dropdown-item.logout(href="#sair")
+              i.bi.bi-box-arrow-right
+              |   Sair
+
+    //- MENU SECUNDÁRIO (Alinhado com o header)
+    section.sub-menu
+      button Deficiência visual
+      button Audiodescrição
+      button Entretenimento
+      button Fórum
+      button Biblioteca
+
+    //- ÁREA DE CONTEÚDO
+    main
+      block content
+
+    //- Script global
+    script(src="/scripts/menu.js")

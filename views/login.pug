@@ -1,0 +1,58 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title AudioSense
+    
+    //- Link para o arquivo CSS
+    link(rel="stylesheet" href="../stylesheets/loginEcadastro.css")
+    
+    //- Ícones do Bootstrap
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
+
+  body
+    .container
+      .saudacao
+        //- Logo da AudioSense
+        img.logo(src="../images/audiosense-login.png" alt="AudioSense Logo")
+        h1 Bem vindo(a) de volta ao AudioSense!
+
+      .social-login
+        a.btn-social(href="#")
+          img(src="https://www.google.com/favicon.ico" width="20" alt="Google")
+          |  Login com Google
+        a.btn-social(href="#")
+          img(src="https://www.facebook.com/favicon.ico" width="20" alt="Facebook")
+          |  Login com Facebook
+
+      .divider
+        span ou
+
+      form
+        .input-group
+          i.bi.bi-envelope-fill
+          .input-content
+            label Email
+            input(type="email" placeholder="exemplo@gmail.com" required)
+
+        .input-group
+          i.bi.bi-key-fill
+          .input-content
+            label Senha
+            input#senha(type="password" placeholder="••••••••••")
+            i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
+
+        .options
+          label
+            input(type="checkbox" style="accent-color: #2eb086;") 
+            |  Manter conectado
+          a(href="#") Esqueceu a senha?
+
+        button.btn-submit(type="submit") Entrar
+
+      p.footer-text
+        | Não possui uma conta? 
+        a(href="/cadastro") Cadastre-se
+
+    script(src="../scripts/login.js")

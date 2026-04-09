@@ -1,0 +1,42 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title AudioSense
+    
+    //- Link para o arquivo CSS
+    link(rel="stylesheet" href="../stylesheets/loginEcadastro.css")
+    
+    //- Ícones do Bootstrap
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
+
+  body
+    .container
+      .saudacao
+        //- Logo da AudioSense
+        img.logo(src="../images/audiosense-login.png" alt="AudioSense Logo")
+        h1 Bem vindo(a) ao AudioSense!
+        h2 Antes de continuar, escolha seu tipo de usuário:
+
+      //- Botões de seleção
+      .buttons-container
+        //- Botão Discente
+        a.option-button.discente(href="/cadastro/discente")
+          img(src="../images/discente.png" width="20" alt="Discente")
+          span SOU DISCENTE
+
+        //- Botão Docente
+        a.option-button.docente(href="/cadastroDocente")
+          img(src="../images/docente.png" width="20" alt="Docente")
+          span SOU DOCENTE
+
+      p.footer-text
+        | Já possui uma conta? 
+        a(href="/login") Faça login
+      
+      br
+      br
+      
+      .warning
+        p *Lembre-se, caso o seu perfil seja do tipo DOCENTE, seus dados passarão por uma análise para sua conta ser homologada.
