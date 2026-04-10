@@ -14,10 +14,18 @@ router.get('/cadastroDocente', function(req, res, next) {
   res.render('cadastroDocente', { title: 'Cadastro de Docente' }); 
 });
 
+router.get('/cadastroDiscente', function(req, res, next) {
+  res.render('cadastroDiscente', { title: 'Cadastro de Discente' }); 
+});
+
+router.get('/customizar', function(req, res, next) {
+  res.render('customizar', { title: 'Customizar Perfil' }); 
+});
+
+
 router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' }); 
 });
-
 
 
 module.exports = router;
