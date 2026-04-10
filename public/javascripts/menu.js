@@ -3,26 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================
     // ELEMENTOS DO MENU DE PERFIL
     // =============================
-
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
     const logoutBtn = document.getElementById('logoutBtn');
     const minhasAudiodescricoes = document.getElementById('minhasAudiodescricoes');
     const meusMateriais = document.getElementById('meusMateriais');
     const adminPanel = document.getElementById('adminPainel');
+    const welcomeAuthBtn = document.getElementById('welcomeAuthBtn');
 
     // =============================
-    // MENU PERFIL
+    // MENU PERFIL (Click e Teclado)
     // =============================
-
     if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', () => {
-            profileDropdown.classList.toggle('active');
+        
+        // Abre/Fecha ao clicar
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            profileDropdown.classList.toggle('show');
         });
 
+        // Fecha ao clicar fora
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.profile-menu')) {
-                profileDropdown.classList.remove('active');
+                profileDropdown.classList.remove('show');
+            }
+        });
+
+        // Acessibilidade: Fecha com tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                profileDropdown.classList.remove('show');
+                profileBtn.focus(); // Devolve o foco para o botão
             }
         });
     }
@@ -30,85 +41,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================
     // LOGOUT
     // =============================
-
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-
-            const confirmar = confirm("Tem certeza que deseja sair da sua conta?");
-
-            if (confirmar) {
+            if (confirm("Tem certeza que deseja sair da sua conta?")) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('usuario');
-                window.location.href = 'index.html';
+                window.location.href = '/'; // No Express usa-se a rota, não o arquivo .html
             }
         });
     }
 
-
     // =============================
-    // VERIFICAR TIPO DE USUÁRIO
+    // GESTÃO DE ESTADO DO USUÁRIO
     // =============================
-
-    function verificarTipoUsuario() {
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        const tipoUsuario = usuario?.tipo_usuario;
-
-        if (!tipoUsuario) return;
-
-        if (tipoUsuario === 'docente') {
-            if (meusMateriais) meusMateriais.style.display = 'flex';
-            if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
-        } else if (tipoUsuario === 'discente') {
-            if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
-            if (meusMateriais) meusMateriais.style.display = 'none';
-        }
-    }
-
-    // =============================
-    // VERIFICAR PERMISSÕES
-    // =============================
-
-    function verificarPermissoes() {
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        const tipoUsuario = usuario?.tipo_usuario;
-
-        if (!adminPanel) return;
-
-        if (tipoUsuario === 'docente') {
-            adminPanel.style.display = 'flex';
-        } else {
-            adminPanel.style.display = 'none';
-        }
-    }
-
-
-
-
-    
-
-
-    //Some o botão de login e cadastro se o usuário já estiver logado
-    const welcomeAuthBtn = document.getElementById('welcomeAuthBtn');
-
-    function verificarLogin() {
+    function atualizarInterfaceUsuario() {
         const token = localStorage.getItem('token');
-
+        const usuarioJson = localStorage.getItem('usuario');
+        
+        // 1. Verifica se está logado para exibir/esconder botões de login
         if (token) {
             if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
         } else {
             if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'inline-block';
+            return; // Se não está logado, para aqui
+        }
+
+        // 2. Lógica de tipos de usuário e permissões
+        if (usuarioJson) {
+            const usuario = JSON.parse(usuarioJson);
+            const tipo = usuario?.tipo_usuario;
+
+            // Exibe opções baseado no tipo
+            if (tipo === 'docente') {
+                if (meusMateriais) meusMateriais.style.display = 'flex';
+                if (adminPanel) adminPanel.style.display = 'flex';
+                if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
+            } else if (tipo === 'discente') {
+                if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
+                if (meusMateriais) meusMateriais.style.display = 'none';
+                if (adminPanel) adminPanel.style.display = 'none';
+            }
         }
     }
 
-
-    // =============================
-    // EXECUTAR AO CARREGAR
-    // =============================
-
-    verificarTipoUsuario();
-    verificarPermissoes();
-    verificarLogin();
-
-
+    // Executa a verificação ao carregar a página
+    atualizarInterfaceUsuario();
 });

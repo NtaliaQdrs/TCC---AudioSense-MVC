@@ -25,16 +25,15 @@
     height: auto;
     margin-left: 0px;
     display: block;
-    transform: scale(1.5); /* Aumenta em 50% o tamanho */
-    transform-origin: left center; /* Garante que ela cresça a partir da esquerda */
-    
+    transform: scale(1.5); 
+    transform-origin: left center; 
 }
 
 .menu-links {
     display: flex;
-    margin-left: 120px;
+    margin-left: 140px;
     margin-top: -10px;
-    gap: 160px; /* aumenta bastante o espaço entre links */
+    gap: 140px; 
 }
 
 .menu-links a {
@@ -42,10 +41,10 @@
     text-decoration: none;
     font-size: 19px;
     border-radius: 30px;
-    padding: 6px 10px; /* área clicável maior */
+    padding: 6px 10px; 
 }
 
-.menu-links a:last-child { /* coloca o 'sobre nós' um pouco mais pra direita */
+.menu-links a:last-child { 
     position: relative;
     left: -20px; 
 }
@@ -57,8 +56,8 @@
 .menu-right {
     display: flex;
     align-items: center;
-    gap: 30px; /* separa bem a busca do perfil */
-     margin-top: -6px;
+    gap: 30px; 
+    margin-top: -6px;
 }
 
 .search-box {
@@ -73,11 +72,10 @@
     border-radius: 25px;
     border: none;
     outline: none;
-    width: 380px; /* barra de pesquisa mais longa */
+    width: 380px; 
     font-size: 15px;
-    padding: 10px 16px 10px 42px; /* espaço pra lupa */
+    padding: 10px 16px 10px 42px; 
 }
-
 
 .search-box i {
     position: absolute;
@@ -86,10 +84,8 @@
     transform: translateY(-50%);
     color: #494848;
     font-size: 16px;
-    pointer-events: none; /* não atrapalha o clique */
+    pointer-events: none; 
 }
-
-
 
 /* Container do menu de perfil */
 .profile-menu {
@@ -127,15 +123,14 @@
 }
 
 /* TEXTO */
-#profileBtn a {
+#profileBtn span { /* Alterado de 'a' para 'span' para seguir o layout.pug corrigido */
     color: #000000;
     font-size: 18px;
     margin-left: 8px;
     margin-top: 4px;
-    
 }
 
-/* Menu dropdown (inicialmente oculto) */
+/* Menu dropdown */
 .profile-dropdown {
     position: absolute;
     top: 100%;
@@ -145,18 +140,16 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     min-width: 250px;
     margin-top: 8px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+    
+    /* Ajustado para funcionar com o JS corrigido */
+    display: none; 
+    flex-direction: column;
     z-index: 1000;
 }
 
-/* Menu dropdown ATIVO */
-.profile-dropdown.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+/* Classe que o JavaScript ativa */
+.profile-dropdown.show {
+    display: flex;
 }
 
 /* Itens do dropdown */
@@ -180,8 +173,6 @@
 .dropdown-item:hover {
     background-color: #f0f0f0;
     color: #1f4677;
-    
-
 }
 
 .dropdown-item.logout:hover {
@@ -189,12 +180,10 @@
     color: #D32F2F;
 }
 
-/* Ícones do dropdown */
 .dropdown-item i {
     font-size: 18px;
 }
 
-/* Divisor */
 .dropdown-divider {
     margin: 8px 0;
     border: none;
@@ -202,13 +191,21 @@
 }
 
 /* MENU SECUNDÁRIO */
+/* --- MENU SECUNDÁRIO (SOLUÇÃO SIMPLIFICADA) --- */
 .sub-menu {
-    background-color: #E9CCEF;
+    background-color: #E9CCEF; /* Fundo rosa */
+    width: 100%;
+    margin-top: 55px; /* Altura da barra azul fixa */
     padding: 22px 0;
+    display: block; /* Garante que a seção ocupe a linha toda */
+}
+
+.sub-menu nav {
     display: flex;
-    justify-content: center;
-    gap: 45px; /* mais espaço entre os botões */
-    margin-top: 50px;
+    gap: 45px;
+    /* IMPORTANTE: Este valor deve ser igual ao margin-left do seu .menu-links */
+    margin-left: 150px; 
+    align-items: center;
 }
 
 .sub-menu button {
@@ -216,14 +213,41 @@
     color: white;
     border: none;
     border-radius: 30px;
-    width: 220px;           
-    height: 43px; 
-    padding: 14px 40px; 
+    height: 48px; 
+    padding: 0 40px; 
     font-size: 17px;
+    width: 200px;
     cursor: pointer;
+    white-space: nowrap;
 }
-
 
 .sub-menu button:hover {
     background-color: #4972a4;
+}
+
+
+/* --- AJUSTES DE NAVEGAÇÃO POR TECLADO --- */
+
+/* Foco visível em todos os elementos interativos */
+a:focus, button:focus, input:focus {
+    outline: 3px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Estilo do link de "Pular Conteúdo" */
+.skip-link {
+    position: absolute;
+    top: -100px; /* Escondido acima da tela */
+    left: 10px;
+    background: #1f4677;
+    color: white;
+    padding: 12px 20px;
+    z-index: 2000;
+    text-decoration: none;
+    border-radius: 0 0 10px 10px;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0; /* Aparece ao dar Tab */
 }

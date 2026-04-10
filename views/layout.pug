@@ -3,14 +3,17 @@ html(lang="pt-br")
   head
     title= title
     meta(charset="UTF-8")
+    link(rel="icon" type="image/png" href="/images/boasvindas.png")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     
-    //- Use / para caminhos absolutos no Express
     link(rel='stylesheet', href='/stylesheets/menu.css')
     block styles
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
 
   body
+    //- Botão para acessibilidade (teclado)
+    a.skip-link(href="#main-content") Pular para o conteúdo principal
+
     //- MENU PRINCIPAL
     header.top-bar
       .logo
@@ -28,8 +31,9 @@ html(lang="pt-br")
 
         //- Perfil
         .profile-menu
-          button#profileBtn.profile-button
-            a Perfil
+          //- Ajuste: removi a tag 'a' de dentro do botão para evitar conflito de navegação
+          button#profileBtn.profile-button(aria-haspopup="true" aria-expanded="false")
+            span Perfil 
             i#perfil-logo.bi.bi-person-circle
 
           //- Menu dropdown
@@ -42,17 +46,14 @@ html(lang="pt-br")
               i.bi.bi-gear
               |   Configurações
 
-            //- Opção específica para DISCENTE
             a#minhasAudiodescricoes.dropdown-item(href="#minhas-audiodescricoes" style="display: none;")
               i.bi.bi-headphones
               |   Minhas Audiodescrições
 
-            //- Opção específica para DOCENTE
             a#meusMateriais.dropdown-item(href="#meus-materiais" style="display: none;")
               i.bi.bi-file-earmark
               |   Meus Materiais
 
-            //- FUNCIONALIDADES DE ADMIN
             a#adminPainel.dropdown-item(href="#" style="display: none;" onclick="irParaPainelAdmin(event)")
               i.bi.bi-shield-lock
               |   Painel do Administrador
@@ -63,17 +64,18 @@ html(lang="pt-br")
               i.bi.bi-box-arrow-right
               |   Sair
 
-    //- MENU SECUNDÁRIO (Alinhado com o header)
+    //- MENU SECUNDÁRIO
     section.sub-menu
-      button Deficiência visual
-      button Audiodescrição
-      button Entretenimento
-      button Fórum
-      button Biblioteca
+      nav
+        button Deficiência visual
+        button Audiodescrição
+        button Entretenimento
+        button Fórum
+        button Biblioteca
 
-    //- ÁREA DE CONTEÚDO
-    main
+    //- ÁREA DE CONTEÚDO PRINCIPAL
+    main#main-content
       block content
 
     //- Script global
-    script(src="../javascripts/menu.js")
+    script(src="/javascripts/menu.js")
