@@ -5,4 +5,6 @@ router.get('/', function(req, res, next) {
   res.render('painelAdmin1');
 });
 
+
+
 module.exports = router;

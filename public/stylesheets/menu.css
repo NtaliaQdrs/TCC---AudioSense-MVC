@@ -8,16 +8,23 @@
 /* MENU SUPERIOR */
 .top-bar {
     background-color: #1f4677;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex; /* Mudamos de grid para flex para ter controle total */
     align-items: center;
     height: 55px;
     width: 100%; 
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
     z-index: 1000;
+}
+
+.menu-links {
+    display: flex;
+    /* Em vez de margem flexível, usamos posição absoluta em relação à barra azul */
+    position: absolute; 
+    left: 215px; /* VALOR CHAVE: Ajuste este número até os links ficarem onde você quer */
+    margin-top: -10px;
+    gap: 140px; 
 }
 
 .logo img {
@@ -29,12 +36,7 @@
     transform-origin: left center; 
 }
 
-.menu-links {
-    display: flex;
-    margin-left: 140px;
-    margin-top: -10px;
-    gap: 140px; 
-}
+
 
 .menu-links a {
     color: white;
@@ -58,6 +60,7 @@
     align-items: center;
     gap: 30px; 
     margin-top: -6px;
+    margin-left: auto; /* Joga tudo da direita para o final da barra */
 }
 
 .search-box {
@@ -250,4 +253,8 @@ a:focus, button:focus, input:focus {
 
 .skip-link:focus {
     top: 0; /* Aparece ao dar Tab */
+}
+
+html {
+    scrollbar-gutter: stable;
 }

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
     const minhasAudiodescricoes = document.getElementById('minhasAudiodescricoes');
     const meusMateriais = document.getElementById('meusMateriais');
-    const adminPanel = document.getElementById('adminPainel');
+    const adminPainel = document.getElementById('adminPainel');
     const welcomeAuthBtn = document.getElementById('welcomeAuthBtn');
 
     // =============================
@@ -75,12 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Exibe opções baseado no tipo
             if (tipo === 'docente') {
                 if (meusMateriais) meusMateriais.style.display = 'flex';
-                //if (adminPanel) adminPanel.style.display = 'flex';
+                //if (adminPainel) adminPainel.style.display = 'flex';
                 if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
             } else if (tipo === 'discente') {
                 if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
                 if (meusMateriais) meusMateriais.style.display = 'none';
-                //if (adminPanel) adminPanel.style.display = 'none';
+                //if (adminPainel) adminPainel.style.display = 'none';
             }
         }
     }
