@@ -1,9 +1,12 @@
 extends layout
+
 block styles
   link(rel="stylesheet", href="../stylesheets/index.css")
 
 block content
-  //- Seção de Boas-vindas
+
+  // ===== SEU CÓDIGO ORIGINAL (NÃO ALTERADO) =====
+
   section.welcome-section
     .welcome-container
       .welcome-content
@@ -17,10 +20,8 @@ block content
       .welcome-icon
         img(src="../images/boasvindas.png" alt="Ilustração de boas-vindas: duas pessoas colaborando")
 
-  //- Seção de Estatísticas
   section.stats-section
     .stats-container
-      //- Card: Usuários
       .stat-card
         .stat-icon
           i.bi.bi-people-fill
@@ -32,7 +33,6 @@ block content
           span#total-docentes 0
           |  Docentes
 
-      //- Card: Conteúdo audiovisual
       .stat-card
         .stat-icon
           i.bi.bi-images
@@ -41,7 +41,6 @@ block content
           span#total-audiovisual 0
           |  Obras recomendadas
 
-      //- Card: Materiais educacionais
       .stat-card
         .stat-icon
           i.bi.bi-journal-richtext
@@ -50,5 +49,56 @@ block content
           span#total-materiais 0
           |  Materiais disponíveis
 
-  //- Scripts específicos da página
+  // ===== NOVAS SEÇÕES (SEM IMPACTAR SEU CSS ATUAL) =====
+
+  //- O que você vai aprender
+  section.learning-extra
+    .learning-extra-container
+      h2 O que você vai aprender?
+
+      .learning-item1 1. Compreender a deficiência visual
+      .learning-item2 2. Princípios da audiodescrição
+      .learning-item3 3. Entretenimento e educação acessíveis
+
+  //- Cards adicionais
+  section.cards-extra
+    .cards-extra-container
+
+      .extra-card
+        i.bi.bi-eye-slash
+        h3 Entendendo a deficiência visual
+        p Saiba mais sobre as deficiências visuais e como interagir, tornando os espaços acessiveis.
+        a(href="/cursos/deficiencia") Acessar
+
+      .extra-card
+        i.bi.bi-volume-up-fill
+        h3 Introdução à audiodescrição
+        p Aprenda o que é audiodescrição, como é aplicada e as praticas para produzir conteudos com acessibilidade.
+        a(href="/cursos/audiodescricao") Acessar
+
+      .extra-card
+        i.
+        h3 Entretenimento com acessibilidade
+        p Conheça exemplos de filmes, series e outras formas de entretenimento que utilizam recursos com acessibilidade.
+        a(href="/cursos/entretenimento") Acessar
+
+  //- Espaço colaborativo
+  section.collab-extra
+  .collab-extra-container
+    h2 Espaço colaborativo
+
+    .collab-wrapper
+      .collab-box
+        i.bi.bi-book
+        h3 Biblioteca de materiais
+        p Encontre artigos, vídeos, apostilas e muito mais.
+        a(href="/biblioteca") Acessar
+
+      .collab-box
+        i.bi.bi-chat-right-text
+        h3 Fórum
+        p Interaja com outros usuários.
+        a(href="/forum") Acessar
+
+  // ===== SCRIPT ORIGINAL =====
   script(src="../javascripts/index.js")
