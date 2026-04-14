@@ -5,7 +5,8 @@ body {
     background-color: #E9CCEF;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os itens horizontalmente */
+    align-items: center;
+    /* Centraliza os itens horizontalmente */
     width: 100%;
     margin: 0;
     padding: 0;
@@ -15,8 +16,10 @@ body {
 /* Seção de Boas-vindas */
 .welcome-section {
     width: 84%;
-    margin-left: auto;  /* Garante centralização */
-    margin-right: auto; /* Garante centralização */
+    margin-left: auto;
+    /* Garante centralização */
+    margin-right: auto;
+    /* Garante centralização */
     margin-top: 35px;
 }
 
@@ -24,7 +27,8 @@ body {
     background: #f6edf6;
     border-radius: 20px;
     padding: 60px 40px;
-    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378); /* sombra - esquerda/direita, cima/baixo, desfoque, cor */
+    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+    /* sombra - esquerda/direita, cima/baixo, desfoque, cor */
     display: flex;
     align-items: center;
     gap: 60px;
@@ -34,7 +38,7 @@ body {
     font-size: 35px;
     color: #1a3a6c;
     margin-bottom: 20px;
-   
+
 }
 
 .welcome-description {
@@ -73,8 +77,10 @@ body {
 /* Seção de Estatísticas */
 .stats-section {
     width: 84%;
-    margin-left: auto;  /* Garante centralização */
-    margin-right: auto; /* Garante centralização */
+    margin-left: auto;
+    /* Garante centralização */
+    margin-right: auto;
+    /* Garante centralização */
     margin-top: 60px;
     margin-bottom: 60px;
 }
@@ -110,7 +116,7 @@ body {
 .stat-icon i {
     font-size: 110px;
     color: #582d86;
-    
+
 }
 
 .stat-title {
@@ -146,18 +152,19 @@ body {
     border-radius: 20px;
     padding: 40px 30px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-    text-align: center; /* Centraliza o título e a descrição */
+    text-align: center;
+    /* Centraliza o título e a descrição */
 }
 
 .learning-extra-container h2 {
-    font-size: 28px;
+    font-size: 30px;
     color: #1a3a6c;
     margin-bottom: 10px;
 }
 
 /* Descrição abaixo do título */
 .learning-subtitle {
-    font-size: 16px;
+    font-size: 19px;
     color: #6B7280;
     max-width: 700px;
     margin: 0 auto 30px auto;
@@ -174,7 +181,8 @@ body {
 }
 
 .learning-item {
-    background: #ffffff; /* Fundo branco igual à imagem */
+    background: #ffffff;
+    /* Fundo branco igual à imagem */
     border-radius: 15px;
     padding: 15px 25px;
     width: 75%;
@@ -184,8 +192,10 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombreado leve do card */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombreado leve do card */
     text-align: left;
+    font-size: 18px;
 }
 
 /* Bolinhas Numeradas */
@@ -193,7 +203,8 @@ body {
     content: attr(data-num);
     width: 32px;
     height: 32px;
-    min-width: 32px; /* Garante que não amasse */
+    min-width: 32px;
+    /* Garante que não amasse */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,9 +215,21 @@ body {
 }
 
 /* Cores específicas de cada bolinha */
-.learning-item1::before { background: #2eb086; } /* Verde */
-.learning-item2::before { background: #60a5fa; } /* Azul claro igual da imagem */
-.learning-item3::before { background: #8163a8; } /* Roxo */
+.learning-item1::before {
+    background: #2eb086;
+}
+
+/* Verde */
+.learning-item2::before {
+    background: #60a5fa;
+}
+
+/* Azul claro igual da imagem */
+.learning-item3::before {
+    background: #8163a8;
+}
+
+/* Roxo */
 
 /* ========================= */
 /* CARDS (3 COLUNAS) */
@@ -270,7 +293,7 @@ body {
 }
 
 .collab-extra-container h2 {
-    font-size: 26px;
+    font-size: 30px;
     color: #1a3a6c;
     margin-bottom: 30px;
 }
@@ -282,16 +305,23 @@ body {
 
 .collab-wrapper {
     display: flex;
-    justify-content: space-between;
-    gap: 30px;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
 }
 
 .collab-box {
-    flex: 1;
+    flex: 1 1 450px;
+    max-width: 550px;
     background: #f6edf6;
     border-radius: 20px;
-    padding: 30px;
+    padding: 50px 40px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Move tudo para a direita */
+    text-align: left;     /* Alinha o texto à direita */
 }
 
 .collab-box h3 {
@@ -321,13 +351,14 @@ body {
 }
 
 .collab-box i {
-    font-size: 40px;
+    font-size: 35px;
     color: #ffffff;
+   
 
     width: 80px;
     height: 80px;
 
-    margin: 0 auto 15px auto;
+   margin: 0 0 20px 0 !important;
 
     background: #582d86;
     border-radius: 50%;
@@ -337,41 +368,15 @@ body {
     justify-content: center;
 }
 
-/* ========================= */
-/* COLLAB EQUILIBRADO */
-/* ========================= */
 
-.collab-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 40px; /* espaço equilibrado */
-}
-
-.collab-box {
-    flex: 0 0 300px; /* largura ideal */
-    padding: 30px; /* volta o respiro interno */
-}
 
 h2 {
     text-align: center;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* ========================= */
-/* FIX FINAL COLLAB */
-/* ========================= */
 
-.collab-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: nowrap; /* IMPEDE QUE QUEBRE LINHA */
-}
 
-.collab-box {
-    flex: 0 1 320px; /* permite ajustar sem quebrar */
-    max-width: 320px;
-}
 /* ========================= */
 /* ÍCONES - CARDS DE CONTEÚDO */
 /* ========================= */
@@ -392,10 +397,3 @@ h2 {
     align-items: center;
     justify-content: center;
 }
-
-
-
-
-
-
-
