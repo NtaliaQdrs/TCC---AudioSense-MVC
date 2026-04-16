@@ -19,6 +19,20 @@ html(lang="pt-br")
       .logo
         img(src="/images/audiosense.png" alt="AudioSense")
 
+      //- Botão para categorias (visível apenas no mobile)
+      button#categoryToggle.category-toggle(aria-label="Abrir categorias")
+        i.bi.bi-grid-3x3-gap-fill
+
+      //- Contêiner para as categorias do sub-menu (visível apenas no mobile)
+      #categoryDropdown.category-dropdown
+        .category-links
+        a.dropdown-item(href="/") Início
+          a.dropdown-item(href="/deficiencia-visual") Deficiência visual
+          a.dropdown-item(href="/audiodescricao") Audiodescrição
+          a.dropdown-item(href="/entretenimento") Entretenimento
+          a.dropdown-item(href="/forum") Fórum
+        a.dropdown-item(href="/biblioteca") Biblioteca
+
       nav.menu-links
         a(href="/") Início
         a(href="#") Configurações
@@ -31,7 +45,6 @@ html(lang="pt-br")
 
         //- Perfil
         .profile-menu
-          //- Ajuste: removi a tag 'a' de dentro do botão para evitar conflito de navegação
           button#profileBtn.profile-button(aria-haspopup="true" aria-expanded="false")
             span Perfil 
             i#perfil-logo.bi.bi-person-circle
@@ -67,11 +80,11 @@ html(lang="pt-br")
     //- MENU SECUNDÁRIO
     section.sub-menu
       nav
-        button Deficiência visual
-        button Audiodescrição
-        button Entretenimento
-        button Fórum
-        button Biblioteca
+        a(href="/deficiencia-visual") Deficiência visual
+        a(href="/audiodescricao") Audiodescrição
+        a(href="/entretenimento") Entretenimento
+        a(href="/forum") Fórum
+        a(href="/biblioteca") Biblioteca
 
     //- ÁREA DE CONTEÚDO PRINCIPAL
     main#main-content
