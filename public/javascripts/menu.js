@@ -92,14 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('token');
         const usuarioJson = localStorage.getItem('usuario');
 
-        if (!token) {
+        /* if (!token) {
             if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'inline-block';
             // Esconde o botão de perfil se não estiver logado
             if (profileBtn) profileBtn.style.display = 'none';
             return;
-        }
+        }*/
 
-        if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
+       // if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
         if (profileBtn) profileBtn.style.display = 'flex';
 
         if (usuarioJson) {

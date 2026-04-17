@@ -1,21 +1,22 @@
 extends layout
 block styles
-  link(rel="stylesheet", href="../stylesheets/painel.css")
+  link(rel="stylesheet" href="../stylesheets/painel.css")
 
 block content
-  .containerad
+  
+  main.containerad(role="main")
     .saudacao
-      h1
-        i.bi.bi-person-fill-lock
+      h1#titulo-pagina
+        i.bi.bi-person-fill-lock(aria-hidden="true")
         |  Solicitar acesso de Administrador
 
-    h1 O acesso de administrador fornece controle total sobre a gestão de usuários, conteúdo, configurações do sistema e relatórios. Esta função é reservada para pessoas autorizadas e requer aprovação.
+    p.instrucoes-admin O acesso de administrador fornece controle total sobre a gestão de usuários, conteúdo, configurações do sistema e relatórios. Esta função é reservada para pessoas autorizadas e requer aprovação.
 
 
     .divider
 
     .cad
-      form
+      form(aria-labelledby="titulo-pagina")
         .input-group
           .input-content
             label(for="justificativa") Justificativa
@@ -24,15 +25,16 @@ block content
               placeholder="Por favor explique por que você precisa de acesso administrativo e quais funções você desempenhará. Seja específico e detalhado."
               rows="5"
               required
+              aria-required="true"
             )
 
         .input-group
           .input-content
             label(for="documentoComprovacao") Documento de comprovação
-            input(type="file" id="documentoComprovacao")
+            input(type="file" id="documentoComprovacao" aria-label="Selecionar documento de comprovação (PDF ou Imagem)")
 
         .button-group
-          button.btn-cancel(type="button") Cancelar
+          button.btn-cancel(type="button" aria-label="Cancelar e voltar para a página anterior") Cancelar
           button.btn-submitcust(type="submit") Enviar solicitação
 
   script(src="../scripts/index.js")

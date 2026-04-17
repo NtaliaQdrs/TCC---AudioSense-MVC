@@ -12,42 +12,48 @@ html(lang="pt-br")
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
 
   body
-    .container
+    main.container(role="main")
       .saudacao
         //- Logo da AudioSense
         img.logo(src="../images/audiosense-login.png" alt="AudioSense Logo")
         h1 Bem vindo(a) de volta ao AudioSense!
 
       .social-login
-        a.btn-social(href="#")
+        a.btn-social(href="#" aria-label="Fazer login usando sua conta do Google")
           img(src="https://www.google.com/favicon.ico" width="20" alt="Google")
           |  Login com Google
-        a.btn-social(href="#")
+        a.btn-social(href="#" aria-label="Fazer login usando sua conta do Facebook")
           img(src="https://www.facebook.com/favicon.ico" width="20" alt="Facebook")
           |  Login com Facebook
 
       .divider
         span ou
 
-      form
+      form(aria-label="Formulário de Login")
         .input-group
-          i.bi.bi-envelope-fill
+          i.bi.bi-envelope-fill(aria-hidden="true")
           .input-content
             label Email
-            input(type="email" placeholder="exemplo@gmail.com" required)
+            input#email(type="email" placeholder="exemplo@gmail.com" required aria-required="true")
 
         .input-group
-          i.bi.bi-key-fill
+          i.bi.bi-key-fill(aria-hidden="true")
           .input-content
-            label Senha
-            input#senha(type="password" placeholder="••••••••••")
+            label(for="senha") Senha
+            input#senha(type="password" placeholder="••••••••••" required)
+            button.btn-toggle-password(
+              type="button" 
+              onclick="togglePassword('senha')" 
+              aria-label="Mostrar senha"
+              style="background: none; border: none; cursor: pointer;"
+            )
             i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
 
         .options
           label
             input(type="checkbox" style="accent-color: #2eb086;") 
             |  Manter conectado
-          a(href="#") Esqueceu a senha?
+          a(href="#" aria-label="Recuperar senha esquecida") Esqueceu a senha?
 
         button.btn-submit(type="submit") Entrar
 
@@ -58,4 +64,4 @@ html(lang="pt-br")
       p.footer-text
         a(href="/") Voltar para o início
 
-    script(src="../scripts/login.js")
+    script(src="../javascripts/login.js")
