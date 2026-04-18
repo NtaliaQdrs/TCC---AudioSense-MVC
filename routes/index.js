@@ -11,10 +11,11 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' }); 
 });
 
-<<<<<<< HEAD
+
 router.get('/audiodescricao', function(req, res, next) {
   res.render('audiodescricao');
-=======
+});
+
 router.get('/cadastro', function(req, res, next) {
   res.render('cadastro', { title: 'Cadastro' }); 
 });
@@ -29,7 +30,7 @@ router.get('/cadastroDiscente', function(req, res, next) {
 
 router.get('/customizar', function(req, res, next) {
   res.render('customizar', { title: 'Customizar Perfil' }); 
->>>>>>> 1c3c7091de7380d4dc0bff4eb5b32c0fb4437fc6
+
 });
 
 module.exports = router;
