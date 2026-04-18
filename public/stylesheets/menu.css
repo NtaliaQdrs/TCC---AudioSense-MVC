@@ -1,3 +1,5 @@
+/* --- SEU CSS ORIGINAL (DESKTOP) PERMANECE IGUAL --- */
+
 * {
     margin: 0;
     padding: 0;
@@ -8,10 +10,10 @@
 /* MENU SUPERIOR */
 .top-bar {
     background-color: #1f4677;
-    display: flex; /* Mudamos de grid para flex para ter controle total */
+    display: flex;
     align-items: center;
     height: 55px;
-    width: 100%; 
+    width: 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -20,35 +22,32 @@
 
 .menu-links {
     display: flex;
-    /* Em vez de margem flexível, usamos posição absoluta em relação à barra azul */
-    position: absolute; 
-    left: 215px; /* VALOR CHAVE: Ajuste este número até os links ficarem onde você quer */
+    position: absolute;
+    left: 215px;
     margin-top: -10px;
-    gap: 140px; 
+    gap: 140px;
 }
 
 .logo img {
-    width: 59px;  
+    width: 59px;
     height: auto;
     margin-left: 0px;
     display: block;
-    transform: scale(1.5); 
-    transform-origin: left center; 
+    transform: scale(1.5);
+    transform-origin: left center;
 }
-
-
 
 .menu-links a {
     color: white;
     text-decoration: none;
     font-size: 19px;
     border-radius: 30px;
-    padding: 6px 10px; 
+    padding: 6px 10px;
 }
 
-.menu-links a:last-child { 
+.menu-links a:last-child {
     position: relative;
-    left: -20px; 
+    left: -20px;
 }
 
 .menu-links a:hover {
@@ -58,14 +57,14 @@
 .menu-right {
     display: flex;
     align-items: center;
-    gap: 30px; 
+    gap: 30px;
     margin-top: -6px;
-    margin-left: auto; /* Joga tudo da direita para o final da barra */
+    margin-left: auto;
 }
 
 .search-box {
     position: relative;
-    width: 320px;
+    width: 350px;
     margin-right: 50px;
 }
 
@@ -75,9 +74,9 @@
     border-radius: 25px;
     border: none;
     outline: none;
-    width: 380px; 
+    width: 380px;
     font-size: 15px;
-    padding: 10px 16px 10px 42px; 
+    padding: 10px 16px 10px 42px;
 }
 
 .search-box i {
@@ -87,17 +86,15 @@
     transform: translateY(-50%);
     color: #494848;
     font-size: 16px;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
-/* Container do menu de perfil */
 .profile-menu {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-/* Botão de perfil */
 #profileBtn {
     background-color: #E9CCEF;
     border: none;
@@ -117,7 +114,6 @@
     background-color: #be99c7;
 }
 
-/* Ícone */
 #perfil-logo {
     color: #000000;
     border-radius: 50%;
@@ -125,15 +121,13 @@
     margin-top: 4px;
 }
 
-/* TEXTO */
-#profileBtn span { /* Alterado de 'a' para 'span' para seguir o layout.pug corrigido */
+#profileBtn span {
     color: #000000;
     font-size: 18px;
     margin-left: 8px;
     margin-top: 4px;
 }
 
-/* Menu dropdown */
 .profile-dropdown {
     position: absolute;
     top: 100%;
@@ -143,19 +137,15 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     min-width: 250px;
     margin-top: 8px;
-    
-    /* Ajustado para funcionar com o JS corrigido */
-    display: none; 
+    display: none;
     flex-direction: column;
     z-index: 1000;
 }
 
-/* Classe que o JavaScript ativa */
 .profile-dropdown.show {
     display: flex;
 }
 
-/* Itens do dropdown */
 .dropdown-item {
     border-radius: 8px;
     display: flex;
@@ -194,53 +184,362 @@
 }
 
 /* MENU SECUNDÁRIO */
-/* --- MENU SECUNDÁRIO (SOLUÇÃO SIMPLIFICADA) --- */
 .sub-menu {
-    background-color: #E9CCEF; /* Fundo rosa */
+    background-color: #E9CCEF;
     width: 100%;
-    margin-top: 55px; /* Altura da barra azul fixa */
+    margin-top: 55px;
     padding: 22px 0;
-    display: block; /* Garante que a seção ocupe a linha toda */
+    display: block;
 }
 
 .sub-menu nav {
     display: flex;
     gap: 45px;
-    /* IMPORTANTE: Este valor deve ser igual ao margin-left do seu .menu-links */
-    margin-left: 150px; 
+    margin-left: 150px;
     align-items: center;
 }
 
-.sub-menu button {
+.sub-menu a {
     background-color: #1f4677;
     color: white;
     border: none;
     border-radius: 30px;
-    height: 48px; 
-    padding: 0 40px; 
+    height: 48px;
+    padding: 13px 20px;
     font-size: 17px;
     width: 200px;
     cursor: pointer;
     white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
 }
 
-.sub-menu button:hover {
+.sub-menu a:hover {
     background-color: #4972a4;
 }
 
+/* --- NOVOS ESTILOS PARA O BOTÃO DE CATEGORIAS (MOBILE) --- */
+.category-toggle {
+    display: none;
+    /* Escondido no desktop */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    margin-left: 60px;
+    /* Espaço para a logo transformada */
+}
+
+.category-dropdown {
+    display: none;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    width: 100%;
+    background-color: #E9CCEF;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.category-dropdown.active {
+    display: flex;
+}
+
+.category-dropdown .dropdown-item {
+    background: none;
+    border: none;
+    color: #1f4677;
+    padding: 12px 20px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* --- RESPONSIVIDADE (MEDIA QUERIES) --- */
+
+
+
+
+@media (max-width: 1456px) {
+    .menu-links {
+        left: 150px;
+        /* Ajusta a posição dos links principais */
+        gap: 80px;
+        /* Reduz o espaçamento */
+    }
+
+    
+
+    .sub-menu nav {
+        margin-left: 10px;
+        /* Ajusta a margem do sub-menu */
+        gap: 30px;
+        justify-content: center;
+    }
+
+    .sub-menu a {
+        width: 200px;
+        padding: 13px;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+
+
+@media (max-width: 1200px) {
+
+    .menu-links {
+        left: 150px;
+        /* Ajusta a posição dos links principais */
+        gap: 60px;
+        font-size: 16px;
+
+    }
+
+
+    .search-box {
+        width: 280px;
+        /* Reduz a largura da busca */
+        margin-right: 30px;
+    }
+
+    .search-box input {
+        width: 300px;
+        /* Reduz a largura do input */
+    }
+
+    #profileBtn {
+        margin-right: 30px;
+        width: 120px;
+    }
+
+    #profileBtn span {
+        font-size: 16px;
+    }
+
+    #perfil-logo {
+        font-size: 22px;
+    }
+
+    .sub-menu nav {
+        margin-left: 10px;
+        /* Ajusta a margem do sub-menu */
+        gap: 30px;
+        justify-content: center;
+    }
+
+    .sub-menu a {
+        width: 150px;
+        padding: 13px;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+
+/* Para telas menores que 1024px (tablet) */
+
+@media (max-width: 1048px) {
+
+    .top-bar {
+        justify-content: center;
+        padding: 0 15px;
+        gap: 40px;
+    }
+
+    .logo img {
+        transform: scale(1.2);
+        /* Reduz um pouco a logo */
+    }
+
+
+    .category-toggle {
+        display: block;
+        /* Mostra o botão de categorias */
+        margin-left: 10px;
+        /* Espaço para a logo transformada */
+    }
+
+
+    .sub-menu {
+        display: none;
+        /* Esconde o sub-menu original */
+    }
+
+    .menu-links {
+        display: none;
+        /* Esconde os links principais */
+    }
+
+    .search-box {
+        width: 100%;
+        /* Ocupa o espaço disponível */
+        max-width: 250px;
+        /* Limita a largura máxima */
+        margin-right: 15px;
+        margin-left: auto;
+        /* Empurra para a direita */
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 8px 15px 8px 40px;
+        font-size: 14px;
+    }
+
+    .menu-right {
+        gap: 15px;
+        margin-left: 15px;
+        /* Ajusta a margem para o perfil */
+    }
+
+    #profileBtn {
+        margin-right: 15px;
+        width: auto;
+        /* Largura automática */
+        padding: 8px 10px;
+    }
+
+    #profileBtn span {
+        display: none;
+        /* Esconde o texto "Perfil" e deixa só o ícone */
+    }
+
+    #perfil-logo {
+        font-size: 20px;
+        margin-top: 0;
+    }
+
+    .profile-dropdown {
+        right: 15px;
+        /* Ajusta a posição do dropdown de perfil */
+    }
+}
+
+/* Para telas menores que 768px (mobile) */
+
+@media (max-width: 768px) {
+    .top-bar {
+        height: 50px;
+        padding: 0 10px;
+    }
+
+    .logo img {
+        transform: scale(1);
+        /* Volta ao tamanho normal */
+    }
+
+    .category-toggle {
+        font-size: 24px;
+        margin-left: 15px;
+    }
+
+    .search-box {
+        max-width: 180px;
+        margin-right: 10px;
+    }
+
+    .search-box input {
+        padding: 6px 12px 6px 35px;
+        font-size: 13px;
+    }
+
+    .search-box i {
+        left: 12px;
+        font-size: 14px;
+    }
+
+    .menu-right {
+        gap: 10px;
+        margin-left: 10px;
+    }
+
+    #profileBtn {
+        padding: 6px 8px;
+        height: 35px;
+    }
+
+    #perfil-logo {
+        font-size: 18px;
+    }
+
+    .profile-dropdown {
+        min-width: 200px;
+        right: 10px;
+    }
+
+    .dropdown-item {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+}
+
+
+/* Para telas muito pequenas (mobile pequeno) */
+
+@media (max-width: 480px) {
+
+    .top-bar {
+        padding: 0 5px;
+        justify-content: center;
+    }
+
+    .logo img {
+        width: 45px;
+    }
+
+    .category-toggle {
+        margin-left: 10px;
+    }
+
+    .search-box {
+        max-width: 180px;
+        margin-right: 10px;
+    }
+
+    .search-box input {
+        padding: 6px 12px 6px 35px;
+        font-size: 13px;
+    }
+
+    .search-box i {
+        left: 12px;
+        font-size: 14px;
+    }
+
+    .menu-right {
+        margin-left: auto;
+        /* Garante que o perfil vá para a direita */
+        gap: 5px;
+    }
+
+    #profileBtn {
+        margin-right: 5px;
+    }
+
+    .profile-dropdown {
+        right: 5px;
+    }
+}
 
 /* --- AJUSTES DE NAVEGAÇÃO POR TECLADO --- */
 
-/* Foco visível em todos os elementos interativos */
-a:focus, button:focus, input:focus {
+a:focus,
+button:focus,
+input:focus {
     outline: 3px solid #007bff;
     outline-offset: 2px;
 }
 
-/* Estilo do link de "Pular Conteúdo" */
 .skip-link {
     position: absolute;
-    top: -100px; /* Escondido acima da tela */
+    top: -100px;
     left: 10px;
     background: #1f4677;
     color: white;
@@ -252,7 +551,7 @@ a:focus, button:focus, input:focus {
 }
 
 .skip-link:focus {
-    top: 0; /* Aparece ao dar Tab */
+    top: 0;
 }
 
 html {

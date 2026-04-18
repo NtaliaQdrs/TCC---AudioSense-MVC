@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =============================
-    // ELEMENTOS DO MENU DE PERFIL
+    // ELEMENTOS
     // =============================
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
@@ -10,33 +10,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const meusMateriais = document.getElementById('meusMateriais');
     const adminPainel = document.getElementById('adminPainel');
     const welcomeAuthBtn = document.getElementById('welcomeAuthBtn');
+    
+    const categoryToggle = document.getElementById('categoryToggle');
+    const categoryDropdown = document.getElementById('categoryDropdown');
 
     // =============================
-    // MENU PERFIL (Click e Teclado)
+    // MENU PERFIL
     // =============================
     if (profileBtn && profileDropdown) {
-        
-        // Abre/Fecha ao clicar
         profileBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation(); // Evita que o clique no botão feche o menu imediatamente pelo evento global
             profileDropdown.classList.toggle('show');
         });
+    }
 
-        // Fecha ao clicar fora
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.profile-menu')) {
-                profileDropdown.classList.remove('show');
-            }
-        });
+    // =============================
+    // MENU CATEGORIAS
+    // =============================
+    if (categoryToggle && categoryDropdown) {
+        categoryToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            categoryDropdown.classList.toggle('active');
 
-        // Acessibilidade: Fecha com tecla ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                profileDropdown.classList.remove('show');
-                profileBtn.focus(); // Devolve o foco para o botão
+            const icon = categoryToggle.querySelector('i');
+            if (icon) {
+                if (categoryDropdown.classList.contains('active')) {
+                    icon.classList.replace('bi-grid-3x3-gap-fill', 'bi-x');
+                } else {
+                    icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
+                }
             }
         });
     }
+
+    // =============================
+    // FECHAR MENUS AO CLICAR FORA OU ESC
+    // =============================
+    document.addEventListener('click', (e) => {
+        // Fecha Perfil
+        if (profileDropdown && !e.target.closest('.profile-menu')) {
+            profileDropdown.classList.remove('show');
+        }
+        
+        // Fecha Categorias
+        if (categoryDropdown && !categoryDropdown.contains(e.target) && !categoryToggle.contains(e.target)) {
+            categoryDropdown.classList.remove('active');
+            const icon = categoryToggle?.querySelector('i');
+            if (icon) icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            profileDropdown?.classList.remove('show');
+            categoryDropdown?.classList.remove('active');
+            // Opcional: voltar o ícone das categorias ao normal
+            const icon = categoryToggle?.querySelector('i');
+            if (icon) icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
+        }
+    });
 
     // =============================
     // LOGOUT
@@ -45,9 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             if (confirm("Tem certeza que deseja sair da sua conta?")) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('usuario');
-                window.location.href = '/'; // No Express usa-se a rota, não o arquivo .html
+                localStorage.clear(); // Limpa tudo de uma vez
+                window.location.href = '/';
             }
         });
     }
@@ -58,33 +91,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function atualizarInterfaceUsuario() {
         const token = localStorage.getItem('token');
         const usuarioJson = localStorage.getItem('usuario');
-        
-        // 1. Verifica se está logado para exibir/esconder botões de login
-        if (token) {
-            if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
-        } else {
+
+        /* if (!token) {
             if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'inline-block';
-            return; // Se não está logado, para aqui
-        }
+            // Esconde o botão de perfil se não estiver logado
+            if (profileBtn) profileBtn.style.display = 'none';
+            return;
+        }*/
 
-        // 2. Lógica de tipos de usuário e permissões
+       // if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
+        if (profileBtn) profileBtn.style.display = 'flex';
+
         if (usuarioJson) {
-            const usuario = JSON.parse(usuarioJson);
-            const tipo = usuario?.tipo_usuario;
+            try {
+                const usuario = JSON.parse(usuarioJson);
+                const tipo = usuario?.tipo_usuario;
 
-            // Exibe opções baseado no tipo
-            if (tipo === 'docente') {
-                if (meusMateriais) meusMateriais.style.display = 'flex';
-                //if (adminPainel) adminPainel.style.display = 'flex';
-                if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
-            } else if (tipo === 'discente') {
-                if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
-                if (meusMateriais) meusMateriais.style.display = 'none';
-                //if (adminPainel) adminPainel.style.display = 'none';
+                if (tipo === 'docente') {
+                    if (meusMateriais) meusMateriais.style.display = 'flex';
+                    if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
+                } else if (tipo === 'discente') {
+                    if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
+                    if (meusMateriais) meusMateriais.style.display = 'none';
+                }
+            } catch (err) {
+                console.error("Erro ao processar dados do usuário", err);
             }
         }
     }
 
-    // Executa a verificação ao carregar a página
     atualizarInterfaceUsuario();
 });

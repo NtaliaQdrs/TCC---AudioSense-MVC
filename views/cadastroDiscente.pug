@@ -8,49 +8,63 @@ html(lang="pt-br")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
 
   body
-    .container
+    main.container(role="main")
       .saudacao
         img.logo(src="../images/audiosense-login.png" alt="AudioSense Logo")
         h1 Bem vindo(a) ao AudioSense!
 
       .social-login
-        a.btn-social(href="#")
-          img(src="https://www.google.com/favicon.ico", width="20", alt="Google")
+        a.btn-social(href="#" aria-label="Cadastrar-se usando sua conta do Google")
+          img(src="https://www.google.com/favicon.ico", width="20", alt="")
           |  Login com Google
-        a.btn-social(href="#")
-          img(src="https://www.facebook.com/favicon.ico", width="20", alt="Facebook")
+        a.btn-social(href="#" aria-label="Cadastrar-se usando sua conta do Facebook")
+          img(src="https://www.facebook.com/favicon.ico", width="20", alt="")
           |  Login com Facebook
 
       .divider
         span ou
 
       .cad
-        form
+        form(aria-label="Formulário de Cadastro de Discente")
           .input-group
-            i.bi.bi-envelope-fill
+            i.bi.bi-envelope-fill(aria-hidden="true")
             .input-content
               label Nome completo
               input(type="text", placeholder="Nome completo aqui", required)
 
           .input-group
-            i.bi.bi-envelope-fill
+            i.bi.bi-envelope-fill(aria-hidden="true")
             .input-content
               label Email
               input(type="email", placeholder="Exemplo@gmail.com", required)
 
           .input-group
-            i.bi.bi-key-fill
+            i.bi.bi-key-fill(aria-hidden="true")
             .input-content
               label Crie uma senha
-              input#senha(type="password", placeholder="••••••••••")
-              i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
+              input#senha(type="password", placeholder="••••••••••", required)
+              //- Botão acessível para mostrar senha
+              button.btn-toggle-password(
+                type="button" 
+                onclick="togglePassword('senha')" 
+                aria-label="Mostrar senha"
+                style="background: none; border: none; cursor: pointer;"
+              )
+              i.bi.bi-eye.toggle-password(aria-hidden="true")(onclick="togglePassword('senha')")
 
           .input-group
-            i.bi.bi-key-fill
+            i.bi.bi-key-fill(aria-hidden="true")
             .input-content
               label Confirme a senha
-              input#confirmSenha(type="password", placeholder="••••••••••")
-              i.bi.bi-eye.toggle-password(onclick="togglePassword('confirmSenha')")
+              input#confirmSenha(type="password", placeholder="••••••••••", required)
+              //- Botão acessível para mostrar senha
+              button.btn-toggle-password(
+                type="button" 
+                onclick="togglePassword('senha')" 
+                aria-label="Mostrar senha"
+                style="background: none; border: none; cursor: pointer;"
+              )
+              i.bi.bi-eye.toggle-password(aria-hidden="true")(onclick="togglePassword('confirmSenha')")
 
           .options
             label
@@ -62,4 +76,8 @@ html(lang="pt-br")
             | Já possui uma conta? 
             a(href="/login") Faça login
 
-    script(src="../scripts/cadastro.js")
+          p.footer-text
+            a(href="/") Voltar para o início
+
+
+    script(src="../javascripts/cadastro.js")

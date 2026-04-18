@@ -7,7 +7,7 @@ block content
 
   // ===== SEU CÓDIGO ORIGINAL (NÃO ALTERADO) =====
 
-  section.welcome-section
+  section.welcome-section(aria-labelledby="titulo-boas-vindas")
     .welcome-container
       .welcome-content
         h1.welcome-title Boas vindas ao AudioSense!
@@ -18,87 +18,89 @@ block content
         a.welcome-button#welcomeAuthBtn(href="/login") Entre ou Cadastre-se
 
       .welcome-icon
-        img(src="../images/boasvindas.png" alt="Ilustração de boas-vindas: duas pessoas colaborando")
+        img(src="../images/boasvindas.png" alt="")
 
-  section.stats-section
+  section.stats-section(aria-label="Estatísticas da plataforma")
     .stats-container
       .stat-card
         .stat-icon
-          i.bi.bi-people-fill
+          i.bi.bi-people-fill(aria-hidden="true")
         h3.stat-title Usuários da plataforma
         p.stat-value
-          span#total-discentes 0
+          span#total-discentes(aria-live="polite") 0
           |  Discentes
           br
-          span#total-docentes 0
+          span#total-docentes(aria-live="polite") 0
           |  Docentes
 
       .stat-card
         .stat-icon
-          i.bi.bi-images
+          i.bi.bi-images(aria-hidden="true")
         h3.stat-title Conteúdo audiovisual
         p.stat-value
-          span#total-audiovisual 0
+          span#total-audiovisual(aria-live="polite") 0
           |  Obras recomendadas
 
       .stat-card
         .stat-icon
-          i.bi.bi-journal-richtext
+          i.bi.bi-journal-richtext(aria-hidden="true")
         h3.stat-title Materiais educacionais
         p.stat-value
-          span#total-materiais 0
+          span#total-materiais(aria-live="polite") 0
           |  Materiais disponíveis
 
   // ===== NOVAS SEÇÕES (SEM IMPACTAR SEU CSS ATUAL) =====
 
   //- O que você vai aprender
-  section.learning-extra
+  section.learning-extra(aria-labelledby="titulo-aprendizado")
     .learning-extra-container
-      h2 O que você vai aprender?
+      h2#titulo-aprendizado O que você vai aprender?
+      p.learning-subtitle Aqui você poderá conhecer fundamentos da audiodescrição e da acessibilidade, entendendo como aplicar e compartilhar conhecimentos sobre inclusão.
 
-      .learning-item1 1. Compreender a deficiência visual
-      .learning-item2 2. Princípios da audiodescrição
-      .learning-item3 3. Entretenimento e educação acessíveis
+        ul.learning-items-wrapper(style="list-style: none; padding: 0;")
+          li.learning-item.learning-item1(data-num="1") Compreender a deficiência visual
+          li.learning-item.learning-item2(data-num="2") Princípios da audiodescrição
+          li.learning-item.learning-item3(data-num="3") Entretenimento e educação acessíveis
 
   //- Cards adicionais
-  section.cards-extra
+  section.cards-extra(aria-labelledby="titulo-conteudos")
     .cards-extra-container
 
       .extra-card
-        i.bi.bi-eye-slash
+        i.bi.bi-eye-slash-fill(aria-hidden="true")
         h3 Entendendo a deficiência visual
         p Saiba mais sobre as deficiências visuais e como interagir, tornando os espaços acessiveis.
-        a(href="/cursos/deficiencia") Acessar
+        a(href="/deficienciavisual" aria-label="Acessar página de informações sobre deficiência visual") Acessar
 
       .extra-card
-        i.bi.bi-volume-up-fill
+        i.bi.bi-volume-up-fill(aria-hidden="true")
         h3 Introdução à audiodescrição
         p Aprenda o que é audiodescrição, como é aplicada e as praticas para produzir conteudos com acessibilidade.
-        a(href="/cursos/audiodescricao") Acessar
+        a(href="/audiodescricao" aria-label="Acessar página de informações sobre audiodescrição") Acessar
 
       .extra-card
-        i.
+        i.bi.bi-universal-access-circle(aria-hidden="true")
         h3 Entretenimento com acessibilidade
-        p Conheça exemplos de filmes, series e outras formas de entretenimento que utilizam recursos com acessibilidade.
-        a(href="/cursos/entretenimento") Acessar
+        p Conheça exemplos de filmes, series e outras formas de entretenimento que utilizam audiodescrição.
+        a(href="/cursos/entretenimento" aria-label="Acessar página de informações sobre entretenimento com audiodescrição") Acessar
 
   //- Espaço colaborativo
-  section.collab-extra
-  .collab-extra-container
-    h2 Espaço colaborativo
+  section.collab-extra(aria-labelledby="titulo-colaborativo")
+    .collab-extra-container  
+      h2#titulo-colaborativo Espaço colaborativo
 
-    .collab-wrapper
-      .collab-box
-        i.bi.bi-book
-        h3 Biblioteca de materiais
-        p Encontre artigos, vídeos, apostilas e muito mais.
-        a(href="/biblioteca") Acessar
+      .collab-wrapper
+        .collab-box
+          i.bi.bi-book(aria-hidden="true")
+          h3 Biblioteca de materiais
+          p Encontre artigos, vídeos, apostilas e muito mais sobre matérias variadas.
+          a(href="/biblioteca" aria-label="Acessar Biblioteca de materiais didáticos") Acessar
 
-      .collab-box
-        i.bi.bi-chat-right-text
-        h3 Fórum
-        p Interaja com outros usuários.
-        a(href="/forum") Acessar
+        .collab-box
+          i.bi.bi-chat-right-text(aria-hidden="true")
+          h3 Fórum
+          p Interaja com outros usuários, participando de discussões e compartilhando feedbacks.
+          a(href="/forum" aria-label="Ir para o Fórum de discussões") Acessar
 
   // ===== SCRIPT ORIGINAL =====
   script(src="../javascripts/index.js")
