@@ -11,5 +11,8 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' }); 
 });
 
+router.get('/audiodescricao', function(req, res, next) {
+  res.render('audiodescricao');
+});
 
 module.exports = router;

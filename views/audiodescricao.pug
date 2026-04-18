@@ -1,0 +1,60 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
+
+block content
+
+ main.page
+  h1.title Introdução a audiodescrição
+
+  section.cards-extra
+    .main-grid
+
+      .cards
+        .extra-card
+          i.bi.bi-journal-bookmark-fill
+          h3 Definição e conceitos
+          a(href="/") Ler mais
+
+        .extra-card
+          i.bi.bi-people-fill
+          h3 Quem são os usuários da audiodescrição?
+          a(href="/") Ler mais
+
+        .extra-card
+          i.bi.bi-suit-heart-fill
+          h3 A importância deste recurso
+          a(href="/") Ler mais
+
+        .extra-card
+          i.bi.bi-play-circle
+          h3 Exemplos práticos
+          a(href="/Exemplos práticos") Ler mais
+
+      aside.sidebar
+        h3 Sugestão de conteúdo adicional
+
+        .side-item
+          span Artigos
+          small (Links)
+
+        .divider
+
+        .side-item
+          span Vídeos educacionais
+          small (Links)
+
+        .divider
+
+        .side-item
+          span Relatos
+          small (Links)
+
+  .practice
+    h2 Coloque em prática o que você aprendeu!
+    p
+      | Teste aqui o que você aprendeu sobre audiodescrição.
+      | Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo,
+      | transmitindo todas as informações visuais.
+    button Inserir audiodescrição

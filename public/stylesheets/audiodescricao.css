@@ -1,0 +1,218 @@
+/* CORPO DA PÁGINA */
+
+
+body {
+    background-color: #E9CCEF;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens horizontalmente */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ========================= */
+/* CARDS (3 COLUNAS) */
+/* ========================= */
+
+.cards-extra {
+    width: 84%;
+    margin: 40px auto;
+}
+
+.cards-extra-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.extra-card {
+    flex: 1;
+    background: #f6edf6;
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+    text-align: center;
+}
+
+.extra-card h3 {
+    font-size: 20px;
+    color: #1a3a6c;
+    margin-bottom: 10px;
+}
+
+.extra-card p {
+    color: #6B7280;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.extra-card a {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: 2px solid #582d86;
+    color: #582d86;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.extra-card a:hover {
+    background: #582d86;
+    color: white;
+}
+
+h2 {
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ========================= */
+/* ÍCONES - CARDS DE CONTEÚDO */
+/* ========================= */
+
+.extra-card i {
+    font-size: 40px;
+    color: #ffffff;
+
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 15px auto;
+
+    background: #582d86;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* AUDIODESCRICAO*/ 
+
+/* TÍTULO */
+.title {
+  margin: 40px 80px 20px;
+  font-size: 28px;
+  color: #2f4f7f;
+}
+
+/* GRID */
+.main-grid {
+  display: flex;
+  gap: 30px;
+}
+
+/* CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 400px);
+  gap: 50px;
+
+  justify-content: flex-start;
+}
+
+.card {
+  height: 180px;
+  border-radius: 16px;
+  padding: 10px;
+  position: relative;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+.card.dark {
+  background: #5c6f91;
+  color: white;
+}
+
+.card.light {
+  background: #e9e9ec;
+  color: #2f4f7f;
+}
+
+.card h3 {
+  margin-top: 40px;
+  font-size: 16px;
+}
+
+.card button {
+  margin-top: 15px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 2px solid #6c63ff;
+  background: white;
+  color: #6c63ff;
+  font-size: 12px;
+}
+
+/* ÍCONE (CÍRCULO ROXO) */
+.icon {
+  position: absolute;
+  top: -25px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #7c5cff, #5a3ec8);
+  border-radius: 50%;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 400px;
+  background: #f5edf5;
+  padding: 20px;
+  border-radius: 16px;
+  height: 350px;
+}
+
+.sidebar h3 {
+  color: #2fa36b;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.side-item {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.side-item small {
+  color: gray;
+}
+
+.divider {
+  height: 1px;
+  background: #ccc;
+  margin: 20px 0;
+}
+
+/* PRÁTICA */
+.practice {
+  margin: 60px 80px;
+  background: #f5edf5;
+  padding: 30px;
+  border-radius: 16px;
+  width: 600px;
+}
+
+.practice h2 {
+  color: #2eb086;
+  margin-bottom: 10px;
+}
+
+.practice p {
+  color: #666;
+  font-size: 14px;
+}
+
+.practice button {
+  margin-top: 15px;
+  background: #2eb086;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: none;
+}
