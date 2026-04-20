@@ -29,7 +29,7 @@ body {
     flex: 1;
     background: #f6edf6;
     border-radius: 20px;
-    padding: 30px 20px;
+    padding: 35px 20px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
     text-align: center;
 }
@@ -40,11 +40,6 @@ body {
     margin-bottom: 10px;
 }
 
-.extra-card p {
-    color: #6B7280;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
 
 .extra-card a {
     display: inline-block;
@@ -64,6 +59,39 @@ body {
 h2 {
     text-align: center;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* cards azuis */
+
+.extra-card1 {
+    flex: 1;
+    background: #21487FB2;
+    border-radius: 20px;
+    padding: 35px 20px;
+    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+    text-align: center;
+}
+
+.extra-card1 h3 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.extra-card1 a {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: 2px solid #582d86;
+    color: #582d86;
+    text-decoration: none;
+    font-weight: 600;
+    background-color: #ffffff;
+}
+
+.extra-card1 a:hover {
+    background: #582d86;
+    color: white;
 }
 
 
@@ -87,6 +115,26 @@ h2 {
     align-items: center;
     justify-content: center;
 }
+
+/* ícones cards azuis*/
+
+.extra-card1 i {
+    font-size: 40px;
+    color: #ffffff;
+
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 15px auto;
+
+    background: #582d86;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* AUDIODESCRICAO*/ 
 
