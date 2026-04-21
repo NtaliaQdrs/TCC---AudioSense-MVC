@@ -1,0 +1,73 @@
+extends layout
+
+block styles
+  link(rel="stylesheet", href="/stylesheets/deficienciaVisual.css")
+
+block content
+  main.page
+
+    // Título principal
+    h1.title Entendendo a deficiência visual
+
+    .content-wrapper
+      // Conteúdo principal (cards)
+      .main-content
+
+        .card
+          .card-header
+            i.bi.bi-eye-slash
+            h2 O que é cegueira?
+          p
+            | A cegueira é a perda total ou quase total da visão, na qual em muitos casos não há um tratamento. 
+            | Essa condição pode ter várias causas, podendo estar presente desde o nascimento 
+            | ou ser provocada por doenças oculares e acidentes.
+
+        .card
+          .card-header
+            i.icon.baixa-visao
+            h2 O que é baixa visão?
+          p
+            | A baixa visão é a perda significativa da visão, não sendo possível ser corrigida por óculos, 
+            | lentes de contato, medicamentos ou cirurgia. Apesar disso, a pessoa ainda possui algum grau 
+            | de visão com uma funcionalidade preservada.
+
+        .card
+          .card-header
+            i.bi.bi-person-standing
+            h2 Como interagir e guiar pessoas com deficiência visual
+          p
+            | Ao interagir com pessoas com deficiência visual é importante perguntar antes de oferecer ajuda. 
+            | Caso precise guiar alguém, deixe que a pessoa segure o seu braço, em vez de puxá-la. 
+            | Identifique-se antes de iniciar uma conversa e descreva o ambiente com clareza. 
+            | Mantendo sempre uma comunicação respeitosa e clara.
+
+      // Sidebar
+      aside.sidebar
+        h3 Sugestão de conteúdo adicional
+
+        .sidebar-item
+          i.bi.bi-file-earmark-text
+          span Artigos
+        .text
+          small (Links)
+
+        hr
+
+        .sidebar-item
+          i.bi.bi-play-btn
+          span Vídeos educacionais
+        .text
+          small (Links)
+
+        hr
+
+        .sidebar-item
+          i.bi.bi-people
+          span Relatos
+        .text
+          small (Links)
+
+        hr
+        .scroll-top ↑
+
+  

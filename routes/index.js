@@ -33,4 +33,10 @@ router.get('/customizar', function(req, res, next) {
 
 });
 
+router.get('/deficiencia-visual', function(req, res, next) {
+  res.render('deficienciaVisual'); 
+
+});
+
+
 module.exports = router;

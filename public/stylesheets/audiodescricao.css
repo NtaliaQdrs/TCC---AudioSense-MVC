@@ -11,6 +11,14 @@ body {
     padding: 0;
 }
 
+/* TÍTULO */
+.title {
+  margin: 40px 0px 50px;
+  font-size: 35px;
+  color: #2f4f7f;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 /* ========================= */
 /* CARDS (3 COLUNAS) */
 /* ========================= */
@@ -23,6 +31,12 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 30px;
+}
+
+/* GRID */
+.main-grid {
+  display: flex;
+  gap: 30px;
 }
 
 .extra-card {
@@ -135,23 +149,6 @@ h2 {
     justify-content: center;
 }
 
-
-/* AUDIODESCRICAO*/ 
-
-/* TÍTULO */
-.title {
-  margin: 40px 0px 50px;
-  font-size: 35px;
-  color: #2f4f7f;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* GRID */
-.main-grid {
-  display: flex;
-  gap: 30px;
-}
-
 /* CARDS */
 .cards {
   display: grid;
@@ -262,6 +259,7 @@ h2 {
 .practice p {
   color: #666;
   font-size: 18px;
+  font-weight: 600;
 }
 
 .practice button {
