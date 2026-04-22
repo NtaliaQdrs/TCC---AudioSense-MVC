@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const meusMateriais = document.getElementById('meusMateriais');
     const adminPainel = document.getElementById('adminPainel');
     const welcomeAuthBtn = document.getElementById('welcomeAuthBtn');
-    
+
     const categoryToggle = document.getElementById('categoryToggle');
     const categoryDropdown = document.getElementById('categoryDropdown');
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (profileDropdown && !e.target.closest('.profile-menu')) {
             profileDropdown.classList.remove('show');
         }
-        
+
         // Fecha Categorias
         if (categoryDropdown && !categoryDropdown.contains(e.target) && !categoryToggle.contains(e.target)) {
             categoryDropdown.classList.remove('active');
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }*/
 
-       // if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
+        // if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
         if (profileBtn) profileBtn.style.display = 'flex';
 
         if (usuarioJson) {
@@ -120,5 +120,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function destacarLinkAtivo() {
+        const todosOsLinks = document.querySelectorAll('.sub-menu a, .menu-links a');
+        const currentUrl = window.location.href.replace(/\/$/, "");
+
+        todosOsLinks.forEach(link => {
+            const linkHref = link.href.replace(/\/$/, "");
+
+            if (linkHref === currentUrl) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    // Chama diretamente, pois já estamos dentro do DOMContentLoaded
     atualizarInterfaceUsuario();
+    destacarLinkAtivo();
 });
+
+    
+
+

@@ -19,7 +19,7 @@ body {
 /* ========================= */
 
 .title {
-  margin: 40px 0px 50px;
+  margin: 30px -20px 50px;
   font-size: 35px;
   color: #2f4f7f;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -48,9 +48,9 @@ body {
 .card {
   background: #f6edf6;
   border-radius: 20px;
-  padding: 35px 20px;
+  padding: 40px 30px;
   box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-  width: 1000px; 
+  width: 900px; 
 }
 
 /* HEADER (ÍCONE + TÍTULO LADO A LADO) */
@@ -59,22 +59,20 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-bottom: 20px;
 }
 
 /* ÍCONE (IGUAL AO AUDIODESCRICAO) */
-.card-header i {
+.card-header img {
   font-size: 20px;
   color: #fff;
-
-  width: 60px;
-  height: 60px;
-
-  background: #582d86;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 10px;
 }
 
 /* TÍTULO */
@@ -104,7 +102,7 @@ body {
   border-radius: 16px;
   height: 350px;
   margin-right: 0px;
-  margin-left: 100px;
+  margin-left: 200px;
   margin-top: 0px;
 }
 

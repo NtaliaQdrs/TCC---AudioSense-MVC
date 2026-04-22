@@ -2,35 +2,38 @@
 
 
 body {
-    background-color: #E9CCEF;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centraliza os itens horizontalmente */
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  background-color: #E9CCEF;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  align-items: center;
+}
+
+.page {
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* TÍTULO */
 .title {
-  margin: 40px 0px 50px;
+  margin: 30px 0px 50px;
   font-size: 35px;
   color: #2f4f7f;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* ========================= */
-/* CARDS (3 COLUNAS) */
+/* CARDS  */
 /* ========================= */
 
 .cards-extra {
-    width: 84%;
+  width: 84%;
 }
 
 .cards-extra-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
 }
 
 /* GRID */
@@ -40,72 +43,72 @@ body {
 }
 
 .extra-card {
-    flex: 1;
-    background: #f6edf6;
-    border-radius: 20px;
-    padding: 35px 20px;
-    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-    text-align: center;
+  flex: 1;
+  background: #f6edf6;
+  border-radius: 20px;
+  padding: 35px 20px;
+  box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+  text-align: center;
 }
 
 .extra-card h3 {
-    font-size: 20px;
-    color: #1a3a6c;
-    margin-bottom: 10px;
+  font-size: 20px;
+  color: #1a3a6c;
+  margin-bottom: 10px;
 }
 
 
 .extra-card a {
-    display: inline-block;
-    padding: 10px 25px;
-    border-radius: 50px;
-    border: 2px solid #582d86;
-    color: #582d86;
-    text-decoration: none;
-    font-weight: 600;
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: 2px solid #582d86;
+  color: #582d86;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .extra-card a:hover {
-    background: #582d86;
-    color: white;
+  background: #582d86;
+  color: white;
 }
 
 h2 {
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* cards azuis */
 
 .extra-card1 {
-    flex: 1;
-    background: #21487FB2;
-    border-radius: 20px;
-    padding: 35px 20px;
-    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-    text-align: center;
+  flex: 1;
+  background: #21487FB2;
+  border-radius: 20px;
+  padding: 35px 20px;
+  box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+  text-align: center;
 }
 
 .extra-card1 h3 {
-    font-size: 20px;
-    color: #ffffff;
-    margin-bottom: 10px;
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 10px;
 }
 
 .extra-card1 a {
-    display: inline-block;
-    padding: 10px 25px;
-    border-radius: 50px;
-    border: 2px solid #582d86;
-    color: #582d86;
-    text-decoration: none;
-    font-weight: 600;
-    background-color: #ffffff;
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: 2px solid #582d86;
+  color: #582d86;
+  text-decoration: none;
+  font-weight: 600;
+  background-color: #ffffff;
 }
 
 .extra-card1 a:hover {
-    background: #582d86;
-    color: white;
+  background: #582d86;
+  color: white;
 }
 
 
@@ -113,40 +116,30 @@ h2 {
 /* ÍCONES - CARDS DE CONTEÚDO */
 /* ========================= */
 
-.extra-card i {
-    font-size: 40px;
-    color: #ffffff;
-
-    width: 80px;
-    height: 80px;
-
-    margin: 0 auto 15px auto;
-
-    background: #582d86;
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.extra-card img {
+  font-size: 40px;
+  color: #ffffff;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ícones cards azuis*/
 
-.extra-card1 i {
-    font-size: 40px;
-    color: #ffffff;
-
-    width: 80px;
-    height: 80px;
-
-    margin: 0 auto 15px auto;
-
-    background: #582d86;
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.extra-card1 img {
+  font-size: 40px;
+  color: #ffffff;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* CARDS */
@@ -154,8 +147,10 @@ h2 {
   display: grid;
   grid-template-columns: repeat(2, 400px);
   gap: 50px;
-  margin-left: 0; /* garante esquerda */
-  transform: translateX(-20px); /* ajuste fino */
+  margin-left: 0;
+  /* garante esquerda */
+  transform: translateX(-20px);
+  /* ajuste fino */
 
 }
 
@@ -164,7 +159,7 @@ h2 {
   border-radius: 16px;
   padding: 10px;
   position: relative;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .card.dark {
@@ -192,26 +187,16 @@ h2 {
   font-size: 12px;
 }
 
-/* ÍCONE (CÍRCULO ROXO) */
-.icon {
-  position: absolute;
-  top: -25px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #7c5cff, #5a3ec8);
-  border-radius: 50%;
-}
 
 /* SIDEBAR */
 .sidebar {
-  width: 500px;
+  width: 300px;
   background: #f5edf5;
   padding: 20px;
   border-radius: 16px;
   height: 350px;
   margin-right: 0px;
-  margin-left: 100px;
+  margin-left: 200px;
   margin-top: 0px;
 }
 
@@ -244,15 +229,16 @@ h2 {
   background: #f5edf5;
   padding: 30px;
   border-radius: 16px;
-  width: 700px;
-  height: 230px;
+  width: 800px;
+  height: 250px;
   margin-left: 0px;
+
 }
 
 .practice h2 {
   color: #2eb086;
-  margin-bottom: 10px;
-  font-size: 25px;
+  margin-bottom: 15px;
+  font-size: 28px;
   text-align: justify;
 }
 
@@ -260,20 +246,32 @@ h2 {
   color: #666;
   font-size: 18px;
   font-weight: 600;
+  margin-top: 35px;
+
 }
 
-.practice button {
-  margin-top: 25px;
+.practice a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #ffffff;
+  margin-top: 45px;
   background: #2eb086;
   color: white;
   padding: 12px 18px;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 20px;
   border: none;
+  font-weight: 600;
+}
+
+.practice a:hover {
+  background: #207049;
+  color: white;
 }
 
 .sidebar i {
-  color: #2eb086; /* verde igual seu botão */
+  color: #2eb086;
+  /* verde igual seu botão */
 }
 
 .side-item {
@@ -288,4 +286,3 @@ h2 {
   margin-left: 5px;
   font-style: normal;
 }
-

@@ -10,6 +10,7 @@ body {
     width: 100%;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -237,7 +238,7 @@ body {
 
 .cards-extra {
     width: 84%;
-    margin: 40px auto;
+    margin: 50px auto;
 }
 
 .cards-extra-container {
@@ -320,8 +321,10 @@ body {
     flex-direction: column;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Move tudo para a direita */
-    text-align: left;     /* Alinha o texto à direita */
+    align-items: flex-start;
+    /* Move tudo para a direita */
+    text-align: left;
+    /* Alinha o texto à direita */
 }
 
 .collab-box h3 {
@@ -353,16 +356,11 @@ body {
 .collab-box i {
     font-size: 35px;
     color: #ffffff;
-   
-
     width: 80px;
     height: 80px;
-
-   margin: 0 0 20px 0 !important;
-
+    margin: 0 0 20px 0 !important;
     background: #582d86;
     border-radius: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -384,144 +382,206 @@ h2 {
 .extra-card i {
     font-size: 40px;
     color: #ffffff;
-
     width: 80px;
     height: 80px;
-
     margin: 0 auto 15px auto;
-
     background: #2eb086;
     border-radius: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
-<<<<<<< HEAD
+
 }
 
-/* AUDIODESCRICAO*/ 
+/* AUDIODESCRICAO*/
 
 /* TÍTULO */
 .title {
-  margin: 40px 80px 20px;
-  font-size: 28px;
-  color: #2f4f7f;
+    margin: 40px 80px 20px;
+    font-size: 28px;
+    color: #2f4f7f;
 }
 
 /* GRID */
 .main-grid {
-  display: flex;
-  gap: 30px;
-  padding: 0 80px;
+    display: flex;
+    gap: 30px;
+    padding: 0 80px;
 }
 
 /* CARDS */
 .cards {
-  display: grid;
-  grid-template-columns: repeat(2, 260px);
-  gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 260px);
+    gap: 30px;
 }
 
 .card {
-  height: 180px;
-  border-radius: 16px;
-  padding: 20px;
-  position: relative;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    height: 180px;
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .card.dark {
-  background: #5c6f91;
-  color: white;
+    background: #5c6f91;
+    color: white;
 }
 
 .card.light {
-  background: #e9e9ec;
-  color: #2f4f7f;
+    background: #e9e9ec;
+    color: #2f4f7f;
 }
 
 .card h3 {
-  margin-top: 40px;
-  font-size: 16px;
+    margin-top: 40px;
+    font-size: 16px;
 }
 
 .card button {
-  margin-top: 15px;
-  padding: 6px 14px;
-  border-radius: 12px;
-  border: 2px solid #6c63ff;
-  background: white;
-  color: #6c63ff;
-  font-size: 12px;
+    margin-top: 15px;
+    padding: 6px 14px;
+    border-radius: 12px;
+    border: 2px solid #6c63ff;
+    background: white;
+    color: #6c63ff;
+    font-size: 12px;
 }
 
 /* ÍCONE (CÍRCULO ROXO) */
 .icon {
-  position: absolute;
-  top: -25px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #7c5cff, #5a3ec8);
-  border-radius: 50%;
+    position: absolute;
+    top: -25px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #7c5cff, #5a3ec8);
+    border-radius: 50%;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 260px;
-  background: #e9e9ec;
-  padding: 20px;
-  border-radius: 16px;
-}
 
-.sidebar h3 {
-  color: #2fa36b;
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-.side-item {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-}
-
-.side-item small {
-  color: gray;
-}
-
-.divider {
-  height: 1px;
-  background: #ccc;
-  margin: 10px 0;
-}
 
 /* PRÁTICA */
 .practice {
-  margin: 60px 80px;
-  background: #dcdcdc;
-  padding: 30px;
-  border-radius: 16px;
-  width: 600px;
+    margin: 60px 80px;
+    background: #dcdcdc;
+    padding: 30px;
+    border-radius: 16px;
+    width: 600px;
 }
 
 .practice h2 {
-  color: #2fa36b;
-  margin-bottom: 10px;
+    color: #2fa36b;
+    margin-bottom: 10px;
 }
 
 .practice p {
-  color: #666;
-  font-size: 14px;
+    color: #666;
+    font-size: 14px;
 }
 
 .practice button {
-  margin-top: 15px;
-  background: #2fa36b;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 20px;
-  border: none;
-=======
->>>>>>> 1c3c7091de7380d4dc0bff4eb5b32c0fb4437fc6
+    margin-top: 15px;
+    background: #2fa36b;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: none;
+
+}
+
+/* ========================= */
+/* RESPONSIVIDADE (MOBILE)   */
+/* ========================= */
+
+@media (max-width: 1048px) {
+    .welcome-section {
+        margin-top: 100px;
+        width: 80%;
+    }
+
+    .welcome-title {
+        font-size: 32px;
+    }
+
+    .welcome-description {
+        font-size: 17px;
+    }
+
+    .welcome-button {
+        font-size: 17px;
+    }
+
+    .welcome-icon img {
+        width: 150px;
+    }
+
+    /* Seção de Estatísticas */
+    .stats-section {
+        width: 80%;
+    }
+
+
+    .stat-icon i {
+        font-size: 100px;
+    }
+
+    .stat-title {
+        font-size: 25px;
+    }
+
+    .stat-value {
+        font-size: 20px;
+    }
+
+    .stat-value span {
+        font-size: 20px;
+    }
+
+    /* ========================= */
+    /* SEÇÃO: O QUE VOCÊ VAI APRENDER */
+    /* ========================= */
+
+    .learning-extra {
+        width: 80%;
+    }
+
+
+    .learning-extra-container h2 {
+        font-size: 25px;
+    }
+
+    /* Descrição abaixo do título */
+    .learning-subtitle {
+        font-size: 17px;
+    }
+
+
+
+    /* ========================= */
+    /* CARDS (3 COLUNAS) */
+    /* ========================= */
+
+    .cards-extra {
+        width: 84%;
+        margin: 50px auto;
+        
+    }
+
+
+    .extra-card h3 {
+        font-size: 18px;
+    }
+
+
+    .extra-card a {
+        font-weight: 500;
+    }
+
+    .extra-card a:hover {
+        background: #2eb086;
+        color: white;
+    }
+
 }

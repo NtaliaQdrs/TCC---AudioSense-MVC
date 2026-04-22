@@ -45,6 +45,12 @@
     padding: 6px 10px;
 }
 
+.menu-links a.active {
+    background-color: #5dade2; /* Tom de azul claro */
+    color: #ffffff;
+    font-weight: bold;
+}
+
 .menu-links a:last-child {
     position: relative;
     left: -20px;
@@ -216,6 +222,13 @@
 
 .sub-menu a:hover {
     background-color: #4972a4;
+}
+
+/* Estilo quando o botão for a página atual (azul claro) */
+.sub-menu a.active {
+    background-color: #5dade2; /* Tom de azul claro */
+    color: #ffffff;
+    font-weight: bold;
 }
 
 /* --- NOVOS ESTILOS PARA O BOTÃO DE CATEGORIAS (MOBILE) --- */

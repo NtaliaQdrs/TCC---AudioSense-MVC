@@ -6,15 +6,16 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Login' }); 
 });
 
+
 router.get('/cadastro', function(req, res, next) {
   res.render('cadastro', { title: 'Cadastro' }); 
 });
 
-router.get('/cadastroDocente', function(req, res, next) {
+router.get('/cadastro-docente', function(req, res, next) {
   res.render('cadastroDocente', { title: 'Cadastro de Docente' }); 
 });
 
-router.get('/cadastroDiscente', function(req, res, next) {
+router.get('/cadastro-discente', function(req, res, next) {
   res.render('cadastroDiscente', { title: 'Cadastro de Discente' }); 
 });
 
