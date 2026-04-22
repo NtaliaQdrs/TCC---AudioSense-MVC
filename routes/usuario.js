@@ -3,24 +3,24 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
-  res.render('login', { title: 'Login' }); 
+  res.render('login', { title: 'Página de Login' }); 
 });
 
 
 router.get('/cadastro', function(req, res, next) {
-  res.render('cadastro', { title: 'Cadastro' }); 
+  res.render('cadastro', { title: 'Página de Cadastro' }); 
 });
 
 router.get('/cadastro-docente', function(req, res, next) {
-  res.render('cadastroDocente', { title: 'Cadastro de Docente' }); 
+  res.render('cadastroDocente', { title: 'Página de Cadastro de Docente' }); 
 });
 
 router.get('/cadastro-discente', function(req, res, next) {
-  res.render('cadastroDiscente', { title: 'Cadastro de Discente' }); 
+  res.render('cadastroDiscente', { title: 'Página de Cadastro de Discente' }); 
 });
 
 router.get('/customizar', function(req, res, next) {
-  res.render('customizar', { title: 'Customizar Perfil' }); 
+  res.render('customizar', { title: 'Página de Customização de Perfil' }); 
 });
 
 module.exports = router;

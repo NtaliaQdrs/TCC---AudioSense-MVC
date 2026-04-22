@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.render('painelAdmin1');
+  res.render('painelAdmin1', { title: 'Painel de Administração' });
 });
 
 

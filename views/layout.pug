@@ -1,7 +1,7 @@
 doctype html
 html(lang="pt-br")
   head
-    title= AudioSense
+    title #{title}
     meta(charset="UTF-8")
     link(rel="icon" type="image/png" href="/images/boasvindas.png")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
@@ -17,7 +17,7 @@ html(lang="pt-br")
     header.top-bar
       .logo
         a(href="/" aria-label="AudioSense - Página Inicial")
-          img(src="/images/audiosense.png" alt="AudioSense")
+          img(src="/images/audiosense.png" alt="")
 
       //- Botão de categorias mobile com estado expandido
       button#categoryToggle.category-toggle(
