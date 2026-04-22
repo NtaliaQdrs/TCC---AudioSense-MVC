@@ -8,54 +8,59 @@ block content
  main.page
   h1.title Introdução a audiodescrição
 
-  section.cards-extra
+  section.cards-extra(aria-label="Tópicos de aprendizado")
     .main-grid
 
       .cards
-        .extra-card1
+        article.extra-card1
           img(src="../images/definicao.png" alt="")
           h3 Definição e conceitos
-          a(href="/") Ler mais
+          a(href="/" aria-label="Ler mais sobre Definição e conceitos") Ler mais
 
-        .extra-card
+        article.extra-card
           img(src="../images/usuarios.png" alt="")
           h3 Quem são os usuários da audiodescrição?
-          a(href="/") Ler mais
+          a(href="/" aria-label="Ler mais sobre usuários da audiodescrição") Ler mais
 
-        .extra-card
+        article.extra-card
           img(src="../images/importancia.png" alt="")
           h3 A importância deste recurso
-          a(href="/") Ler mais
+          a(href="/" aria-label="Ler mais sobre a importância da audiodescrição") Ler mais
 
-        .extra-card1
+        article.extra-card1
           img(src="../images/exemplos.png" alt="")
           h3 Exemplos práticos
-          a(href="/Exemplos práticos") Ler mais
+          a(href="/" aria-label="Ler mais sobre exemplos práticos") Ler mais
 
-      aside.sidebar
-        h3 Sugestão de conteúdo adicional
+      // Sidebar
+      aside.sidebar(aria-labelledby="sidebar-title")
+        h3#sidebar-title Sugestão de conteúdo adicional
 
-        .side-item
-        i.bi.bi-file-earmark-text
-          span.h Artigos 
-        .text
-          small (Links)
+        nav(aria-label="Links complementares")
+          ul(style="list-style: none; padding: 0;")
+            li
+              .sidebar-item
+                i.bi.bi-file-earmark-text(aria-hidden="true")
+                small.text Artigos
+              a(href="#") (Links para leitura)
+            hr
 
-        .divider
+            li
+              .sidebar-item
+                i.bi.bi-play-btn(aria-hidden="true")
+                small.text Vídeos educacionais
+              a(href="#") (Links de vídeos)
+            hr
 
-        .side-item
-        i.bi.bi-play-btn
-          span.h Vídeos educacionais
-        .text
-          small (Links)
+            li
+              .sidebar-item
+                i.bi.bi-people(aria-hidden="true")
+                small.text Relatos
+              a(href="#") (Depoimentos)
 
-        .divider
+            hr
 
-        .side-item
-        i.bi.bi-people
-          span.h Relatos
-        .text
-          small (Links)
+          button.scroll-top(onclick="window.scrollTo(0,0)" aria-label="Voltar ao topo da página") ↑
 
   .practice
     h2 Coloque em prática o que você aprendeu!

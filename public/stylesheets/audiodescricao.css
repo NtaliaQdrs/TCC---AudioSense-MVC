@@ -217,6 +217,30 @@ h2 {
   color: gray;
 }
 
+.sidebar i {
+  color: #2eb086; /* verde igual seu botão */
+}
+
+.side-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* LINHA DIVISÓRIA */
+.sidebar hr {
+  height: 1px;
+  background: #ccc;
+  margin: 20px 0;
+}
+
+/* BOTÃO SCROLL */
+.scroll-top {
+  text-align: right;
+  cursor: pointer;
+  margin-top: 10px;
+  color: #2eb086;
+}
 .divider {
   height: 1px;
   background: #ccc;

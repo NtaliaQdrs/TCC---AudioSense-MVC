@@ -4,7 +4,7 @@ block styles
   link(rel="stylesheet", href="/stylesheets/deficienciaVisual.css")
 
 block content
-  main.page
+  main.page(role="main")
 
     // Título principal
     h1.title Entendendo a deficiência visual
@@ -42,32 +42,33 @@ block content
             | Mantendo sempre uma comunicação respeitosa e clara.
 
       // Sidebar
-      aside.sidebar
-        h3 Sugestão de conteúdo adicional
+      aside.sidebar(aria-labelledby="sidebar-title")
+        h3#sidebar-title Sugestão de conteúdo adicional
 
-        .sidebar-item
-          i.bi.bi-file-earmark-text
-          span Artigos
-        .text
-          small (Links)
+        nav(aria-label="Links complementares")
+          ul(style="list-style: none; padding: 0;")
+            li
+              .sidebar-item
+                i.bi.bi-file-earmark-text(aria-hidden="true")
+                small.text Artigos
+              a(href="#") (Links para leitura)
+            hr
 
-        hr
+            li
+              .sidebar-item
+                i.bi.bi-play-btn(aria-hidden="true")
+                small.text Vídeos educacionais
+              a(href="#") (Links de vídeos)
+            hr
 
-        .sidebar-item
-          i.bi.bi-play-btn
-          span Vídeos educacionais
-        .text
-          small (Links)
+            li
+              .sidebar-item
+                i.bi.bi-people(aria-hidden="true")
+                small.text Relatos
+              a(href="#") (Depoimentos)
+            
 
-        hr
-
-        .sidebar-item
-          i.bi.bi-people
-          span Relatos
-        .text
-          small (Links)
-
-        hr
-        .scroll-top ↑
+        
+        button.scroll-top(onclick="window.scrollTo(0,0)" aria-label="Voltar ao topo da página") ↑
 
   
