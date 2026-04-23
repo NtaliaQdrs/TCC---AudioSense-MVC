@@ -10,7 +10,8 @@ body {
 }
 
 .page {
-  width: 80%;
+  max-width: 1200px;
+  width: 90%;
   margin: 0 auto;
 }
 
@@ -19,63 +20,61 @@ body {
 /* ========================= */
 
 .title {
-  margin: 30px -20px 50px;
+  margin: 30px 0 50px;
   font-size: 35px;
   color: #2f4f7f;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* ========================= */
-/* LAYOUT IGUAL AO AUDIODESCRICAO */
+/* LAYOUT */
 /* ========================= */
 
 .content-wrapper {
   display: flex;
   gap: 30px;
+  align-items: flex-start;
+}
+
+/* ========================= */
+/* CONTEÚDO PRINCIPAL */
+/* ========================= */
+
+.main-content {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 /* ========================= */
 /* CARDS */
 /* ========================= */
 
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
 .card {
+  width: 100%;
+  max-width: 900px;
   background: #f6edf6;
   border-radius: 20px;
   padding: 40px 30px;
   box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-  width: 900px; 
 }
 
-/* HEADER (ÍCONE + TÍTULO LADO A LADO) */
+/* HEADER (ÍCONE + TÍTULO) */
 .card-header {
-  flex: 1;
   display: flex;
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
 }
 
-/* ÍCONE (IGUAL AO AUDIODESCRICAO) */
 .card-header img {
-  font-size: 20px;
-  color: #fff;
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-left: 10px;
 }
 
-/* TÍTULO */
 .card-header h2 {
   font-size: 30px;
   color: #1a3a6c;
@@ -92,18 +91,17 @@ body {
 }
 
 /* ========================= */
-/* SIDEBAR (IGUAL AO AUDIODESCRICAO) */
+/* SIDEBAR */
 /* ========================= */
 
 .sidebar {
-  width: 300px;
+  flex: 1;
+  max-width: 300px;
   background: #f5edf5;
   padding: 20px;
   border-radius: 16px;
-  height: 350px;
-  margin-right: 0px;
-  margin-left: 200px;
-  margin-top: 0px;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .sidebar h3 {
@@ -115,7 +113,8 @@ body {
 
 .side-item {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   font-size: 14px;
 }
 
@@ -124,26 +123,67 @@ body {
 }
 
 .sidebar i {
-  color: #2eb086; /* verde igual seu botão */
+  color: #2eb086;
 }
 
-.side-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-/* LINHA DIVISÓRIA */
+/* LINHA */
 .sidebar hr {
   height: 1px;
   background: #ccc;
   margin: 20px 0;
 }
 
-/* BOTÃO SCROLL */
-.scroll-top {
-  text-align: right;
+/* botão */
+.toggle-sidebar {
+  width: 40px;        /* diminui o botão */
+  height: 40px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%; /* deixa redondo */
+  background: #2eb086;
+  color: white;
   cursor: pointer;
-  margin-top: 10px;
-  color: #2eb086;
+
+  font-size: 22px;    /* aumenta a seta */
+  font-weight: bold;
+}
+
+.toggle-sidebar:hover {
+  background: #207049;
+}
+
+/* estado minimizado */
+.sidebar.collapsed {
+  max-width: 60px;
+  padding: 10px;
+}
+
+/* esconder conteúdo quando minimizada */
+.sidebar.collapsed h3,
+.sidebar.collapsed nav,
+.sidebar.collapsed hr {
+  display: none;
+}
+
+/* ========================= */
+/* RESPONSIVO */
+/* ========================= */
+
+@media (max-width: 900px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    max-width: 100%;
+  }
+
+  .card {
+    max-width: 100%;
+  }
 }

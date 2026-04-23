@@ -5,67 +5,76 @@ block styles
 
 block content
 
- main.page
-  h1.title Introdução a audiodescrição
+  main.page
+    h1.title Introdução a audiodescrição
 
-  section.cards-extra(aria-label="Tópicos de aprendizado")
-    .main-grid
+    section.cards-extra
+      .main-grid
 
-      .cards
-        article.extra-card1
-          img(src="../images/definicao.png" alt="")
+        article.extra-card1.card1
+          img(src="../images/definicao.png")
           h3 Definição e conceitos
-          a(href="/" aria-label="Ler mais sobre Definição e conceitos") Ler mais
+          a(href="/") Ler mais
 
-        article.extra-card
-          img(src="../images/usuarios.png" alt="")
+        article.extra-card.card2
+          img(src="../images/usuarios.png")
           h3 Quem são os usuários da audiodescrição?
-          a(href="/" aria-label="Ler mais sobre usuários da audiodescrição") Ler mais
+          a(href="/") Ler mais
 
-        article.extra-card
-          img(src="../images/importancia.png" alt="")
+        article.extra-card.card3
+          img(src="../images/importancia.png")
           h3 A importância deste recurso
-          a(href="/" aria-label="Ler mais sobre a importância da audiodescrição") Ler mais
+          a(href="/") Ler mais
 
-        article.extra-card1
-          img(src="../images/exemplos.png" alt="")
+        article.extra-card1.card4
+          img(src="../images/exemplos.png")
           h3 Exemplos práticos
-          a(href="/" aria-label="Ler mais sobre exemplos práticos") Ler mais
+          a(href="/") Ler mais
 
-      // Sidebar
-      aside.sidebar(aria-labelledby="sidebar-title")
-        h3#sidebar-title Sugestão de conteúdo adicional
+        // SIDEBAR
+        aside.sidebar
+          h3 Sugestão de conteúdo adicional
 
-        nav(aria-label="Links complementares")
-          ul(style="list-style: none; padding: 0;")
-            li
-              .sidebar-item
-                i.bi.bi-file-earmark-text(aria-hidden="true")
-                small.text Artigos
-              a(href="#") (Links para leitura)
-            hr
+          .sidebar-content
+            nav
+              ul(style="list-style: none; padding: 0;")
+                li
+                  .sidebar-item
+                    i.bi.bi-file-earmark-text
+                    small Artigos
+                  a(href="#") (Links)
+                hr
 
-            li
-              .sidebar-item
-                i.bi.bi-play-btn(aria-hidden="true")
-                small.text Vídeos educacionais
-              a(href="#") (Links de vídeos)
-            hr
+                li
+                  .sidebar-item
+                    i.bi.bi-play-btn
+                    small Vídeos
+                  a(href="#") (Links)
+                hr
 
-            li
-              .sidebar-item
-                i.bi.bi-people(aria-hidden="true")
-                small.text Relatos
-              a(href="#") (Depoimentos)
+                li
+                  .sidebar-item
+                    i.bi.bi-people
+                    small Relatos
+                  a(href="#") (Depoimentos)
 
-            hr
+          button.toggle-sidebar(
+            onclick="toggleSidebar()"
+            aria-expanded="true"
+          ) ↑
 
-          button.scroll-top(onclick="window.scrollTo(0,0)" aria-label="Voltar ao topo da página") ↑
+    .practice
+      h2 Coloque em prática o que você aprendeu!
+      p Teste aqui o que você aprendeu.
+      a(href="/#") Inserir audiodescrição
 
-  .practice
-    h2 Coloque em prática o que você aprendeu!
-    p
-      | Teste aqui o que você aprendeu sobre audiodescrição.
-      | Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo,
-      | transmitindo todas as informações visuais.
-    a(href="/#") Inserir audiodescrição
+  script.
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const button = document.querySelector('.toggle-sidebar');
+
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+
+      button.textContent = isCollapsed ? '↓' : '↑';
+      button.setAttribute('aria-expanded', !isCollapsed);
+    }

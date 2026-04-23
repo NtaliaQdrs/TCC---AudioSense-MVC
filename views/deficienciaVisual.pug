@@ -66,9 +66,27 @@ block content
                 i.bi.bi-people(aria-hidden="true")
                 small.text Relatos
               a(href="#") (Depoimentos)
-            
 
-        
-        button.scroll-top(onclick="window.scrollTo(0,0)" aria-label="Voltar ao topo da página") ↑
+        nav(aria-label="Links complementares")
+          // seus itens...
 
+          hr
+
+        button.toggle-sidebar(
+          onclick="toggleSidebar()"
+          aria-expanded="true"
+          aria-label="Expandir ou recolher menu"
+        ) ↑
+  
+  // 👇 fora da sidebar (mesmo nível do main)
+  script.
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const button = document.querySelector('.toggle-sidebar');
+
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+
+      button.textContent = isCollapsed ? '↓' : '↑';
+      button.setAttribute('aria-expanded', !isCollapsed);
+    }
   

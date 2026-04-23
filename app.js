@@ -26,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/painelAdmin1', adminRouter);
 
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
