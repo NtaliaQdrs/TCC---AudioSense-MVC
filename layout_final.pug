@@ -20,7 +20,7 @@ html(lang="pt-br")
           a(href="/" aria-label="AudioSense - Página Inicial")
             img(src="/images/audiosense.png" alt="")
 
-        //- Botão de categorias mobile com estado expandido
+        //- Botão de categorias mobile
         button#categoryToggle.category-toggle(
           aria-label="Abrir menu de categorias" 
           aria-haspopup="true" 
@@ -32,12 +32,12 @@ html(lang="pt-br")
         //- Contêiner para as categorias do sub-menu (visível apenas no mobile)
         #categoryDropdown.category-dropdown
           .category-links
-          a.dropdown-item(href="/") Início
+            a.dropdown-item(href="/") Início
             a.dropdown-item(href="/deficiencia-visual") Deficiência visual
             a.dropdown-item(href="/audiodescricao") Audiodescrição
             a.dropdown-item(href="/entretenimento") Entretenimento
             a.dropdown-item(href="/forum") Fórum
-          a.dropdown-item(href="/biblioteca") Biblioteca
+            a.dropdown-item(href="/biblioteca") Biblioteca
 
         nav.menu-links(aria-label="Menu Principal")
           a(href="/") Início

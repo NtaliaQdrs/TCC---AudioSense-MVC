@@ -95,6 +95,8 @@ body {
 /* ========================= */
 
 .sidebar {
+  margin-right: -20px;
+  margin-left: 10px;
   flex: 1;
   max-width: 300px;
   background: #f5edf5;

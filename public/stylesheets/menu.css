@@ -17,36 +17,60 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    justify-content: center; /* Adicionado */
+    padding: 0 50px; /* Adicionado para espaçamento lateral */
+}
+
+
+.top-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o que estiver no meio */
+    width: 100%;
+    max-width: 1400px; /* Ajuste este valor para a largura total que você deseja */
+    margin: 0 auto;
+    position: relative; /* Necessário para ancorar a logo e o perfil */
+    padding: 0 20px;
 }
 
 .menu-links {
     display: flex;
-    position: absolute;
-    left: 215px;
-    margin-top: -10px;
-    gap: 140px;
+    /* position: absolute; Removido */
+    /* left: 215px; Removido */
+    /* margin-top: -10px; Removido */
+     /* Ajustado para um espaçamento mais flexível */
+    margin-left: 65px;
+    flex: 3;
+    justify-content: center;;
 }
 
 .logo img {
+    position: fixed;
+    top: 0px;
+    left: 50px; /* Fixa a logo na esquerda do container */
     width: 59px;
     height: auto;
-    margin-left: 0px;
-    display: block;
+    margin-left: -30px;
     transform: scale(1.5);
     transform-origin: left center;
+    flex: 0 0 150px; /* Faz a logo tentar ocupar o mesmo espaço base que o lado direito */
+    display: flex;
+    justify-content: flex-start;
+    
 }
 
 .menu-links a {
+    white-space: nowrap; 
     color: white;
     text-decoration: none;
     font-size: 19px;
     border-radius: 30px;
-    padding: 6px 10px;
+    padding: 10px 15px;
 }
 
 .menu-links a.active {
-    background-color: #5dade2; /* Tom de azul claro */
+    background-color: #5dade2;
+    /* Tom de azul claro */
     color: #ffffff;
     font-weight: bold;
 }
@@ -63,15 +87,16 @@
 .menu-right {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 40px;
     margin-top: -6px;
-    margin-left: auto;
+    justify-content: flex-end;
+    /* margin-left: auto; Removido */
 }
 
 .search-box {
     position: relative;
-    width: 350px;
-    margin-right: 50px;
+    width: 300px;
+    margin-right: 30px; 
 }
 
 .search-box input {
@@ -80,7 +105,7 @@
     border-radius: 25px;
     border: none;
     outline: none;
-    width: 380px;
+    width: 300px;
     font-size: 15px;
     padding: 10px 16px 10px 42px;
 }
@@ -110,7 +135,7 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    margin-right: 50px;
+    /* margin-right: 50px; Removido */
     font-size: 16px;
     width: 140px;
     height: 40px;
@@ -200,10 +225,14 @@
 
 .sub-menu nav {
     display: flex;
-    gap: 45px;
-    margin-left: 150px;
+    gap: 2vw; /* Espaçamento entre os botões do submenu */
+    justify-content: center; /* Isso centraliza os botões horizontalmente */
     align-items: center;
+    margin: 0 auto; /* Remova qualquer margin-left que existir aqui */
+    width: 100%; /* Garante que ele use a largura total para centralizar */
 }
+
+
 
 .sub-menu a {
     background-color: #1f4677;
@@ -213,7 +242,8 @@
     height: 48px;
     padding: 13px 20px;
     font-size: 17px;
-    width: 200px;
+    width: auto;
+    min-width: 200px;
     cursor: pointer;
     white-space: nowrap;
     text-decoration: none;
@@ -226,7 +256,8 @@
 
 /* Estilo quando o botão for a página atual (azul claro) */
 .sub-menu a.active {
-    background-color: #5dade2; /* Tom de azul claro */
+    background-color: #5dade2;
+    /* Tom de azul claro */
     color: #ffffff;
     font-weight: bold;
 }
@@ -274,21 +305,37 @@
 
 /* --- RESPONSIVIDADE (MEDIA QUERIES) --- */
 
+@media (min-width: 1457px) {
+    .menu-links {
+        gap: 140px; /* Espaçamento maior para telas muito largas */
+    }
 
+    .sub-menu nav {
+        gap: 45px; /* Espaçamento maior para o submenu */
+    }
 
+    .search-box {
+        width: 300px; /* Aumenta a largura da busca */
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    #profileBtn {
+        width: 160px; /* Aumenta a largura do botão de perfil */
+    }
+}
 
 @media (max-width: 1456px) {
     .menu-links {
-        left: 150px;
         /* Ajusta a posição dos links principais */
-        gap: 80px;
-        /* Reduz o espaçamento */
+        gap: 110px;
+        margin: 0 auto; /* Garante que continue centralizado */
     }
 
-    
 
     .sub-menu nav {
-        margin-left: 10px;
         /* Ajusta a margem do sub-menu */
         gap: 30px;
         justify-content: center;
@@ -300,17 +347,18 @@
         font-size: 16px;
         text-align: center;
     }
+
+
 }
 
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
 
-    .menu-links {
-        left: 150px;
+    .menu-links a {
         /* Ajusta a posição dos links principais */
         gap: 60px;
-        font-size: 16px;
+        font-size: 18px;
 
     }
 
