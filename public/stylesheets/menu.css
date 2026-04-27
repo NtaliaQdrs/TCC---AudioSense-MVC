@@ -19,6 +19,7 @@
     left: 0;
     justify-content: center; /* Adicionado */
     padding: 0 50px; /* Adicionado para espaçamento lateral */
+    z-index: 2000; /* Garantir que fique acima dos cards expandidos */
 }
 
 
@@ -170,7 +171,7 @@
     margin-top: 8px;
     display: none;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 2001; /* Acima do top-bar */
 }
 
 .profile-dropdown.show {
@@ -221,6 +222,8 @@
     margin-top: 55px;
     padding: 22px 0;
     display: block;
+    position: relative;
+    z-index: 1999; /* Logo abaixo do menu principal, mas acima dos cards */
 }
 
 .sub-menu nav {
@@ -283,7 +286,7 @@
     width: 100%;
     background-color: #E9CCEF;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    z-index: 999;
+    z-index: 2001; /* Acima do top-bar */
     flex-direction: column;
     padding: 10px 0;
 }

@@ -12,27 +12,42 @@ block content
       .main-grid
 
         article.extra-card1.card1
-          img(src="../images/definicao.png")
-          h3 Definição e conceitos
-          a(href="/") Ler mais
+          .card-inner
+            img(src="../images/definicao.png")
+            h3 Definição e conceitos
+            .card-content
+              p A audiodescrição é um recurso de acessibilidade que traduz imagens em palavras, permitindo que pessoas cegas ou com baixa visão compreendam conteúdos visuais em filmes, peças de teatro, programas de TV e outros eventos.
+              p Além disso, a audiodescrição fornece informações sobre expressões faciais, figurinos, cenários e movimentos, preenchendo as lacunas que o diálogo sozinho não consegue transmitir. É uma ferramenta fundamental para a autonomia e inclusão cultural.
+            button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         article.extra-card.card2
-          img(src="../images/usuarios.png")
-          h3 Quem são os usuários da audiodescrição?
-          a(href="/") Ler mais
+          .card-inner
+            img(src="../images/usuarios.png")
+            h3 Quem são os usuários da audiodescrição?
+            .card-content
+              p Embora seja essencial para pessoas com deficiência visual, a audiodescrição também beneficia pessoas com dislexia, idosos e pessoas com deficiência intelectual, ajudando na compreensão de contextos visuais complexos.
+              p No contexto educacional, ela auxilia estudantes a focarem em detalhes importantes de imagens técnicas ou mapas, tornando o aprendizado mais robusto para todos os tipos de perfis cognitivos.
+            button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         article.extra-card.card3
-          img(src="../images/importancia.png")
-          h3 A importância deste recurso
-          a(href="/") Ler mais
+          .card-inner
+            img(src="../images/importancia.png")
+            h3 A importância deste recurso
+            .card-content
+              p Este recurso promove a inclusão social e cultural, garantindo o direito de acesso à informação e ao entretenimento de forma autônoma e igualitária para todos os cidadãos.
+              p Sem a audiodescrição, uma grande parcela da população fica excluída de debates culturais, produções cinematográficas e até mesmo de informações básicas transmitidas via vídeo, o que fere o princípio da acessibilidade universal.
+            button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         article.extra-card1.card4
-          img(src="../images/exemplos.png")
-          h3 Exemplos práticos
-          a(href="/") Ler mais
+          .card-inner
+            img(src="../images/exemplos.png")
+            h3 Exemplos práticos
+            .card-content
+              p Exemplos incluem a descrição de cenários, expressões faciais, figurinos e ações físicas que não são reveladas apenas pelo som ou pelo diálogo em uma produção audiovisual.
+              p Imagine uma cena de suspense onde um personagem entra silenciosamente em uma sala com uma faca na mão. Sem a audiodescrição, o usuário cego ouviria apenas o silêncio ou uma música tensa, perdendo o elemento crucial da narrativa.
+            button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         // SIDEBAR
-                // SIDEBAR CORRIGIDA
         aside.sidebar(aria-labelledby="sidebar-title")
           h3#sidebar-title Sugestão de conteúdo adicional
 
@@ -60,14 +75,11 @@ block content
 
               hr
 
-          // O botão agora está DENTRO da sidebar
           button.toggle-sidebar(
             onclick="toggleSidebar()"
             aria-expanded="true"
             aria-label="Expandir ou recolher menu"
           ) ↑
-
-            
 
     .practice
       h2 Coloque em prática o que você aprendeu!
@@ -75,13 +87,41 @@ block content
       p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais.
       a(href="/#") Inserir audiodescrição
 
+  // Overlay para fechar o card expandido clicando fora
+  #overlay.card-overlay(onclick="closeAllCards()")
+
   script.
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const button = document.querySelector('.toggle-sidebar');
-
       const isCollapsed = sidebar.classList.toggle('collapsed');
-
       button.textContent = isCollapsed ? '↓' : '↑';
       button.setAttribute('aria-expanded', !isCollapsed);
+    }
+
+    function toggleFullscreen(button) {
+      const card = button.closest('article');
+      const overlay = document.getElementById('overlay');
+      
+      if (card.classList.contains('fullscreen')) {
+        closeAllCards();
+      } else {
+        closeAllCards(); // Fecha qualquer outro que esteja aberto
+        card.classList.add('fullscreen');
+        overlay.classList.add('active');
+        button.textContent = 'Fechar';
+        document.body.style.overflow = 'hidden'; // Impede scroll do fundo
+      }
+    }
+
+    function closeAllCards() {
+      const cards = document.querySelectorAll('article.fullscreen');
+      const overlay = document.getElementById('overlay');
+      cards.forEach(card => {
+        card.classList.remove('fullscreen');
+        const btn = card.querySelector('.read-more');
+        if (btn) btn.textContent = 'Ler mais';
+      });
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
     }

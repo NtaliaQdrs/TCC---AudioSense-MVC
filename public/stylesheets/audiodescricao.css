@@ -31,17 +31,15 @@ body {
 
 .main-grid {
   display: grid;
-  /* O 'auto' permite que a coluna da sidebar diminua quando ela colapsar */
   grid-template-columns: 1fr 1fr auto; 
   grid-template-areas:
     "card1 card2 sidebar"
     "card3 card4 sidebar";
   gap: 30px;
   align-items: start;
-  transition: grid-template-columns 0.3s ease; /* Suaviza a transição */
+  transition: grid-template-columns 0.3s ease;
 }
 
-/* MAPA */
 .card1 { grid-area: card1; }
 .card2 { grid-area: card2; }
 .card3 { grid-area: card3; }
@@ -58,31 +56,16 @@ body {
   padding: 35px 20px;
   box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
   text-align: center;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
 }
 
 .extra-card { background: #f6edf6; }
 .extra-card1 { background: #21487FB2; }
 
-.extra-card h3 { color: #1a3a6c; }
-.extra-card1 h3 { color: #ffffff; }
-
-.extra-card a,
-.extra-card1 a {
-  display: inline-block;
-  padding: 10px 25px;
-  border-radius: 50px;
-  border: 2px solid #582d86;
-  color: #582d86;
-  text-decoration: none;
-  font-weight: 600;
-  background: #ffffff;
-}
-
-.extra-card a:hover,
-.extra-card1 a:hover {
-  background: #582d86;
-  color: white;
-}
+.extra-card h3 { color: #1a3a6c; margin: 15px 0; }
+.extra-card1 h3 { color: #ffffff; margin: 15px 0; }
 
 .extra-card img,
 .extra-card1 img {
@@ -90,6 +73,104 @@ body {
   height: 80px;
   margin-bottom: 15px;
   border-radius: 50%;
+  transition: all 0.5s ease;
+}
+
+/* CONTEÚDO ESCONDIDO */
+.card-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.5s ease;
+  text-align: left;
+  padding: 0 10px;
+}
+
+.card-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.extra-card .card-content p { color: #1a3a6c; font-weight: 600; font-size: 20px;}
+.extra-card1 .card-content p { color: #ffffff; font-weight: 600; font-size: 20px;}
+
+/* BOTÃO LER MAIS */
+.read-more {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: 2px solid #582d86;
+  color: #582d86;
+  text-decoration: none;
+  font-weight: 600;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.read-more:hover {
+  background: #582d86;
+  color: white;
+}
+
+/* ========================= */
+/* MODO FULLSCREEN (EXPANDIDO) */
+/* ========================= */
+
+article.fullscreen {
+  position: fixed;
+  top: calc(50% + 50px); /* Desloca um pouco para baixo para não bater no menu */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 80vh; /* Reduz um pouco a altura para garantir espaço */
+  max-width: 800px;
+  max-height: 600px;
+  z-index: 1500; /* Abaixo do menu (2000) */
+  overflow-y: auto;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+article.fullscreen .card-inner {
+  width: 100%;
+}
+
+article.fullscreen img {
+  width: 120px;
+  height: 120px;
+}
+
+article.fullscreen h3 {
+  font-size: 28px;
+}
+
+article.fullscreen .card-content {
+  max-height: none;
+  opacity: 1;
+  margin-top: 20px;
+}
+
+/* OVERLAY */
+.card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1499; /* Logo abaixo do card expandido */
+  display: none;
+  backdrop-filter: blur(5px);
+}
+
+.card-overlay.active {
+  display: block;
 }
 
 /* ========================= */
@@ -99,7 +180,6 @@ body {
 .sidebar {
   margin-right: -20px;
   margin-left: 10px;
-  flex: 1;
   max-width: 300px;
   background: #f5edf5;
   padding: 20px;
@@ -108,71 +188,25 @@ body {
   overflow: hidden;
 }
 
-.sidebar h3 {
-  color: #2fa36b;
-  font-size: 20px;
-  margin-bottom: 15px;
-  text-align: center;
-}
+.sidebar h3 { color: #2fa36b; font-size: 20px; text-align: center; }
+.sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
 
-.side-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 14px;
-}
-
-.side-item small {
-  color: gray;
-}
-
-.sidebar i {
-  color: #2eb086;
-}
-
-/* LINHA */
-.sidebar hr {
-  height: 1px;
-  background: #ccc;
-  margin: 20px 0;
-}
-
-/* botão */
 .toggle-sidebar {
-  width: 40px;        /* diminui o botão */
+  width: 40px;
   height: 40px;
-  padding: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: none;
-  border-radius: 50%; /* deixa redondo */
+  border-radius: 50%;
   background: #2eb086;
   color: white;
   cursor: pointer;
-
-  font-size: 22px;    /* aumenta a seta */
-  font-weight: bold;
+  font-size: 22px;
 }
 
-.toggle-sidebar:hover {
-  background: #207049;
-}
-
-/* estado minimizado */
-.sidebar.collapsed {
-  max-width: 60px;
-  padding: 10px;
-}
-
-/* esconder conteúdo quando minimizada */
-.sidebar.collapsed h3,
-.sidebar.collapsed nav,
-.sidebar.collapsed hr {
-  display: none;
-}
+.sidebar.collapsed { max-width: 60px; padding: 10px; }
+.sidebar.collapsed h3, .sidebar.collapsed nav, .sidebar.collapsed hr { display: none; }
 
 /* ========================= */
 /* PRÁTICA */
@@ -186,27 +220,9 @@ body {
   max-width: 900px;
 }
 
-.practice h2 {
-  color: #2eb086;
-}
-
-.practice p {
-  font-size: 16px;
-    color: #6B7280;
-    line-height: 1.6;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-.practice a {
-  display: inline-block;
-  margin-top: 20px;
-  background: #2eb086;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 20px;
-  text-decoration: none;
-}
+.practice h2 { color: #2eb086; }
+.practice p { font-size: 16px; color: #6B7280; line-height: 1.6; font-weight: 600; }
+.practice a { display: inline-block; margin-top: 20px; background: #2eb086; color: white; padding: 12px 18px; border-radius: 20px; text-decoration: none; }
 
 /* ========================= */
 /* RESPONSIVO */
@@ -215,11 +231,11 @@ body {
 @media (max-width: 900px) {
   .main-grid {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "card1"
-      "card2"
-      "sidebar"
-      "card3"
-      "card4";
+    grid-template-areas: "card1" "card2" "sidebar" "card3" "card4";
+  }
+  article.fullscreen {
+    width: 95vw;
+    height: 95vh;
+    padding: 30px 20px;
   }
 }
