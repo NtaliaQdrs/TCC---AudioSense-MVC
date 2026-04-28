@@ -1,0 +1,46 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+
+block content
+  main.page
+    h1.title Introdução a audiodescrição
+
+    section.container-form
+      h2.form-title Inserir Audiodescrição
+
+      form(action="/inserir-audiodescricao" method="POST" enctype="multipart/form-data")
+        .form-group
+          label(for="titulo") Titulo
+          input#titulo.form-control(type="text" name="titulo" placeholder="Insira um título para a sua descrição...")
+
+        .form-group
+          label(for="descricao") Descrição
+          input#descricao.form-control(type="text" name="descricao" placeholder="Descreva sobre o conteúdo...")
+
+        .form-group
+          label Upload de mídia (imagem ou vídeo)
+          .upload-area(onclick="document.getElementById('midia').click()")
+            input#midia(type="file" name="midia" style="display: none;")
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+              //- Linhas superiores (ondas/som)
+              rect(x="35" y="10" width="30" height="5" rx="2" fill="#2eb086")
+              rect(x="25" y="18" width="50" height="5" rx="2" fill="#2eb086")
+              //- Corpo do player
+              rect(x="15" y="30" width="70" height="50" rx="10" stroke="#2eb086" stroke-width="6")
+              //- Triângulo do Play
+              path(d="M45 45L60 55L45 65V45Z" fill="#2eb086")
+            
+            .upload-text
+              p Faça upload ou solte a mídia aqui
+              button.btn-upload(type="button") Escolher arquivo
+
+        .form-group
+          label(for="roteiro") Roteiro
+          textarea#roteiro.form-control.textarea-large(name="roteiro" placeholder="Escreva aqui o roteiro da sua audiodescrição...")
+
+        .button-group
+          button.btn-submit(type="submit") Salvar e enviar para análise
+          a.btn-cancel(href="/audiodescricao") Cancelar
