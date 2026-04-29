@@ -23,5 +23,8 @@ router.post('/inserir-audiodescricao', function (req, res, next) {
   res.redirect('/audiodescricao');
 });
 
+router.get('/biblioteca', function (req, res, next) {
+  res.render('biblioteca', { title: 'Biblioteca' });
+});
 
 module.exports = router;

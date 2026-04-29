@@ -1,0 +1,134 @@
+extends layout
+
+block styles
+  link(rel="stylesheet", href="../stylesheets/biblioteca.css")
+
+block content
+  main.page
+    h1.title Biblioteca de materiais acessibilizados
+
+    //- Barra de busca e botão de inserir
+    .search-section
+      .search-box
+        i.bi.bi-search(aria-hidden="true")
+        input(type="text" placeholder="Buscar por título, descrição ou disciplina" aria-label="Buscar materiais na biblioteca")
+      
+      button.btn-insert(aria-label="Inserir novo conteúdo na biblioteca")
+        i.bi.bi-plus(aria-hidden="true")
+        |  Inserir conteúdo
+
+    //- Filtros por matéria
+    .filters-section
+      button.filter-btn(data-filter="all") Matéria 1
+      button.filter-btn(data-filter="all") Matéria 2
+      button.filter-btn(data-filter="all") Matéria 3
+      button.filter-btn(data-filter="all") Matéria 4
+      button.filter-btn(data-filter="all") Matéria 5
+
+    //- Seção de materiais disponíveis
+    .materials-section
+      h2.materials-title Materiais disponíveis (3)
+
+      //- Card 1: Guia Completo de LIBRAS
+      .material-card
+        .card-icon
+          i.bi.bi-book-fill(aria-hidden="true")
+        
+        .card-image
+          img(src="https://via.placeholder.com/150x100?text=LIBRAS" alt="Capa do Guia Completo de LIBRAS")
+        
+        .card-content
+          h3.card-title Guia Completo de LIBRAS
+          p.card-description Apostila completa sobre vocabulário em LIBRAS
+          
+          .card-meta
+            span.meta-item
+              i.bi.bi-person(aria-hidden="true")
+              |  Prof. João da Silva
+            
+            span.meta-item
+              i.bi.bi-calendar(aria-hidden="true")
+              |  04/10/2026
+          
+          .card-tags
+            span.tag Acessibilidade
+            span.tag Educação
+            span.tag Apostila
+          
+          button.btn-audio(aria-label="Ouvir audiodescrição do material")
+            i.bi.bi-volume-up(aria-hidden="true")
+            |  Ouvir audiodescrição
+        
+        .card-rating
+          i.bi.bi-star-fill(aria-hidden="true")
+          span.rating-value 4.8
+
+      //- Card 2: Introdução a Geografia
+      .material-card
+        .card-icon.purple
+          i.bi.bi-play-circle-fill(aria-hidden="true")
+        
+        .card-image
+          img(src="https://via.placeholder.com/150x100?text=Geografia" alt="Capa de Introdução a Geografia")
+        
+        .card-content
+          h3.card-title Introdução a Geografia
+          p.card-description Vídeo introdutório à matéria geografia
+          
+          .card-meta
+            span.meta-item
+              i.bi.bi-person(aria-hidden="true")
+              |  Prof. Maria de Souza
+            
+            span.meta-item
+              i.bi.bi-calendar(aria-hidden="true")
+              |  04/10/2026
+          
+          .card-tags
+            span.tag Geografia
+            span.tag Educação
+            span.tag Vídeo
+          
+          button.btn-audio(aria-label="Ouvir audiodescrição do material")
+            i.bi.bi-volume-up(aria-hidden="true")
+            |  Ouvir audiodescrição
+        
+        .card-rating
+          i.bi.bi-star-fill(aria-hidden="true")
+          span.rating-value 4.5
+
+      //- Card 3: Educação ambiental
+      .material-card
+        .card-icon.blue
+          i.bi.bi-file-earmark-text-fill(aria-hidden="true")
+        
+        .card-image
+          img(src="https://via.placeholder.com/150x100?text=Ambiental" alt="Capa de Educação ambiental")
+        
+        .card-content
+          h3.card-title Educação ambiental
+          p.card-description Artigo Seção temática sobre educação ambiental
+          
+          .card-meta
+            span.meta-item
+              i.bi.bi-person(aria-hidden="true")
+              |  Prof. Ana Cristina
+            
+            span.meta-item
+              i.bi.bi-calendar(aria-hidden="true")
+              |  04/10/2026
+          
+          .card-tags
+            span.tag Educação ambiental
+            span.tag Educação
+            span.tag Artigo
+          
+          button.btn-audio(aria-label="Ouvir audiodescrição do material")
+            i.bi.bi-volume-up(aria-hidden="true")
+            |  Ouvir audiodescrição
+        
+        .card-rating
+          i.bi.bi-star-fill(aria-hidden="true")
+          span.rating-value 5
+
+  script(src="../javascripts/biblioteca.js")
