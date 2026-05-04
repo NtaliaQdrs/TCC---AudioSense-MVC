@@ -23,4 +23,8 @@ router.get('/customizar', function(req, res, next) {
   res.render('customizar', { title: 'Página de Customização de Perfil' }); 
 });
 
+router.get('/configuracoes', function(req, res, next) {
+  res.render('configuracoes', { title: 'Configurações' }); 
+});
+
 module.exports = router;

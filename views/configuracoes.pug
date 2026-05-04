@@ -1,0 +1,157 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/configuracoes.css')
+
+block content
+  .config-container
+    a.back-link(href="/")
+      i.bi.bi-arrow-left
+      span Configurações
+
+    //- CARD GRANDE PRINCIPAL
+    .main-config-card
+      .config-header
+        h1 Configurações
+        p Gerencie sua conta e personalize sua experiência.
+      
+      hr.header-divider
+
+      //- Seção Conta e Segurança
+      section.config-section-inner
+        .section-title
+          .section-icon
+            i.bi.bi-shield-lock
+          .title-text
+            h2 Conta e segurança
+            p Gerencie suas informações pessoais e a segurança da sua conta.
+
+        .config-list
+          a.config-item(href="#")
+            .item-info
+              .item-icon
+                i.bi.bi-person
+              .item-text
+                h3 Alterar nome
+                p Atualize o nome exibido no seu perfil.
+            i.bi.bi-chevron-right.chevron
+
+          a.config-item(href="#")
+            .item-info
+              .item-icon
+                i.bi.bi-envelope
+              .item-text
+                h3 Alterar e-mail
+                p Atualize o e-mail da sua conta.
+            i.bi.bi-chevron-right.chevron
+
+          a.config-item(href="#")
+            .item-info
+              .item-icon
+                i.bi.bi-lock
+              .item-text
+                h3 Alterar senha
+                p Escolha uma nova senha para sua conta.
+            i.bi.bi-chevron-right.chevron
+
+          a.config-item(href="#")
+            .item-info
+              .item-icon(style="background: #ffe5e5; color: #d32f2f;")
+                i.bi.bi-trash
+              .item-text
+                h3 Excluir conta
+                p Excluir permanentemente sua conta e todos os seus dados.
+            i.bi.bi-chevron-right.chevron
+
+          a.config-item(href="/sair")
+            .item-info
+              .item-icon(style="background: #f0f0f0; color: #666;")
+                i.bi.bi-box-arrow-right
+              .item-text
+                h3 Sair da conta
+                p Encerrar sessão em sua conta neste dispositivo.
+            i.bi.bi-chevron-right.chevron
+
+      //- Seção Acessibilidade
+      section.config-section-inner
+        .section-title
+          .section-icon.accessibility
+            i.bi.bi-person-arms-up
+          .title-text
+            h2 Acessibilidade
+            p Personalize sua experiência para melhor usabilidade.
+
+        .config-controls
+          .control-row
+            .control-info
+              h3 Ajustar tamanho da fonte
+              p Escolha o tamanho da fonte que melhor se adapta a você.
+            .button-group
+              button.group-btn
+                span A
+                span Pequeno
+              button.group-btn.active
+                span(style="font-size: 1.2em;") A
+                span Médio
+              button.group-btn
+                span(style="font-size: 1.4em;") A
+                span Grande
+
+          .control-row
+            .control-info
+              h3 Alterar contraste
+              p Ajuste o contraste da interface para facilitar a leitura.
+            .button-group
+              button.group-btn
+                i.bi.bi-circle-half
+                span Padrão
+              button.group-btn.active
+                i.bi.bi-circle-fill
+                span Alto contraste
+              button.group-btn
+                i.bi.bi-circle
+                span Preto e branco
+
+          .control-row
+            .control-info
+              h3 Velocidade de reprodução de áudios
+              p Ajuste a velocidade da audiodescrição conforme sua preferência.
+            .slider-container
+              i.bi.bi-turtle-fill
+              .slider-wrapper
+                input(type="range", min="0.5", max="2.0", step="0.1", value="1.0")
+                .slider-labels
+                  span 0.5x
+                  span 1.0x
+                  span 2.0x
+              i.bi.bi-rabbit-fill
+
+          .control-row
+            .control-info
+              h3 Tema
+              p Escolha o tema da interface.
+            .button-group
+              button.group-btn
+                i.bi.bi-sun
+                span Claro
+              button.group-btn.active
+                i.bi.bi-moon
+                span Escuro
+              button.group-btn
+                i.bi.bi-display
+                span Sistema
+
+    //- Dica de Acessibilidade
+    .accessibility-tip
+      .tip-icon
+        i.bi.bi-info-circle
+      .tip-content
+        h4 Dica de acessibilidade
+        p Essas configurações ajudam a tornar sua experiência mais confortável e acessível. Suas preferências serão aplicadas automaticamente em toda a plataforma.
+      button.close-tip
+        i.bi.bi-x
+
+    .footer-copyright
+      p © 2025 AudioSense. Todos os direitos reservados.
+
+  script(src="/javascripts/configuracoes.js")
