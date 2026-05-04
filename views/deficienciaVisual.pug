@@ -82,9 +82,12 @@ block content
   script.
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
+      const wrapper = document.querySelector('.content-wrapper');
       const button = document.querySelector('.toggle-sidebar');
 
       const isCollapsed = sidebar.classList.toggle('collapsed');
+
+      wrapper.classList.toggle('sidebar-collapsed'); // 👈 ESSENCIAL
 
       button.textContent = isCollapsed ? '↓' : '↑';
       button.setAttribute('aria-expanded', !isCollapsed);

@@ -27,4 +27,9 @@ router.get('/biblioteca', function (req, res, next) {
   res.render('biblioteca', { title: 'Biblioteca' });
 });
 
+router.get('/formulario', function (req, res, next) {
+  res.render('formulario', { title: 'Inserir Material' });
+
+});
+
 module.exports = router;

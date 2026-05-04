@@ -97,7 +97,6 @@ body {
 .sidebar {
   margin-right: -20px;
   margin-left: 10px;
-  flex: 1;
   max-width: 300px;
   background: #f5edf5;
   padding: 20px;
@@ -172,6 +171,25 @@ body {
   display: none;
 }
 
+.content-wrapper {
+    display: flex;
+}
+
+/* conteúdo */
+.main-content {
+    flex: 1;
+    transition: 0.3s;
+}
+
+/* 🔥 QUANDO MINIMIZAR */
+.content-wrapper.sidebar-collapsed .main-content {
+    margin-left: 50px; /* empurra pra direita */
+    width: 100px;
+}
+
+.content-wrapper.sidebar-collapsed .card {
+  max-width: 100%; /* permite expandir */
+}
 /* ========================= */
 /* RESPONSIVO */
 /* ========================= */

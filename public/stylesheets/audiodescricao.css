@@ -187,6 +187,9 @@ article.fullscreen .card-content {
   transition: all 0.3s ease;
   overflow: hidden;
 }
+.sidebar i {
+  color: #2eb086;
+}
 
 .sidebar h3 { color: #2fa36b; font-size: 20px; text-align: center; }
 .sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }

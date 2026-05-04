@@ -1,0 +1,67 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/formulario_estilo.css')
+
+block content
+  main.page
+    h1.title Biblioteca de materiais acessibilizados
+
+    section.container-form
+      h2.form-title Inserir Material Didático
+
+      form(action="/formulario" method="POST" enctype="multipart/form-data")
+        //- Título: VARCHAR(255)
+        .form-group
+          label(for="titulo") Título
+          input#titulo.form-control(type="text" name="titulo" placeholder="Título do material..." required maxlength="255")
+
+        //- Tipo de Material: ENUM
+        .form-group
+          label(for="tipo_material") Tipo de Material
+          select#tipo_material.form-control(name="tipo_material" required)
+            option(value="") Selecione o tipo...
+            option(value="Imagem") Imagem
+            option(value="Video") Vídeo
+            option(value="PDF") PDF / Documento
+            option(value="Audio") Áudio
+
+        //- Caminho Arquivo: VARCHAR(255) - Campo de Upload
+        .form-group
+          label Arquivo de Mídia (Imagem, Vídeo ou Doc)
+          .upload-area(onclick="document.getElementById('caminho_arquivo').click()")
+            input#caminho_arquivo(type="file" name="caminho_arquivo" style="display: none;" accept="image/*,video/*,.pdf")
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+              rect(x="35" y="10" width="30" height="5" rx="2" fill="#2eb086")
+              rect(x="25" y="18" width="50" height="5" rx="2" fill="#2eb086")
+              rect(x="15" y="30" width="70" height="50" rx="10" stroke="#2eb086" stroke-width="6")
+              path(d="M45 45L60 55L45 65V45Z" fill="#2eb086")
+            .upload-text
+              p Faça upload do arquivo principal aqui
+              button.btn-upload(type="button") Escolher arquivo
+
+        //- Caminho Áudio Descrição: VARCHAR(255) - Geralmente o arquivo de áudio ou roteiro
+        .form-group
+          label(for="caminho_audio_descricao") Arquivo de Audiodescrição (Áudio)
+          input#caminho_audio_descricao.form-control(type="file" name="caminho_audio_descricao" accept="audio/*")
+
+        //- Descrição: TEXT
+        .form-group
+          label(for="descricao") Descrição Curta
+          textarea#descricao.form-control.textarea-large(name="descricao" placeholder="Breve resumo sobre o conteúdo...")
+
+        //- Docente ID: INT (Chave Estrangeira)
+        .form-group
+          label(for="docente_id") ID do Docente Responsável
+          input#docente_id.form-control(type="number" name="docente_id" required)
+
+        //- Data de Publicação: DATETIME
+        .form-group
+          label(for="data_publicacao") Data de Publicação
+          input#data_publicacao.form-control(type="datetime-local" name="data_publicacao" required)
+
+        .button-group
+          button.btn-submit(type="submit") Salvar Material
+          a.btn-cancel(href="/audiodescricao") Cancelar
