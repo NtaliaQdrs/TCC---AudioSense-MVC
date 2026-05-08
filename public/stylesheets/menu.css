@@ -20,9 +20,12 @@
     left: 0;
     justify-content: center; /* Adicionado */
     
-    z-index: 9999; /* Garantir que fique acima dos cards expandidos */
+    z-index: 9998; /* Garantir que fique acima dos cards expandidos */
 }
 
+a.skip-link {
+    z-index: 9999;
+}
 
 .top-bar-content {
     display: flex;
@@ -231,7 +234,7 @@
     padding: 22px 0;
     display: block;
     position: relative;
-    z-index: 1999; /* Logo abaixo do menu principal, mas acima dos cards */
+    z-index: 1000; /* Logo abaixo do menu principal, mas acima dos cards */
 }
 
 .sub-menu nav {
