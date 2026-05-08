@@ -113,6 +113,13 @@ body {
     border-bottom: none;
 }
 
+.config-divider {
+    border: 0;
+    border-top: 1px solid #000000;
+    margin: 5px 0;
+    opacity: 0.5;
+}
+
 .item-info {
     display: flex;
     align-items: center;

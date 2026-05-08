@@ -1,0 +1,216 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/stylesheets/perfil.css')
+
+block content
+  .perfil-container
+    //- CABEÇALHO DO PERFIL
+    .perfil-header
+      .perfil-header-content
+        .perfil-avatar-section
+          .perfil-avatar
+            img(src="/images/avatar-default.png" alt="Avatar de Ana Luiza Silva")
+            button.avatar-upload-btn(aria-label="Alterar foto de perfil")
+              i.bi.bi-camera-fill(aria-hidden="true")
+
+        .perfil-info
+          .perfil-info-header
+            h1.perfil-name André Hellvig da Silva
+            p.perfil-username @ahellvig
+          
+          p.perfil-bio Apaixonada por acessibilidade e educação inclusiva. Acredito que a audiodescição transforma experiências e conecta pessoas.
+
+          .perfil-details
+            .perfil-detail-item
+              i.bi.bi-envelope-fill(aria-hidden="true")
+              span ahellvig@hotmail.com
+
+            .perfil-detail-item
+              i.bi.bi-calendar-event(aria-hidden="true")
+              span Membro desde: Mar/2024
+
+            .perfil-detail-item
+              i.bi.bi-geo-alt-fill(aria-hidden="true")
+              span Sombrio, SC - Brasil
+
+        .perfil-actions
+          button.btn-editar-perfil(aria-label="Editar perfil")
+            i.bi.bi-pencil(aria-hidden="true")
+            span Editar perfil
+
+    //- ESTATÍSTICAS
+    .perfil-stats
+      .stat-card
+        .stat-icon
+          i.bi.bi-file-earmark-audio(aria-hidden="true")
+        .stat-content
+          .stat-number 24
+          .stat-label Audiodescrições criadas
+
+      .stat-card
+        .stat-icon
+          i.bi.bi-chat-dots(aria-hidden="true")
+        .stat-content
+          .stat-number 18
+          .stat-label Postagens no fórum
+
+      .stat-card
+        .stat-icon
+          i.bi.bi-book(aria-hidden="true")
+        .stat-content
+          .stat-number 12
+          .stat-label Materiais compartilhados
+
+      .stat-card
+        .stat-icon
+          i.bi.bi-hand-thumbs-up(aria-hidden="true")
+        .stat-content
+          .stat-number 87
+          .stat-label Curtidas recebidas
+
+    //- ABAS DE CONTEÚDO
+    .perfil-tabs
+      .tabs-header
+        button.tab-btn.active(data-tab="audiodescricoes" aria-selected="true" aria-controls="tab-audiodescricoes")
+          i.bi.bi-volume-up(aria-hidden="true")
+          span Audiodescrições
+
+        button.tab-btn(data-tab="forum" aria-selected="false" aria-controls="tab-forum")
+          i.bi.bi-chat-left-text(aria-hidden="true")
+          span Fórum
+
+        button.tab-btn(data-tab="materiais" aria-selected="false" aria-controls="tab-materiais")
+          i.bi.bi-file-earmark-pdf(aria-hidden="true")
+          span Materiais
+
+      //- TAB: AUDIODESCRIÇÕES
+      .tab-content#tab-audiodescricoes.tab-pane.active(role="tabpanel" aria-labelledby="tab-btn-audiodescricoes")
+        .audiodescricoes-list
+          .audiodescricao-item
+            .item-icon
+              i.bi.bi-film(aria-hidden="true")
+            .item-content
+              h3.item-title Descrição de cena - Filme: Extraordinário
+              p.item-description Descrição da cena do corredor da escola.
+            .item-meta
+              span.item-date
+                i.bi.bi-calendar(aria-hidden="true")
+                | 15/05/2025
+              button.btn-ver Ver
+
+          .audiodescricao-item
+            .item-icon
+              i.bi.bi-film(aria-hidden="true")
+            .item-content
+              h3.item-title Descrição de cena - Filme: Soul
+              p.item-description Descrição da cena inicial no metrô.
+            .item-meta
+              span.item-date
+                i.bi.bi-calendar(aria-hidden="true")
+                | 02/05/2025
+              button.btn-ver Ver
+
+          .audiodescricao-item
+            .item-icon
+              i.bi.bi-film(aria-hidden="true")
+            .item-content
+              h3.item-title Descrição de cena - Série: The Good Doctor
+              p.item-description Descrição da cena do diagnóstico.
+            .item-meta
+              span.item-date
+                i.bi.bi-calendar(aria-hidden="true")
+                | 20/04/2025
+              button.btn-ver Ver
+
+        .view-all-link
+          a(href="#") Ver todas
+
+      //- TAB: FÓRUM
+      .tab-content#tab-forum.tab-pane(role="tabpanel" aria-labelledby="tab-btn-forum")
+        .forum-list
+          .forum-item
+            .forum-icon
+              i.bi.bi-chat-dots(aria-hidden="true")
+            .forum-content
+              h3.forum-title Como aplicar audiodescição em conteúdos educacionais?
+              p.forum-description Discussão sobre boas práticas e exemplos.
+              .forum-meta
+                span.forum-replies
+                  i.bi.bi-chat-left(aria-hidden="true")
+                  | 10 respostas
+                span.forum-date
+                  i.bi.bi-calendar(aria-hidden="true")
+                  | 12/05/2025
+                i.bi.bi-chevron-right(aria-hidden="true")
+
+          .forum-item
+            .forum-icon
+              i.bi.bi-chat-dots(aria-hidden="true")
+            .forum-content
+              h3.forum-title Dúvida: descrição de gráficos e tabelas
+              p.forum-description Alguém pode compartilhar técnicas?
+              .forum-meta
+                span.forum-replies
+                  i.bi.bi-chat-left(aria-hidden="true")
+                  | 7 respostas
+                span.forum-date
+                  i.bi.bi-calendar(aria-hidden="true")
+                  | 05/05/2025
+                i.bi.bi-chevron-right(aria-hidden="true")
+
+          .forum-item
+            .forum-icon
+              i.bi.bi-chat-dots(aria-hidden="true")
+            .forum-content
+              h3.forum-title Indicação de ferramentas gratuitas
+              p.forum-description Quais ferramentas vocês usam para gravar áudios?
+              .forum-meta
+                span.forum-replies
+                  i.bi.bi-chat-left(aria-hidden="true")
+                  | 15 respostas
+                span.forum-date
+                  i.bi.bi-calendar(aria-hidden="true")
+                  | 28/04/2025
+                i.bi.bi-chevron-right(aria-hidden="true")
+
+        .view-all-link
+          a(href="#") Ver todas
+
+      //- TAB: MATERIAIS
+      .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais")
+        .materiais-list
+          .material-item
+            .material-icon
+              i.bi.bi-file-earmark-pdf(aria-hidden="true")
+            .material-content
+              h3.material-title Guia prático de audiodescição
+              p.material-info PDF • 2.4 MB
+            .material-action
+              button.btn-download(aria-label="Baixar Guia prático de audiodescição")
+                i.bi.bi-download(aria-hidden="true")
+
+          .material-item
+            .material-icon
+              i.bi.bi-file-earmark-pdf(aria-hidden="true")
+            .material-content
+              h3.material-title Exemplos de roteiros de audiodescição
+              p.material-info PDF • 1.8 MB
+            .material-action
+              button.btn-download(aria-label="Baixar Exemplos de roteiros de audiodescição")
+                i.bi.bi-download(aria-hidden="true")
+
+          .material-item
+            .material-icon
+              i.bi.bi-play-circle(aria-hidden="true")
+            .material-content
+              h3.material-title Tutorial: como criar audiodescição
+              p.material-info Vídeo • 15:30
+            .material-action
+              button.btn-download(aria-label="Baixar Tutorial: como criar audiodescição")
+                i.bi.bi-download(aria-hidden="true")
+
+        .view-all-link
+          a(href="#") Ver todas
+
+  script(src="/javascripts/perfil.js")
