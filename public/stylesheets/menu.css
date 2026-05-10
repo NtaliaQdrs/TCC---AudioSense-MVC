@@ -1,4 +1,6 @@
-/* --- SEU CSS ORIGINAL (DESKTOP) PERMANECE IGUAL --- */
+a.skip-link {
+    z-index: 9999;
+}
 
 * {
     margin: 0;
@@ -20,12 +22,9 @@
     left: 0;
     justify-content: center; /* Adicionado */
     
-    z-index: 9998; /* Garantir que fique acima dos cards expandidos */
+    z-index: 9999; /* Garantir que fique acima dos cards expandidos */
 }
 
-a.skip-link {
-    z-index: 9999;
-}
 
 .top-bar-content {
     display: flex;
@@ -77,6 +76,7 @@ a.skip-link {
     font-size: 19px;
     border-radius: 30px;
     padding: 10px 15px;
+    transition: all 0.3s ease;
 }
 
 .menu-links a.active {
@@ -100,9 +100,8 @@ a.skip-link {
     align-items: center;
     gap: 40px;
     margin-top: -6px;
-    margin-left: 30px;
+    margin-left: 100px; 
     justify-content: flex-end;
-    /* margin-left: auto; Removido */
 }
 
 .search-box1 {
@@ -147,14 +146,16 @@ a.skip-link {
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    /* margin-right: 50px; Removido */
     font-size: 16px;
     width: 140px;
     height: 40px;
+    transition: all 0.3s ease;
+  
 }
 
 #profileBtn:hover {
     background-color: #be99c7;
+   
 }
 
 #perfil-logo {
@@ -204,6 +205,7 @@ a.skip-link {
     text-align: left;
     font-size: 18px;
     font-weight: 540;
+    transition: all 0.3s ease;
 }
 
 .dropdown-item:hover {
@@ -234,7 +236,7 @@ a.skip-link {
     padding: 22px 0;
     display: block;
     position: relative;
-    z-index: 1000; /* Logo abaixo do menu principal, mas acima dos cards */
+     /* Logo abaixo do menu principal, mas acima dos cards */
 }
 
 .sub-menu nav {
@@ -262,10 +264,13 @@ a.skip-link {
     white-space: nowrap;
     text-decoration: none;
     text-align: center;
+    transition: all 0.3s ease;
+    
 }
 
 .sub-menu a:hover {
     background-color: #4972a4;
+     transform: scale(1.1);
 }
 
 /* Estilo quando o botão for a página atual (azul claro) */
@@ -344,8 +349,8 @@ a.skip-link {
 @media (max-width: 1456px) {
     .menu-links {
         /* Ajusta a posição dos links principais */
-        gap: 110px;
-        margin: 0 auto; /* Garante que continue centralizado */
+        gap: 120px;
+        margin-left: 90px ; /* Garante que continue centralizado */
     }
 
 
@@ -390,7 +395,7 @@ a.skip-link {
 
     #profileBtn {
         margin-right: 30px;
-        width: 120px;
+        width: 100px;
     }
 
     #profileBtn span {
@@ -409,7 +414,6 @@ a.skip-link {
     }
 
     .sub-menu a {
-        width: 150px;
         padding: 13px;
         font-size: 16px;
         text-align: center;
@@ -417,9 +421,11 @@ a.skip-link {
 }
 
 
+
+
 /* Para telas menores que 1024px (tablet) */
 
-@media (max-width: 1048px) {
+@media (max-width: 1120px) {
 
     .top-bar {
         justify-content: center;
@@ -469,8 +475,7 @@ a.skip-link {
 
     .menu-right {
         gap: 15px;
-        margin-left: 15px;
-        /* Ajusta a margem para o perfil */
+        margin-left: auto; /* CORRIGIDO: Garante que fique na direita */
     }
 
     #profileBtn {
@@ -531,7 +536,7 @@ a.skip-link {
 
     .menu-right {
         gap: 10px;
-        margin-left: 10px;
+        margin-left: auto; /* CORRIGIDO: Garante que fique na direita */
     }
 
     #profileBtn {
@@ -632,3 +637,86 @@ input:focus {
 html {
     scrollbar-gutter: stable;
 }
+
+/* ABAS NO DROPDOWN (MÍNIMO) */
+/* ========================= */
+
+.dropdown-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 8px;
+  padding: 0 8px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tab-btn:hover {
+  color: #2f4f7f;
+}
+
+.tab-btn.tab-active {
+  color: #582d86;
+  border-bottom-color: #582d86;
+}
+
+.tab-btn i {
+  font-size: 16px;
+}
+
+ .badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: #aa36f3;
+  color: white !important; 
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane-active {
+  display: block;
+}
+
+.notif-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2f4f7f;
+}
+
+.notif-time {
+  margin: 0;
+  font-size: 11px;
+  color: #999;}

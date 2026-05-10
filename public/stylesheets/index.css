@@ -59,11 +59,12 @@ body {
     text-decoration: none;
     font-weight: 600;
     font-size: 19px;
+    transition: all 0.3s ease; 
 }
 
 .welcome-button:hover {
     background: #1e7c5f;
-
+    transform: scale(1.1);
 }
 
 .welcome-icon img {
@@ -276,6 +277,7 @@ body {
     color: #2eb086;
     text-decoration: none;
     font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .extra-card a:hover {
@@ -346,6 +348,7 @@ body {
     color: #582d86;
     text-decoration: none;
     font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .collab-box a:hover {

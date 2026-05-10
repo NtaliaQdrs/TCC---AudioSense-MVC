@@ -15,6 +15,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryDropdown = document.getElementById('categoryDropdown');
 
     // =============================
+    // ABAS NO DROPDOWN (NOVO)
+    // =============================
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+
+            // Remove ativa de todos
+            tabBtns.forEach(b => {
+                b.classList.remove('tab-active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            tabPanes.forEach(pane => {
+                pane.classList.remove('tab-pane-active');
+            });
+
+            // Ativa o clicado
+            btn.classList.add('tab-active');
+            btn.setAttribute('aria-selected', 'true');
+            
+            const pane = document.getElementById(tabName + '-tab');
+            if (pane) {
+                pane.classList.add('tab-pane-active');
+            }
+        });
+    });
+
+    // =============================
     // MENU PERFIL
     // =============================
     if (profileBtn && profileDropdown) {
@@ -136,11 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    
+
     // Chama diretamente, pois já estamos dentro do DOMContentLoaded
     atualizarInterfaceUsuario();
     destacarLinkAtivo();
 });
-
-    
-
-

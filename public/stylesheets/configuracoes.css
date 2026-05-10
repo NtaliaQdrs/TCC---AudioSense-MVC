@@ -32,7 +32,7 @@ body {
 }
 
 .config-header h1 {
-    font-size: 32px;
+    font-size: 36px; /* Aumentado de 32px */
     margin-bottom: 5px;
     color: #1f4677;
 }
@@ -40,6 +40,7 @@ body {
 .config-header p {
     color: #666;
     margin-bottom: 0;
+    font-size: 17px; /* Aumentado */
 }
 
 .header-divider {
@@ -67,13 +68,13 @@ body {
 .section-icon {
     background: #5d3fd3;
     color: white;
-    width: 45px;
-    height: 45px;
+    width: 50px; /* Aumentado de 45px */
+    height: 50px; /* Aumentado de 45px */
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 26px; /* Aumentado de 23px */
 }
 
 .section-icon.accessibility {
@@ -81,13 +82,13 @@ body {
 }
 
 .title-text h2 {
-    font-size: 20px;
+    font-size: 22px; /* Aumentado de 20px */
     margin: 0;
     color: #1f4677;
 }
 
 .title-text p {
-    font-size: 14px;
+    font-size: 17px; /* Aumentado de 16px */
     color: #666;
     margin: 5px 0 0;
 }
@@ -129,28 +130,29 @@ body {
 .item-icon {
     background: #f0e6ff;
     color: #5d3fd3;
-    width: 40px;
-    height: 40px;
+    width: 45px; /* Aumentado de 40px */
+    height: 45px; /* Aumentado de 40px */
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 21px; /* Aumentado de 18px */
 }
 
 .item-text h3 {
-    font-size: 16px;
+    font-size: 18px; /* Aumentado de 16px */
     margin: 0;
 }
 
 .item-text p {
-    font-size: 13px;
+    font-size: 15px; /* Aumentado de 13px */
     color: #777;
     margin: 3px 0 0;
 }
 
 .chevron {
     color: #ccc;
+    font-size: 20px; /* Aumentado */
 }
 
 /* Accessibility Controls */
@@ -167,12 +169,12 @@ body {
 }
 
 .control-info h3 {
-    font-size: 16px;
+    font-size: 18px; /* Aumentado de 16px */
     margin: 0;
 }
 
 .control-info p {
-    font-size: 13px;
+    font-size: 15px; /* Aumentado de 13px */
     color: #777;
     margin: 5px 0 0;
 }
@@ -199,8 +201,12 @@ body {
     transition: all 0.2s;
 }
 
+.group-btn i {
+    font-size: 24px; /* Aumentado */
+}
+
 .group-btn span {
-    font-size: 12px;
+    font-size: 14px; /* Aumentado de 12px */
     color: #666;
 }
 
@@ -237,7 +243,7 @@ input[type="range"] {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    font-size: 12px;
+    font-size: 14px; /* Aumentado de 12px */
     color: #777;
 }
 
@@ -256,17 +262,17 @@ input[type="range"] {
 
 .tip-icon {
     color: #1f4677;
-    font-size: 24px;
+    font-size: 28px; /* Aumentado de 24px */
 }
 
 .tip-content h4 {
     margin: 0 0 5px;
-    font-size: 16px;
+    font-size: 18px; /* Aumentado de 16px */
 }
 
 .tip-content p {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px; /* Aumentado de 14px */
     color: #555;
 }
 
@@ -278,13 +284,14 @@ input[type="range"] {
     border: none;
     cursor: pointer;
     color: #999;
+    font-size: 20px; /* Aumentado */
 }
 
 .footer-copyright {
     text-align: center;
     padding: 40px 0;
     color: #888;
-    font-size: 14px;
+    font-size: 16px; /* Aumentado de 14px */
 }
 
 /* Responsive */

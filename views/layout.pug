@@ -11,11 +11,12 @@ html(lang="pt-br")
 
   body
     
-    a.skip-link(href="#main-content") Pular para o conteúdo principal
+
 
     //- MENU PRINCIPAL
     header.top-bar
       .top-bar-content
+        a.skip-link(href="#main-content") Pular para o conteúdo principal
         .logo
           a(href="/" aria-label="AudioSense - Página Inicial")
             img(src="/images/audiosense.png" alt="")
@@ -32,12 +33,13 @@ html(lang="pt-br")
         //- Contêiner para as categorias do sub-menu (visível apenas no mobile)
         #categoryDropdown.category-dropdown
           .category-links
-          a.dropdown-item(href="/") Início
+            a.dropdown-item(href="/") Início
+            a.dropdown-item(href="/login/configuracoes") Configurações
             a.dropdown-item(href="/deficiencia-visual") Deficiência visual
             a.dropdown-item(href="/audiodescricao") Audiodescrição
             a.dropdown-item(href="/entretenimento") Entretenimento
             a.dropdown-item(href="/forum") Fórum
-          a.dropdown-item(href="/biblioteca") Biblioteca
+            a.dropdown-item(href="/biblioteca") Biblioteca
 
         nav.menu-links(aria-label="Menu Principal")
           a(href="/") Início
@@ -57,34 +59,68 @@ html(lang="pt-br")
                                             aria-label="Menu do perfil do usuário")
               span Perfil 
               i#perfil-logo.bi.bi-person-circle(aria-hidden="true")
+              span.badge 3
 
             //- Menu dropdown
             #profileDropdown.profile-dropdown(role="menu")
-              a.dropdown-item(href="/perfil" role="menuitem")
-                i.bi.bi-person(aria-hidden="true")
-                |   Meu Perfil
+              
+              //- ABAS (NOVO)
+              .dropdown-tabs
+                button.tab-btn.tab-active(data-tab="profile" aria-selected="true")
+                  i.bi.bi-person-circle(aria-hidden="true")
+                button.tab-btn(data-tab="notifications" aria-selected="false")
+                  i.bi.bi-bell(aria-hidden="true")
+                  span.badge 3
 
-              a.dropdown-item(href="/login/configuracoes" role="menuitem")
-                i.bi.bi-gear(aria-hidden="true")
-                |   Configurações
+              //- ABA PERFIL
+              .tab-pane.tab-pane-active#profile-tab
+                a.dropdown-item(href="/perfil" role="menuitem")
+                  i.bi.bi-person(aria-hidden="true")
+                  |   Meu Perfil
 
-              a#minhasAudiodescricoes.dropdown-item(href="#minhas-audiodescricoes" style="display: none;" role="menuitem")
-                i.bi.bi-headphones(aria-hidden="true")
-                |   Minhas Audiodescrições
+                a.dropdown-item(href="/login/configuracoes" role="menuitem")
+                  i.bi.bi-gear(aria-hidden="true")
+                  |   Configurações
 
-              a#meusMateriais.dropdown-item(href="#meus-materiais" style="display: none;" role="menuitem")
-                i.bi.bi-file-earmark(aria-hidden="true")
-                |   Meus Materiais
+                a#minhasAudiodescricoes.dropdown-item(href="#minhas-audiodescricoes" style="display: none;" role="menuitem")
+                  i.bi.bi-headphones(aria-hidden="true")
+                  |   Minhas Audiodescrições
 
-              a#adminPainel.dropdown-item(href="/painelAdmin1" onclick="irParaPainelAdmin(event)" role="menuitem")
-                i.bi.bi-shield-lock(aria-hidden="true")
-                |   Painel do Administrador
+                a#meusMateriais.dropdown-item(href="#meus-materiais" style="display: none;" role="menuitem")
+                  i.bi.bi-file-earmark(aria-hidden="true")
+                  |   Meus Materiais
 
-              hr.dropdown-divider
+                a#adminPainel.dropdown-item(href="/painelAdmin1" onclick="irParaPainelAdmin(event)" role="menuitem")
+                  i.bi.bi-shield-lock(aria-hidden="true")
+                  |   Painel do Administrador
 
-              a#logoutBtn.dropdown-item.logout(href="#sair")
-                i.bi.bi-box-arrow-right(aria-hidden="true")
-                |   Sair
+                hr.dropdown-divider
+
+                a#logoutBtn.dropdown-item.logout(href="#sair")
+                  i.bi.bi-box-arrow-right(aria-hidden="true")
+                  |   Sair
+
+              //- ABA NOTIFICAÇÕES
+              .tab-pane#notifications-tab
+                a.dropdown-item(href="#" role="menuitem")
+                  .notif-content
+                    p.notif-title Novo comentário no fórum
+                    p.notif-time há 5 minutos
+
+                a.dropdown-item(href="#" role="menuitem")
+                  .notif-content
+                    p.notif-title Sua audiodescrição foi aprovada
+                    p.notif-time há 1 hora
+
+                a.dropdown-item(href="#" role="menuitem")
+                  .notif-content
+                    p.notif-title Novo material adicionado à biblioteca
+                    p.notif-time há 2 horas
+
+                hr.dropdown-divider
+
+                a.dropdown-item(href="#" role="menuitem" style="text-align: center; font-size: 12px;")
+                  |   Ver todas as notificações
 
     //- MENU SECUNDÁRIO
     section.sub-menu
@@ -102,4 +138,3 @@ html(lang="pt-br")
     //- Script global
     script(src="/javascripts/menu.js")
     script(src="/javascripts/accessibility.js")
-
