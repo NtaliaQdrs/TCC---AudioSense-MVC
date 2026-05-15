@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
 router.get('/', function(req, res, next) {
   res.render('painelAdmin1', { title: 'Painel de Administração' });
@@ -7,4 +7,4 @@ router.get('/', function(req, res, next) {
 
 
 
-module.exports = router;
+export default router;

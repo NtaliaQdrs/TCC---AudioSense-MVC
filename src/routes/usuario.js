@@ -1,11 +1,10 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
 
 router.get('/', function(req, res, next) {
   res.render('login', { title: 'Página de Login' }); 
 });
-
 
 router.get('/cadastro', function(req, res, next) {
   res.render('cadastro', { title: 'Página de Cadastro' }); 
@@ -27,4 +26,4 @@ router.get('/configuracoes', function(req, res, next) {
   res.render('configuracoes', { title: 'Configurações' }); 
 });
 
-module.exports = router;
+export default router;
