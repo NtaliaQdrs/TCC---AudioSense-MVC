@@ -1,0 +1,143 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/painelAdmin2.css')
+
+block content
+  .admin-panel-container
+    //- Banner de Cabeçalho do Painel
+    .admin-header-banner
+      i.bi.bi-waveform
+      h1 AudioSense Painel Administrativo - Moderação
+
+    //- Seção: Cadastros Pendentes
+    section.admin-section
+      .section-title-group
+        p.section-subtitle CADASTROS PENDENTES
+        h2.section-title Cadastros de Docentes Pendentes
+        p.section-description Usuários que estão se cadastrando como docentes e aguardam aprovação
+
+      .filter-bar
+        .search-input-wrapper
+          i.bi.bi-search
+          input.search-input(type="text" placeholder="Pesquisar docente...")
+        select.filter-select
+          option(value="") Filtrar por Status
+          option(value="pendente") Pendente
+          option(value="aprovado") Aprovado
+          option(value="rejeitado") Rejeitado
+
+      //- Lista de Docentes Pendentes
+      .user-list
+        //- Usuário 1
+        .user-card
+          .user-avatar MP
+          .user-info
+            p.user-name Maria Paula Santos
+            p.user-email maria.paula@example.com
+            span.user-tag.tag-musica Música
+          span.status-badge Pendente
+          span.sent-date Enviado em: 20/07/2023
+          .action-buttons
+            button.btn-action.btn-view
+              i.bi.bi-file-earmark-text
+              | Ver Documentos
+            button.btn-action.btn-approve
+              i.bi.bi-check-lg
+              | Aprovar
+            button.btn-action.btn-reject
+              i.bi.bi-x-lg
+              | Rejeitar
+
+        //- Usuário 2
+        .user-card
+          .user-avatar JP
+          .user-info
+            p.user-name João Pedro Oliveira
+            p.user-email joao.pedro@example.com
+            span.user-tag.tag-artes Artes Cênicas
+          span.status-badge Pendente
+          span.sent-date Enviado em: 18/07/2023
+          .action-buttons
+            button.btn-action.btn-view
+              i.bi.bi-file-earmark-text
+              | Ver Documentos
+            button.btn-action.btn-approve
+              i.bi.bi-check-lg
+              | Aprovar
+            button.btn-action.btn-reject
+              i.bi.bi-x-lg
+              | Rejeitar
+
+      .pagination
+        span 1-10 de 45
+        button.pagination-btn
+          i.bi.bi-chevron-left
+        button.pagination-btn
+          i.bi.bi-chevron-right
+
+    //- Seção: Solicitações de Admin
+    section.admin-section
+      .section-title-group
+        p.section-subtitle SOLICITAÇÕES DE ADMIN
+        h2.section-title Solicitações para Acesso de Administrador
+        p.section-description Docentes aprovados que solicitam acesso de administrador
+
+      .filter-bar
+        .search-input-wrapper
+          i.bi.bi-search
+          input.search-input(type="text" placeholder="Pesquisar docente...")
+        select.filter-select
+          option(value="") Filtrar por Status
+
+      .user-list
+        //- Usuário 3
+        .user-card
+          .user-avatar AL
+          .user-info
+            p.user-name Ana Lima Torres
+            p.user-email ana.lima@example.com
+            .tags-row
+              span.user-tag.tag-docente Docente Aprovado
+              span.user-tag.tag-pendente Pendente
+            p.user-description Necessito de acesso administrativo para gerenciar o conteúdo da minha área e auxiliar na moderação de...
+          span.sent-date Solicitado em: 21/07/2023
+          .action-buttons
+            button.btn-action.btn-view
+              i.bi.bi-chat-left-text
+              | Ver Justificativa
+            button.btn-action.btn-approve
+              i.bi.bi-check-lg
+              | Aprovar
+            button.btn-action.btn-reject
+              i.bi.bi-x-lg
+              | Rejeitar
+
+        //- Usuário 4
+        .user-card
+          .user-avatar RF
+          .user-info
+            p.user-name Roberto Fernandes
+            p.user-email roberto.fernandes@example.com
+            .tags-row
+              span.user-tag.tag-docente Docente Aprovado
+              span.user-tag.tag-pendente Pendente
+            p.user-description Gostaria de solicitar acesso para a criação de novas disciplinas e gerenciamento de turmas...
+          span.sent-date Solicitado em: 19/07/2023
+          .action-buttons
+            button.btn-action.btn-view
+              i.bi.bi-chat-left-text
+              | Ver Justificativa
+            button.btn-action.btn-approve
+              i.bi.bi-check-lg
+              | Aprovar
+            button.btn-action.btn-reject
+              i.bi.bi-x-lg
+              | Rejeitar
+
+      .pagination
+        span 1-10 de 20
+        button.pagination-btn
+          i.bi.bi-chevron-left
+        button.pagination-btn
+          i.bi.bi-chevron-right
