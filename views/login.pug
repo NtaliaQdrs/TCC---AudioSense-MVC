@@ -29,18 +29,18 @@ html(lang="pt-br")
       .divider
         span ou
 
-      form(aria-label="Formulário de Login")
+      form(action="/usuario/login" method="POST" aria-label="Formulário de Login")
         .input-group
           i.bi.bi-envelope-fill(aria-hidden="true")
           .input-content
-            label Email
-            input#email(type="email" placeholder="exemplo@gmail.com" required aria-required="true")
+            label(for="email") Email
+            input#email(type="email" name="email" placeholder="exemplo@gmail.com" required aria-required="true")
 
         .input-group
           i.bi.bi-key-fill(aria-hidden="true")
           .input-content
             label(for="senha") Senha
-            input#senha(type="password" placeholder="••••••••••" required)
+            input#senha(type="password" name="senha" placeholder="••••••••••" required)
             button.btn-toggle-password(
               type="button" 
               onclick="togglePassword('senha')" 
@@ -59,7 +59,7 @@ html(lang="pt-br")
 
       p.footer-text
         | Não possui uma conta? 
-        a(href="/login/cadastro") Cadastre-se
+        a(href="/usuario/cadastro") Cadastre-se
 
       p.footer-text
         a(href="/") Voltar para o início

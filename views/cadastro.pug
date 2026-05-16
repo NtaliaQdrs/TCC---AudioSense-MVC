@@ -23,7 +23,7 @@ html(lang="pt-br")
       nav.buttons-container(aria-labelledby="pergunta-perfil")
         //- Botão Discente: aria-label explica a ação completa
         a.option-button.discente(
-          href="/login/cadastro-discente" 
+          href="/usuario/cadastro-discente" 
           role="button" 
           aria-label="Cadastrar-se como Discente (Estudante)"
         )
@@ -33,7 +33,7 @@ html(lang="pt-br")
 
         //- Botão Docente: aria-describedby conecta ao aviso de homologação
         a.option-button.docente(
-          href="/login/cadastro-docente" 
+          href="/usuario/cadastro-docente" 
           role="button" 
           aria-label="Cadastrar-se como Docente (Professor)"
           aria-describedby="aviso-docente"
@@ -48,7 +48,7 @@ html(lang="pt-br")
       .footer-links
         p.footer-text
           | Já possui uma conta? 
-          a(href="/login") Faça login
+          a(href="/usuario") Faça login
 
         p.footer-text
           a(href="/") Voltar para o início

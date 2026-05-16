@@ -7,6 +7,7 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import createError from './utils/createError.js';
 import db from './models/index.js';
+import session from 'express-session';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,11 +28,18 @@ app.use(logger('dev'));
 app.use(express.json()); // Para o express entender requisições com corpo em JSON
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Configuração da sessão — mantém o usuário logado entre requisições
+app.use(session({
+  secret: process.env.JWT_SECRET, // usa o mesmo secret do JWT
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // muda para true em produção com HTTPS
+}));
 app.use(express.static(path.join(__dirname, '..', 'public'))); // Servir arquivos estáticos da pasta 'public'
 app.use(cors()); // Permite o express receber requisições HTTP de outras fontes, como o frontend
 
 // Rotas da API
-app.use('/login', usuarioRoutes);
+app.use('/usuario', usuarioRoutes);
 app.use('/', indexRoutes);
 app.use('/users', usersRoutes);
 app.use('/painelAdmin1', adminRoutes);
@@ -62,11 +70,9 @@ app.use(function (req, res, next) {
 
 // Error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
+  console.error('ERRO:', err); // adiciona essa linha
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

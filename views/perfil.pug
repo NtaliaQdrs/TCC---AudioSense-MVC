@@ -10,25 +10,25 @@ block content
       .perfil-header-content
         .perfil-avatar-section
           .perfil-avatar
-            img(src="/images/fotoAndre.png" alt="Avatar do usuário")
+            img(src= usuario.foto_perfil ? '/images/fotos-perfil/' + usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar do usuário")
           button.avatar-upload-btn(aria-label="Alterar foto de perfil")
             i.bi.bi-camera-fill(aria-hidden="true")
 
         .perfil-info
           .perfil-info-header
-            h1.perfil-name André Hellvig da Silva
-            p.perfil-username @ahellvig
+            h1.perfil-name= usuario.nome_completo
+            p.perfil-username= '@' + usuario.nome_usuario
           
-          p.perfil-bio Apaixonado por acessibilidade e educação inclusiva. Acredito que a audiodescição transforma experiências e conecta pessoas.
+          p.perfil-bio= usuario.biografia || 'Nenhuma biografia cadastrada.'
 
           .perfil-details
             .perfil-detail-item
               i.bi.bi-envelope-fill(aria-hidden="true")
-              span ahellvig@hotmail.com
+              span= usuario.email
 
             .perfil-detail-item
               i.bi.bi-calendar-event(aria-hidden="true")
-              span Membro desde: Mar/2024
+              span= 'Membro desde: ' + membroDesde
 
         .perfil-actions
           button.btn-editar-perfil(aria-label="Editar perfil")
@@ -37,48 +37,63 @@ block content
 
     //- ESTATÍSTICAS
     .perfil-stats
-      .stat-card
-        .stat-icon
-          i.bi.bi-volume-up(aria-hidden="true")
-        .stat-content
-          .stat-number 24
-          .stat-label Audiodescrições criadas
+      if usuario.tipo_usuario === 'docente'
+        .stat-card
+          .stat-icon
+            i.bi.bi-volume-up(aria-hidden="true")
+          .stat-content
+            .stat-number 0
+            .stat-label Audiodescrições corrigidas
+      else
+        .stat-card
+          .stat-icon
+            i.bi.bi-volume-up(aria-hidden="true")
+          .stat-content
+            .stat-number 0
+            .stat-label Audiodescrições criadas
 
       .stat-card
         .stat-icon
           i.bi.bi-chat-dots(aria-hidden="true")
         .stat-content
-          .stat-number 18
+          .stat-number 0
           .stat-label Postagens no fórum
 
-      .stat-card
-        .stat-icon
-          i.bi.bi-book(aria-hidden="true")
-        .stat-content
-          .stat-number 12
-          .stat-label Materiais compartilhados
+      if usuario.tipo_usuario === 'docente'
+        .stat-card
+          .stat-icon
+            i.bi.bi-book(aria-hidden="true")
+          .stat-content
+            .stat-number 0
+            .stat-label Materiais compartilhados
 
-      .stat-card
-        .stat-icon
-          i.bi.bi-hand-thumbs-up(aria-hidden="true")
-        .stat-content
-          .stat-number 87
-          .stat-label Curtidas recebidas
+        .stat-card
+          .stat-icon
+            i.bi.bi-hand-thumbs-up(aria-hidden="true")
+          .stat-content
+            .stat-number 0
+            .stat-label Curtidas recebidas
 
     //- ABAS DE CONTEÚDO
     .perfil-tabs
       .tabs-header
-        button.tab-btn.active(data-tab="audiodescricoes" aria-selected="true" aria-controls="tab-audiodescricoes")
-          i.bi.bi-volume-up(aria-hidden="true")
-          span Audiodescrições
+        if usuario.tipo_usuario === 'docente'
+          button.tab-btn.active(data-tab="audiodescricoes" aria-selected="true")
+            i.bi.bi-volume-up(aria-hidden="true")
+            span Audiodescrições corrigidas
+        else
+          button.tab-btn.active(data-tab="audiodescricoes" aria-selected="true")
+            i.bi.bi-volume-up(aria-hidden="true")
+            span Audiodescrições
 
-        button.tab-btn(data-tab="forum" aria-selected="false" aria-controls="tab-forum")
+        button.tab-btn(data-tab="forum" aria-selected="false")
           i.bi.bi-chat-left-text(aria-hidden="true")
           span Fórum
 
-        button.tab-btn(data-tab="materiais" aria-selected="false" aria-controls="tab-materiais")
-          i.bi.bi-file-earmark-pdf(aria-hidden="true")
-          span Materiais
+        if usuario.tipo_usuario === 'docente'
+          button.tab-btn(data-tab="materiais" aria-selected="false")
+            i.bi.bi-file-earmark-pdf(aria-hidden="true")
+            span Materiais
 
       //- TAB: AUDIODESCRIÇÕES
       .tab-content#tab-audiodescricoes.tab-pane.active(role="tabpanel" aria-labelledby="tab-btn-audiodescricoes")

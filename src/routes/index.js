@@ -32,9 +32,7 @@ router.get('/formulario', function (req, res, next) {
 
 });
 
-router.get('/perfil', function (req, res, next) {
-  res.render('perfil', { title: 'Meu Perfil' });
-});
+
 
 
 export default router;

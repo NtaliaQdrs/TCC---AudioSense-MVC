@@ -25,56 +25,45 @@ html(lang="pt-br")
         span ou
 
       .cad
-        form(aria-label="Formulário de Cadastro de Discente")
+        form(action="/usuario/cadastro-discente" method="POST" aria-label="Formulário de Cadastro de Discente")
           .input-group
-            i.bi.bi-envelope-fill(aria-hidden="true")
+            i.bi.bi-person-fill(aria-hidden="true")
             .input-content
-              label Nome completo
-              input(type="text", placeholder="Nome completo aqui", required)
+              label(for="nome_completo") Nome completo
+              input#nome_completo(type="text" name="nome_completo" placeholder="Nome completo aqui" required)
 
           .input-group
             i.bi.bi-envelope-fill(aria-hidden="true")
             .input-content
-              label Email
-              input(type="email", placeholder="Exemplo@gmail.com", required)
+              label(for="email") Email
+              input#email(type="email" name="email" placeholder="Exemplo@gmail.com" required)
 
           .input-group
             i.bi.bi-key-fill(aria-hidden="true")
             .input-content
-              label Crie uma senha
-              input#senha(type="password", placeholder="••••••••••", required)
-              //- Botão acessível para mostrar senha
-              button.btn-toggle-password(
-                type="button" 
-                onclick="togglePassword('senha')" 
-                aria-label="Mostrar senha"
-                style="background: none; border: none; cursor: pointer;"
-              )
-              i.bi.bi-eye.toggle-password(aria-hidden="true")(onclick="togglePassword('senha')")
+              label(for="senha") Crie uma senha
+              input#senha(type="password" name="senha" placeholder="••••••••••" required)
+              button.btn-toggle-password(type="button" onclick="togglePassword('senha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
+              i.bi.bi-eye.toggle-password(aria-hidden="true" onclick="togglePassword('senha')")
 
           .input-group
             i.bi.bi-key-fill(aria-hidden="true")
             .input-content
-              label Confirme a senha
-              input#confirmSenha(type="password", placeholder="••••••••••", required)
-              //- Botão acessível para mostrar senha
-              button.btn-toggle-password(
-                type="button" 
-                onclick="togglePassword('senha')" 
-                aria-label="Mostrar senha"
-                style="background: none; border: none; cursor: pointer;"
-              )
-              i.bi.bi-eye.toggle-password(aria-hidden="true")(onclick="togglePassword('confirmSenha')")
+              label(for="confirmSenha") Confirme a senha
+              input#confirmSenha(type="password" name="confirmSenha" placeholder="••••••••••" required)
+              button.btn-toggle-password(type="button" onclick="togglePassword('confirmSenha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
+              i.bi.bi-eye.toggle-password(aria-hidden="true" onclick="togglePassword('confirmSenha')")
 
           .options
             label
-              input(type="checkbox", style="accent-color: #2eb086;")
+              input(type="checkbox" style="accent-color: #2eb086;")
               |  Me lembre
 
           button.btn-submit(type="submit") Cadastre-se
+
           p.footer-text
             | Já possui uma conta? 
-            a(href="/login") Faça login
+            a(href="/usuario") Faça login
 
           p.footer-text
             a(href="/") Voltar para o início
