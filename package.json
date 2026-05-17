@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed:admin": "node src/seeders/adminSeed.js"
   },
   "keywords": [],
   "author": "",

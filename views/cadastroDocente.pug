@@ -14,58 +14,47 @@ html(lang="pt-br")
         h1 Bem vindo(a) ao AudioSense!
       
       .cad
-        form(aria-label="Formulário de Cadastro de Docente")
+        form(action="/usuario/cadastro-docente" method="POST" enctype="multipart/form-data" aria-label="Formulário de Cadastro de Docente")
           .input-group
-            i.bi.bi-envelope-fill(aria-hidden="true")
+            i.bi.bi-person-fill(aria-hidden="true")
             .input-content
-              label(for="nome") Nome completo
-              input#nome(type="text" placeholder="Nome completo aqui" required aria-required="true")
+              label(for="nome_completo") Nome completo
+              input#nome_completo(type="text" name="nome_completo" placeholder="Nome completo aqui" required aria-required="true")
           
           .input-group
             i.bi.bi-envelope-fill(aria-hidden="true")
             .input-content
               label(for="email") Email institucional
-              input#email(type="email" placeholder="Exemplo@gmail.com" required aria-required="true")
+              input#email(type="email" name="email" placeholder="Exemplo@gmail.com" required aria-required="true")
           
           .input-group
             i.bi.bi-key-fill(aria-hidden="true")
             .input-content
               label(for="senha") Crie uma senha
-              input#senha(type="password" placeholder="••••••••••" required)
-              button.btn-toggle-password(
-                type="button" 
-                onclick="togglePassword('senha')" 
-                aria-label="Mostrar senha"
-                style="background: none; border: none; cursor: pointer;"
-              )
+              input#senha(type="password" name="senha" placeholder="••••••••••" required)
+              button.btn-toggle-password(type="button" onclick="togglePassword('senha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
                 i.bi.bi-eye.toggle-password(aria-hidden="true")
           
           .input-group
             i.bi.bi-key-fill(aria-hidden="true")
             .input-content
               label(for="confirmSenha") Confirme a senha
-              input#confirmSenha(type="password" placeholder="••••••••••" required)
-              button.btn-toggle-password(
-                type="button" 
-                onclick="togglePassword('confirmSenha')" 
-                aria-label="Mostrar confirmação de senha"
-                style="background: none; border: none; cursor: pointer;"
-              )
+              input#confirmSenha(type="password" name="confirmSenha" placeholder="••••••••••" required)
+              button.btn-toggle-password(type="button" onclick="togglePassword('confirmSenha')" aria-label="Mostrar confirmação de senha" style="background: none; border: none; cursor: pointer;")
                 i.bi.bi-eye.toggle-password(aria-hidden="true")
           
           .input-group
             i.bi.bi-book-half(aria-hidden="true")
             .input-content
-              label(for="disciplina") Disciplina(s) lecionada(s)
-              select#disciplina(name="disciplina" required)
+              label(for="disciplina_id") Disciplina(s) lecionada(s)
+              select#disciplina_id(name="disciplina_id" required)
                 option(value="") Selecione uma disciplina
-                option(value="outra") Outra (digite abaixo)
-              
-              //- Campo dinâmico com rótulo acessível
+                each disciplina in disciplinas
+                  option(value=disciplina.id)= disciplina.titulo
               input#disciplinaOutra(
-                type="text" 
-                name="disciplinaOutra" 
-                placeholder="Digite o nome da disciplina" 
+                type="text"
+                name="disciplina_outra"
+                placeholder="Digite o nome da disciplina"
                 style="display: none; margin-top: 10px;"
                 aria-label="Especifique a outra disciplina"
               )
@@ -74,16 +63,12 @@ html(lang="pt-br")
             i.bi.bi-journal-text(aria-hidden="true")
             .input-content
               label(for="comprovante") Comprovante de vínculo
-              input#comprovante(
-                type="file" 
-                required 
-                aria-label="Anexar comprovante de vínculo (PDF ou Imagem)"
-              )
+              input#comprovante(type="file" name="comprovante" required aria-label="Anexar comprovante de vínculo (PDF ou Imagem)")
           
           .input-group
             .input-content
-              label(for="infoAdicional") Informações adicionais
-              input#infoAdicional(type="text" placeholder="Alguma informação extra ou link...")
+              label(for="informacao_adicional") Informações adicionais
+              input#informacao_adicional(type="text" name="informacao_adicional" placeholder="Alguma informação extra ou link...")
           
           .options
             label
@@ -94,9 +79,16 @@ html(lang="pt-br")
           
           p.footer-text
             | Já possui uma conta? 
-            a(href="/login") Faça login
+            a(href="/usuario") Faça login
 
           p.footer-text
             a(href="/") Voltar para o início
 
 script(src="../javascripts/cadastro.js")
+script.
+  document.getElementById('disciplina_id').addEventListener('change', function() {
+    const outraId = this.options[this.selectedIndex].text === 'Outra' ? true : false;
+    const campoOutra = document.getElementById('disciplinaOutra');
+    campoOutra.style.display = outraId ? 'block' : 'none';
+    campoOutra.required = outraId;
+  });

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ativa o clicado
             btn.classList.add('tab-active');
             btn.setAttribute('aria-selected', 'true');
-            
+
             const pane = document.getElementById(tabName + '-tab');
             if (pane) {
                 pane.classList.add('tab-pane-active');
@@ -102,51 +102,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // =============================
-    // LOGOUT
-    // =============================
+
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             if (confirm("Tem certeza que deseja sair da sua conta?")) {
-                localStorage.clear(); // Limpa tudo de uma vez
-                window.location.href = '/';
+                window.location.href = '/usuario/logout';
             }
         });
     }
-
     // =============================
     // GESTÃO DE ESTADO DO USUÁRIO
     // =============================
     function atualizarInterfaceUsuario() {
-        const token = localStorage.getItem('token');
-        const usuarioJson = localStorage.getItem('usuario');
+        if (!usuarioLogado) return;
 
-        /* if (!token) {
-            if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'inline-block';
-            // Esconde o botão de perfil se não estiver logado
-            if (profileBtn) profileBtn.style.display = 'none';
-            return;
-        }*/
+        const tipo = usuarioLogado.tipo_usuario;
+        const isAdmin = usuarioLogado.is_admin;
 
-        // if (welcomeAuthBtn) welcomeAuthBtn.style.display = 'none';
-        if (profileBtn) profileBtn.style.display = 'flex';
-
-        if (usuarioJson) {
-            try {
-                const usuario = JSON.parse(usuarioJson);
-                const tipo = usuario?.tipo_usuario;
-
-                if (tipo === 'docente') {
-                    if (meusMateriais) meusMateriais.style.display = 'flex';
-                    if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
-                } else if (tipo === 'discente') {
-                    if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
-                    if (meusMateriais) meusMateriais.style.display = 'none';
-                }
-            } catch (err) {
-                console.error("Erro ao processar dados do usuário", err);
+        if (tipo === 'docente') {
+            if (meusMateriais) meusMateriais.style.display = 'flex';
+            if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
+            if (adminPainel) {
+                adminPainel.style.display = 'flex';
+                adminPainel.href = isAdmin ? '/painelAdmin1/painel-admin' : '/painelAdmin1';
             }
+        } else if (tipo === 'discente') {
+            if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
+            if (meusMateriais) meusMateriais.style.display = 'none';
+            if (adminPainel) adminPainel.style.display = 'none';
         }
     }
 
@@ -166,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
+
 
     // Chama diretamente, pois já estamos dentro do DOMContentLoaded
     atualizarInterfaceUsuario();

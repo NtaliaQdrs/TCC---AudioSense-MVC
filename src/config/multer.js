@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
   
   // Define a pasta onde as fotos serão salvas
   destination: (req, file, cb) => {
-    cb(null, 'public/images/fotos-perfil');
+    cb(null, 'public/uploads/fotos-perfil');
   },
 
   // Define o nome do arquivo salvo — usa o id da sessão + timestamp para evitar duplicatas

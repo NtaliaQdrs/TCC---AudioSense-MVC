@@ -14,7 +14,8 @@ block content
           | O AudioSense é um espaço que promove o aprendizado de audiodescrição e 
           | acessibilidade, contando com um espaço colaborativo, onde você poderá interagir 
           | com outros usuários.
-        a.welcome-button#welcomeAuthBtn(href="/usuario") Entre ou Cadastre-se
+        if !usuarioLogado
+          a.welcome-button#welcomeAuthBtn(href="/usuario") Entre ou Cadastre-se
 
       .welcome-icon
         img(src="../images/boasvindas.png" alt="")

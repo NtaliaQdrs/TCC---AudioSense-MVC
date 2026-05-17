@@ -38,6 +38,12 @@ app.use(session({
 app.use(express.static(path.join(__dirname, '..', 'public'))); // Servir arquivos estáticos da pasta 'public'
 app.use(cors()); // Permite o express receber requisições HTTP de outras fontes, como o frontend
 
+// Injeta o usuário logado em todas as views
+app.use((req, res, next) => {
+  res.locals.usuarioLogado = req.session.usuarioLogado || null;
+  next();
+});
+
 // Rotas da API
 app.use('/usuario', usuarioRoutes);
 app.use('/', indexRoutes);

@@ -34,7 +34,7 @@ html(lang="pt-br")
         #categoryDropdown.category-dropdown
           .category-links
             a.dropdown-item(href="/") Início
-            a.dropdown-item(href="/usuario/configuracoes") Configurações
+            a.dropdown-item(href="/configuracoes") Configurações
             a.dropdown-item(href="/deficiencia-visual") Deficiência visual
             a.dropdown-item(href="/audiodescricao") Audiodescrição
             a.dropdown-item(href="/entretenimento") Entretenimento
@@ -43,7 +43,7 @@ html(lang="pt-br")
 
         nav.menu-links(aria-label="Menu Principal")
           a(href="/") Início
-          a(href="usuario/configuracoes") Configurações
+          a(href="/configuracoes") Configurações
           a(href="#") Sobre nós
 
         .menu-right
@@ -78,7 +78,7 @@ html(lang="pt-br")
                   i.bi.bi-person(aria-hidden="true")
                   |   Meu Perfil
 
-                a.dropdown-item(href="usuario/configuracoes" role="menuitem")
+                a.dropdown-item(href="usuario/configuracoes-perfil" role="menuitem")
                   i.bi.bi-gear(aria-hidden="true")
                   |   Configurações
 
@@ -96,9 +96,9 @@ html(lang="pt-br")
 
                 hr.dropdown-divider
 
-                a#logoutBtn.dropdown-item.logout(href="#sair")
+                a#logoutBtn.dropdown-item.logout(href="/usuario/logout")
                   i.bi.bi-box-arrow-right(aria-hidden="true")
-                  |   Sair
+                  |   Sair da conta
 
               //- ABA NOTIFICAÇÕES
               .tab-pane#notifications-tab
@@ -136,5 +136,8 @@ html(lang="pt-br")
       block content
 
     //- Script global
+    script.
+      const usuarioLogado = !{JSON.stringify(usuarioLogado)};
     script(src="/javascripts/menu.js")
     script(src="/javascripts/accessibility.js")
+    

@@ -1,0 +1,88 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/configuracoes.css')
+
+block content
+  .config-container
+    a.back-link(href="/")
+      //i.bi.bi-arrow-left
+      //span Voltar
+
+    //- CARD GRANDE PRINCIPAL
+    .main-config-card
+      .config-header
+        h1 Configurações
+        p Gerencie sua conta 
+      
+      hr.header-divider
+
+      //- Seção Conta e Segurança
+      section.config-section-inner
+        .section-title
+          .section-icon
+            i.bi.bi-shield-lock
+          .title-text
+            h2 Conta e segurança
+            p Gerencie suas informações pessoais e a segurança da sua conta.
+
+        .config-list
+          a.config-item(href="#")
+            .item-info
+              .item-icon
+                i.bi.bi-person
+              .item-text
+                h3 Alterar nome
+                p Atualize o nome exibido no seu perfil.
+            i.bi.bi-chevron-right.chevron
+
+          hr.config-divider
+
+          a.config-item(href="#")
+            .item-info
+              .item-icon
+                i.bi.bi-envelope
+              .item-text
+                h3 Alterar e-mail
+                p Atualize o e-mail da sua conta.
+            i.bi.bi-chevron-right.chevron
+
+          hr.config-divider
+
+          a.config-item(href="#")
+            .item-info
+              .item-icon
+                i.bi.bi-lock
+              .item-text
+                h3 Alterar senha
+                p Escolha uma nova senha para sua conta.
+            i.bi.bi-chevron-right.chevron
+
+          hr.config-divider
+
+          a.config-item(href="/sair")
+            .item-info
+              .item-icon(style="background: #f0f0f0; color: #666;")
+                i.bi.bi-box-arrow-right
+              .item-text
+                h3 Sair da conta
+                p Encerrar sessão em sua conta neste dispositivo.
+
+          hr.config-divider
+          
+          a.config-item(href="#")
+            .item-info
+              .item-icon(style="background: #ffe5e5; color: #d32f2f;")
+                i.bi.bi-trash
+              .item-text
+                h3 Excluir conta
+                p Excluir permanentemente sua conta e todos os seus dados.
+            i.bi.bi-chevron-right.chevron
+
+
+     
+
+    .footer-copyright
+      p © 2025 AudioSense. Todos os direitos reservados.
+
+  script(src="/javascripts/configuracoes.js")

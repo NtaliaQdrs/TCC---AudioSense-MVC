@@ -32,6 +32,9 @@ router.get('/formulario', function (req, res, next) {
 
 });
 
+router.get('/configuracoes', function(req, res, next) {
+  res.render('configuracoes', { title: 'Configurações' }); 
+});
 
 
 
