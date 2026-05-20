@@ -53,12 +53,19 @@ export default (sequelize) => {
         foto_perfil: {
             type: DataTypes.STRING(255),
             allowNull: true
+        },
+        // Data da última troca de nome de usuário (para limitar mudanças frequentes)
+        ultima_troca_nome: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
 
     }, {
         tableName: 'usuario',
         timestamps: false
     });
+
+    
 
     return Usuario;
 };

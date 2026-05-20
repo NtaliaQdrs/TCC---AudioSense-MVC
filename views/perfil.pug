@@ -20,6 +20,10 @@ block content
             p.perfil-username= '@' + usuario.nome_usuario
           
           p.perfil-bio= usuario.biografia || 'Nenhuma biografia cadastrada.'
+          if usuario.tipo_usuario === 'docente' && disciplinas.length > 0
+            .perfil-disciplinas
+              each disciplina in disciplinas
+                span.disciplina-tag= disciplina.titulo
 
           .perfil-details
             .perfil-detail-item
@@ -224,4 +228,41 @@ block content
         .view-all-link
           a(href="#") Ver todas
 
+  
+  .modal-overlay#modalEditar(style="display:none")
+    .modal-edicao
+      .modal-header
+        h3 Editar perfil
+        button.btn-fechar-modal(type="button" onclick="fecharModalEditar()")
+          i.bi.bi-x-lg
+
+      form#formEditarPerfil(action="/usuario/editar-perfil" method="POST" enctype="multipart/form-data")
+        .modal-body
+          .modal-avatar-section
+            img#previewAvatar(src='/images/foto-perfil-default.png' alt="Avatar")
+            label.btn-foto(for="novaFoto")
+              i.bi.bi-camera-fill
+              | Alterar foto
+            input#novaFoto(type="file" name="foto" accept="image/*" hidden)
+
+          .modal-campos
+            .input-group
+              i.bi.bi-person-fill
+              .input-content
+                label(for="novo_nome_usuario") Nome de usuário
+                input#novo_nome_usuario(type="text" name="nome_usuario" value=usuario.nome_usuario)
+                if podeTrocarNome
+                  small.hint Você pode trocar seu nome de usuário
+                else
+                  small.hint.bloqueado Disponível para troca em #{diasRestantes} dias
+
+            .input-group
+              i.bi.bi-card-text
+              .input-content
+                label(for="nova_biografia") Biografia
+                textarea#nova_biografia(name="biografia" rows="3")= usuario.biografia || ''
+
+        .modal-footer
+          button.btn-cancel(type="button" onclick="fecharModalEditar()") Cancelar
+          button.btn-submitcust(type="submit") Salvar
   script(src="/javascripts/perfil.js")

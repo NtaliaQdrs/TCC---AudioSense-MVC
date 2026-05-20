@@ -46,11 +46,9 @@ block content
                   button.btn-action.btn-approve(type="submit")
                     i.bi.bi-check-lg
                     | Aprovar
-                form(action=`/painelAdmin1/rejeitar/${docente.docente_id}` method="POST" style="display:inline")
-                  input(type="hidden" name="motivo_rejeicao" value="Cadastro rejeitado pelo administrador.")
-                  button.btn-action.btn-reject(type="submit")
-                    i.bi.bi-x-lg
-                    | Rejeitar
+                button.btn-action.btn-reject(type="button" onclick=`abrirModal('docente', '${docente.docente_id}')`)
+                  i.bi.bi-x-lg
+                  | Rejeitar
 
     //- Seção: Solicitações de Admin
     section.admin-section
@@ -88,7 +86,51 @@ block content
                   button.btn-action.btn-approve(type="submit")
                     i.bi.bi-check-lg
                     | Aprovar
-                form(action=`/painelAdmin1/rejeitar-admin/${sol.solicitacao_id}` method="POST" style="display:inline")
-                  button.btn-action.btn-reject(type="submit")
-                    i.bi.bi-x-lg
-                    | Rejeitar
+                button.btn-action.btn-reject(type="button" onclick=`abrirModal('admin', '${sol.solicitacao_id}')`)
+                  i.bi.bi-x-lg
+                  | Rejeitar
+
+  //- Modal de rejeição
+  .modal-overlay#modalRejeitar(style="display:none")
+    .modal-box
+      h3 Motivo da rejeição
+      textarea#motivoRejeicao(rows="4" placeholder="Explique o motivo da rejeição..." required)
+      .modal-buttons
+        button.btn-action.btn-approve(onclick="confirmarRejeicao()") Confirmar
+        button.btn-action.btn-reject(onclick="fecharModal()") Cancelar
+      form#formRejeitar(method="POST" style="display:none")
+        input(type="hidden" name="motivo_rejeicao" id="inputMotivo")
+
+  script.
+    let urlRejeitar = '';
+
+    function abrirModal(tipo, id) {
+      if (tipo === 'docente') {
+        urlRejeitar = `/painelAdmin1/rejeitar/${id}`;
+      } else {
+        urlRejeitar = `/painelAdmin1/rejeitar-admin/${id}`;
+      }
+      document.getElementById('motivoRejeicao').value = '';
+      document.getElementById('modalRejeitar').style.display = 'flex';
+    }
+
+    function fecharModal() {
+      document.getElementById('modalRejeitar').style.display = 'none';
+    }
+
+    function confirmarRejeicao() {
+      const motivo = document.getElementById('motivoRejeicao').value.trim();
+      if (!motivo) {
+        alert('Por favor, informe o motivo da rejeição.');
+        return;
+      }
+      const form = document.getElementById('formRejeitar');
+      form.action = urlRejeitar;
+      document.getElementById('inputMotivo').value = motivo;
+      form.style.display = 'block';
+      form.submit();
+    }
+
+    document.getElementById('modalRejeitar').addEventListener('click', function(e) {
+      if (e.target === this) fecharModal();
+    });

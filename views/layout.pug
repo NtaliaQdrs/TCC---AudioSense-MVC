@@ -18,7 +18,7 @@ html(lang="pt-br")
       .top-bar-content
         a.skip-link(href="#main-content") Pular para o conteúdo principal
         .logo
-          a(href="/" aria-label="AudioSense - Página Inicial")
+          a( aria-label="AudioSense - Página Inicial")
             img(src="/images/audiosense.png" alt="")
 
         //- Botão de categorias mobile com estado expandido
@@ -74,19 +74,19 @@ html(lang="pt-br")
 
               //- ABA PERFIL
               .tab-pane.tab-pane-active#profile-tab
-                a.dropdown-item(href="usuario/perfil" role="menuitem")
+                a.dropdown-item(href="/usuario/perfil" role="menuitem")
                   i.bi.bi-person(aria-hidden="true")
                   |   Meu Perfil
 
-                a.dropdown-item(href="usuario/configuracoes-perfil" role="menuitem")
+                a.dropdown-item(href="/usuario/configuracoes-perfil" role="menuitem")
                   i.bi.bi-gear(aria-hidden="true")
                   |   Configurações
 
-                a#minhasAudiodescricoes.dropdown-item(href="#minhas-audiodescricoes" style="display: none;" role="menuitem")
+                a#minhasAudiodescricoes.dropdown-item(href="/usuario/minhas-audiodescricoes" style="display: none;" role="menuitem")
                   i.bi.bi-headphones(aria-hidden="true")
                   |   Minhas Audiodescrições
 
-                a#meusMateriais.dropdown-item(href="#meus-materiais" style="display: none;" role="menuitem")
+                a#meusMateriais.dropdown-item(href="/usuario/meus-materiais" style="display: none;" role="menuitem")
                   i.bi.bi-file-earmark(aria-hidden="true")
                   |   Meus Materiais
 

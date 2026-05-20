@@ -146,24 +146,51 @@ export const salvarCustomizacao = async (req, res) => {
 // VER PERFIL — busca os dados do usuário logado e passa para a view
 export const verPerfil = async (req, res) => {
     try {
-        // req.usuario vem do middleware auth (token JWT decodificado)
         const usuario = await Usuario.findOne({
             where: { id: req.usuario.id },
-            attributes: ['id', 'nome_completo', 'nome_usuario', 'email', 'biografia', 'foto_perfil', 'tipo_usuario', 'data_cadastro']
+            attributes: ['id', 'nome_completo', 'nome_usuario', 'email', 'biografia', 'foto_perfil', 'tipo_usuario', 'data_cadastro', 'ultima_troca_nome']
         });
 
         if (!usuario) {
             return res.redirect('/usuario');
         }
 
-        // Formata a data de cadastro
         const dataCadastro = new Date(usuario.data_cadastro);
         const membroDesde = dataCadastro.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
+
+        // Busca as disciplinas se for docente
+        let disciplinas = [];
+        if (usuario.tipo_usuario === 'docente') {
+            disciplinas = await db.sequelize.query(`
+        SELECT d.titulo
+        FROM disciplina d
+        INNER JOIN docente_disciplina dd ON d.id = dd.disciplina_id
+        INNER JOIN usuario_docente ud ON dd.docente_id = ud.id
+        WHERE ud.usuario_id = :usuarioId
+      `, {
+                replacements: { usuarioId: usuario.id },
+                type: db.Sequelize.QueryTypes.SELECT
+            });
+        }
+
+        // Verifica se pode trocar o nome de usuário
+        let podeTrocarNome = true;
+        let diasRestantes = 0;
+        if (usuario.ultima_troca_nome) {
+            const diasPassados = Math.floor((new Date() - new Date(usuario.ultima_troca_nome)) / (1000 * 60 * 60 * 24));
+            if (diasPassados < 30) {
+                podeTrocarNome = false;
+                diasRestantes = 30 - diasPassados;
+            }
+        }
 
         return res.render('perfil', {
             title: 'Meu Perfil',
             usuario: usuario.toJSON(),
-            membroDesde
+            membroDesde,
+            disciplinas,
+            podeTrocarNome,
+            diasRestantes
         });
 
     } catch (err) {
@@ -192,58 +219,116 @@ export const verCadastroDocente = async (req, res) => {
 
 // CADASTRO DOCENTE — cria o usuário base, o vínculo docente e a disciplina
 export const cadastrarDocente = async (req, res) => {
+  try {
+    const { nome_completo, email, senha, disciplina_outra, informacao_adicional } = req.body;
+
+    // Valida disciplinas ANTES de criar qualquer coisa
+    let disciplinaIds = req.body['disciplina_ids'];
+    if (!disciplinaIds) {
+      return res.redirect('/usuario/cadastro-docente?erro=disciplina');
+    }
+    if (!Array.isArray(disciplinaIds)) {
+      disciplinaIds = [disciplinaIds];
+    }
+
+    // Verifica se o email já está cadastrado
+    const emailExistente = await Usuario.findOne({ where: { email } });
+    if (emailExistente) {
+      return res.redirect('/usuario/cadastro-docente?erro=email');
+    }
+
+    // Criptografa a senha
+    const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+    // Cria o usuário base
+    const novoUsuario = await Usuario.create({
+      nome_completo,
+      email,
+      senha: senhaCriptografada,
+      tipo_usuario: 'docente'
+    });
+
+    // Cria o vínculo na tabela usuario_docente — status começa como pendente
+    const novoDocente = await db.UsuarioDocente.create({
+      usuario_id: novoUsuario.id,
+      comprovante_vinculo: req.file ? req.file.filename : null,
+      informacao_adicional: informacao_adicional || null,
+      status_aprovacao: 'pendente'
+    });
+
+    // Se selecionou "Outra", cria a nova disciplina no banco
+    const idsFinais = [];
+    for (const id of disciplinaIds) {
+      if (id === 'outra' && disciplina_outra && disciplina_outra.trim() !== '') {
+        const [novaDisciplinaId] = await db.sequelize.query(
+          `INSERT INTO disciplina (titulo) VALUES (?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)`,
+          { replacements: [disciplina_outra.trim()], type: db.Sequelize.QueryTypes.INSERT }
+        );
+        idsFinais.push(novaDisciplinaId);
+      } else if (id !== 'outra') {
+        idsFinais.push(id);
+      }
+    }
+
+    // Cria o vínculo para cada disciplina selecionada
+    for (const disciplinaId of idsFinais) {
+      await db.DocenteDisciplina.create({
+        docente_id: novoDocente.id,
+        disciplina_id: disciplinaId
+      });
+    }
+
+    // Salva o id na sessão para a etapa de customização
+    req.session.usuarioId = novoUsuario.id;
+
+    return res.redirect('/usuario/customizar');
+
+  } catch (err) {
+    console.error('Erro no cadastro de docente:', err);
+    return res.status(500).json({ erro: 'Erro interno no servidor.' });
+  }
+};
+
+// EDITAR PERFIL — atualiza nome_usuario, biografia e foto
+export const editarPerfil = async (req, res) => {
     try {
-        const { nome_completo, email, senha, disciplina_id, disciplina_outra, informacao_adicional } = req.body;
+        const usuarioId = req.usuario.id;
+        const { nome_usuario, biografia } = req.body;
 
-        // Verifica se o email já está cadastrado
-        const emailExistente = await Usuario.findOne({ where: { email } });
-        if (emailExistente) {
-            return res.status(400).json({ erro: 'Email já cadastrado.' });
+        const usuario = await Usuario.findOne({ where: { id: usuarioId } });
+
+        // Verifica limitação de 30 dias para troca de nome
+        const atualizacao = { biografia };
+
+        if (nome_usuario && nome_usuario !== usuario.nome_usuario) {
+            const ultimaTroca = usuario.ultima_troca_nome;
+            if (ultimaTroca) {
+                const diasPassados = Math.floor((new Date() - new Date(ultimaTroca)) / (1000 * 60 * 60 * 24));
+                if (diasPassados < 30) {
+                    return res.status(400).json({ erro: `Você só pode trocar o nome de usuário em ${30 - diasPassados} dias.` });
+                }
+            }
+
+            // Verifica se o nome já está em uso
+            const nomeExistente = await Usuario.findOne({ where: { nome_usuario } });
+            if (nomeExistente && nomeExistente.id !== usuarioId) {
+                return res.status(400).json({ erro: 'Nome de usuário já está em uso.' });
+            }
+
+            atualizacao.nome_usuario = nome_usuario;
+            atualizacao.ultima_troca_nome = new Date();
         }
 
-        // Criptografa a senha
-        const senhaCriptografada = await bcrypt.hash(senha, 10);
-
-        // Cria o usuário base
-        const novoUsuario = await Usuario.create({
-            nome_completo,
-            email,
-            senha: senhaCriptografada,
-            tipo_usuario: 'docente'
-        });
-
-        // Cria o vínculo na tabela usuario_docente — status começa como pendente
-        const novoDocente = await db.UsuarioDocente.create({
-            usuario_id: novoUsuario.id,
-            comprovante_vinculo: req.file ? req.file.filename : null,
-            informacao_adicional: informacao_adicional || null,
-            status_aprovacao: 'pendente'
-        });
-
-        // Vincula a disciplina — se for "Outra", cria uma nova disciplina no banco
-        let disciplinaId = disciplina_id;
-        if (disciplina_outra && disciplina_outra.trim() !== '') {
-            const [novaDisciplina] = await db.sequelize.query(
-                `INSERT INTO disciplina (titulo) VALUES (?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)`,
-                { replacements: [disciplina_outra.trim()], type: db.Sequelize.QueryTypes.INSERT }
-            );
-            disciplinaId = novaDisciplina;
+        if (req.file) {
+            atualizacao.foto_perfil = req.file.filename;
         }
 
-        // Cria o vínculo na tabela docente_disciplina
-        await db.DocenteDisciplina.create({
-            docente_id: novoDocente.id,
-            disciplina_id: disciplinaId
-        });
+        await Usuario.update(atualizacao, { where: { id: usuarioId } });
 
-        // Salva o id na sessão para a etapa de customização
-        req.session.usuarioId = novoUsuario.id;
-
-        // Redireciona para customização
-        return res.redirect('/usuario/customizar');
+        return res.redirect('/usuario/perfil');
 
     } catch (err) {
-        console.error('Erro no cadastro de docente:', err);
+        console.error('Erro ao editar perfil:', err);
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };

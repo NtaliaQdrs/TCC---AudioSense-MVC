@@ -46,19 +46,28 @@ html(lang="pt-br")
           .input-group
             i.bi.bi-book-half(aria-hidden="true")
             .input-content
-              label(for="disciplina_id") Disciplina(s) lecionada(s)
-              select#disciplina_id(name="disciplina_id" required)
-                option(value="") Selecione uma disciplina
-                each disciplina in disciplinas
-                  option(value=disciplina.id)= disciplina.titulo
-              input#disciplinaOutra(
-                type="text"
-                name="disciplina_outra"
-                placeholder="Digite o nome da disciplina"
-                style="display: none; margin-top: 10px;"
-                aria-label="Especifique a outra disciplina"
-              )
-          
+              label Disciplina(s) lecionada(s)
+              .disciplinas-dropdown
+                button.btn-disciplinas(type="button" onclick="toggleDisciplinas()" id="btnDisciplinas")
+                  span#textoDisciplinas Selecione as disciplinas
+                  i.bi.bi-chevron-down#iconeDisciplinas
+                .disciplinas-lista#disciplinasLista(style="display: none;")
+                  each disciplina in disciplinas
+                    if disciplina.titulo !== 'Outra'
+                      label.checkbox-label
+                        input(type="checkbox" name="disciplina_ids" value=disciplina.id onchange="atualizarTextoDisciplinas()")
+                        | #{disciplina.titulo}
+                  label.checkbox-label
+                    input#checkOutra(type="checkbox" name="disciplina_ids" value="outra" onchange="toggleOutra(this); atualizarTextoDisciplinas()")
+                    | Outra
+                  input#disciplinaOutra(
+                    type="text"
+                    name="disciplina_outra"
+                    placeholder="Digite o nome da disciplina"
+                    style="display: none; margin-top: 10px;"
+                    aria-label="Especifique a outra disciplina"
+                  )
+                    
           .input-group
             i.bi.bi-journal-text(aria-hidden="true")
             .input-content
@@ -84,11 +93,41 @@ html(lang="pt-br")
           p.footer-text
             a(href="/") Voltar para o início
 
-script(src="../javascripts/cadastro.js")
-script.
-  document.getElementById('disciplina_id').addEventListener('change', function() {
-    const outraId = this.options[this.selectedIndex].text === 'Outra' ? true : false;
-    const campoOutra = document.getElementById('disciplinaOutra');
-    campoOutra.style.display = outraId ? 'block' : 'none';
-    campoOutra.required = outraId;
-  });
+  script(src="../javascripts/cadastro.js")
+  script.
+    function toggleDisciplinas() {
+      const lista = document.getElementById('disciplinasLista');
+      const icone = document.getElementById('iconeDisciplinas');
+      const aberto = lista.style.display === 'block';
+      lista.style.display = aberto ? 'none' : 'block';
+      icone.className = aberto ? 'bi bi-chevron-down' : 'bi bi-chevron-up';
+    }
+
+    function atualizarTextoDisciplinas() {
+      const selecionados = document.querySelectorAll('input[name="disciplina_ids"]:checked');
+      const texto = document.getElementById('textoDisciplinas');
+      if (selecionados.length === 0) {
+        texto.textContent = 'Selecione as disciplinas';
+      } else {
+        const nomes = Array.from(selecionados).map(cb => cb.closest('label').textContent.trim());
+        texto.textContent = nomes.join(', ');
+      }
+    }
+
+    function toggleOutra(checkbox) {
+      const campo = document.getElementById('disciplinaOutra');
+      campo.style.display = checkbox.checked ? 'block' : 'none';
+      campo.required = checkbox.checked;
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdown = document.querySelector('.disciplinas-dropdown');
+      if (!dropdown.contains(e.target)) {
+        document.getElementById('disciplinasLista').style.display = 'none';
+        document.getElementById('iconeDisciplinas').className = 'bi bi-chevron-down';
+      }
+    });
+
+    document.getElementById('disciplinasLista').addEventListener('click', function(e) {
+      e.stopPropagation();
+    });

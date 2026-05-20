@@ -334,6 +334,58 @@ h1 {
     background-color: #1e7c5f;
 }
 
+.disciplinas-dropdown {
+    position: relative;
+    width: 100%;
+}
 
+.btn-disciplinas {
+    width: 100%;
+    padding: 8px 0;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: #1a3a6c;
+    outline: none;
+}
+
+.disciplinas-lista {
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    width: calc(100% + 30px);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #1a3a6c;
+    cursor: pointer;
+    padding: 3px 0;
+}
+
+.checkbox-label input[type="checkbox"] {
+    accent-color: #2eb086;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
 
 

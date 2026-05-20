@@ -17,6 +17,7 @@ import indexRoutes from './routes/index.js';
 import usersRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
 import usuarioRoutes from './routes/usuario.js'; // Assumindo que o arquivo é usuario.js
+import estatisticaRoutes from './routes/estatistica.js';
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use('/usuario', usuarioRoutes);
 app.use('/', indexRoutes);
 app.use('/users', usersRoutes);
 app.use('/painelAdmin1', adminRoutes);
+app.use('/estatisticas', estatisticaRoutes);
 
 const PORT = process.env.PORT || 3000;
 

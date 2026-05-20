@@ -41,4 +41,6 @@ const criarAdmin = async () => {
   }
 };
 
+
+
 criarAdmin();

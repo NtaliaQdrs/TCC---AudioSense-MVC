@@ -10,6 +10,10 @@ block content
       h1#titulo-pagina
         i.bi.bi-person-fill-lock(aria-hidden="true")
         |  Solicitar acesso de Administrador
+    if mensagem
+      .alert-success
+        i.bi.bi-check-circle-fill
+        | #{mensagem}
 
     p.instrucoes-admin O acesso de administrador fornece controle total sobre a gestão de usuários, conteúdo, configurações do sistema e relatórios. Esta função é reservada para pessoas autorizadas e requer aprovação.
 
@@ -17,26 +21,33 @@ block content
     .divider
 
     .cad
-      form(aria-labelledby="titulo-pagina")
-        .input-group
-          .input-content
-            label(for="justificativa") Justificativa
-            textarea(
-              id="justificativa"
-              placeholder="Por favor explique por que você precisa de acesso administrativo e quais funções você desempenhará. Seja específico e detalhado."
-              rows="5"
-              required
-              aria-required="true"
-            )
+      if mensagem
+        .alert-success
+          i.bi.bi-check-circle-fill
+          | #{mensagem}
 
-        .input-group
-          .input-content
-            label(for="documentoComprovacao") Documento de comprovação
-            input(type="file" id="documentoComprovacao" aria-label="Selecionar documento de comprovação (PDF ou Imagem)")
+      else if solicitacaoPendente
+        .alert-success
+          i.bi.bi-clock-fill
+          | Solicitação pendente, aguarde a aprovação do administrador.
 
-        .button-group
-          button.btn-cancel(type="button" aria-label="Cancelar e voltar para a página anterior") Cancelar
-          button.btn-submitcust(type="submit") Enviar solicitação
+      else
+        form(action="/painelAdmin1/solicitar-admin" method="POST" aria-labelledby="titulo-pagina")
+          .input-group
+            .input-content
+              label(for="justificativa") Justificativa
+              textarea(
+                id="justificativa"
+                name="justificativa"
+                placeholder="Por favor explique por que você precisa de acesso administrativo e quais funções você desempenhará. Seja específico e detalhado."
+                rows="5"
+                required
+                aria-required="true"
+              )
 
-  script(src="../scripts/index.js")
-  script(src="../scripts/admin.js")
+          .button-group
+            button.btn-cancel(type="button" aria-label="Cancelar e voltar para a página anterior") Cancelar
+            button.btn-submitcust(type="submit") Enviar solicitação
+
+  script(src="/javascripts/index.js")
+  script(src="/javascripts/menu.js")
