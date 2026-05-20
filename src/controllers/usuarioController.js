@@ -2,6 +2,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models/index.js';
+import crypto from 'crypto';
+import { enviarEmail } from '../config/email.js';
 
 const Usuario = db.Usuario;
 const UsuarioDiscente = db.UsuarioDiscente;
@@ -75,6 +77,13 @@ export const login = async (req, res) => {
             }
         }
 
+        // Se marcou "manter conectado", expira em 30 dias
+        if (req.body.manterConectado) {
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 dias em ms
+        } else {
+            req.session.cookie.expires = false; // expira ao fechar o navegador
+        }
+        
         // Salva na sessão incluindo is_admin se for docente
         req.session.usuarioLogado = {
             id: usuario.id,
@@ -384,6 +393,132 @@ export const reenviarCadastroDocente = async (req, res) => {
 
     } catch (err) {
         console.error('Erro ao reenviar cadastro:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor.' });
+    }
+};
+
+// ESQUECEU SENHA — envia email com link de redefinição
+export const esqueceuSenha = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const usuario = await Usuario.findOne({ where: { email } });
+        if (!usuario) {
+            return res.render('esqueceuSenha', {
+                title: 'Esqueceu a senha',
+                erro: 'Email não encontrado.'
+            });
+        }
+
+        // Gera token único
+        const token = crypto.randomBytes(32).toString('hex');
+        const expira_em = new Date(Date.now() + 60 * 60 * 1000); // 1 hora
+
+        // Salva o token no banco
+        await db.RedefinicaoSenha.create({
+            usuario_id: usuario.id,
+            token,
+            expira_em
+        });
+
+        // Envia o email com o link
+        await enviarEmail(
+            usuario.email,
+            'Redefinição de senha - AudioSense',
+            `
+        <h2>Olá, ${usuario.nome_completo}!</h2>
+        <p>Recebemos uma solicitação para redefinir a senha da sua conta no <strong>AudioSense</strong>.</p>
+        <p>Clique no link abaixo para criar uma nova senha. O link é válido por <strong>1 hora</strong>.</p>
+        <a href="http://localhost:3000/usuario/redefinir-senha/${token}">Redefinir minha senha</a>
+        <p>Se você não solicitou isso, ignore este email.</p>
+      `
+        );
+
+        return res.render('esqueceuSenha', {
+            title: 'Esqueceu a senha',
+            mensagem: 'Email enviado! Verifique sua caixa de entrada.'
+        });
+
+    } catch (err) {
+        console.error('Erro ao enviar email de redefinição:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor.' });
+    }
+};
+
+// REDEFINIR SENHA — exibe o formulário com o token
+export const verRedefinirSenha = async (req, res) => {
+    try {
+        const { token } = req.params;
+
+        const redefinicao = await db.RedefinicaoSenha.findOne({
+            where: { token, usado: 0 }
+        });
+
+        if (!redefinicao || new Date() > new Date(redefinicao.expira_em)) {
+            return res.render('redefinirSenha', {
+                title: 'Redefinir senha',
+                erro: 'Link inválido ou expirado.',
+                token: null
+            });
+        }
+
+        return res.render('redefinirSenha', {
+            title: 'Redefinir senha',
+            token,
+            erro: null
+        });
+
+    } catch (err) {
+        console.error('Erro ao carregar redefinição:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor.' });
+    }
+};
+
+// SALVAR NOVA SENHA
+export const redefinirSenha = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { senha, confirmSenha } = req.body;
+
+        if (senha !== confirmSenha) {
+            return res.render('redefinirSenha', {
+                title: 'Redefinir senha',
+                erro: 'As senhas não coincidem.',
+                token
+            });
+        }
+
+        const redefinicao = await db.RedefinicaoSenha.findOne({
+            where: { token, usado: 0 }
+        });
+
+        if (!redefinicao || new Date() > new Date(redefinicao.expira_em)) {
+            return res.render('redefinirSenha', {
+                title: 'Redefinir senha',
+                erro: 'Link inválido ou expirado.',
+                token: null
+            });
+        }
+
+        // Criptografa a nova senha
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+        // Atualiza a senha do usuário
+        await Usuario.update(
+            { senha: senhaCriptografada },
+            { where: { id: redefinicao.usuario_id } }
+        );
+
+        // Marca o token como usado
+        await db.RedefinicaoSenha.update(
+            { usado: 1 },
+            { where: { token } }
+        );
+
+        return res.redirect('/usuario?status=senha_redefinida');
+
+    } catch (err) {
+        console.error('Erro ao redefinir senha:', err);
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };

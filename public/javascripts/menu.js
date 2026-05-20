@@ -150,9 +150,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =============================
+    // NOTIFICAÇÕES
+    // =============================
+
+    async function carregarNotificacoes() {
+        try {
+            const res = await fetch('/notificacoes');
+            if (!res.ok) return;
+
+            const data = await res.json();
+            const { notificacoes, naoLidas } = data;
+
+            // Atualiza os badges
+            const badgeSino = document.getElementById('badge-notificacoes');
+            const badgePerfil = document.getElementById('badge-perfil');
+
+            if (badgeSino) {
+                badgeSino.textContent = naoLidas;
+                badgeSino.style.display = naoLidas > 0 ? 'inline' : 'none';
+            }
+            if (badgePerfil) {
+                badgePerfil.textContent = naoLidas;
+                badgePerfil.style.display = naoLidas > 0 ? 'inline' : 'none';
+            }
+
+            // Preenche a lista de notificações
+            const tab = document.getElementById('notifications-tab');
+            if (!tab) return;
+
+            if (notificacoes.length === 0) {
+                tab.innerHTML = '<p style="padding: 15px; color: #666; font-size: 14px;">Nenhuma notificação.</p>';
+                return;
+            }
+
+            const itens = notificacoes.map(n => `
+      <a class="dropdown-item ${n.lida === 0 ? 'nao-lida' : ''}" href="#" role="menuitem">
+        <div class="notif-content">
+          <p class="notif-title">${n.titulo}</p>
+          <p class="notif-desc">${n.mensagem}</p>
+          <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
+        </div>
+      </a>
+    `).join('');
+
+            tab.innerHTML = itens + `
+      <hr class="dropdown-divider">
+      <a class="dropdown-item" href="#" onclick="marcarTodasLidas()" style="text-align: center; font-size: 12px;">
+        Marcar todas como lidas
+      </a>
+    `;
+
+        } catch (err) {
+            console.error('Erro ao carregar notificações:', err);
+        }
+    }
 
 
     // Chama diretamente, pois já estamos dentro do DOMContentLoaded
+    if (usuarioLogado) {
+        carregarNotificacoes();
+    }
     atualizarInterfaceUsuario();
     destacarLinkAtivo();
 });

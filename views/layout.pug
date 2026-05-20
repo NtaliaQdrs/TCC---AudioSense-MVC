@@ -59,7 +59,8 @@ html(lang="pt-br")
                                             aria-label="Menu do perfil do usuário")
               span Perfil 
               i#perfil-logo.bi.bi-person-circle(aria-hidden="true")
-              span.badge 3
+              span#badge-perfil.badge(style="display:none") 0
+
 
             //- Menu dropdown
             #profileDropdown.profile-dropdown(role="menu")
@@ -70,7 +71,7 @@ html(lang="pt-br")
                   i.bi.bi-person-circle(aria-hidden="true")
                 button.tab-btn(data-tab="notifications" aria-selected="false")
                   i.bi.bi-bell(aria-hidden="true")
-                  span.badge 3
+                  span#badge-notificacoes.badge(style="display:none") 0
 
               //- ABA PERFIL
               .tab-pane.tab-pane-active#profile-tab
@@ -102,20 +103,7 @@ html(lang="pt-br")
 
               //- ABA NOTIFICAÇÕES
               .tab-pane#notifications-tab
-                a.dropdown-item(href="#" role="menuitem")
-                  .notif-content
-                    p.notif-title Novo comentário no fórum
-                    p.notif-time há 5 minutos
-
-                a.dropdown-item(href="#" role="menuitem")
-                  .notif-content
-                    p.notif-title Sua audiodescrição foi aprovada
-                    p.notif-time há 1 hora
-
-                a.dropdown-item(href="#" role="menuitem")
-                  .notif-content
-                    p.notif-title Novo material adicionado à biblioteca
-                    p.notif-time há 2 horas
+                p(style="padding: 15px; color: #666; font-size: 14px;") Carregando...
 
                 hr.dropdown-divider
 

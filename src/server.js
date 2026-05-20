@@ -9,6 +9,9 @@ import createError from './utils/createError.js';
 import db from './models/index.js';
 import session from 'express-session';
 
+
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -18,6 +21,7 @@ import usersRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
 import usuarioRoutes from './routes/usuario.js'; // Assumindo que o arquivo é usuario.js
 import estatisticaRoutes from './routes/estatistica.js';
+import notificacaoRoutes from './routes/notificacao.js';
 
 const app = express();
 
@@ -51,6 +55,7 @@ app.use('/', indexRoutes);
 app.use('/users', usersRoutes);
 app.use('/painelAdmin1', adminRoutes);
 app.use('/estatisticas', estatisticaRoutes);
+app.use('/notificacoes', notificacaoRoutes);
 
 const PORT = process.env.PORT || 3000;
 

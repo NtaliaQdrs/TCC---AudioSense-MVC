@@ -1,0 +1,44 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Redefinir senha - AudioSense
+    link(rel="stylesheet" href="/stylesheets/loginEcadastro.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
+
+  body
+    main.container(role="main")
+      .saudacao
+        img.logo(src="../images/audiosense-login.png" alt="")
+        h1 Nova senha
+
+      if erro
+        .alert-rejeitado
+          i.bi.bi-x-circle-fill
+          | #{erro}
+
+      if !erro
+        form(action=`/usuario/redefinir-senha/${token}` method="POST")
+          .input-group
+            i.bi.bi-key-fill(aria-hidden="true")
+            .input-content
+              label(for="senha") Nova senha
+              input#senha(type="password" name="senha" placeholder="••••••••••" required)
+              button.btn-toggle-password(type="button" onclick="togglePassword('senha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
+              i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
+
+          .input-group
+            i.bi.bi-key-fill(aria-hidden="true")
+            .input-content
+              label(for="confirmSenha") Confirme a nova senha
+              input#confirmSenha(type="password" name="confirmSenha" placeholder="••••••••••" required)
+              button.btn-toggle-password(type="button" onclick="togglePassword('confirmSenha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
+              i.bi.bi-eye.toggle-password(onclick="togglePassword('confirmSenha')")
+
+          button.btn-submit(type="submit") Salvar nova senha
+
+      p.footer-text
+        a(href="/usuario") Voltar para o login
+
+    script(src="/javascripts/cadastro.js")

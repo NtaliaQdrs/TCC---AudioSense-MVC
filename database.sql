@@ -155,3 +155,22 @@ CREATE TABLE comentario (
     FOREIGN KEY (usuario_id) REFERENCES usuario(id),
     FOREIGN KEY (resposta_a_comentario_id) REFERENCES comentario(id)
 );
+
+CREATE TABLE redefinicao_senha (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  token VARCHAR(255) NOT NULL UNIQUE,
+  expira_em DATETIME NOT NULL,
+  usado TINYINT(1) DEFAULT 0,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);
+
+CREATE TABLE notificacao (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  titulo VARCHAR(255) NOT NULL,
+  mensagem TEXT NOT NULL,
+  lida TINYINT(1) DEFAULT 0,
+  data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);

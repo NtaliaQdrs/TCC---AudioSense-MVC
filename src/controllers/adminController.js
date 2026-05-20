@@ -2,6 +2,11 @@
 import db from '../models/index.js';
 import { enviarEmail } from '../config/email.js';
 
+// Função auxiliar para criar notificação
+const criarNotificacao = async (usuarioId, titulo, mensagem) => {
+  await db.Notificacao.create({ usuario_id: usuarioId, titulo, mensagem });
+};
+
 // PAINEL ADMIN — busca docentes pendentes e solicitações de admin
 export const verPainelAdmin = async (req, res) => {
   try {
@@ -63,6 +68,12 @@ export const aprovarDocente = async (req, res) => {
     const docente = await db.UsuarioDocente.findOne({ where: { id: docente_id } });
     const usuario = await db.Usuario.findOne({ where: { id: docente.usuario_id } });
 
+    await criarNotificacao(
+      usuario.id,
+      'Cadastro aprovado!',
+      'Seu cadastro como docente foi aprovado. Você já pode acessar a plataforma.'
+    );
+
     await enviarEmail(
       usuario.email,
       'Cadastro aprovado - AudioSense',
@@ -94,6 +105,12 @@ export const rejeitarDocente = async (req, res) => {
 
     const docente = await db.UsuarioDocente.findOne({ where: { id: docente_id } });
     const usuario = await db.Usuario.findOne({ where: { id: docente.usuario_id } });
+
+    await criarNotificacao(
+      usuario.id,
+      'Cadastro rejeitado',
+      `Seu cadastro foi rejeitado. Motivo: ${motivo_rejeicao}`
+    );
 
     await enviarEmail(
       usuario.email,
@@ -169,6 +186,15 @@ export const aprovarSolicitacaoAdmin = async (req, res) => {
       { where: { id: solicitacao.usuario_docente_id } }
     );
 
+    const docenteAprovado = await db.UsuarioDocente.findOne({ where: { id: solicitacao.usuario_docente_id } });
+    const usuarioAprovado = await db.Usuario.findOne({ where: { id: docenteAprovado.usuario_id } });
+
+    await criarNotificacao(
+      usuarioAprovado.id,
+      'Acesso de administrador aprovado!',
+      'Sua solicitação de acesso de administrador foi aprovada.'
+    );
+
     return res.redirect('/painelAdmin1/painel-admin');
   } catch (err) {
     console.error('Erro ao aprovar solicitação de admin:', err);
@@ -183,9 +209,20 @@ export const rejeitarSolicitacaoAdmin = async (req, res) => {
     const { motivo_rejeicao } = req.body;
     const adminId = req.session.usuarioLogado.id;
 
+    const solicitacao = await db.SolicitacaoAdmin.findOne({ where: { id: solicitacao_id } });
+
     await db.SolicitacaoAdmin.update(
       { status: 'rejeitado', motivo_rejeicao, data_decisao: new Date(), admin_aprovador_id: adminId },
       { where: { id: solicitacao_id } }
+    );
+
+    const docenteRejeitado = await db.UsuarioDocente.findOne({ where: { id: solicitacao.usuario_docente_id } });
+    const usuarioRejeitado = await db.Usuario.findOne({ where: { id: docenteRejeitado.usuario_id } });
+
+    await criarNotificacao(
+      usuarioRejeitado.id,
+      'Solicitação de administrador rejeitada',
+      `Sua solicitação foi rejeitada. Motivo: ${motivo_rejeicao}`
     );
 
     return res.redirect('/painelAdmin1/painel-admin');

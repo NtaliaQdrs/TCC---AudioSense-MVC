@@ -720,3 +720,14 @@ html {
   margin: 0;
   font-size: 11px;
   color: #999;}
+
+  .dropdown-item.nao-lida {
+  background-color: #f0e6f8;
+  font-weight: 600;
+}
+
+.notif-desc {
+  font-size: 12px;
+  color: #666;
+  margin: 2px 0;
+}

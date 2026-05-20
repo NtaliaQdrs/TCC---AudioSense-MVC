@@ -36,6 +36,11 @@ html(lang="pt-br")
             p.motivo= motivo
           a(href=`/usuario/cadastro-docente?email=${email}`) Tentar novamente
 
+      if status === 'senha_redefinida'
+        .alert-pendente
+          i.bi.bi-check-circle-fill
+          | Senha redefinida com sucesso! Faça login com sua nova senha.
+
       .social-login
         a.btn-social(href="#" aria-label="Fazer login usando sua conta do Google")
           img(src="https://www.google.com/favicon.ico" width="20" alt="Google")
@@ -69,9 +74,9 @@ html(lang="pt-br")
 
         .options
           label
-            input(type="checkbox" style="accent-color: #2eb086;")
+            input(type="checkbox" name="manterConectado" style="accent-color: #2eb086;")
             |  Manter conectado
-          a(href="#" aria-label="Recuperar senha esquecida") Esqueceu a senha?
+          a(href="/usuario/esqueceu-senha" aria-label="Recuperar senha esquecida") Esqueceu a senha?
 
         button.btn-submit(type="submit") Entrar
 

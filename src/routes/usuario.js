@@ -1,9 +1,10 @@
 import express from 'express';
 import { cadastrarDiscente, cadastrarDocente, login, salvarCustomizacao, verPerfil, 
-  verCadastroDocente, editarPerfil, reenviarCadastroDocente } from '../controllers/usuarioController.js';
+  verCadastroDocente, editarPerfil, reenviarCadastroDocente, esqueceuSenha, verRedefinirSenha, redefinirSenha } from '../controllers/usuarioController.js';
 import auth from '../middlewares/auth.js'; // importa o middleware
 import upload from '../config/multer.js';
 import uploadComprovante from '../config/multerComprovante.js';
+
 
 const router = express.Router();
 
@@ -52,6 +53,11 @@ router.get('/logout', (req, res) => {
   });
 });
 
+router.get('/esqueceu-senha', (req, res) => 
+  res.render('esqueceuSenha', { title: 'Esqueceu a senha', mensagem: null, erro: null }));
+
+router.get('/redefinir-senha/:token', verRedefinirSenha);
+
 // ==================== API ====================
 
 router.post('/cadastro-discente', cadastrarDiscente);
@@ -61,6 +67,8 @@ router.post('/editar-perfil', auth, upload.single('foto'), editarPerfil);
 router.post('/customizar', upload.single('foto'), salvarCustomizacao);
 router.post('/cadastro-docente', uploadComprovante.single('comprovante'), cadastrarDocente);
 router.post('/reenviar-cadastro-docente', uploadComprovante.single('comprovante'), reenviarCadastroDocente);
+router.post('/redefinir-senha/:token', redefinirSenha);
+router.post('/esqueceu-senha', esqueceuSenha);
 
 
 
