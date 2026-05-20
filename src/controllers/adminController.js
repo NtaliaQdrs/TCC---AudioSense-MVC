@@ -1,10 +1,10 @@
 // Controller do painel administrativo
 import db from '../models/index.js';
+import { enviarEmail } from '../config/email.js';
 
 // PAINEL ADMIN — busca docentes pendentes e solicitações de admin
 export const verPainelAdmin = async (req, res) => {
   try {
-    // Busca docentes com cadastro pendente
     const docentesPendentes = await db.sequelize.query(`
       SELECT 
         u.id,
@@ -23,7 +23,6 @@ export const verPainelAdmin = async (req, res) => {
       ORDER BY u.id DESC
     `, { type: db.Sequelize.QueryTypes.SELECT });
 
-    // Busca solicitações de admin pendentes
     const solicitacoesAdmin = await db.sequelize.query(`
       SELECT 
         sa.id as solicitacao_id,
@@ -55,10 +54,26 @@ export const verPainelAdmin = async (req, res) => {
 export const aprovarDocente = async (req, res) => {
   try {
     const { docente_id } = req.params;
+
     await db.UsuarioDocente.update(
       { status_aprovacao: 'aprovado' },
       { where: { id: docente_id } }
     );
+
+    const docente = await db.UsuarioDocente.findOne({ where: { id: docente_id } });
+    const usuario = await db.Usuario.findOne({ where: { id: docente.usuario_id } });
+
+    await enviarEmail(
+      usuario.email,
+      'Cadastro aprovado - AudioSense',
+      `
+        <h2>Parabéns, ${usuario.nome_completo}!</h2>
+        <p>Seu cadastro como docente na plataforma <strong>AudioSense</strong> foi <strong>aprovado</strong>.</p>
+        <p>Você já pode acessar a plataforma com seu email e senha cadastrados.</p>
+        <a href="http://localhost:3000/usuario">Acessar o AudioSense</a>
+      `
+    );
+
     return res.redirect('/painelAdmin1/painel-admin');
   } catch (err) {
     console.error('Erro ao aprovar docente:', err);
@@ -71,10 +86,27 @@ export const rejeitarDocente = async (req, res) => {
   try {
     const { docente_id } = req.params;
     const { motivo_rejeicao } = req.body;
+
     await db.UsuarioDocente.update(
       { status_aprovacao: 'rejeitado', motivo_rejeicao },
       { where: { id: docente_id } }
     );
+
+    const docente = await db.UsuarioDocente.findOne({ where: { id: docente_id } });
+    const usuario = await db.Usuario.findOne({ where: { id: docente.usuario_id } });
+
+    await enviarEmail(
+      usuario.email,
+      'Cadastro rejeitado - AudioSense',
+      `
+        <h2>Olá, ${usuario.nome_completo}.</h2>
+        <p>Infelizmente, seu cadastro como docente na plataforma <strong>AudioSense</strong> foi <strong>rejeitado</strong>.</p>
+        <p><strong>Motivo:</strong> ${motivo_rejeicao}</p>
+        <p>Você pode reenviar seu cadastro com um novo comprovante clicando no link abaixo:</p>
+        <a href="http://localhost:3000/usuario?status=rejeitado&motivo=${encodeURIComponent(motivo_rejeicao)}&email=${encodeURIComponent(usuario.email)}">Reenviar cadastro</a>
+      `
+    );
+
     return res.redirect('/painelAdmin1/painel-admin');
   } catch (err) {
     console.error('Erro ao rejeitar docente:', err);
@@ -88,14 +120,12 @@ export const enviarSolicitacaoAdmin = async (req, res) => {
     const { justificativa } = req.body;
     const usuarioId = req.session.usuarioLogado.id;
 
-    // Busca o docente pelo usuario_id
     const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId } });
 
     if (!docente || docente.status_aprovacao !== 'aprovado') {
       return res.status(403).json({ erro: 'Apenas docentes aprovados podem solicitar acesso de administrador.' });
     }
 
-    // Verifica se já tem uma solicitação pendente
     const solicitacaoExistente = await db.SolicitacaoAdmin.findOne({
       where: { usuario_docente_id: docente.id, status: 'pendente' }
     });
@@ -104,7 +134,6 @@ export const enviarSolicitacaoAdmin = async (req, res) => {
       return res.status(400).json({ erro: 'Você já tem uma solicitação pendente.' });
     }
 
-    // Cria a solicitação
     await db.SolicitacaoAdmin.create({
       usuario_docente_id: docente.id,
       justificativa,
@@ -128,20 +157,13 @@ export const aprovarSolicitacaoAdmin = async (req, res) => {
     const { solicitacao_id } = req.params;
     const adminId = req.session.usuarioLogado.id;
 
-    // Busca a solicitação para pegar o docente_id
     const solicitacao = await db.SolicitacaoAdmin.findOne({ where: { id: solicitacao_id } });
 
-    // Atualiza a solicitação
     await db.SolicitacaoAdmin.update(
-      { 
-        status: 'aprovado',
-        data_decisao: new Date(),
-        admin_aprovador_id: adminId
-      },
+      { status: 'aprovado', data_decisao: new Date(), admin_aprovador_id: adminId },
       { where: { id: solicitacao_id } }
     );
 
-    // Seta is_admin = 1 no docente
     await db.UsuarioDocente.update(
       { is_admin: 1 },
       { where: { id: solicitacao.usuario_docente_id } }
@@ -162,12 +184,7 @@ export const rejeitarSolicitacaoAdmin = async (req, res) => {
     const adminId = req.session.usuarioLogado.id;
 
     await db.SolicitacaoAdmin.update(
-      {
-        status: 'rejeitado',
-        motivo_rejeicao,
-        data_decisao: new Date(),
-        admin_aprovador_id: adminId
-      },
+      { status: 'rejeitado', motivo_rejeicao, data_decisao: new Date(), admin_aprovador_id: adminId },
       { where: { id: solicitacao_id } }
     );
 
@@ -178,7 +195,7 @@ export const rejeitarSolicitacaoAdmin = async (req, res) => {
   }
 };
 
-// VER PAINEL DOCENTE — verifica se já tem solicitação pendente
+// VER PAINEL DOCENTE
 export const verPainelDocente = async (req, res) => {
   try {
     const usuarioId = req.session.usuarioLogado.id;

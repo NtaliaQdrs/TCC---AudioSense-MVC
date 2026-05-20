@@ -1,5 +1,6 @@
 import express from 'express';
-import { cadastrarDiscente, cadastrarDocente, login, salvarCustomizacao, verPerfil, verCadastroDocente, editarPerfil } from '../controllers/usuarioController.js';
+import { cadastrarDiscente, cadastrarDocente, login, salvarCustomizacao, verPerfil, 
+  verCadastroDocente, editarPerfil, reenviarCadastroDocente } from '../controllers/usuarioController.js';
 import auth from '../middlewares/auth.js'; // importa o middleware
 import upload from '../config/multer.js';
 import uploadComprovante from '../config/multerComprovante.js';
@@ -8,8 +9,13 @@ const router = express.Router();
 
 // ==================== VIEWS ====================
 
-router.get('/', function (req, res, next) {
-  res.render('login', { title: 'Página de Login' });
+router.get('/', function(req, res, next) {
+  res.render('login', {
+    title: 'Página de Login',
+    status: req.query.status || null,
+    motivo: req.query.motivo || null,
+    email: req.query.email || null
+  });
 });
 
 router.get('/cadastro', function (req, res, next) {
@@ -54,6 +60,7 @@ router.post('/editar-perfil', auth, upload.single('foto'), editarPerfil);
 // upload.single('foto') — processa o upload do campo 'foto' do formulário
 router.post('/customizar', upload.single('foto'), salvarCustomizacao);
 router.post('/cadastro-docente', uploadComprovante.single('comprovante'), cadastrarDocente);
+router.post('/reenviar-cadastro-docente', uploadComprovante.single('comprovante'), reenviarCadastroDocente);
 
 
 

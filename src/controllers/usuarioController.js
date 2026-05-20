@@ -66,10 +66,12 @@ export const login = async (req, res) => {
         if (usuario.tipo_usuario === 'docente') {
             docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuario.id } });
             if (!docente || docente.status_aprovacao === 'pendente') {
-                return res.status(403).json({ erro: 'Seu cadastro ainda está aguardando aprovação do administrador.' });
+                return res.redirect('/usuario?status=pendente');
             }
             if (docente.status_aprovacao === 'rejeitado') {
-                return res.status(403).json({ erro: 'Seu cadastro foi rejeitado. Entre em contato com o administrador.' });
+                const motivo = encodeURIComponent(docente.motivo_rejeicao || 'Sem motivo informado.');
+                const emailEnc = encodeURIComponent(usuario.email);
+                return res.redirect(`/usuario?status=rejeitado&motivo=${motivo}&email=${emailEnc}`);
             }
         }
 
@@ -206,9 +208,25 @@ export const verCadastroDocente = async (req, res) => {
             { type: db.Sequelize.QueryTypes.SELECT }
         );
 
+        // Verifica se veio da tela de rejeição
+        const emailRejeitado = req.query.email || null;
+        let cadastroRejeitado = null;
+
+        if (emailRejeitado) {
+            const usuario = await Usuario.findOne({ where: { email: emailRejeitado } });
+            if (usuario) {
+                cadastroRejeitado = await db.UsuarioDocente.findOne({
+                    where: { usuario_id: usuario.id, status_aprovacao: 'rejeitado' }
+                });
+            }
+        }
+
         return res.render('cadastroDocente', {
             title: 'Cadastro de Docente',
-            disciplinas
+            disciplinas,
+            cadastroRejeitado: !!cadastroRejeitado,
+            emailRejeitado,
+            erro: req.query.erro || null  // adiciona essa linha
         });
 
     } catch (err) {
@@ -219,74 +237,74 @@ export const verCadastroDocente = async (req, res) => {
 
 // CADASTRO DOCENTE — cria o usuário base, o vínculo docente e a disciplina
 export const cadastrarDocente = async (req, res) => {
-  try {
-    const { nome_completo, email, senha, disciplina_outra, informacao_adicional } = req.body;
+    try {
+        const { nome_completo, email, senha, disciplina_outra, informacao_adicional } = req.body;
 
-    // Valida disciplinas ANTES de criar qualquer coisa
-    let disciplinaIds = req.body['disciplina_ids'];
-    if (!disciplinaIds) {
-      return res.redirect('/usuario/cadastro-docente?erro=disciplina');
+        // Valida disciplinas ANTES de criar qualquer coisa
+        let disciplinaIds = req.body['disciplina_ids'];
+        if (!disciplinaIds) {
+            return res.redirect('/usuario/cadastro-docente?erro=disciplina');
+        }
+        if (!Array.isArray(disciplinaIds)) {
+            disciplinaIds = [disciplinaIds];
+        }
+
+        // Verifica se o email já está cadastrado
+        const emailExistente = await Usuario.findOne({ where: { email } });
+        if (emailExistente) {
+            return res.redirect('/usuario/cadastro-docente?erro=email');
+        }
+
+        // Criptografa a senha
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+        // Cria o usuário base
+        const novoUsuario = await Usuario.create({
+            nome_completo,
+            email,
+            senha: senhaCriptografada,
+            tipo_usuario: 'docente'
+        });
+
+        // Cria o vínculo na tabela usuario_docente — status começa como pendente
+        const novoDocente = await db.UsuarioDocente.create({
+            usuario_id: novoUsuario.id,
+            comprovante_vinculo: req.file ? req.file.filename : null,
+            informacao_adicional: informacao_adicional || null,
+            status_aprovacao: 'pendente'
+        });
+
+        // Se selecionou "Outra", cria a nova disciplina no banco
+        const idsFinais = [];
+        for (const id of disciplinaIds) {
+            if (id === 'outra' && disciplina_outra && disciplina_outra.trim() !== '') {
+                const [novaDisciplinaId] = await db.sequelize.query(
+                    `INSERT INTO disciplina (titulo) VALUES (?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)`,
+                    { replacements: [disciplina_outra.trim()], type: db.Sequelize.QueryTypes.INSERT }
+                );
+                idsFinais.push(novaDisciplinaId);
+            } else if (id !== 'outra') {
+                idsFinais.push(id);
+            }
+        }
+
+        // Cria o vínculo para cada disciplina selecionada
+        for (const disciplinaId of idsFinais) {
+            await db.DocenteDisciplina.create({
+                docente_id: novoDocente.id,
+                disciplina_id: disciplinaId
+            });
+        }
+
+        // Salva o id na sessão para a etapa de customização
+        req.session.usuarioId = novoUsuario.id;
+
+        return res.redirect('/usuario/customizar');
+
+    } catch (err) {
+        console.error('Erro no cadastro de docente:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
-    if (!Array.isArray(disciplinaIds)) {
-      disciplinaIds = [disciplinaIds];
-    }
-
-    // Verifica se o email já está cadastrado
-    const emailExistente = await Usuario.findOne({ where: { email } });
-    if (emailExistente) {
-      return res.redirect('/usuario/cadastro-docente?erro=email');
-    }
-
-    // Criptografa a senha
-    const senhaCriptografada = await bcrypt.hash(senha, 10);
-
-    // Cria o usuário base
-    const novoUsuario = await Usuario.create({
-      nome_completo,
-      email,
-      senha: senhaCriptografada,
-      tipo_usuario: 'docente'
-    });
-
-    // Cria o vínculo na tabela usuario_docente — status começa como pendente
-    const novoDocente = await db.UsuarioDocente.create({
-      usuario_id: novoUsuario.id,
-      comprovante_vinculo: req.file ? req.file.filename : null,
-      informacao_adicional: informacao_adicional || null,
-      status_aprovacao: 'pendente'
-    });
-
-    // Se selecionou "Outra", cria a nova disciplina no banco
-    const idsFinais = [];
-    for (const id of disciplinaIds) {
-      if (id === 'outra' && disciplina_outra && disciplina_outra.trim() !== '') {
-        const [novaDisciplinaId] = await db.sequelize.query(
-          `INSERT INTO disciplina (titulo) VALUES (?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)`,
-          { replacements: [disciplina_outra.trim()], type: db.Sequelize.QueryTypes.INSERT }
-        );
-        idsFinais.push(novaDisciplinaId);
-      } else if (id !== 'outra') {
-        idsFinais.push(id);
-      }
-    }
-
-    // Cria o vínculo para cada disciplina selecionada
-    for (const disciplinaId of idsFinais) {
-      await db.DocenteDisciplina.create({
-        docente_id: novoDocente.id,
-        disciplina_id: disciplinaId
-      });
-    }
-
-    // Salva o id na sessão para a etapa de customização
-    req.session.usuarioId = novoUsuario.id;
-
-    return res.redirect('/usuario/customizar');
-
-  } catch (err) {
-    console.error('Erro no cadastro de docente:', err);
-    return res.status(500).json({ erro: 'Erro interno no servidor.' });
-  }
 };
 
 // EDITAR PERFIL — atualiza nome_usuario, biografia e foto
@@ -329,6 +347,43 @@ export const editarPerfil = async (req, res) => {
 
     } catch (err) {
         console.error('Erro ao editar perfil:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor.' });
+    }
+};
+
+// REENVIAR CADASTRO DOCENTE — reseta status para pendente com novo comprovante
+export const reenviarCadastroDocente = async (req, res) => {
+    try {
+        const { email, informacao_adicional } = req.body;
+
+        const usuario = await Usuario.findOne({ where: { email } });
+        if (!usuario) {
+            return res.status(404).json({ erro: 'Usuário não encontrado.' });
+        }
+
+        const docente = await db.UsuarioDocente.findOne({
+            where: { usuario_id: usuario.id, status_aprovacao: 'rejeitado' }
+        });
+
+        if (!docente) {
+            return res.status(400).json({ erro: 'Nenhum cadastro rejeitado encontrado.' });
+        }
+
+        // Atualiza o comprovante e reseta o status
+        await db.UsuarioDocente.update(
+            {
+                comprovante_vinculo: req.file ? req.file.filename : docente.comprovante_vinculo,
+                informacao_adicional: informacao_adicional || docente.informacao_adicional,
+                status_aprovacao: 'pendente',
+                motivo_rejeicao: null
+            },
+            { where: { id: docente.id } }
+        );
+
+        return res.redirect('/usuario?status=pendente');
+
+    } catch (err) {
+        console.error('Erro ao reenviar cadastro:', err);
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };

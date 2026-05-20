@@ -6,10 +6,33 @@ block styles
 block content
 
 
+
   section.welcome-section(aria-labelledby="titulo-boas-vindas")
     .welcome-container
       .welcome-content
         h1.welcome-title Boas vindas ao AudioSense!
+
+         //- Feedback de Status para Docentes
+        if usuarioLogado && usuarioLogado.tipo_usuario === 'docente'
+          if usuarioLogado.status_aprovacao === 'pendente'
+            .status-banner.pendente
+              i.bi.bi-clock-history
+              div
+                strong Cadastro em análise: 
+                | Sua solicitação de docente está sendo revisada por um administrador. Algumas funcionalidades podem estar limitadas.
+          
+          else if usuarioLogado.status_aprovacao === 'rejeitado'
+            .status-banner.rejeitado
+              i.bi.bi-exclamation-octagon
+              div
+                strong Cadastro rejeitado: 
+                | Sua solicitação não foi aprovada. 
+                if usuarioLogado.motivo_rejeicao
+                  br
+                  span Motivo: #{usuarioLogado.motivo_rejeicao}
+                br
+                a(href="/usuario/cadastro-docente" style="color: inherit; text-decoration: underline;") Clique aqui para revisar seu cadastro.
+
         p.welcome-description
           | O AudioSense é um espaço que promove o aprendizado de audiodescrição e 
           | acessibilidade, contando com um espaço colaborativo, onde você poderá interagir 

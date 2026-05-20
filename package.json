@@ -7,7 +7,6 @@
     "start": "nodemon src/server.js",
     "dev": "nodemon src/server.js",
     "seed:admin": "node src/seeders/adminSeed.js"
-    
   },
   "keywords": [],
   "author": "",
@@ -23,6 +22,7 @@
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "mysql2": "^3.22.3",
+    "nodemailer": "^8.0.7",
     "pg-hstore": "^2.3.4",
     "pug": "^3.0.4",
     "sequelize": "^6.37.7"
