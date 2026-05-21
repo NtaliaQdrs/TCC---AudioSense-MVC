@@ -304,8 +304,9 @@ h1 {
 
 }
 
-.btn-cancel {
-    width: 40%;
+
+.btn-cancel{
+    width: 70%;
     padding: 15px;
     background-color: #1f4677;
     color: white;
@@ -317,22 +318,10 @@ h1 {
     font-weight: 600;
 }
 
-.btn-submitad {
-    width: 40%;
-    padding: 15px;
-    background-color: #2eb086;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 15px;
-    font-weight: 600;
+.btn-cancel:hover {
+    background-color: #0c1e34 ;
 }
 
-.btn-submitad:hover {
-    background-color: #1e7c5f;
-}
 
 .disciplinas-dropdown {
     position: relative;

@@ -8,4 +8,10 @@ document.getElementById('foto-upload').addEventListener('change', function (e) {
     };
     reader.readAsDataURL(file);
   }
+
 });
+
+document.getElementById("btn-cancel").addEventListener("click", function () {
+    window.history.back();
+});
+

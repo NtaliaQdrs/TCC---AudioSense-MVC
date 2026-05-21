@@ -14,3 +14,8 @@ function togglePassword(inputId) {
         icon.classList.add('bi-eye');
     }
 }
+
+document.getElementById("btn-cancel").addEventListener("click", function () {
+    window.history.back();
+});
+

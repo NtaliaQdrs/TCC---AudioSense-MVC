@@ -79,12 +79,14 @@ html(lang="pt-br")
           a(href="/usuario/esqueceu-senha" aria-label="Recuperar senha esquecida") Esqueceu a senha?
 
         button.btn-submit(type="submit") Entrar
+        button#btn-cancel.btn-cancel(type="reset") Cancelar
 
       p.footer-text
         | Não possui uma conta?
-        a(href="/usuario/cadastro") Cadastre-se
+        a(href="/usuario/cadastro")  Cadastre-se
 
       p.footer-text
         a(href="/") Voltar para o início
 
     script(src="../javascripts/login.js")
+    

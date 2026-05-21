@@ -22,23 +22,15 @@ export const cadastrarDiscente = async (req, res) => {
         // Criptografa a senha antes de salvar
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
-        // Cria o usuário base
-        const novoUsuario = await Usuario.create({
+        // Salva os dados temporariamente na sessão — usuário ainda não criado
+        req.session.cadastroPendente = {
             nome_completo,
             email,
             senha: senhaCriptografada,
             tipo_usuario: 'discente'
-        });
+        };
 
-        // Cria o vínculo na tabela usuario_discente
-        await UsuarioDiscente.create({
-            usuario_id: novoUsuario.id
-        });
-
-        // Salva o id do usuário na sessão para usar na tela de customização
-        req.session.usuarioId = novoUsuario.id;
-
-        // Redireciona para a tela de customização de perfil
+        // Redireciona para a tela de customização
         return res.redirect('/usuario/customizar');
 
     } catch (err) {
@@ -83,7 +75,7 @@ export const login = async (req, res) => {
         } else {
             req.session.cookie.expires = false; // expira ao fechar o navegador
         }
-        
+
         // Salva na sessão incluindo is_admin se for docente
         req.session.usuarioLogado = {
             id: usuario.id,
@@ -113,26 +105,51 @@ export const login = async (req, res) => {
 // CUSTOMIZAR PERFIL — salva nome_usuario, biografia e foto de perfil
 export const salvarCustomizacao = async (req, res) => {
     try {
-        console.log('BODY:', req.body);
-        console.log('FILE:', req.file);
-        console.log('SESSION:', req.session);
-
-        // Pega o id do usuário salvo na sessão durante o cadastro
-        const usuarioId = req.session.usuarioId;
-
-        if (!usuarioId) {
-            return res.redirect('/usuario'); // Se não tiver sessão, manda pro login
-        }
-
         const { nome_usuario, biografia } = req.body;
 
-        // Verifica se o nome de usuário já está em uso
+        // Verifica se tem cadastro pendente na sessão (novo usuário)
+        if (req.session.cadastroPendente) {
+            const { nome_completo, email, senha, tipo_usuario } = req.session.cadastroPendente;
+
+            // Verifica se o nome de usuário já está em uso
+            const nomeExistente = await Usuario.findOne({ where: { nome_usuario } });
+            if (nomeExistente) {
+                return res.status(400).json({ erro: 'Nome de usuário já está em uso.' });
+            }
+
+            // Cria o usuário agora
+            const novoUsuario = await Usuario.create({
+                nome_completo,
+                email,
+                senha,
+                tipo_usuario,
+                nome_usuario,
+                biografia,
+                foto_perfil: req.file ? req.file.filename : null
+            });
+
+            // Se for discente, cria o vínculo
+            if (tipo_usuario === 'discente') {
+                await UsuarioDiscente.create({ usuario_id: novoUsuario.id });
+            }
+
+            // Limpa o cadastro pendente da sessão
+            req.session.cadastroPendente = null;
+
+            return res.redirect('/usuario');
+        }
+
+        // Fluxo normal — usuário já existe, só atualiza
+        const usuarioId = req.session.usuarioId;
+        if (!usuarioId) {
+            return res.redirect('/usuario');
+        }
+
         const nomeExistente = await Usuario.findOne({ where: { nome_usuario } });
         if (nomeExistente) {
             return res.status(400).json({ erro: 'Nome de usuário já está em uso.' });
         }
 
-        // Atualiza o usuário com os dados de customização
         await Usuario.update(
             {
                 nome_usuario,
@@ -142,10 +159,7 @@ export const salvarCustomizacao = async (req, res) => {
             { where: { id: usuarioId } }
         );
 
-        // Limpa o id da sessão de cadastro
         req.session.usuarioId = null;
-
-        // Redireciona para a página inicial do sistema
         return res.redirect('/');
 
     } catch (err) {
@@ -153,7 +167,6 @@ export const salvarCustomizacao = async (req, res) => {
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };
-
 // VER PERFIL — busca os dados do usuário logado e passa para a view
 export const verPerfil = async (req, res) => {
     try {
