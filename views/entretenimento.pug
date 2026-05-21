@@ -1,0 +1,168 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/entretenimento.css')
+
+block content
+
+  main.page
+    h1.title Entretenimento acessível
+
+    section.cards-extra
+      .main-grid
+
+        article.extra-card1
+          .card-inner
+            img(src="../images/entretenimento1.png")
+
+            .card-text
+              h3 Não olhe para cima
+              p Dois astrônomos medíocres descobrem que em poucos meses um meteorito destruirá o planeta Terra.
+              h4 Lançamento: 9 de dezembro de 2021
+
+              .card-content
+                p Não Olhe Para Cima conta a história de Randall Mindy (Leonardo DiCaprio) e Kate Dibiasky (Jennifer Lawrence), dois astrônomos que fazem uma descoberta surpreendente de um cometa orbitando dentro do sistema solar que está em rota de colisão direta com a Terra. Com a ajuda do doutor Oglethorpe (Rob Morgan), Kate e Randall embarcam em um tour pela mídia que os leva ao escritório da Presidente Orlean (Meryl Streep) e de seu filho, Jason (Jonah Hill). Com apenas seis meses até o cometa fazer o impacto, gerenciar o ciclo de notícias de 24 horas e ganhar a atenção do público obcecado pelas mídias sociais antes que seja tarde demais se mostra chocantemente cômico. Porém a dupla terá que fazer mais do que falar a chocante notícia para o público, já que ninguém quer acreditar neles ou muito menos dar notícias tristes para o mundo. Um retrato de uma realidade e de um futuro extremamente próximo.
+
+              .card-footer
+                .platform
+                  img.netflix-icon(src="../images/netflix.png")
+                  span Acesse na Netflix
+
+                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+
+
+        article.extra-card1
+          .card-inner
+            img(src="../images/entretenimento2.png")
+
+            .card-text
+              h3 Projeto Adam
+              p Um viajante do tempo volta ao ano de 2022 por acidente e acaba se encontrando com seu eu mais novo.
+              h4 Lançamento: 9 de março de 2022 
+
+              .card-content
+                p Em O Projeto Adam, Adam Reed é um menino de 13 anos que ainda está de luto pela morte repentina de seu pai um ano antes. Ele vai para a garagem de sua casa uma noite e acaba encontrando um piloto ferido escondido. Este misterioso piloto acaba por ser a versão mais antiga de si mesmo do futuro. Um futuro onde viagens no tempo são possíveis e ele acabou voltando para seu passado, presente de Adam de 13 anos. Ele arriscou tudo para voltar no tempo em uma missão secreta. Juntos, eles devem embarcar em uma aventura no passado para encontrar seu pai, acertar as coisas e salvar o mundo. Trabalhando juntos, tanto o jovem quanto o adulto Adam, aceitam a perda de seu pai e têm a chance de curar as feridas que os moldaram. Aumentando o desafio da missão, os dois Adams descobrem que realmente não gostam muito um do outro e, se quiserem salvar o mundo, primeiro terão que descobrir como se dar bem.
+
+              .card-footer
+                .platform
+                  img.netflix-icon(src="../images/netflix.png")
+                  span Acesse na Netflix
+
+                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+
+
+        article.extra-card1
+          .card-inner
+            img(src="../images/entretenimento3.jpg")
+
+            .card-text
+              h3 A caminho da lua
+              p Estimulada pelas histórias da mãe, Fei Fei constrói uma nave espacial para ir até à Lua e comprovar a existência de uma deusa.
+              h4 Lançamento: 9 de dezembro de 2021
+
+              .card-content
+                p Na animação da Netflix, A Caminho da Lua, depois de ter finalizado a construção de uma engenhosa nave espacial, uma garota embarca para a lua para provar ao seu pai a existência de uma deusa mística que habitaria no astro. Chegando ao seu destino. a jovem descobre criaturas fantásticas que a ajudarão a completar sua missão e retornar para a terra sã e salva.
+
+              .card-footer
+                .platform
+                  img.netflix-icon(src="../images/netflix.png")
+                  span Acesse na Netflix
+
+                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+
+
+        article.extra-card1
+          .card-inner
+            img(src="../images/entretenimento4.jpg")
+
+            .card-text
+              h3 Wicked
+              p Na Terra de Oz, uma jovem chamada Elphaba forma uma improvável amizade com uma estudante popular chamada Glinda.
+              h4 Lançamento: 22 de novembro de 2024
+
+              .card-content
+                p Baseado no musical homônimo da Broadway, Wicked é o prelúdio da famosa história de Dorothy e do Mágico de Oz, onde conhecemos a história não contada da Bruxa Boa e da Bruxa Má do Oeste. Na trama, Elphaba (Cynthia Erivo) é uma jovem do Reino de Oz, mas incompreendida por causa de sua pele verde incomum e por ainda não ter descoberto seu verdadeiro poder. Sua rotina é tranquila e pouco interessante, mas ao iniciar seus estudos na Universidade de Shiz, seu destino encontra Glinda (Ariana Grande), uma jovem popular e ambiciosa, nascida em berço de ouro, que só quer garantir seus privilégios e ainda não conhece sua verdadeira alma. As duas iniciam uma inesperada amizade; no entanto, suas diferenças, como o desejo de Glinda pela popularidade e poder, e a determinação de Elphaba em permanecer fiel a si mesma, entram no caminho, o que pode perpetuar no futuro de cada uma e em como as pessoas de Oz as enxergam.
+
+              .card-footer
+                .platform
+                  img.netflix-icon(src="../images/primevideo.png")
+                  span Acesse no Prime Video
+
+                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+
+
+        div.right-column
+
+          aside.sidebar(aria-labelledby="sidebar-title")
+            h3#sidebar-title Sugestão de conteúdo adicional
+
+            nav(aria-label="Links complementares")
+              ul(style="list-style: none; padding: 0;")
+                li
+                  .sidebar-item
+                    i.bi.bi-file-earmark-text(aria-hidden="true")
+                    small.text Artigos
+                  a(href="#") (Links para leitura)
+                hr
+
+                li
+                  .sidebar-item
+                    i.bi.bi-play-btn(aria-hidden="true")
+                    small.text Vídeos educacionais
+                  a(href="#") (Links de vídeos)
+                hr
+
+                li
+                  .sidebar-item
+                    i.bi.bi-people(aria-hidden="true")
+                    small.text Relatos
+                  a(href="#") (Depoimentos)
+                hr
+
+            button.toggle-sidebar( 
+                onclick="toggleSidebar()" 
+                aria-expanded="true" aria-label="Expandir ou recolher menu" ) ↑
+
+          button.recommend-btn Recomende algo!
+
+
+  // Overlay
+  #overlay.card-overlay(onclick="closeAllCards()")
+
+  script.
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const button = document.querySelector('.toggle-sidebar');
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+      button.textContent = isCollapsed ? '↓' : '↑';
+      button.setAttribute('aria-expanded', !isCollapsed);
+    }
+
+    function toggleFullscreen(button) {
+      const card = button.closest('article');
+      const overlay = document.getElementById('overlay');
+
+      if (card.classList.contains('fullscreen')) {
+        closeAllCards();
+      } else {
+        closeAllCards();
+        card.classList.add('fullscreen');
+        overlay.classList.add('active');
+        button.textContent = 'Fechar';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeAllCards() {
+      const cards = document.querySelectorAll('article.fullscreen');
+      const overlay = document.getElementById('overlay');
+
+      cards.forEach(card => {
+        card.classList.remove('fullscreen');
+        const btn = card.querySelector('.expand-btn');
+        if (btn) btn.textContent = '⤢';
+      });
+
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }

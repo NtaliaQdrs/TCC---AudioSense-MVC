@@ -36,6 +36,10 @@ router.get('/configuracoes', function(req, res, next) {
   res.render('configuracoes', { title: 'Configurações' }); 
 });
 
+router.get('/entretenimento', function(req, res, next) {
+  res.render('entretenimento', { title: 'Configurações' }); 
+});
+
 
 
 export default router;
