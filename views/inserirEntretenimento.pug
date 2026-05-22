@@ -1,0 +1,73 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/entretenimento.css')
+  link(rel='stylesheet', href='/stylesheets/inserirEntretenimento.css')
+
+block content
+  main.page
+    h1.title Entretenimento acessível 
+
+    section.container-form
+      h2.form-title Recomende algo
+
+      form(action="/inserir-entretenimento" method="POST" enctype="multipart/form-data")
+
+        //- Novo contêiner para alinhar lado a lado
+        .form-row-top
+          //- Coluna da Esquerda: Upload
+          .column-upload
+            .form-group
+              label Poster
+              .upload-area(onclick="document.getElementById('midia').click()")
+                input#midia(type="file" name="midia" style="display: none;")
+                //- Novo ícone baseado na imagem enviada
+                svg.upload-icon(viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" )
+                  //- Moldura externa (Borda grossa e arredondada)
+                  rect(x="10" y="10" width="80" height="100" rx="15" stroke="#1f4677" stroke-width="10")
+                  //- Círculo (Sol/Lua)
+                  circle(cx="38" cy="35" r="7" fill="#1f4677")
+                  //- Montanhas
+                  path(d="M28 68 L42 50 L55 62 L72 45 L72 68 Z" fill="#1f4677")
+                  //- Linhas de texto inferiores
+                  rect(x="28" y="78" width="44" height="7" rx="3.5" fill="#1f4677")
+                  rect(x="28" y="92" width="25" height="7" rx="3.5" fill="#1f4677")
+                .upload-text
+                  p Faça upload ou solte a mídia aqui
+                  button.btn-upload(type="button") Escolher arquivo
+
+          //- Coluna da Direita: Nome e Sinopse
+          .column-info
+            .form-group
+              label(for="nome") Nome
+              input#titulo.form-control(type="text" name="titulo" placeholder="Insira o nome do filme...")
+
+            .form-group
+              label(for="sinopse") Sinopse
+              textarea#roteiro.form-control.textarea-large(name="sinopse" placeholder="Insira aqui uma breve sinopse da obra" style="height: 150px;")
+            .upload-text
+            
+        .form-group
+            label(for="tipo") Tipo de Obra
+            select#tipo.form-control(name="tipo")
+              option(value="" disabled selected) Selecione o tipo...
+              option(value="filme") Filme
+              option(value="serie") Série
+              option(value="documentario") Documentário
+              option(value="curta") Curta-metragem
+
+        //- Novo contêiner para alinhar Data e Plataforma
+        .form-row-inline
+          .form-group
+            label(for="data-lancamento") Data de Lançamento
+            input#data-lancamento.form-control(type="date" name="data_lancamento")
+
+          .form-group
+            label(for="plataforma_streaming") Plataforma de Streaming
+            input#plataforma.form-control(type="text" name="plataforma_streaming" placeholder="Insira o nome da plataforma de streaming")
+
+
+
+        .button-group
+          button.btn-submit(type="submit") Salvar e enviar para análise
+          a.btn-cancel(href="/entretenimento") Cancelar

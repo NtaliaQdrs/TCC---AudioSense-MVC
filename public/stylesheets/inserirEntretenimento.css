@@ -1,0 +1,237 @@
+/* Estilos para a página de Inserir Audiodescrição */
+
+.container-form {
+    background-color: #ffffff;
+    border: 2px solid #2f4f7f;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    color: #2f4f7f;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 22px;
+    color: #2f4f7f;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #2f4f7f;
+    border-radius: 12px;
+    font-size: 18px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+.form-control:focus {
+    border-color: #1f4677;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px solid #2f4f7f;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    transition: background-color 0.3s;
+    min-height: 300px;
+}
+
+.upload-area:hover {
+    background-color: #d1e7fa;
+}
+
+.upload-icon {
+    width: 200px;
+    height: auto;
+    color: #2f4f7f;
+}
+
+.upload-text {
+    text-align: left;
+}
+
+.upload-text p {
+    font-size: 18px;
+    color: #2f4f7f;
+    margin-bottom: 10px;
+}
+
+.btn-upload {
+    background-color: transparent;
+    border: 2px solid #2f4f7f;
+    color: #2f4f7f;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-upload:hover {
+    background-color: #2f4f7f;
+    color: white;
+}
+
+/* Roteiro Textarea */
+.textarea-large {
+    min-height: 150px !important;
+}
+
+/* Contêiner principal das duas colunas */
+.form-row-top {
+    display: flex;
+    gap: 30px; /* Espaço entre as colunas */
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+/* Coluna do Upload */
+.column-upload {
+    flex: 0.5; /* Ocupa metade do espaço */
+}
+
+/* Coluna das Informações (Nome e Sinopse) */
+.column-info {
+    flex: 1; /* Ocupa a outra metade */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Garante que a área de upload preencha bem o espaço vertical */
+.upload-area {
+    height: 265px; /* Ajuste para alinhar com a altura do Nome + Sinopse */
+    flex-direction: column; /* Ícone em cima, texto embaixo */
+    justify-content: center;
+}
+
+
+/* Alinha os itens em linha */
+.form-row-inline {
+    display: flex;
+    gap: 20px; /* Espaço entre a Data e a Plataforma */
+    margin-bottom: 20px;
+}
+
+/* Faz com que cada campo ocupe metade do espaço disponível */
+.form-row-inline .form-group {
+    flex: 1;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.btn-submit {
+    background-color: #2f4f7f;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex: 1;
+    max-width: 250px;
+    text-align: center;
+}
+
+.btn-submit:hover {
+    background-color: #1f4677;
+}
+
+.btn-cancel {
+    background-color: #d1e7fa;
+    color: #2f4f7f;
+    border: 2px solid #2f4f7f;
+    padding: 20px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    max-width: 200px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background-color: #2f4f7f;
+    color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container-form {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .upload-area {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .upload-text {
+        text-align: center;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn-submit, .btn-cancel {
+        max-width: 100%;
+    }
+
+    .form-row-top {
+        flex-direction: column;
+    }
+    .upload-area {
+        height: auto;
+    }
+
+    .form-row-inline {
+        flex-direction: column; /* Empilha os campos no celular */
+        gap: 0;
+    }
+}

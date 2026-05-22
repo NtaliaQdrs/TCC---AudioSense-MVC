@@ -37,8 +37,17 @@ router.get('/configuracoes', function(req, res, next) {
 });
 
 router.get('/entretenimento', function(req, res, next) {
-  res.render('entretenimento', { title: 'Configurações' }); 
+  res.render('entretenimento', { title: 'Entretenimento' }); 
 });
+
+router.get('/inserir-entretenimento', function (req, res, next) {
+  res.render('inserirEntretenimento', { title: 'Inserir Entretenimento' });
+});
+
+router.post('/inserir-entretenimento', function (req, res, next) {
+  res.redirect('/entretenimento');
+});
+
 
 
 

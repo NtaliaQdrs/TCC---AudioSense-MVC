@@ -283,6 +283,18 @@ article.fullscreen .card-content {
   display: block;
 }
 
+.pratice a { 
+  font-weight: 600; 
+  display: inline-block; 
+  margin-top: 30px; 
+  background: #2f4f7f; 
+  color: white; 
+  padding: 13px 19px; 
+  border-radius: 20px; 
+  text-decoration: none;
+  transition: all 0.3s ease;
+ }
+
 /* ========================= */
 /* RESPONSIVO */
 /* ========================= */
