@@ -123,20 +123,41 @@ block content
                 onclick="toggleSidebar()" 
                 aria-expanded="true" aria-label="Expandir ou recolher menu" ) ↑
 
-          .pratice
-             a(href="/inserir-entretenimento") Recomende algo!
+    
+            button.recommend-btn(title="Recomende algo!")
+              i.bi.bi-hand-thumbs-up(aria-hidden="true")
+              span   Recomende algo!
 
 
   // Overlay
   #overlay.card-overlay(onclick="closeAllCards()")
 
+  script(src="../javascripts/entretenimento.js")
   script.
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const button = document.querySelector('.toggle-sidebar');
+      const grid = document.querySelector('.main-grid');
+      const recommendBtn = document.querySelector('.recommend-btn');
       const isCollapsed = sidebar.classList.toggle('collapsed');
+      grid.classList.toggle('sidebar-collapsed', isCollapsed);
       button.textContent = isCollapsed ? '↓' : '↑';
       button.setAttribute('aria-expanded', !isCollapsed);
+      
+      if (recommendBtn) {
+        if (isCollapsed) {
+          recommendBtn.innerHTML = '<i class="bi bi-hand-thumbs-up"></i>';
+          recommendBtn.style.width = '40px';
+          recommendBtn.style.borderRadius = '50%';
+          recommendBtn.style.padding = '0';
+          
+        } else {
+          recommendBtn.innerHTML = '<i class="bi bi-hand-thumbs-up"></i> Recomende algo!';
+          recommendBtn.style.width = '100%';
+          recommendBtn.style.borderRadius = '12px';
+          recommendBtn.style.padding = '20px';
+        }
+      }
     }
 
     function toggleFullscreen(button) {
@@ -157,13 +178,12 @@ block content
     function closeAllCards() {
       const cards = document.querySelectorAll('article.fullscreen');
       const overlay = document.getElementById('overlay');
-
       cards.forEach(card => {
         card.classList.remove('fullscreen');
         const btn = card.querySelector('.expand-btn');
         if (btn) btn.textContent = '⤢';
       });
-
       overlay.classList.remove('active');
       document.body.style.overflow = 'auto';
     }
+

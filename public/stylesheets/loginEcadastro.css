@@ -339,7 +339,11 @@ h1 {
     align-items: center;
     font-size: 15px;
     color: #1a3a6c;
-    outline: none;
+}
+
+.btn-disciplinas:focus {
+    outline: 3px solid #7b5cff;
+    outline-offset: 3px;
 }
 
 .disciplinas-lista {
@@ -411,4 +415,9 @@ h1 {
   color: #721c24;
   font-weight: bold;
   margin-top: 5px;
+}
+
+.checkbox-label input[type="checkbox"]:focus {
+    outline: 3px solid #7b5cff;
+    outline-offset: 3px;
 }

@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnInsert) {
     btnInsert.addEventListener('click', () => {
       // Redireciona para página de inserção (a ser implementada)
-      window.location.href = '/formulario';
+      window.location.href = '/inserir-material';
       //alert('Funcionalidade de inserção em desenvolvimento!');
     });
   }

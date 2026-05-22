@@ -1,26 +1,20 @@
 /* CORPO DA PÁGINA */
-
-
 body {
     background-color: #E9CCEF;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Centraliza os itens horizontalmente */
     width: 100%;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
 }
-
 
 /* Seção de Boas-vindas */
 .welcome-section {
     width: 84%;
     margin-left: auto;
-    /* Garante centralização */
     margin-right: auto;
-    /* Garante centralização */
     margin-top: 35px;
 }
 
@@ -29,21 +23,19 @@ body {
     border-radius: 20px;
     padding: 60px 40px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-    /* sombra - esquerda/direita, cima/baixo, desfoque, cor */
     display: flex;
     align-items: center;
     gap: 60px;
 }
 
 .welcome-title {
-    font-size: 35px;
+    font-size: 32px;
     color: #1a3a6c;
     margin-bottom: 20px;
-
 }
 
 .welcome-description {
-    font-size: 20px;
+    font-size: 18px;
     color: #6B7280;
     line-height: 1.6;
     margin-bottom: 30px;
@@ -58,8 +50,8 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 19px;
-    transition: all 0.3s ease; 
+    font-size: 17px;
+    transition: all 0.3s ease;
 }
 
 .welcome-button:hover {
@@ -80,9 +72,7 @@ body {
 .stats-section {
     width: 84%;
     margin-left: auto;
-    /* Garante centralização */
     margin-right: auto;
-    /* Garante centralização */
     margin-top: 60px;
     margin-bottom: 60px;
 }
@@ -108,7 +98,6 @@ body {
 
 .stat-icon {
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -118,18 +107,17 @@ body {
 .stat-icon i {
     font-size: 110px;
     color: #582d86;
-
 }
 
 .stat-title {
-    font-size: 30px;
+    font-size: 26px;
     color: #1a3a6c;
     font-weight: 600;
     margin: 0;
 }
 
 .stat-value {
-    font-size: 25px;
+    font-size: 22px;
     color: #6B7280;
     line-height: 1.6;
     margin: 0;
@@ -137,13 +125,10 @@ body {
 
 .stat-value span {
     color: #1a3a6c;
-    font-size: 25px;
+    font-size: 22px;
 }
 
-/* ========================= */
 /* SEÇÃO: O QUE VOCÊ VAI APRENDER */
-/* ========================= */
-
 .learning-extra {
     width: 84%;
     margin: 40px auto;
@@ -155,18 +140,16 @@ body {
     padding: 40px 30px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
     text-align: center;
-    /* Centraliza o título e a descrição */
 }
 
 .learning-extra-container h2 {
-    font-size: 30px;
+    font-size: 26px;
     color: #1a3a6c;
     margin-bottom: 10px;
 }
 
-/* Descrição abaixo do título */
 .learning-subtitle {
-    font-size: 19px;
+    font-size: 17px;
     color: #6B7280;
     max-width: 700px;
     margin: 0 auto 30px auto;
@@ -174,7 +157,6 @@ body {
     font-weight: 600;
 }
 
-/* Container dos itens para garantir o alinhamento */
 .learning-items-wrapper {
     display: flex;
     flex-direction: column;
@@ -184,7 +166,6 @@ body {
 
 .learning-item {
     background: #ffffff;
-    /* Fundo branco igual à imagem */
     border-radius: 15px;
     padding: 15px 25px;
     width: 75%;
@@ -195,48 +176,29 @@ body {
     align-items: center;
     gap: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    /* Sombreado leve do card */
     text-align: left;
-    font-size: 18px;
+    font-size: 17px;
 }
 
-/* Bolinhas Numeradas */
 .learning-item::before {
     content: attr(data-num);
     width: 32px;
     height: 32px;
     min-width: 32px;
-    /* Garante que não amasse */
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
 }
 
-/* Cores específicas de cada bolinha */
-.learning-item1::before {
-    background: #2eb086;
-}
+.learning-item1::before { background: #2eb086; }
+.learning-item2::before { background: #60a5fa; }
+.learning-item3::before { background: #8163a8; }
 
-/* Verde */
-.learning-item2::before {
-    background: #60a5fa;
-}
-
-/* Azul claro igual da imagem */
-.learning-item3::before {
-    background: #8163a8;
-}
-
-/* Roxo */
-
-/* ========================= */
 /* CARDS (3 COLUNAS) */
-/* ========================= */
-
 .cards-extra {
     width: 84%;
     margin: 50px auto;
@@ -258,12 +220,13 @@ body {
 }
 
 .extra-card h3 {
-    font-size: 20px;
+    font-size: 18px;
     color: #1a3a6c;
     margin-bottom: 10px;
 }
 
 .extra-card p {
+    font-size: 16px;
     color: #6B7280;
     font-weight: 600;
     margin-bottom: 20px;
@@ -277,26 +240,20 @@ body {
     color: #2eb086;
     text-decoration: none;
     font-weight: 600;
+    font-size: 15px;
     transition: all 0.3s ease;
 }
 
-.extra-card a:hover {
-    background: #2eb086;
-    color: white;
-}
+.extra-card a:hover { background: #2eb086; color: white; }
 
-
-/* ========================= */
 /* ESPAÇO COLABORATIVO */
-/* ========================= */
-
 .collab-extra {
     width: 84%;
     margin: 60px auto;
 }
 
 .collab-extra-container h2 {
-    font-size: 30px;
+    font-size: 26px;
     color: #1a3a6c;
     margin-bottom: 30px;
 }
@@ -320,21 +277,20 @@ body {
     border-radius: 20px;
     padding: 50px 40px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
-    flex-direction: column;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* Move tudo para a direita */
     text-align: left;
-    /* Alinha o texto à direita */
 }
 
 .collab-box h3 {
+    font-size: 18px;
     color: #1a3a6c;
     margin-bottom: 10px;
 }
 
 .collab-box p {
+    font-size: 16px;
     color: #6B7280;
     font-weight: 600;
     margin-bottom: 20px;
@@ -348,13 +304,11 @@ body {
     color: #582d86;
     text-decoration: none;
     font-weight: 600;
+    font-size: 15px;
     transition: all 0.3s ease;
 }
 
-.collab-box a:hover {
-    background: #582d86;
-    color: white;
-}
+.collab-box a:hover { background: #582d86; color: white; }
 
 .collab-box i {
     font-size: 35px;
@@ -369,18 +323,10 @@ body {
     justify-content: center;
 }
 
-
-
 h2 {
     text-align: center;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
-
-
-
-/* ========================= */
-/* ÍCONES - CARDS DE CONTEÚDO */
-/* ========================= */
 
 .extra-card i {
     font-size: 40px;
@@ -393,15 +339,12 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
-
-/* AUDIODESCRICAO*/
 
 /* TÍTULO */
 .title {
     margin: 40px 80px 20px;
-    font-size: 28px;
+    font-size: 26px;
     color: #2f4f7f;
 }
 
@@ -427,15 +370,8 @@ h2 {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.card.dark {
-    background: #5c6f91;
-    color: white;
-}
-
-.card.light {
-    background: #e9e9ec;
-    color: #2f4f7f;
-}
+.card.dark { background: #5c6f91; color: white; }
+.card.light { background: #e9e9ec; color: #2f4f7f; }
 
 .card h3 {
     margin-top: 40px;
@@ -452,7 +388,6 @@ h2 {
     font-size: 12px;
 }
 
-/* ÍCONE (CÍRCULO ROXO) */
 .icon {
     position: absolute;
     top: -25px;
@@ -463,9 +398,6 @@ h2 {
     border-radius: 50%;
 }
 
-
-
-/* PRÁTICA */
 .practice {
     margin: 60px 80px;
     background: #dcdcdc;
@@ -474,15 +406,8 @@ h2 {
     width: 600px;
 }
 
-.practice h2 {
-    color: #2fa36b;
-    margin-bottom: 10px;
-}
-
-.practice p {
-    color: #666;
-    font-size: 14px;
-}
+.practice h2 { color: #2fa36b; margin-bottom: 10px; }
+.practice p { color: #666; font-size: 15px; }
 
 .practice button {
     margin-top: 15px;
@@ -491,100 +416,25 @@ h2 {
     padding: 10px 18px;
     border-radius: 20px;
     border: none;
-
+    font-size: 15px;
 }
 
-/* ========================= */
-/* RESPONSIVIDADE (MOBILE)   */
-/* ========================= */
-
+/* RESPONSIVIDADE */
 @media (max-width: 1048px) {
-    .welcome-section {
-        margin-top: 100px;
-        width: 80%;
-    }
-
-    .welcome-title {
-        font-size: 32px;
-    }
-
-    .welcome-description {
-        font-size: 17px;
-    }
-
-    .welcome-button {
-        font-size: 17px;
-    }
-
-    .welcome-icon img {
-        width: 150px;
-    }
-
-    /* Seção de Estatísticas */
-    .stats-section {
-        width: 80%;
-    }
-
-
-    .stat-icon i {
-        font-size: 100px;
-    }
-
-    .stat-title {
-        font-size: 25px;
-    }
-
-    .stat-value {
-        font-size: 20px;
-    }
-
-    .stat-value span {
-        font-size: 20px;
-    }
-
-    /* ========================= */
-    /* SEÇÃO: O QUE VOCÊ VAI APRENDER */
-    /* ========================= */
-
-    .learning-extra {
-        width: 80%;
-    }
-
-
-    .learning-extra-container h2 {
-        font-size: 25px;
-    }
-
-    /* Descrição abaixo do título */
-    .learning-subtitle {
-        font-size: 17px;
-    }
-
-
-
-    /* ========================= */
-    /* CARDS (3 COLUNAS) */
-    /* ========================= */
-
-    .cards-extra {
-        width: 84%;
-        margin: 50px auto;
-        
-    }
-
-
-    .extra-card h3 {
-        font-size: 18px;
-    }
-
-
-    .extra-card a {
-        font-weight: 500;
-    }
-
-    .extra-card a:hover {
-        background: #2eb086;
-        color: white;
-    }
-
+    .welcome-section { margin-top: 100px; width: 80%; }
+    .welcome-title { font-size: 28px; }
+    .welcome-description { font-size: 16px; }
+    .welcome-button { font-size: 16px; }
+    .welcome-icon img { width: 150px; }
+    .stats-section { width: 80%; }
+    .stat-icon i { font-size: 100px; }
+    .stat-title { font-size: 22px; }
+    .stat-value { font-size: 18px; }
+    .stat-value span { font-size: 18px; }
+    .learning-extra { width: 80%; }
+    .learning-extra-container h2 { font-size: 22px; }
+    .learning-subtitle { font-size: 16px; }
+    .cards-extra { width: 84%; margin: 50px auto; }
+    .extra-card h3 { font-size: 17px; }
+    .extra-card a { font-weight: 500; }
 }

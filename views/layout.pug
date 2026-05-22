@@ -1,4 +1,4 @@
-doctype html
+doctype html 
 html(lang="pt-br")
   head
     title #{title}
@@ -8,20 +8,20 @@ html(lang="pt-br")
     link(rel='stylesheet' href='/stylesheets/menu.css')
     block styles
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap")
 
   body
-    
-
 
     //- MENU PRINCIPAL
     header.top-bar
       .top-bar-content
         a.skip-link(href="#main-content") Pular para o conteúdo principal
+
         .logo
-          a( aria-label="AudioSense - Página Inicial")
+          a(aria-label="AudioSense - Página Inicial")
             img(src="/images/audiosense.png" alt="")
 
-        //- Botão de categorias mobile com estado expandido
+        //- Botão de categorias mobile
         button#categoryToggle.category-toggle(
           aria-label="Abrir menu de categorias" 
           aria-haspopup="true" 
@@ -30,7 +30,7 @@ html(lang="pt-br")
         )
           i.bi.bi-grid-3x3-gap-fill(aria-hidden="true")
 
-        //- Contêiner para as categorias do sub-menu (visível apenas no mobile)
+        //- Dropdown mobile
         #categoryDropdown.category-dropdown
           .category-links
             a.dropdown-item(href="/") Início
@@ -49,32 +49,38 @@ html(lang="pt-br")
         .menu-right
           .search-box1
             i.bi.bi-search(aria-hidden="true")
-            input(type="text" placeholder="Pesquise..." aria-label="Pesquisar conteúdo no AudioSense")
+            input(
+              type="text"
+              placeholder="Pesquise..."
+              aria-label="Pesquisar conteúdo no AudioSense"
+            )
 
           //- Perfil
           .profile-menu
-            button#profileBtn.profile-button(aria-haspopup="true" 
-                                            aria-expanded="false" 
-                                            aria-controls="profileDropdown" 
-                                            aria-label="Menu do perfil do usuário")
+            button#profileBtn.profile-button(
+              aria-haspopup="true" 
+              aria-expanded="false" 
+              aria-controls="profileDropdown" 
+              aria-label="Menu do perfil do usuário"
+            )
               span Perfil 
               i#perfil-logo.bi.bi-person-circle(aria-hidden="true")
               span#badge-perfil.badge(style="display:none") 0
 
-
-            //- Menu dropdown
+            //- Dropdown
             #profileDropdown.profile-dropdown(role="menu")
-              
-              //- ABAS (NOVO)
+
               .dropdown-tabs
                 button.tab-btn.tab-active(data-tab="profile" aria-selected="true")
                   i.bi.bi-person-circle(aria-hidden="true")
+
                 button.tab-btn(data-tab="notifications" aria-selected="false")
                   i.bi.bi-bell(aria-hidden="true")
                   span#badge-notificacoes.badge(style="display:none") 0
 
-              //- ABA PERFIL
+              //- PERFIL
               .tab-pane.tab-pane-active#profile-tab
+
                 a.dropdown-item(href="/usuario/perfil" role="menuitem")
                   i.bi.bi-person(aria-hidden="true")
                   |   Meu Perfil
@@ -83,15 +89,27 @@ html(lang="pt-br")
                   i.bi.bi-gear(aria-hidden="true")
                   |   Configurações
 
-                a#minhasAudiodescricoes.dropdown-item(href="/usuario/minhas-audiodescricoes" style="display: none;" role="menuitem")
+                a#minhasAudiodescricoes.dropdown-item(
+                  href="/usuario/minhas-audiodescricoes"
+                  style="display: none;"
+                  role="menuitem"
+                )
                   i.bi.bi-headphones(aria-hidden="true")
                   |   Minhas Audiodescrições
 
-                a#meusMateriais.dropdown-item(href="/usuario/meus-materiais" style="display: none;" role="menuitem")
+                a#meusMateriais.dropdown-item(
+                  href="/usuario/meus-materiais"
+                  style="display: none;"
+                  role="menuitem"
+                )
                   i.bi.bi-file-earmark(aria-hidden="true")
                   |   Meus Materiais
 
-                a#adminPainel.dropdown-item(href="/painelAdmin1" onclick="irParaPainelAdmin(event)" role="menuitem")
+                a#adminPainel.dropdown-item(
+                  href="/painelAdmin1"
+                  onclick="irParaPainelAdmin(event)"
+                  role="menuitem"
+                )
                   i.bi.bi-shield-lock(aria-hidden="true")
                   |   Painel do Administrador
 
@@ -101,14 +119,20 @@ html(lang="pt-br")
                   i.bi.bi-box-arrow-right(aria-hidden="true")
                   |   Sair da conta
 
-              //- ABA NOTIFICAÇÕES
+              //- NOTIFICAÇÕES
               .tab-pane#notifications-tab
-                p(style="padding: 15px; color: #666; font-size: 14px;") Carregando...
+                p(
+                  style="padding: 15px; color: #666; font-size: 14px;"
+                ) Carregando...
 
                 hr.dropdown-divider
 
-                a.dropdown-item(href="#" role="menuitem" style="text-align: center; font-size: 12px;")
-                  |   Ver todas as notificações
+                a.dropdown-item(
+                  href="#"
+                  role="menuitem"
+                  style="text-align: center; font-size: 12px;"
+                )
+                  | Ver todas as notificações
 
     //- MENU SECUNDÁRIO
     section.sub-menu
@@ -119,13 +143,88 @@ html(lang="pt-br")
         a(href="/forum") Fórum
         a(href="/biblioteca") Biblioteca
 
-    //- ÁREA DE CONTEÚDO PRINCIPAL
+    //- CONTEÚDO PRINCIPAL
     main#main-content(tabindex="-1")
       block content
 
-    //- Script global
+    //- RODAPÉ
+    footer.footer
+      .footer-container
+
+        .footer-column
+          h3
+            i.bi.bi-headphones
+            |  Sobre AudioSense
+
+          p
+            | AudioSense é uma plataforma sobre audiodescrição e deficiência visual.
+            | Oferecemos recursos para profissionais especializados,
+            | educadores e estudantes que desejam compartilhar e aprimorar
+            | seus conhecimentos na área da acessibilidade.
+
+        .footer-column
+          h3
+            i.bi.bi-link-45deg
+            |  Links úteis
+
+          ul
+            li
+              a(href="#") Política de Privacidade
+
+            li
+              a(href="#") Termos de Uso
+
+            li
+              a(href="#") Perguntas Frequentes
+
+            li
+              a(href="#") Central de Suporte
+
+        .footer-column
+          h3
+            i.bi.bi-envelope
+            |  Entre em contato
+
+          ul
+            li
+              i.bi.bi-envelope
+              |  contato.audiosense@gmail.com
+
+            li
+              i.bi.bi-telephone
+              |  +55 (48) 99999-9999
+
+            li
+              i.bi.bi-geo-alt
+              |  Sombrio, SC - Brasil
+
+        .footer-column
+          h3
+            i.bi.bi-share
+            |  Redes Sociais
+
+          p
+            | Acompanhe-nos nas redes sociais para dicas e novidades
+
+          .social-icons
+            a(href="#" aria-label="Instagram")
+              i.bi.bi-instagram
+
+            a(href="#" aria-label="Facebook")
+              i.bi.bi-facebook
+
+            a(href="#" aria-label="Twitter")
+              i.bi.bi-twitter
+
+      .footer-bottom
+        p
+          | © 2025 AudioSense. Plataforma educacional pública sem fins lucrativos.
+          br
+          | Desenvolvido por [nome do grupo ou instituição].
+
+    //- Scripts
     script.
       const usuarioLogado = !{JSON.stringify(usuarioLogado)};
+
     script(src="/javascripts/menu.js")
     script(src="/javascripts/accessibility.js")
-    

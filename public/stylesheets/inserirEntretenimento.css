@@ -171,17 +171,19 @@ textarea.form-control {
     flex: 1;
     max-width: 250px;
     text-align: center;
+    border: 2px solid #2f4f7f
 }
 
 .btn-submit:hover {
-    background-color: #1f4677;
+    background-color: #d1e7fa;
+    color:#1f4677
 }
 
 .btn-cancel {
     background-color: #d1e7fa;
     color: #2f4f7f;
     border: 2px solid #2f4f7f;
-    padding: 20px 30px;
+    padding: 27px 30px;
     border-radius: 12px;
     font-size: 18px;
     font-weight: bold;

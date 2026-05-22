@@ -27,8 +27,8 @@ router.get('/biblioteca', function (req, res, next) {
   res.render('biblioteca', { title: 'Biblioteca' });
 });
 
-router.get('/formulario', function (req, res, next) {
-  res.render('formulario', { title: 'Inserir Material' });
+router.get('/inserir-material', function (req, res, next) {
+  res.render('inserirMaterial', { title: 'Inserir Material' });
 
 });
 

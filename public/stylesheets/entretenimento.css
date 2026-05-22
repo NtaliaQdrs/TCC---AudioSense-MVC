@@ -1,12 +1,9 @@
-/* ========================= */
 /* BASE */
-/* ========================= */
-
 body {
   background-color: #E9CCEF;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', Arial, sans-serif;
 }
 
 .page {
@@ -14,35 +11,33 @@ body {
   margin: 0 auto;
 }
 
-/* ========================= */
 /* TÍTULO */
-/* ========================= */
-
 .title {
   margin: 30px 0 50px;
-  font-size: 35px;
+  font-size: 28px;
   color: #2f4f7f;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* ========================= */
-/* GRID PRINCIPAL (CORRIGIDO) */
-/* ========================= */
-
+/* GRID PRINCIPAL */
 .main-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 300px;
   grid-template-areas:
-    "card1 card2 sidebar"
-    "card3 card4 sidebar";
+    "card1 card2 right"
+    "card3 card4 right";
   gap: 30px;
   align-items: start;
+  transition: grid-template-columns 0.3s ease;
 }
 
-/* ========================= */
-/* CARDS */
-/* ========================= */
+.main-grid.sidebar-collapsed { grid-template-columns: 1fr 1fr 60px; }
+.main-grid article:nth-child(1) { grid-area: card1; }
+.main-grid article:nth-child(2) { grid-area: card2; }
+.main-grid article:nth-child(3) { grid-area: card3; }
+.main-grid article:nth-child(4) { grid-area: card4; }
 
+/* CARDS */
 .card-inner {
   display: flex;
   flex-direction: row;
@@ -65,12 +60,14 @@ body {
   text-align: center;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
   background: #f3f2eeb2;
 }
 
 .extra-card1 h3 {
   color: #2f4f7f;
+  font-size: 18px;
   text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
   margin-bottom: 2px;
 }
@@ -82,10 +79,10 @@ body {
   flex-shrink: 0;
 }
 
-/* ========================= */
-/* CONTEÚDO ESCONDIDO */
-/* ========================= */
+.card-text p { margin-top: 15px; font-size: 16px; }
+.card-text h4 { margin-top: 15px; font-size: 15px; }
 
+/* CONTEÚDO ESCONDIDO */
 .card-content {
   max-height: 0;
   overflow: hidden;
@@ -95,30 +92,10 @@ body {
   padding: 0 10px;
 }
 
-.card-content p {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
+.card-content p { font-size: 16px; line-height: 1.6; margin-bottom: 15px; }
+.extra-card1 .card-content p { color: #000; font-weight: 600; }
 
-.extra-card1 .card-content p {
-  color: #000;
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.card-text p {
-    margin-top: 15px;
-}
-
-.card-text h4 {
-    margin-top: 15px;
-}
-
-/* ========================= */
-/* FOOTER (NETFLIX + BOTÃO) */
-/* ========================= */
-
+/* FOOTER */
 .card-footer {
   display: flex;
   justify-content: space-between;
@@ -127,59 +104,27 @@ body {
   width: 100%;
 }
 
-.platform {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-}
+.platform { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; }
+.netflix-icon { width: 18px; height: 18px; object-fit: contain; }
+.expand-btn { background: transparent; border: none; font-size: 25px; color: #2eb086; cursor: pointer; line-height: 1; }
+.card-footer .netflix-icon { width: 50px !important; height: 50px !important; }
 
-.netflix-icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-
-.expand-btn {
-  background: transparent;
-  border: none;
-  font-size: 25px;
-  color: #2eb086;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.card-footer .netflix-icon {
-    width: 50px !important; 
-    height: 50px !important; 
-}
-
-/* ========================= */
 /* SIDEBAR */
-/* ========================= */
-
 .sidebar {
-  grid-area: sidebar;
   background: #f5edf5;
   padding: 20px;
   border-radius: 16px;
-  max-width: 300px;
   overflow: hidden;
   transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
-.sidebar h3 {
-  color: #2fa36b;
-  font-size: 20px;
-  text-align: center;
-}
-
-.sidebar hr {
-  height: 1px;
-  background: #ccc;
-  margin: 20px 0;
-}
+.sidebar i { color: #2eb086; }
+.sidebar h3 { color: #2fa36b; font-size: 18px; text-align: center; }
+.sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
 
 .toggle-sidebar {
   width: 40px;
@@ -196,41 +141,54 @@ body {
 }
 
 .sidebar.collapsed { max-width: 60px; padding: 10px; }
-.sidebar.collapsed h3, .sidebar.collapsed nav, .sidebar.collapsed hr { display: none; }
+.sidebar.collapsed h3,
+.sidebar.collapsed nav,
+.sidebar.collapsed hr { display: none; }
 
-
-/* ========================= */
-/* BOTÃO RECOMENDAR (ABAIXO DA SIDEBAR) */
-/* ========================= */
-
+/* BOTÃO RECOMENDAR */
 .right-column {
-  grid-area: sidebar;
+  grid-area: right;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
 }
 
 .recommend-btn {
-  margin-top: 20px;
-  width: 100%;
-  padding: 20px;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  min-height: 40px;
   border: none;
-  border-radius: 12px;
+  border-radius: 50%;
   background: #2f4f7f;
   color: white;
-  font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  gap: 8px;
+  font-weight: 600;
+  margin-top: 20px;
 }
 
-.recommend-btn:hover {
-  background: #2f4f7f;
-  transform: scale(1.03);
+.recommend-btn i { color: white; }
+.recommend-btn:hover { background: #1e3a5f; transform: scale(1.03); }
+
+.sidebar:not(.collapsed)~.recommend-btn,
+.right-column:not(.collapsed-column) .recommend-btn {
+  width: 100%;
+  border-radius: 12px;
+  height: auto;
+  padding: 20px;
+  font-size: 16px;
 }
 
-/* ========================= */
 /* FULLSCREEN */
-/* ========================= */
-
 article.fullscreen {
   position: fixed;
   top: 50%;
@@ -249,25 +207,11 @@ article.fullscreen {
   box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-article.fullscreen img {
-  width: 120px;
-  height: 120px;
-}
+article.fullscreen img { width: 120px; height: 120px; }
+article.fullscreen h3 { font-size: 22px; }
+article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20px; }
 
-article.fullscreen h3 {
-  font-size: 28px;
-}
-
-article.fullscreen .card-content {
-  max-height: none;
-  opacity: 1;
-  margin-top: 20px;
-}
-
-/* ========================= */
 /* OVERLAY */
-/* ========================= */
-
 .card-overlay {
   position: fixed;
   top: 0;
@@ -279,34 +223,12 @@ article.fullscreen .card-content {
   display: none;
 }
 
-.card-overlay.active {
-  display: block;
-}
+.card-overlay.active { display: block; }
 
-.pratice a { 
-  font-weight: 600; 
-  display: inline-block; 
-  margin-top: 30px; 
-  background: #2f4f7f; 
-  color: white; 
-  padding: 13px 19px; 
-  border-radius: 20px; 
-  text-decoration: none;
-  transition: all 0.3s ease;
- }
-
-/* ========================= */
 /* RESPONSIVO */
-/* ========================= */
-
 @media (max-width: 900px) {
   .main-grid {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "card1"
-      "card2"
-      "sidebar"
-      "card3"
-      "card4";
+    grid-template-areas: "card1" "card2" "sidebar" "card3" "card4";
   }
 }
