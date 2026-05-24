@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // FECHAR MENUS AO CLICAR FORA OU ESC
     // =============================
     document.addEventListener('click', (e) => {
-        // Fecha Perfil
+        // Fecha Perfil — mas não bloqueia cliques em links dentro do dropdown
         if (profileDropdown && !e.target.closest('.profile-menu')) {
             profileDropdown.classList.remove('show');
         }
@@ -185,28 +185,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const itens = notificacoes.map(n => `
-      <a class="dropdown-item ${n.lida === 0 ? 'nao-lida' : ''}" href="#" role="menuitem">
-        <div class="notif-content">
-          <p class="notif-title">${n.titulo}</p>
-          <p class="notif-desc">${n.mensagem}</p>
-          <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
-        </div>
-      </a>
-    `).join('');
+                <a class="dropdown-item nao-lida" href="${n.link || '#'}" role="menuitem">
+                    <div class="notif-content">
+                    <p class="notif-title">${n.titulo}</p>
+                    <p class="notif-desc">${n.mensagem}</p>
+                    <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
+                    </div>
+                </a>
+                `).join('');
 
             tab.innerHTML = itens + `
-      <hr class="dropdown-divider">
-      <a class="dropdown-item" href="#" onclick="marcarTodasLidas()" style="text-align: center; font-size: 12px;">
-        Marcar todas como lidas
-      </a>
-    `;
+            <hr class="dropdown-divider">
+            <a class="dropdown-item" href="#" onclick="marcarTodasLidas()" style="text-align: center; font-size: 12px;">
+                Marcar todas como lidas
+            </a>
+            `;
 
         } catch (err) {
             console.error('Erro ao carregar notificações:', err);
         }
     }
 
+    window.marcarTodasLidas = async function () {
+        await fetch('/notificacoes/marcar-lidas', { method: 'POST' });
+        carregarNotificacoes();
+    };
 
+    // Carrega ao abrir o dropdown também
+    if (profileBtn) {
+        profileBtn.addEventListener('click', carregarNotificacoes);
+    }
     // Chama diretamente, pois já estamos dentro do DOMContentLoaded
     if (usuarioLogado) {
         carregarNotificacoes();

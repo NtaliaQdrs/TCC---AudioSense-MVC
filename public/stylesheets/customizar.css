@@ -68,6 +68,8 @@ body {
     color: #122e51;
     margin-bottom: 2px;
     font-weight: 550;
+    border: none;
+    outline: none;
 }
 
 .input-content input {
@@ -83,17 +85,31 @@ body {
     color: #000000;
 }
 
+.bi.bi-card-text {
+    margin-bottom: 85px;
+}
+
+
+.input-content textarea {
+  border: none;
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+  color: #1a3a6c;
+  resize: vertical;
+}
+
 .image-card {
     background: #eeeeee;
     padding: 20px;
     border-radius: 12px;
     width: 220px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
-    gap: 15px; 
+    gap: 15px;
     align-items: center;
 }
 
@@ -147,8 +163,8 @@ body {
     text-decoration: underline;
 }
 
-h1 { 
-     color: #1f4677;
+h1 {
+    color: #1f4677;
     font-size: 19px;
     line-height: 1.5;
     font-weight: 500;

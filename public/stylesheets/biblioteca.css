@@ -136,24 +136,24 @@ body {
 
 .card-icon {
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: 20px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: #2eb086;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .card-icon.purple { background-color: #582d86; }
 .card-icon.blue { background-color: #2eb086; }
 
-.card-image { flex: 0 0 150px; margin-top: 50px; }
-.card-image img { width: 100%; height: 100px; object-fit: cover; border-radius: 12px; }
+.card-image { flex: 0 0 150px; margin-top: 40px; }
+.card-image img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
 
 .card-content { flex: 1; margin-top: 50px; }
 

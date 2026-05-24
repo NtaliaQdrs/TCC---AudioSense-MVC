@@ -1,26 +1,19 @@
 extends layout
 
 block styles
-  link(rel="stylesheet" href="../stylesheets/painel.css")
+  link(rel="stylesheet" href="/stylesheets/painel.css")
 
 block content
-  
-  main.containerad(role="main")
-    .saudacao
-      h1#titulo-pagina
+
+  .admin-panel-container
+    .admin-header-banner
+      h1
         i.bi.bi-person-fill-lock(aria-hidden="true")
         |  Solicitar acesso de Administrador
-    if mensagem
-      .alert-success
-        i.bi.bi-check-circle-fill
-        | #{mensagem}
 
-    p.instrucoes-admin O acesso de administrador fornece controle total sobre a gestão de usuários, conteúdo, configurações do sistema e relatórios. Esta função é reservada para pessoas autorizadas e requer aprovação.
+    .admin-section
+      p.instrucoes-admin O acesso de administrador fornece controle total sobre a gestão de usuários, conteúdo, configurações do sistema e relatórios. Esta função é reservada para pessoas autorizadas e requer aprovação.
 
-
-    .divider
-
-    .cad
       if mensagem
         .alert-success
           i.bi.bi-check-circle-fill
@@ -31,23 +24,42 @@ block content
           i.bi.bi-clock-fill
           | Solicitação pendente, aguarde a aprovação do administrador.
 
-      else
-        form(action="/painelAdmin1/solicitar-admin" method="POST" aria-labelledby="titulo-pagina")
+      else if solicitacaoRejeitada
+        .alert-rejeitado
+          i.bi.bi-x-circle-fill
+          p Sua solicitação de acesso de administrador foi rejeitada.
+          if motivoRejeicao
+            p.motivo
+              strong Motivo: 
+              | #{motivoRejeicao}
+          button.btn-submitcust(onclick="this.closest('.alert-rejeitado').nextElementSibling.style.display='block'; this.closest('.alert-rejeitado').style.display='none'") Tentar novamente
+
+        form(action="/painelAdmin1/solicitar-admin" method="POST" style="display:none")
           .input-group
             .input-content
               label(for="justificativa") Justificativa
-              textarea(
-                id="justificativa"
+              textarea#justificativa(
                 name="justificativa"
                 placeholder="Por favor explique por que você precisa de acesso administrativo e quais funções você desempenhará. Seja específico e detalhado."
                 rows="5"
                 required
-                aria-required="true"
               )
-
           .button-group
-            button.btn-cancel(type="button" aria-label="Cancelar e voltar para a página anterior") Cancelar
+            button.btn-cancel(type="button") Cancelar
             button.btn-submitcust(type="submit") Enviar solicitação
 
-  script(src="/javascripts/index.js")
-  script(src="/javascripts/menu.js")
+      else
+        form(action="/painelAdmin1/solicitar-admin" method="POST")
+          .input-group
+            .input-content
+              label(for="justificativa") Justificativa
+              textarea#justificativa(
+                name="justificativa"
+                placeholder="Por favor explique por que você precisa de acesso administrativo e quais funções você desempenhará. Seja específico e detalhado."
+                rows="5"
+                required
+              )
+          .button-group
+            button.btn-cancel(type="button") Cancelar
+            button.btn-submitcust(type="submit") Enviar solicitação
+

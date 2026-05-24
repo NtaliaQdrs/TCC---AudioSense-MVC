@@ -170,6 +170,7 @@ CREATE TABLE notificacao (
   usuario_id INT NOT NULL,
   titulo VARCHAR(255) NOT NULL,
   mensagem TEXT NOT NULL,
+  link VARCHAR(255) NULL,
   lida TINYINT(1) DEFAULT 0,
   data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (usuario_id) REFERENCES usuario(id)

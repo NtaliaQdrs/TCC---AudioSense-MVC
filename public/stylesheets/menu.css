@@ -132,6 +132,23 @@ a.skip-link { z-index: 9999; }
     transition: all 0.3s ease;
 }
 
+
+#badge-perfil {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #aa36f3;
+  color: white !important;
+  border-radius: 50%;
+  width: 18px;
+  height: 20px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;  
+}
+
 #profileBtn:hover { background-color: #be99c7; }
 
 #perfil-logo {
@@ -299,7 +316,7 @@ a.skip-link { z-index: 9999; }
     .profile-dropdown { right: 15px; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .top-bar { height: 50px; padding: 0 10px; }
     .logo img { transform: scale(1); }
     .category-toggle { font-size: 24px; margin-left: 100px; }

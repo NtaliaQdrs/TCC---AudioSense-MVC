@@ -3,8 +3,8 @@ import db from '../models/index.js';
 import { enviarEmail } from '../config/email.js';
 
 // Função auxiliar para criar notificação
-const criarNotificacao = async (usuarioId, titulo, mensagem) => {
-  await db.Notificacao.create({ usuario_id: usuarioId, titulo, mensagem });
+const criarNotificacao = async (usuarioId, titulo, mensagem, link = null) => {
+  await db.Notificacao.create({ usuario_id: usuarioId, titulo, mensagem, link });
 };
 
 // PAINEL ADMIN — busca docentes pendentes e solicitações de admin
@@ -53,6 +53,9 @@ export const verPainelAdmin = async (req, res) => {
     console.error('Erro ao carregar painel admin:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
+
+  console.log('solicitacaoRej:', solicitacaoRej);
+  console.log('motivoRejeicao:', motivoRejeicao);
 };
 
 // APROVAR DOCENTE
@@ -65,13 +68,16 @@ export const aprovarDocente = async (req, res) => {
       { where: { id: docente_id } }
     );
 
+
+
     const docente = await db.UsuarioDocente.findOne({ where: { id: docente_id } });
     const usuario = await db.Usuario.findOne({ where: { id: docente.usuario_id } });
 
     await criarNotificacao(
       usuario.id,
       'Cadastro aprovado!',
-      'Seu cadastro como docente foi aprovado. Você já pode acessar a plataforma.'
+      'Seu cadastro como docente foi aprovado. Você já pode acessar a plataforma.',
+      '/usuario/perfil'
     );
 
     await enviarEmail(
@@ -109,7 +115,8 @@ export const rejeitarDocente = async (req, res) => {
     await criarNotificacao(
       usuario.id,
       'Cadastro rejeitado',
-      `Seu cadastro foi rejeitado. Motivo: ${motivo_rejeicao}`
+      `Seu cadastro foi rejeitado. Motivo: ${motivo_rejeicao}`,
+      `/usuario?status=rejeitado&motivo=${encodeURIComponent(motivo_rejeicao)}&email=${encodeURIComponent(usuario.email)}`
     );
 
     await enviarEmail(
@@ -192,7 +199,8 @@ export const aprovarSolicitacaoAdmin = async (req, res) => {
     await criarNotificacao(
       usuarioAprovado.id,
       'Acesso de administrador aprovado!',
-      'Sua solicitação de acesso de administrador foi aprovada.'
+      'Sua solicitação de acesso de administrador foi aprovada.',
+      '/painelAdmin1/painel-admin'
     );
 
     return res.redirect('/painelAdmin1/painel-admin');
@@ -219,10 +227,12 @@ export const rejeitarSolicitacaoAdmin = async (req, res) => {
     const docenteRejeitado = await db.UsuarioDocente.findOne({ where: { id: solicitacao.usuario_docente_id } });
     const usuarioRejeitado = await db.Usuario.findOne({ where: { id: docenteRejeitado.usuario_id } });
 
+    // Rejeição de admin
     await criarNotificacao(
       usuarioRejeitado.id,
       'Solicitação de administrador rejeitada',
-      `Sua solicitação foi rejeitada. Motivo: ${motivo_rejeicao}`
+      `Sua solicitação foi rejeitada. Motivo: ${motivo_rejeicao}`,
+      '/painelAdmin1'
     );
 
     return res.redirect('/painelAdmin1/painel-admin');
@@ -239,16 +249,32 @@ export const verPainelDocente = async (req, res) => {
     const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId } });
 
     let solicitacaoPendente = false;
+    let solicitacaoRejeitada = false;
+    let motivoRejeicao = null;
+
     if (docente) {
-      const solicitacao = await db.SolicitacaoAdmin.findOne({
+      const solicitacaoPend = await db.SolicitacaoAdmin.findOne({
         where: { usuario_docente_id: docente.id, status: 'pendente' }
       });
-      solicitacaoPendente = !!solicitacao;
+      solicitacaoPendente = !!solicitacaoPend;
+
+      const solicitacaoRej = await db.SolicitacaoAdmin.findOne({
+        where: { usuario_docente_id: docente.id, status: 'rejeitado' },
+        order: [['id', 'DESC']] // pega a mais recente
+      });
+      console.log('solicitacaoRej:', solicitacaoRej);
+      console.log('motivoRejeicao:', solicitacaoRej?.motivo_rejeicao);
+      if (solicitacaoRej) {
+        solicitacaoRejeitada = true;
+        motivoRejeicao = solicitacaoRej.motivo_rejeicao;
+      }
     }
 
     return res.render('painelAdmin1', {
       title: 'Painel de Administração',
-      solicitacaoPendente
+      solicitacaoPendente,
+      solicitacaoRejeitada,
+      motivoRejeicao
     });
 
   } catch (err) {

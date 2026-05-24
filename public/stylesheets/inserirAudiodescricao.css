@@ -133,14 +133,16 @@ textarea.form-control {
 }
 
 .btn-submit:hover {
-    background-color: #248f6d;
+    background-color: #d1fae5;
+    color: #2eb086;
+    border: 2px solid #248f6d;
 }
 
 .btn-cancel {
     background-color: #d1fae5;
     color: #2eb086;
     border: 2px solid #2eb086;
-    padding: 20px 30px;
+    padding: 27px 30px;
     border-radius: 12px;
     font-size: 18px;
     font-weight: bold;

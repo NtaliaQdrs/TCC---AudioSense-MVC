@@ -34,6 +34,11 @@ export default (sequelize) => {
     data_criacao: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
+    },
+
+    link: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
 
   }, {

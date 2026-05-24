@@ -7,12 +7,12 @@ export const buscarNotificacoes = async (req, res) => {
     const usuarioId = req.session.usuarioLogado.id;
 
     const notificacoes = await db.Notificacao.findAll({
-      where: { usuario_id: usuarioId },
+      where: { usuario_id: usuarioId, lida: 0 },
       order: [['data_criacao', 'DESC']],
       limit: 10
     });
 
-    const naoLidas = notificacoes.filter(n => n.lida === 0).length;
+    const naoLidas = notificacoes.length;
 
     return res.json({ notificacoes, naoLidas });
 
