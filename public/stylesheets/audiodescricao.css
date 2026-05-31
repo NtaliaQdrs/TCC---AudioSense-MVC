@@ -212,6 +212,62 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
 
 .practice a:hover { background: #1e7c5f; }
 
+.projeto-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
+
+.projeto-card h3 { color: #1a3a6c; font-size: 16px; flex: 1; margin: 0; }
+.projeto-card p { color: #666; font-size: 14px; flex: 2; margin: 0; }
+
+.btn-corrigir {
+  background-color: #2eb086;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-corrigir:hover { background-color: #1e7c5f; }
+
+.aviso-analise {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: linear-gradient(135deg, #fff8e1, #fff3cd);
+  border-left: 5px solid #f9a825;
+  padding: 1.2rem 1.4rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 6px rgba(249, 168, 37, 0.15);
+}
+
+.aviso-analise i {
+  font-size: 28px;
+  color: #f9a825;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.aviso-analise-texto p {
+  margin: 0.2rem 0;
+  color: #5a4a00 !important;
+  font-size: 18px !important;
+}
+
+.aviso-analise-texto p:first-child {
+  font-size: 18px !important;
+  color: #3d3000 !important;
+}
+
 /* RESPONSIVO */
 @media (max-width: 900px) {
   .main-grid {

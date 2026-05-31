@@ -26,5 +26,13 @@ export default (sequelize) => {
     timestamps: false
   });
 
+  UsuarioDiscente.associate = (db) => {
+    UsuarioDiscente.belongsTo(db.Usuario, {
+      foreignKey: 'usuario_id'
+    });
+  };
+
+  return UsuarioDiscente;
+
   return UsuarioDiscente;
 };

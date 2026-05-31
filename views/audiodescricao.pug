@@ -81,11 +81,44 @@ block content
             aria-label="Expandir ou recolher menu"
           ) ↑
 
-    .practice
-      h2 Coloque em prática o que você aprendeu!
-      br
-      p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais.
-      a(href="/inserir-audiodescricao") Inserir audiodescrição
+    if usuarioLogado && usuarioLogado.tipo_usuario === 'discente'
+      .practice
+        h2 Coloque em prática o que você aprendeu!
+        br
+        if projetoEmAnalise
+          .a.aviso-analise
+            i.bi.bi-hourglass-split
+            .aviso-analise-texto
+              p Você já possui uma audiodescrição em processo de correção:
+                strong  #{projetoEmAnalise.titulo}
+              p Você poderá enviar uma nova assim que ela for corrigida.
+        else
+          p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais.
+          a(href="/inserir-audiodescricao") Inserir audiodescrição
+
+    if !(usuarioLogado)
+      .practice
+        h2 Coloque em prática o que você aprendeu!
+        br
+        p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais.
+        a(href="/inserir-audiodescricao") Inserir audiodescrição
+
+    if usuarioLogado && usuarioLogado.tipo_usuario === 'docente'
+      .practice
+        h2 Audiodescrições para corrigir
+        br
+        if projetosParaCorrigir.length === 0
+          p Nenhuma audiodescrição aguardando correção no momento.
+        else
+          each projeto in projetosParaCorrigir
+            .projeto-card
+              h3= projeto.titulo
+              p.projeto-autor
+                strong Enviado por:
+                |  #{projeto.UsuarioDiscente.Usuario.nome_completo}
+              p= projeto.descricao
+              span.status-badge= projeto.status
+              a.btn-corrigir(href=`/corrigir-audiodescricao/${projeto.id}`) Corrigir
 
   // Overlay para fechar o card expandido clicando fora
   #overlay.card-overlay(onclick="closeAllCards()")
@@ -106,11 +139,11 @@ block content
       if (card.classList.contains('fullscreen')) {
         closeAllCards();
       } else {
-        closeAllCards(); // Fecha qualquer outro que esteja aberto
+        closeAllCards();
         card.classList.add('fullscreen');
         overlay.classList.add('active');
         button.textContent = 'Fechar';
-        document.body.style.overflow = 'hidden'; // Impede scroll do fundo
+        document.body.style.overflow = 'hidden';
       }
     }
 

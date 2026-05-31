@@ -44,3 +44,38 @@ block content
         .button-group
           button.btn-submit(type="submit") Salvar e enviar para análise
           a.btn-cancel(href="/audiodescricao") Cancelar
+          
+  script.
+    document.getElementById('midia').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const uploadArea = document.querySelector('.upload-area');
+      const reader = new FileReader();
+
+      // Remove preview anterior se existir
+      const previewAnterior = uploadArea.querySelector('.preview-midia');
+      if (previewAnterior) previewAnterior.remove();
+
+      reader.onload = function(event) {
+        const preview = document.createElement('div');
+        preview.className = 'preview-midia';
+        preview.style.marginTop = '10px';
+
+        if (file.type.startsWith('image/')) {
+          preview.innerHTML = `
+            <img src="${event.target.result}" style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;">
+            <p style="margin-top: 10px; color: #2eb086; font-weight: 600;">${file.name}</p>
+          `;
+        } else if (file.type.startsWith('video/')) {
+          preview.innerHTML = `
+            <video src="${event.target.result}" controls style="max-width: 100%; max-height: 250px; border-radius: 10px;"></video>
+            <p style="margin-top: 10px; color: #2eb086; font-weight: 600;">${file.name}</p>
+          `;
+        }
+
+        uploadArea.appendChild(preview);
+      };
+
+      reader.readAsDataURL(file);
+    });

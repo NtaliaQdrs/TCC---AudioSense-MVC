@@ -1,27 +1,29 @@
 import express from 'express';
 const router = express.Router();
+import uploadMidia from '../config/multerMidia.js';
+import { inserirAudiodescricao } from '../controllers/audiodescricaoController.js';
+import auth from '../middlewares/auth.js';
+import { listarAudiodescricoes } from '../controllers/audiodescricaoController.js';
+
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Página Inicial' });
 });
 
-router.get('/audiodescricao', function (req, res, next) {
-  res.render('audiodescricao', { title: 'Audiodescrição' });
-});
+
+router.get('/audiodescricao', listarAudiodescricoes);
 
 router.get('/deficiencia-visual', function (req, res, next) {
   res.render('deficienciaVisual', { title: 'Deficiência Visual' });
 });
 
-router.get('/inserir-audiodescricao', function (req, res, next) {
+router.get('/inserir-audiodescricao', auth,function (req, res, next) {
   res.render('inserirAudiodescricao', { title: 'Inserir Audiodescrição' });
 });
 
-router.post('/inserir-audiodescricao', function (req, res, next) {
-  // Após o clique no botão de submit, o servidor redireciona o usuário
-  res.redirect('/audiodescricao');
-});
+router.post('/inserir-audiodescricao', uploadMidia.single('midia'), inserirAudiodescricao);
 
 router.get('/biblioteca', function (req, res, next) {
   res.render('biblioteca', { title: 'Biblioteca' });
