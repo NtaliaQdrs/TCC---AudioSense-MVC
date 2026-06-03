@@ -112,11 +112,12 @@ block content
         else
           each projeto in projetosParaCorrigir
             .projeto-card
-              h3= projeto.titulo
-              p.projeto-autor
-                strong Enviado por:
-                |  #{projeto.UsuarioDiscente.Usuario.nome_completo}
-              p= projeto.descricao
+              .projeto-card-info
+                h3= projeto.titulo
+                p.projeto-autor
+                  | Enviado por: 
+                  strong= projeto.UsuarioDiscente.Usuario.nome_completo
+                p.projeto-descricao= projeto.descricao
               span.status-badge= projeto.status
               a.btn-corrigir(href=`/corrigir-audiodescricao/${projeto.id}`) Corrigir
 

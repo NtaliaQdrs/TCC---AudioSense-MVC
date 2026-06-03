@@ -1,0 +1,42 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+
+block content
+  main.page
+    h1.title Audiodescrição
+
+    section.container-form
+      h2.form-title= projeto.titulo
+
+      .form-group
+        label Descrição
+        p.form-control(style="background:#f0fdf4; margin:0")= projeto.descricao
+
+      .form-group
+        label Imagem
+        img(src=`/uploads/midias/${projeto.imagem_url}` style="width:100%; max-height:400px; object-fit:contain; border-radius:12px; border: 2px solid #2eb086;")
+
+      .form-group
+        label Roteiro
+        .form-control(style="background:#f0fdf4; min-height:120px; white-space: pre-wrap")= projeto.roteiro_texto
+
+      if projeto.audio_final_url
+        .form-group
+          label Áudio final
+          audio(controls style="width:100%; margin-top:8px")
+            source(src=`/uploads/audios/${projeto.audio_final_url}`)
+            | Seu navegador não suporta áudio.
+
+      .form-group
+        label Status
+        p.form-control(style="background:#f0fdf4; margin:0")= projeto.status
+
+      if projeto.data_aprovacao
+        .form-group
+          label Aprovado em
+          p.form-control(style="background:#f0fdf4; margin:0")= new Date(projeto.data_aprovacao).toLocaleDateString('pt-BR')
+
+      .button-group
+        a.btn-cancel(href="/usuario/perfil") Voltar ao perfil

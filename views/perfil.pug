@@ -100,44 +100,30 @@ block content
             span Materiais
 
       //- TAB: AUDIODESCRIÇÕES
-      .tab-content#tab-audiodescricoes.tab-pane.active(role="tabpanel" aria-labelledby="tab-btn-audiodescricoes")
+      .tab-content#tab-audiodescricoes.tab-pane.active
         .audiodescricoes-list
-          .audiodescricao-item
-            .item-icon
-              i.bi.bi-film(aria-hidden="true")
-            .item-content
-              h3.item-title Descrição de cena - Filme: Extraordinário
-              p.item-description Descrição da cena do corredor da escola.
-            .item-meta
-              span.item-date
-                i.bi.bi-calendar(aria-hidden="true")
-                | 15/05/2025
-              button.btn-ver Ver
-
-          .audiodescricao-item
-            .item-icon
-              i.bi.bi-film(aria-hidden="true")
-            .item-content
-              h3.item-title Descrição de cena - Filme: Soul
-              p.item-description Descrição da cena inicial no metrô.
-            .item-meta
-              span.item-date
-                i.bi.bi-calendar(aria-hidden="true")
-                | 02/05/2025
-              button.btn-ver Ver
-
-          .audiodescricao-item
-            .item-icon
-              i.bi.bi-film(aria-hidden="true")
-            .item-content
-              h3.item-title Descrição de cena - Série: The Good Doctor
-              p.item-description Descrição da cena do diagnóstico.
-            .item-meta
-              span.item-date
-                i.bi.bi-calendar(aria-hidden="true")
-                | 20/04/2025
-              button.btn-ver Ver
-
+          if audiodescricoes.length === 0
+            p(style="color:#6B7280; padding: 20px") Nenhuma audiodescrição encontrada.
+          each item in audiodescricoes
+            .audiodescricao-item
+              .item-icon
+                i.bi.bi-film
+              .item-content
+                h3.item-title= item.titulo
+                p.item-description= item.descricao
+              .item-meta
+                span.item-date
+                  i.bi.bi-calendar
+                  |  #{new Date(item.data_submissao).toLocaleDateString('pt-BR')}
+                span.status-badge= item.status
+                if item.status === 'aprovado'
+                  a.btn-ver(href=`/enviar-audio/${item.id}`) Enviar áudio
+                else if item.status === 'requer_ajustes'
+                  a.btn-ver(href=`/ajustar-audiodescricao/${item.id}`) Ajustar
+                else if item.status === 'concluido'
+                  a.btn-ver(href=`/ver-audiodescricao/${item.id}`) Ver
+                else
+                  span.btn-ver-disabled Em análise
         .view-all-link
           a(href="#") Ver todas
 

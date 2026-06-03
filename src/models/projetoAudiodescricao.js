@@ -31,6 +31,10 @@ export default (sequelize) => {
     projetoAudiodescricao.belongsTo(db.UsuarioDiscente, {
       foreignKey: 'discente_id'
     });
+
+     projetoAudiodescricao.hasMany(db.correcaoAudiodescricao, {  // <- adicione isso
+    foreignKey: 'projeto_id'
+  });
   };
 
   return projetoAudiodescricao;

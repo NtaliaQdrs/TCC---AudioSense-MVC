@@ -109,17 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // BOTÕES DE AÇÃO (VER, DOWNLOAD)
   // ============================================
 
-  const btnVer = document.querySelectorAll(".btn-ver");
-  btnVer.forEach((button) => {
-    button.addEventListener("click", function (e) {
-      e.preventDefault();
-      const title = this.closest(".audiodescricao-item").querySelector(
-        ".item-title",
-      ).textContent;
-      console.log(`Visualizando: ${title}`);
-      // Implementar lógica de visualização
-    });
-  });
+
 
   const btnDownload = document.querySelectorAll(".btn-download");
   btnDownload.forEach((button) => {

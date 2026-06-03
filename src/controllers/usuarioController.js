@@ -175,36 +175,45 @@ export const verPerfil = async (req, res) => {
             attributes: ['id', 'nome_completo', 'nome_usuario', 'email', 'biografia', 'foto_perfil', 'tipo_usuario', 'data_cadastro', 'ultima_troca_nome']
         });
 
-        if (!usuario) {
-            return res.redirect('/usuario');
-        }
+        if (!usuario) return res.redirect('/usuario');
 
         const dataCadastro = new Date(usuario.data_cadastro);
         const membroDesde = dataCadastro.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
 
-        // Busca as disciplinas se for docente
         let disciplinas = [];
         if (usuario.tipo_usuario === 'docente') {
             disciplinas = await db.sequelize.query(`
-        SELECT d.titulo
-        FROM disciplina d
-        INNER JOIN docente_disciplina dd ON d.id = dd.disciplina_id
-        INNER JOIN usuario_docente ud ON dd.docente_id = ud.id
-        WHERE ud.usuario_id = :usuarioId
-      `, {
-                replacements: { usuarioId: usuario.id },
-                type: db.Sequelize.QueryTypes.SELECT
-            });
+                SELECT d.titulo FROM disciplina d
+                INNER JOIN docente_disciplina dd ON d.id = dd.disciplina_id
+                INNER JOIN usuario_docente ud ON dd.docente_id = ud.id
+                WHERE ud.usuario_id = :usuarioId
+            `, { replacements: { usuarioId: usuario.id }, type: db.Sequelize.QueryTypes.SELECT });
         }
 
-        // Verifica se pode trocar o nome de usuário
         let podeTrocarNome = true;
         let diasRestantes = 0;
         if (usuario.ultima_troca_nome) {
             const diasPassados = Math.floor((new Date() - new Date(usuario.ultima_troca_nome)) / (1000 * 60 * 60 * 24));
-            if (diasPassados < 30) {
-                podeTrocarNome = false;
-                diasRestantes = 30 - diasPassados;
+            if (diasPassados < 30) { podeTrocarNome = false; diasRestantes = 30 - diasPassados; }
+        }
+
+        // Busca audiodescrições do usuário
+        let audiodescricoes = [];
+        if (usuario.tipo_usuario === 'discente') {
+            const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuario.id } });
+            if (discente) {
+                audiodescricoes = await db.projetoAudiodescricao.findAll({
+                    where: { discente_id: discente.id },
+                    order: [['data_submissao', 'DESC']]
+                });
+            }
+        } else if (usuario.tipo_usuario === 'docente') {
+            const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuario.id } });
+            if (docente) {
+                audiodescricoes = await db.projetoAudiodescricao.findAll({
+                    where: { docente_id: docente.id },
+                    order: [['data_submissao', 'DESC']]
+                });
             }
         }
 
@@ -214,7 +223,8 @@ export const verPerfil = async (req, res) => {
             membroDesde,
             disciplinas,
             podeTrocarNome,
-            diasRestantes
+            diasRestantes,
+            audiodescricoes
         });
 
     } catch (err) {

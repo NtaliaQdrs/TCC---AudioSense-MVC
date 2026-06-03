@@ -1,9 +1,11 @@
 import express from 'express';
 const router = express.Router();
 import uploadMidia from '../config/multerMidia.js';
-import { inserirAudiodescricao } from '../controllers/audiodescricaoController.js';
 import auth from '../middlewares/auth.js';
-import { listarAudiodescricoes } from '../controllers/audiodescricaoController.js';
+import { inserirAudiodescricao, listarAudiodescricoes, exibirCorrecao, salvarCorrecao, exibirAjuste, 
+  salvarAjuste, exibirEnviarAudio, salvarAudio, verAudiodescricao } from '../controllers/audiodescricaoController.js';
+import uploadAudio from '../config/multerAudio.js'; 
+
 
 
 
@@ -50,7 +52,15 @@ router.post('/inserir-entretenimento', function (req, res, next) {
   res.redirect('/entretenimento');
 });
 
+router.get('/corrigir-audiodescricao/:id', auth, exibirCorrecao);
 
+router.post('/corrigir-audiodescricao/:id', auth, salvarCorrecao);
 
+router.get('/ver-audiodescricao/:id', auth, verAudiodescricao);
+
+router.get('/ajustar-audiodescricao/:id', auth, exibirAjuste);
+router.post('/ajustar-audiodescricao/:id', auth, salvarAjuste);
+router.get('/enviar-audio/:id', auth, exibirEnviarAudio);
+router.post('/enviar-audio/:id', auth, uploadAudio.single('audio'), salvarAudio);
 
 export default router;

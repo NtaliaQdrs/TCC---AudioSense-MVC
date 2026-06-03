@@ -478,6 +478,22 @@ body {
 .modal-footer .btn-submitcust:hover { background-color: #1e7c5f; }
 .modal-footer .btn-cancel:hover { background-color: #163356; }
 
+a.btn-ver {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--white);
+  color: var(--primary-color);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+a.btn-ver:hover { background-color: var(--primary-color); color: var(--white); }
+
 /* RESPONSIVO */
 @media (max-width: 768px) {
   .perfil-container { padding: 20px 15px; }
@@ -513,5 +529,15 @@ body {
   .audiodescricao-item, .forum-item, .material-item { padding: 12px; }
   .item-icon, .forum-icon, .material-icon { width: 40px; height: 40px; font-size: 18px; }
   .item-title, .forum-title, .material-title { font-size: 14px; }
-  .btn-ver, .btn-download { width: 35px; height: 35px; font-size: 14px; }
+  .btn-download { width: 35px; height: 35px; font-size: 14px; }
+/* removido .btn-ver daqui */
+}
+
+.btn-ver-disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
 }

@@ -1,0 +1,30 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+
+block content
+  main.page
+    h1.title Ajustar Audiodescrição
+
+    section.container-form
+      h2.form-title Corrija seu roteiro e reenvie para análise
+
+      .form-group
+        label Título
+        p.form-control(style="background:#f0fdf4; margin:0")= projeto.titulo
+
+      if projeto.correcaoAudiodescricaos && projeto.correcaoAudiodescricaos.length > 0
+        .form-group
+          label Feedback do docente
+          .form-control(style="background:#fff8e1; border-color:#f9a825; margin:0")
+            p(style="margin:0; color:#5a4a00; font-weight:600")= projeto.correcaoAudiodescricaos[0].texto_sugestao
+
+      form(action=`/ajustar-audiodescricao/${projeto.id}` method="POST")
+        .form-group
+          label(for="roteiro") Roteiro corrigido
+          textarea#roteiro.form-control.textarea-large(name="roteiro" required)= projeto.roteiro_texto
+
+        .button-group
+          button.btn-submit(type="submit") Reenviar para análise
+          a.btn-cancel(href="/audiodescricao") Cancelar
