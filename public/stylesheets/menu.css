@@ -1,35 +1,65 @@
 a.skip-link { z-index: 9999; }
 
+/* ─── VARIÁVEIS DE TEMA ─────────────────────────────── */
+
 :root {
-    /* Cores Padrão (Restauradas ao original) */
     --primary-color: #1f4677;
     --secondary-color: #5dade2;
     --bg-color: #E9CCEF;
     --text-color: #1f4677;
-    --card-bg: #f6edf6;
+    --card-bg: #ffffff;
     --header-text: #1f4677;
     --divider-color: #eee;
-    
-    /* Fontes */
-    --base-font-size: 16px;
-    --h1-size: 2.5rem;
-    --h2-size: 2rem;
-    --h3-size: 1.5rem;
+    --menu-bg: #1f4677;
+    --submenu-bg: #E9CCEF;
+    --submenu-btn-bg: #1f4677;
+    --profile-btn-bg: #E9CCEF;
+    --profile-btn-hover: #be99c7;
+    --dropdown-bg: #ffffff;
+    --dropdown-text: #333;
+    --category-dropdown-bg: #E9CCEF;
+    --category-dropdown-text: #1f4677;
 }
 
-/* Tema Escuro */
-html.dark-theme body {
-    --primary-color: #1a1a1a;
+html.dark-theme {
+    --primary-color: #2c2c2c;
     --secondary-color: #3498db;
-    --bg-color: #121212;
+    --bg-color: #1e1e2e;
     --text-color: #e0e0e0;
     --card-bg: #1e1e1e;
     --header-text: #ffffff;
-    --divider-color: #333333;
+    --divider-color: #333;
+    --menu-bg: #1a1a1a;
+    --submenu-bg: #1e1e2e;
+    --submenu-btn-bg: #2e2e4e;
+    --profile-btn-bg: #3a2a4a;
+    --profile-btn-hover: #4a3a5a;
+    --dropdown-bg: #2a2a2a;
+    --dropdown-text: #e0e0e0;
+    --category-dropdown-bg: #1e1e2e;
+    --category-dropdown-text: #e0e0e0;
 }
 
-/* Alto Contraste */
-html.high-contrast body {
+html.light-theme {
+    --primary-color: #1f4677;
+    --secondary-color: #5dade2;
+    --bg-color: #E9CCEF;
+    --text-color: #1f4677;
+    --card-bg: #ffffff;
+    --header-text: #1f4677;
+    --divider-color: #eee;
+    --menu-bg: #1f4677;
+    --submenu-bg: #E9CCEF;
+    --submenu-btn-bg: #1f4677;
+    --profile-btn-bg: #E9CCEF;
+    --profile-btn-hover: #be99c7;
+    --dropdown-bg: #ffffff;
+    --dropdown-text: #333;
+    --category-dropdown-bg: #E9CCEF;
+    --category-dropdown-text: #1f4677;
+}
+
+html.high-contrast {
     --primary-color: #000000;
     --secondary-color: #ffff00;
     --bg-color: #000000;
@@ -37,19 +67,28 @@ html.high-contrast body {
     --card-bg: #000000;
     --header-text: #ffff00;
     --divider-color: #ffffff;
+    --menu-bg: #000000;
+    --submenu-bg: #000000;
+    --submenu-btn-bg: #333300;
+    --profile-btn-bg: #222200;
+    --profile-btn-hover: #333300;
+    --dropdown-bg: #000000;
+    --dropdown-text: #ffff00;
+    --category-dropdown-bg: #000000;
+    --category-dropdown-text: #ffff00;
 }
 
-/* Tamanhos de Fonte (Aplicados no HTML para afetar rem/em) */
-html.font-small { font-size: 14px; }
+/* Tamanhos de Fonte */
+html.font-small  { font-size: 14px; }
 html.font-medium { font-size: 16px; }
-html.font-large { font-size: 20px; }
+html.font-large  { font-size: 20px; }
 
 /* Modo Preto e Branco */
 html.black-white {
     filter: grayscale(100%) contrast(120%);
 }
 
-html.black-white .top-bar, 
+html.black-white .top-bar,
 html.black-white .footer,
 html.black-white .group-btn.active {
     border: 1px solid #000;
@@ -64,16 +103,16 @@ html.black-white .group-btn.active {
 }
 
 body {
-    background-color: var(--bg-color);
+    background-color: var(--bg-color) !important;
     color: var(--text-color);
-    /* Usar rem para que o tamanho da fonte mude globalmente */
-    font-size: 1rem; 
+    font-size: 1rem;
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* MENU SUPERIOR */
+/* ─── MENU SUPERIOR ─────────────────────────────────── */
+
 .top-bar {
-    background-color: var(--primary-color);
+    background-color: var(--menu-bg);
     display: flex;
     align-items: center;
     height: 55px;
@@ -83,6 +122,7 @@ body {
     left: 0;
     justify-content: center;
     z-index: 9999;
+    transition: background-color 0.3s;
 }
 
 .top-bar-content {
@@ -174,6 +214,8 @@ body {
     pointer-events: none;
 }
 
+/* ─── BOTÃO PERFIL ──────────────────────────────────── */
+
 .profile-menu {
     position: relative;
     display: flex;
@@ -181,7 +223,7 @@ body {
 }
 
 #profileBtn {
-    background-color: #E9CCEF;
+    background-color: var(--profile-btn-bg);
     border: none;
     border-radius: 30px;
     padding: 8px 14px;
@@ -195,51 +237,53 @@ body {
     transition: all 0.3s ease;
 }
 
-
 #badge-perfil {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #aa36f3;
-  color: white !important;
-  border-radius: 50%;
-  width: 18px;
-  height: 20px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;  
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #aa36f3;
+    color: white !important;
+    border-radius: 50%;
+    width: 18px;
+    height: 20px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 
-#profileBtn:hover { background-color: #be99c7; }
+#profileBtn:hover { background-color: var(--profile-btn-hover); }
 
 #perfil-logo {
-    color: #000000;
+    color: var(--dropdown-text);
     border-radius: 50%;
     font-size: 22px;
     margin-top: 4px;
 }
 
 #profileBtn span {
-    color: #000000;
+    color: var(--dropdown-text);
     font-size: 16px;
     margin-left: 8px;
     margin-top: 4px;
 }
 
+/* ─── DROPDOWN PERFIL ───────────────────────────────── */
+
 .profile-dropdown {
     position: absolute;
     top: 100%;
     right: 10%;
-    background: white;
+    background: var(--dropdown-bg);
     border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
     min-width: 250px;
     margin-top: 8px;
     display: none;
     flex-direction: column;
     z-index: 2001;
+    transition: background-color 0.3s;
 }
 
 .profile-dropdown.show { display: flex; }
@@ -250,7 +294,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 12px 16px;
-    color: #333;
+    color: var(--dropdown-text);
     text-decoration: none;
     border: none;
     background: none;
@@ -262,24 +306,27 @@ body {
     transition: all 0.3s ease;
 }
 
-.dropdown-item:hover { background-color: #f0f0f0; color: #1f4677; }
+.dropdown-item:hover { background-color: rgba(0,0,0,0.08); color: var(--primary-color); }
 .dropdown-item.logout:hover { background-color: #FFE5E5; color: #D32F2F; }
+html.dark-theme .dropdown-item.logout:hover { background-color: #3a1a1a; color: #ff6b6b; }
 .dropdown-item i { font-size: 17px; }
 
 .dropdown-divider {
     margin: 8px 0;
     border: none;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--divider-color);
 }
 
-/* MENU SECUNDÁRIO */
+/* ─── MENU SECUNDÁRIO ───────────────────────────────── */
+
 .sub-menu {
-    background-color: #E9CCEF;
+    background-color: var(--submenu-bg);
     width: 100%;
     margin-top: 55px;
     padding: 22px 0;
     display: block;
     position: relative;
+    transition: background-color 0.3s;
 }
 
 .sub-menu nav {
@@ -293,7 +340,7 @@ body {
 }
 
 .sub-menu a {
-    background-color: #1f4677;
+    background-color: var(--submenu-btn-bg);
     color: white;
     border: none;
     border-radius: 30px;
@@ -312,6 +359,14 @@ body {
 .sub-menu a:hover { background-color: #4972a4; transform: scale(1.1); }
 .sub-menu a.active { background-color: #5dade2; color: #ffffff; font-weight: bold; }
 
+/* Forçar tema escuro no sub-menu (sobrescreve hardcode dos CSS de página) */
+html.dark-theme .sub-menu { background-color: #1e1e2e !important; }
+html.dark-theme .sub-menu a { background-color: #2e2e4e !important; color: #e0e0e0 !important; }
+html.dark-theme .sub-menu a:hover { background-color: #3e3e6e !important; }
+html.dark-theme .sub-menu a.active { background-color: #5dade2 !important; color: white !important; }
+
+/* ─── MENU MOBILE ───────────────────────────────────── */
+
 .category-toggle {
     display: none;
     background: none;
@@ -328,17 +383,19 @@ body {
     top: 55px;
     left: 0;
     width: 100%;
-    background-color: #E9CCEF;
+    background-color: var(--category-dropdown-bg);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     z-index: 2001;
     flex-direction: column;
     padding: 10px 0;
+    transition: background-color 0.3s;
 }
 
 .category-dropdown.active { display: flex; }
-.category-dropdown .dropdown-item { color: #1f4677; font-size: 16px; }
+.category-dropdown .dropdown-item { color: var(--category-dropdown-text); font-size: 16px; }
 
-/* RESPONSIVIDADE */
+/* ─── RESPONSIVIDADE ────────────────────────────────── */
+
 @media (min-width: 1457px) {
     .menu-links { gap: 140px; }
     .sub-menu nav { gap: 45px; }
@@ -405,7 +462,8 @@ body {
     .profile-dropdown { right: 5px; }
 }
 
-/* NAVEGAÇÃO POR TECLADO */
+/* ─── NAVEGAÇÃO POR TECLADO ─────────────────────────── */
+
 a:focus, button:focus, input:focus {
     outline: 3px solid #007bff;
     outline-offset: 2px;
@@ -427,11 +485,12 @@ a:focus, button:focus, input:focus {
 .skip-link:focus { top: 0; }
 html { scrollbar-gutter: stable; }
 
-/* DROPDOWN TABS */
+/* ─── DROPDOWN TABS ─────────────────────────────────── */
+
 .dropdown-tabs {
     display: flex;
     gap: 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--divider-color);
     margin-bottom: 8px;
     padding: 0 8px;
 }
@@ -480,9 +539,10 @@ html { scrollbar-gutter: stable; }
 .notif-title { margin: 0; font-size: 14px; font-weight: 600; color: #2f4f7f; }
 .notif-time { margin: 0; font-size: 11px; color: #999; }
 .dropdown-item.nao-lida { background-color: #f0e6f8; font-weight: 600; }
+html.dark-theme .dropdown-item.nao-lida { background-color: #2a1a3a; }
 .notif-desc { font-size: 12px; color: #666; margin: 2px 0; }
 
-/* ===== FOOTER ===== */
+/* ─── FOOTER ────────────────────────────────────────── */
 
 .footer {
     background-color: #234b87;
@@ -550,9 +610,7 @@ html { scrollbar-gutter: stable; }
     transition: 0.3s;
 }
 
-.footer-column a:hover {
-    color: #d2b2ff;
-}
+.footer-column a:hover { color: #d2b2ff; }
 
 .social-icons {
     display: flex;
@@ -586,28 +644,199 @@ html { scrollbar-gutter: stable; }
     color: #f1f1f1;
 }
 
-/* ===== RESPONSIVO ===== */
-
 @media (max-width: 768px) {
-
-    .footer {
-        padding: 40px 20px;
-    }
-
-    .footer-container {
-        flex-direction: column;
-        gap: 35px;
-    }
-
-    .footer-column {
-        width: 100%;
-    }
-
-    .footer-column h3::after {
-        width: 80px;
-    }
-
-    .social-icons {
-        justify-content: flex-start;
-    }
+    .footer { padding: 40px 20px; }
+    .footer-container { flex-direction: column; gap: 35px; }
+    .footer-column { width: 100%; }
+    .footer-column h3::after { width: 80px; }
+    .social-icons { justify-content: flex-start; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TEMA ESCURO GLOBAL — cobre todas as páginas do sistema
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Body e fundo ── */
+html.dark-theme body {
+    background-color: #1e1e2e !important;
+    color: #e0e0e0 !important;
+}
+
+/* ── Títulos globais ── */
+html.dark-theme h1,
+html.dark-theme h2,
+html.dark-theme h3,
+html.dark-theme h4,
+html.dark-theme .title,
+html.dark-theme .welcome-title,
+html.dark-theme .stat-title,
+html.dark-theme .materials-title,
+html.dark-theme .card-title,
+html.dark-theme .form-title,
+html.dark-theme .config-header h1,
+html.dark-theme .section-title h2 {
+    color: #e0e0e0 !important;
+    text-shadow: none !important;
+}
+
+/* ── Textos secundários ── */
+html.dark-theme p,
+html.dark-theme .welcome-description,
+html.dark-theme .stat-value,
+html.dark-theme .card-description,
+html.dark-theme .learning-subtitle,
+html.dark-theme .extra-card p,
+html.dark-theme .collab-box p,
+html.dark-theme .control-info p,
+html.dark-theme .title-text p,
+html.dark-theme .config-header p {
+    color: #aaa !important;
+}
+
+/* ── Cards principais (todas as páginas) ── */
+html.dark-theme .welcome-container,
+html.dark-theme .stats-container,
+html.dark-theme .learning-extra-container,
+html.dark-theme .collab-box,
+html.dark-theme .extra-card,
+html.dark-theme .extra-card1,
+html.dark-theme .main-config-card,
+html.dark-theme .materials-section,
+html.dark-theme .material-card,
+html.dark-theme .practice,
+html.dark-theme .sidebar,
+html.dark-theme .admin-section,
+html.dark-theme .perfil-header,
+html.dark-theme .perfil-tabs,
+html.dark-theme .stat-card,
+html.dark-theme .card,
+html.dark-theme .container,
+html.dark-theme .containercust,
+html.dark-theme .container-form {
+    background: #1e1e2e !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ── Cards de aprendizado e itens de lista ── */
+html.dark-theme .learning-item,
+html.dark-theme .projeto-card,
+html.dark-theme .user-card,
+html.dark-theme .audiodescricao-item,
+html.dark-theme .forum-item,
+html.dark-theme .material-item {
+    background: #2a2a3e !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
+}
+
+/* ── Inputs e formulários ── */
+html.dark-theme .input-group,
+html.dark-theme .modal-campos .input-group,
+html.dark-theme .search-input,
+html.dark-theme .filter-select {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #e0e0e0 !important;
+}
+
+html.dark-theme .input-content label,
+html.dark-theme .input-content input,
+html.dark-theme .input-content textarea,
+html.dark-theme .input-content select,
+html.dark-theme .form-control,
+html.dark-theme .form-group label {
+    color: #e0e0e0 !important;
+    background: transparent !important;
+}
+
+html.dark-theme .input-group i { color: #aaa !important; }
+
+html.dark-theme .form-control {
+    background: #2a2a2a !important;
+    border-color: #555 !important;
+}
+
+/* ── Filtros e botões de grupo ── */
+html.dark-theme .filter-btn {
+    background: #2a2a2a !important;
+    border-color: #555 !important;
+    color: #e0e0e0 !important;
+}
+
+html.dark-theme .filter-btn.active {
+    background: #5dade2 !important;
+    color: white !important;
+}
+
+/* ── Tags ── */
+html.dark-theme .tag,
+html.dark-theme .disciplina-tag {
+    background: #2a2a3e !important;
+    color: #aaa !important;
+}
+
+/* ── Upload area ── */
+html.dark-theme .upload-area {
+    background: #1a1a2a !important;
+    border-color: #555 !important;
+}
+
+html.dark-theme .upload-text p { color: #aaa !important; }
+
+/* ── Abas do perfil ── */
+html.dark-theme .tabs-header { background: #1a1a2a !important; border-color: #333 !important; }
+html.dark-theme .tab-btn { color: #777 !important; }
+html.dark-theme .tab-btn.active { color: #a78bfa !important; border-bottom-color: #a78bfa !important; }
+html.dark-theme .tab-content { background: #1e1e2e !important; }
+
+/* ── Painel admin ── */
+html.dark-theme .admin-header-banner { background: #1a1a2a !important; }
+html.dark-theme .search-input { background: #2a2a2a !important; color: #e0e0e0 !important; }
+
+/* ── Dividers ── */
+html.dark-theme hr,
+html.dark-theme .header-divider,
+html.dark-theme .dropdown-divider,
+html.dark-theme .control-row { border-color: #333 !important; }
+
+/* ── Modais ── */
+html.dark-theme .modal-edicao,
+html.dark-theme .modal-box { background: #1e1e2e !important; color: #e0e0e0 !important; }
+html.dark-theme .modal-header h3 { color: #e0e0e0 !important; }
+html.dark-theme .modal-avatar-section { background: #2a2a3a !important; }
+
+/* ── Seções de fundo ── */
+html.dark-theme .perfil-container { background: #121212 !important; }
+html.dark-theme .page { background: transparent !important; }
+
+/* ── Textos em cards de perfil ── */
+html.dark-theme .perfil-name,
+html.dark-theme .item-title,
+html.dark-theme .forum-title,
+html.dark-theme .material-title,
+html.dark-theme .projeto-card h3 { color: #e0e0e0 !important; }
+
+html.dark-theme .perfil-username,
+html.dark-theme .perfil-bio,
+html.dark-theme .item-description,
+html.dark-theme .forum-description,
+html.dark-theme .material-info,
+html.dark-theme .projeto-descricao { color: #aaa !important; }
+
+/* ── Footer copyright das páginas internas ── */
+html.dark-theme .footer-copyright { color: #666 !important; }
+
+/* ── Dica de acessibilidade ── */
+html.dark-theme .accessibility-tip {
+    background: #1a2035 !important;
+    border-color: #2a3a5a !important;
+}
+html.dark-theme .tip-content p { color: #aaa !important; }
+
+/* ── Scroll bar ── */
+html.dark-theme ::-webkit-scrollbar { width: 8px; }
+html.dark-theme ::-webkit-scrollbar-track { background: #1a1a1a; }
+html.dark-theme ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+html.dark-theme ::-webkit-scrollbar-thumb:hover { background: #666; }

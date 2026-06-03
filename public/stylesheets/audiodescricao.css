@@ -14,7 +14,7 @@ body {
 }
 
 /* TÍTULO */
-.title {
+.title h1 {
   margin: 30px 0 50px;
   font-size: 28px;
   line-height: 1.3;
