@@ -1,5 +1,60 @@
 a.skip-link { z-index: 9999; }
 
+:root {
+    /* Cores Padrão (Restauradas ao original) */
+    --primary-color: #1f4677;
+    --secondary-color: #5dade2;
+    --bg-color: #E9CCEF;
+    --text-color: #1f4677;
+    --card-bg: #f6edf6;
+    --header-text: #1f4677;
+    --divider-color: #eee;
+    
+    /* Fontes */
+    --base-font-size: 16px;
+    --h1-size: 2.5rem;
+    --h2-size: 2rem;
+    --h3-size: 1.5rem;
+}
+
+/* Tema Escuro */
+html.dark-theme body {
+    --primary-color: #1a1a1a;
+    --secondary-color: #3498db;
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --header-text: #ffffff;
+    --divider-color: #333333;
+}
+
+/* Alto Contraste */
+html.high-contrast body {
+    --primary-color: #000000;
+    --secondary-color: #ffff00;
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --card-bg: #000000;
+    --header-text: #ffff00;
+    --divider-color: #ffffff;
+}
+
+/* Tamanhos de Fonte (Aplicados no HTML para afetar rem/em) */
+html.font-small { font-size: 14px; }
+html.font-medium { font-size: 16px; }
+html.font-large { font-size: 20px; }
+
+/* Modo Preto e Branco */
+html.black-white {
+    filter: grayscale(100%) contrast(120%);
+}
+
+html.black-white .top-bar, 
+html.black-white .footer,
+html.black-white .group-btn.active {
+    border: 1px solid #000;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,9 +63,17 @@ a.skip-link { z-index: 9999; }
     z-index: 1;
 }
 
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* Usar rem para que o tamanho da fonte mude globalmente */
+    font-size: 1rem; 
+    transition: background-color 0.3s, color 0.3s;
+}
+
 /* MENU SUPERIOR */
 .top-bar {
-    background-color: #1f4677;
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     height: 55px;
