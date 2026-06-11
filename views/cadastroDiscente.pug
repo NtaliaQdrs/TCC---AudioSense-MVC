@@ -12,7 +12,10 @@ html(lang="pt-br")
   body
     main.container(role="main")
       .saudacao
-        img.logo(src="../images/audiosense-login.png" alt="")
+        //- Logo para tema CLARO
+        img.logo.logo-light(src="../images/audiosense-login.png" alt="Logo AudioSense")
+        //- Logo para tema ESCURO
+        img.logo.logo-dark(src="../images/audiosense-login-dark.png" alt="Logo AudioSense")
         h1 Bem vindo(a) ao AudioSense!
 
       .social-login
@@ -43,17 +46,16 @@ html(lang="pt-br")
           .input-group
             i.bi.bi-key-fill(aria-hidden="true")
             .input-content
-              label(for="senha") Crie uma senha
+              .input-content
+              label(for="senha") Senha
               input#senha(type="password" name="senha" placeholder="••••••••••" required)
-              button.btn-toggle-password(type="button" onclick="togglePassword('senha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
-              i.bi.bi-eye.toggle-password(aria-hidden="true" onclick="togglePassword('senha')")
+              i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
 
           .input-group
             i.bi.bi-key-fill(aria-hidden="true")
             .input-content
               label(for="confirmSenha") Confirme a senha
               input#confirmSenha(type="password" name="confirmSenha" placeholder="••••••••••" required)
-              button.btn-toggle-password(type="button" onclick="togglePassword('confirmSenha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
               i.bi.bi-eye.toggle-password(aria-hidden="true" onclick="togglePassword('confirmSenha')")
 
           .options
@@ -70,4 +72,4 @@ html(lang="pt-br")
 
 
     script(src="../javascripts/cadastro.js")
-     script(src="/javascripts/accessibility.js")
+    script(src="/javascripts/accessibility.js")

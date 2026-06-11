@@ -173,3 +173,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("Página de perfil carregada com sucesso");
 });
+

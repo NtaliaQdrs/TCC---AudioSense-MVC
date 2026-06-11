@@ -1,0 +1,91 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/stylesheets/minhasAudiodescricoes.css')
+
+block content
+  .page
+    .minha-ad-header
+    .minha-ad-header-left
+      h1.title Minhas Audiodescrições
+  
+
+    .search-section
+      .search-box
+        i.bi.bi-search
+        input(type="text" id="buscaInput" placeholder="Buscar por título ou descrição...")
+      a.btn-insert(href="/inserir-audiodescricao")
+        i.bi.bi-plus-circle
+        span Nova audiodescrição
+
+    .filters-section
+      button.filter-btn.active(data-filtro="todos") Todos
+      button.filter-btn(data-filtro="em_analise")
+        span.badge-filtro.badge-analise
+        | Em análise
+      button.filter-btn(data-filtro="requer_ajustes")
+        span.badge-filtro.badge-ajustes
+        | Requer ajustes
+      button.filter-btn(data-filtro="aprovado")
+        span.badge-filtro.badge-aprovado
+        | Aprovado
+      button.filter-btn(data-filtro="concluido")
+        span.badge-filtro.badge-concluido
+        | Concluído
+
+    //- CONTEÚDO
+    .materials-section
+      h2.materials-title Audiodescrições (#{audiodescricoes.length})
+
+      if audiodescricoes.length === 0
+        .minha-ad-vazio
+          i.bi.bi-volume-mute
+          p Você ainda não tem audiodescrições.
+          
+      else
+        .minha-ad-grid
+          each item in audiodescricoes
+            .ad-card(data-status=item.status data-titulo=item.titulo)
+              .ad-card-imagem
+                img(src= item.imagem_url ? '/uploads/midias/' + item.imagem_url : '/images/placeholder.png' alt=item.titulo)
+
+                .ad-card-status-badge(class='badge-' + item.status)
+                  if item.status === 'em_analise'
+                    i.bi.bi-clock
+                    span Em análise
+                  else if item.status === 'requer_ajustes'
+                    i.bi.bi-exclamation-triangle
+                    span Requer ajustes
+                  else if item.status === 'aprovado'
+                    i.bi.bi-check-circle
+                    span Aprovado
+                  else if item.status === 'concluido'
+                    i.bi.bi-trophy
+                    span Concluído
+
+              .ad-card-corpo
+                h3.ad-card-titulo= item.titulo
+                p.ad-card-descricao= item.descricao || 'Sem descrição.'
+                .ad-card-data
+                  i.bi.bi-calendar3
+                  span= new Date(item.data_submissao).toLocaleDateString('pt-BR')
+
+              .ad-card-acoes
+                if item.status === 'aprovado'
+                  a.btn-acao.btn-acao-primary(href='/enviar-audio/' + item.id)
+                    i.bi.bi-mic
+                    span Enviar áudio
+                else if item.status === 'requer_ajustes'
+                  a.btn-acao.btn-acao-warning(href='/ajustar-audiodescricao/' + item.id)
+                    i.bi.bi-pencil
+                    span Ajustar
+                else if item.status === 'concluido'
+                  a.btn-acao.btn-acao-success(href='/ver-audiodescricao/' + item.id)
+                    i.bi.bi-eye
+                    span Ver resultado
+                else
+                  span.btn-acao-disabled
+                    i.bi.bi-hourglass-split
+                    span Aguardando análise
+
+  script(src="/javascripts/minhasAudiodescricoes.js")

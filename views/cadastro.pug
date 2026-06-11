@@ -16,8 +16,10 @@ html(lang="pt-br")
   body
     main.container(role="main")
       .saudacao
-        //- Logo da AudioSense
-        img.logo(src="../images/audiosense-login.png" alt="")
+        //- Logo para tema CLARO
+        img.logo.logo-light(src="../images/audiosense-login.png" alt="Logo AudioSense")
+        //- Logo para tema ESCURO
+        img.logo.logo-dark(src="../images/audiosense-login-dark.png" alt="Logo AudioSense")
         h1 Bem vindo(a) ao AudioSense!
         h2#pergunta-perfil Antes de continuar, escolha seu tipo de usuário:
 
@@ -43,10 +45,17 @@ html(lang="pt-br")
           img(src="../images/docente.png" width="20" alt="")
           span SOU DOCENTE
 
+      br
+      
+
+
       .warning#aviso-docente(role="note" aria-label="Aviso importante para docentes. caso o seu perfil seja do tipo DOCENTE, seus dados passarão por uma análise para sua conta ser homologada. ")
         p 
           strong *Lembre-se: 
           | caso o seu perfil seja do tipo DOCENTE, seus dados passarão por uma análise para sua conta ser homologada.
+
+      br
+          
       .footer-links
         p.footer-text
           | Já possui uma conta? 

@@ -1,5 +1,5 @@
 body {
-    background-color: #E9CCEF !important;
+    background-color: #1f4677!important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    background-color: #ffffff;
+    background-color: #E9CCEF;
     padding: 40px;
     border-radius: 10px;
     width: 100%;
@@ -15,6 +15,26 @@ body {
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+
+/* --- Controle da Logo por Tema --- */
+
+/* 1. Esconde a logo escura por padrão */
+.logo-dark {
+  display: none !important;
+}
+
+/* 2. Quando o tema escuro está ativo (classe .dark-theme no html) */
+html.dark-theme .logo-light {
+  display: none !important;
+}
+
+html.dark-theme .logo-dark {
+  display: block !important;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
 
 .logo { width: 90px; }
 

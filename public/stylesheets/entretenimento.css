@@ -63,6 +63,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   background: #f3f2eeb2;
+  border: 2px solid;
 }
 
 .extra-card1 h3 {
@@ -120,10 +121,11 @@ body {
   box-sizing: border-box;
   margin-bottom: 10px;
   margin-left: 20px;
+  border: 2px solid #2eb086;
 }
 
 .sidebar i { color: #2eb086; }
-.sidebar h3 { color: #2fa36b; font-size: 18px; text-align: center; }
+.sidebar h3 { color: #2fa36b; font-size: 18px; line-height: 1.4; text-align: center;}
 .sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
 
 .toggle-sidebar {

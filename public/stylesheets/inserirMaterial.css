@@ -2,7 +2,7 @@
 
 .container-form {
     background-color: #ffffff;
-    border: 2px solid #582d86;
+    border: 2px solid #2eb086;
     border-radius: 20px;
     padding: 40px;
     max-width: 900px;
@@ -11,7 +11,7 @@
 }
 
 .form-title {
-    color: #582d86;
+    color: #2eb086;
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 30px;
@@ -33,7 +33,7 @@
 .form-control {
     width: 100%;
     padding: 15px 20px;
-    border: 2px solid #582d86;
+    border: 2px solid #2eb086;
     border-radius: 12px;
     font-size: 18px;
     color: #333;
@@ -56,7 +56,7 @@ textarea.form-control {
 
 /* Upload Area */
 .upload-area {
-    border: 2px solid #582d86;
+    border: 2px solid #2eb086;
     border-radius: 15px;
     padding: 30px;
     text-align: center;
@@ -69,13 +69,13 @@ textarea.form-control {
 }
 
 .upload-area:hover {
-    background-color: #eee1fc;
+    background-color: #f0fdf4;
 }
 
 .upload-icon {
     width: 150px;
     height: auto;
-    color: #582d86;
+    color: #2eb086;
 }
 
 .upload-text {
@@ -90,8 +90,8 @@ textarea.form-control {
 
 .btn-upload {
     background-color: transparent;
-    border: 2px solid #582d86;
-    color: #582d86;
+    border: 2px solid #2eb086;
+    color: #2eb086;
     padding: 8px 25px;
     border-radius: 20px;
     font-size: 16px;
@@ -101,7 +101,7 @@ textarea.form-control {
 }
 
 .btn-upload:hover {
-    background-color: #582d86;
+    background-color: #2eb086;
     color: white;
 }
 
@@ -118,7 +118,7 @@ textarea.form-control {
 }
 
 .btn-submit {
-    background-color: #582d86;
+    background-color: #2eb086;
     color: white;
     border: none;
     padding: 12px 30px;
@@ -133,15 +133,15 @@ textarea.form-control {
 }
 
 .btn-submit:hover {
-    background-color: #eee1fc;
-    color: #582d86;
-    border: 2px solid #582d86;
+    background-color: #d1fae5;
+    color: #2eb086;
+    border: 2px solid #2eb086;
 }
 
 .btn-cancel {
-    background-color: #eee1fc;
-    color: #582d86;
-    border: 2px solid #582d86;
+    background-color: #d1fae5;
+    color: #2eb086;
+    border: 2px solid #2eb086;
     padding: 27px 30px;
     border-radius: 12px;
     font-size: 18px;
@@ -155,7 +155,7 @@ textarea.form-control {
 }
 
 .btn-cancel:hover {
-    background-color: #582d86;
+    background-color: #2eb086;
     color: white;
 }
 

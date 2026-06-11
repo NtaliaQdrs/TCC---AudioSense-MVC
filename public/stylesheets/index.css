@@ -11,7 +11,7 @@ body {
 
 /* Seção de Boas-vindas */
 .welcome-section {
-    width: 84%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 35px;
@@ -25,6 +25,7 @@ body {
     display: flex;
     align-items: center;
     gap: 60px;
+    border: 2px solid;
 }
 
 .welcome-title {
@@ -71,7 +72,7 @@ body {
 
 /* Seção de Estatísticas */
 .stats-section {
-    width: 84%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 60px;
@@ -86,6 +87,7 @@ body {
     display: flex;
     justify-content: space-around;
     gap: 40px;
+    border: 2px solid;
 }
 
 .stat-card {
@@ -95,6 +97,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    border-radius: 16px;
 }
 
 .stat-icon {
@@ -131,7 +134,7 @@ body {
 
 /* SEÇÃO: O QUE VOCÊ VAI APRENDER */
 .learning-extra {
-    width: 84%;
+    width: 80%;
     margin: 40px auto;
 }
 
@@ -141,6 +144,7 @@ body {
     padding: 40px 30px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
     text-align: center;
+    border: 2px solid;
 }
 
 .learning-extra-container h2 {
@@ -179,6 +183,12 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     font-size: 17px;
+    transition: all 0.3s ease;
+
+}
+
+.learning-item:hover{
+    transform: scale(1.05);
 }
 
 .learning-item::before {
@@ -197,11 +207,11 @@ body {
 
 .learning-item1::before { background: #2eb086; }
 .learning-item2::before { background: #60a5fa; }
-.learning-item3::before { background: #8163a8; }
+.learning-item3::before { background: #582d86; }
 
 /* CARDS (3 COLUNAS) */
 .cards-extra {
-    width: 84%;
+    width: 80%;
     margin: 50px auto;
 }
 
@@ -209,6 +219,7 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 30px;
+    
 }
 
 .extra-card {
@@ -218,6 +229,7 @@ body {
     padding: 30px 20px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
     text-align: center;
+    border: 2px solid #2eb086;
 }
 
 .extra-card h3 {
@@ -249,7 +261,7 @@ body {
 
 /* ESPAÇO COLABORATIVO */
 .collab-extra {
-    width: 84%;
+    width: 80%;
     margin: 60px auto;
 }
 
@@ -262,6 +274,7 @@ body {
 .collab-extra-container {
     display: flex;
     flex-direction: column;
+    
 }
 
 .collab-wrapper {
@@ -282,6 +295,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    border: 2px solid #582d86;
 }
 
 .collab-box h3 {
@@ -435,7 +449,7 @@ h2 {
     .learning-extra { width: 80%; }
     .learning-extra-container h2 { font-size: 22px; }
     .learning-subtitle { font-size: 16px; }
-    .cards-extra { width: 84%; margin: 50px auto; }
+    .cards-extra { width: 80%; margin: 50px auto; }
     .extra-card h3 { font-size: 17px; }
     .extra-card a { font-weight: 500; }
 }

@@ -34,8 +34,8 @@ block content
                 a(href="/usuario/cadastro-docente" style="color: inherit; text-decoration: underline;") Clique aqui para revisar seu cadastro.
 
         p.welcome-description
-          | O AudioSense é um espaço que promove o aprendizado de audiodescrição e 
-          | acessibilidade, contando com um espaço colaborativo, onde você poderá interagir 
+          | A plataforma AudioSense é um espaço que promove o aprendizado de audiodescrição e 
+          | acessibilidade, contando com áreas colaborativas onde você poderá interagir 
           | com outros usuários.
         if !usuarioLogado
           a.welcome-button#welcomeAuthBtn(href="/usuario") Entre ou Cadastre-se
@@ -92,7 +92,7 @@ block content
       .extra-card
         i.bi.bi-eye-slash-fill(aria-hidden="true")
         h3 Entendendo a deficiência visual
-        p Saiba mais sobre deficiência visual e como interagir, tornando os espaços acessiveis.
+        p Saiba mais sobre deficiência visual e como interagir, tornando diversos espaços acessiveis para esses indivíduos.
         a(href="/deficiencia-visual" aria-label="Acessar página de informações sobre deficiência visual") Acessar
 
       .extra-card
@@ -105,7 +105,7 @@ block content
         i.bi.bi-universal-access-circle(aria-hidden="true")
         h3 Entretenimento com acessibilidade
         p Conheça exemplos de filmes, series e outras formas de entretenimento que utilizam audiodescrição.
-        a(href="/cursos/entretenimento" aria-label="Acessar página de informações sobre entretenimento com audiodescrição") Acessar
+        a(href="/entretenimento" aria-label="Acessar página de informações sobre entretenimento com audiodescrição") Acessar
 
   //- Espaço colaborativo
   section.collab-extra(aria-labelledby="titulo-colaborativo")
@@ -114,16 +114,16 @@ block content
 
       .collab-wrapper
         .collab-box
-          i.bi.bi-book(aria-hidden="true")
-          h3 Biblioteca de materiais
-          p Encontre artigos, vídeos, apostilas e muito mais sobre matérias variadas.
-          a(href="/biblioteca" aria-label="Acessar Biblioteca de materiais didáticos") Acessar
-
-        .collab-box
           i.bi.bi-chat-right-text(aria-hidden="true")
           h3 Fórum
           p Interaja com outros usuários, participando de discussões e compartilhando feedbacks.
           a(href="/forum" aria-label="Ir para o Fórum de discussões") Acessar
+
+        .collab-box
+          i.bi.bi-book(aria-hidden="true")
+          h3 Biblioteca de materiais
+          p Encontre artigos, vídeos, apostilas e muito mais sobre matérias variadas.
+          a(href="/biblioteca" aria-label="Acessar Biblioteca de materiais didáticos") Acessar
 
 
   script(src="/javascripts/index.js")

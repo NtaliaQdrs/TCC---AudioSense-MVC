@@ -39,9 +39,14 @@ function aplicarPreferenciasSalvas() {
   if (fontSize === 'Grande') {
     css += `
       body, p, span, a, li, input, button { font-size: 1.2rem !important; }
-      h1 { font-size: 3rem !important; }
-      h2 { font-size: 2.5rem !important; }
-      h3 { font-size: 2rem !important; }
+      .menu-links { gap: 105px !important; }
+      #profileBtn { height: 55px !important; }
+      .sub-menu a { width: 235px !important; margin-top: 10px !important; padding: 8px 20px !important; height: 50px !important; }
+      .sub-menu nav { gap: 15px !important; }
+      .top-bar { height: 66px !important; }
+      h1 { font-size: 2.5rem !important; }
+      h2 { font-size: 2.0rem !important; }
+      h3 { font-size: 1.5rem !important; }
     `;
   } else if (fontSize === 'Pequeno') {
     css += `

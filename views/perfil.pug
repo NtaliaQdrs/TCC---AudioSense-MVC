@@ -11,8 +11,13 @@ block content
         .perfil-avatar-section
           .perfil-avatar
             img(src= usuario.foto_perfil ? '/uploads/fotos-perfil/' + usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar do usuário")
-          button.avatar-upload-btn(aria-label="Alterar foto de perfil")
-            i.bi.bi-camera-fill(aria-hidden="true")
+          
+          if usuario.tipo_usuario === 'docente'
+            .avatar-badge(aria-label="Docente")
+              img(src="../images/docente.png" width="20" alt="" )
+          else
+            .avatar-badge(aria-label="Discente")
+              img(src="../images/discente.png" width="20" alt="" )
 
         .perfil-info
           .perfil-info-header
@@ -53,7 +58,7 @@ block content
           .stat-icon
             i.bi.bi-volume-up(aria-hidden="true")
           .stat-content
-            .stat-number 0
+            .stat-number= audiodescricoes.length
             .stat-label Audiodescrições criadas
 
       .stat-card
@@ -117,11 +122,11 @@ block content
                   |  #{new Date(item.data_submissao).toLocaleDateString('pt-BR')}
                 span.status-badge= item.status
                 if item.status === 'aprovado'
-                  a.btn-ver(href=`/enviar-audio/${item.id}`) Enviar áudio
+                  a.btn-ver(href='/enviar-audio/' + item.id) Enviar áudio
                 else if item.status === 'requer_ajustes'
-                  a.btn-ver(href=`/ajustar-audiodescricao/${item.id}`) Ajustar
+                  a.btn-ver(href='/ajustar-audiodescricao/' + item.id) Ajustar
                 else if item.status === 'concluido'
-                  a.btn-ver(href=`/ver-audiodescricao/${item.id}`) Ver
+                  a.btn-ver(href='/ver-audiodescricao/' + item.id) Ver
                 else
                   span.btn-ver-disabled Em análise
         .view-all-link

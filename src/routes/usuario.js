@@ -1,75 +1,104 @@
 import express from 'express';
-import { cadastrarDiscente, cadastrarDocente, login, salvarCustomizacao, verPerfil, 
-  verCadastroDocente, editarPerfil, reenviarCadastroDocente, esqueceuSenha, verRedefinirSenha, redefinirSenha } from '../controllers/usuarioController.js';
-import auth from '../middlewares/auth.js'; // importa o middleware
 import upload from '../config/multer.js';
 import uploadComprovante from '../config/multerComprovante.js';
-
+import auth from '../middlewares/auth.js';
+import {
+    // Views autenticadas
+    verPerfil,
+    verMinhasAudiodescricoes,
+    // Actions de usuário
+    cadastrarDiscente,
+    cadastrarDocente,
+    verCadastroDocente,
+    salvarCustomizacao,
+    editarPerfil,
+    reenviarCadastroDocente,
+    // Senha
+    esqueceuSenha,
+    verRedefinirSenha,
+    redefinirSenha,
+    // Auth
+    login,
+} from '../controllers/usuarioController.js';
 
 const router = express.Router();
 
-// ==================== VIEWS ====================
+// ═══════════════════════════════════════════════
+// PÁGINAS PÚBLICAS (sem autenticação)
+// ═══════════════════════════════════════════════
 
-router.get('/', function(req, res, next) {
-  res.render('login', {
-    title: 'Página de Login',
-    status: req.query.status || null,
-    motivo: req.query.motivo || null,
-    email: req.query.email || null
-  });
-});
+// Login
+router.get('/', (req, res) =>
+    res.render('login', {
+        title: 'Entrar',
+        status: req.query.status || null,
+        motivo: req.query.motivo || null,
+        email:  req.query.email  || null,
+    })
+);
 
-router.get('/cadastro', function (req, res, next) {
-  res.render('cadastro', { title: 'Página de Cadastro' });
-});
+// Cadastro — escolha de tipo
+router.get('/cadastro', (req, res) =>
+    res.render('cadastro', { title: 'Cadastro' })
+);
 
-router.get('/cadastro-docente', verCadastroDocente); // precisa buscar as disciplinas no banco antes de renderizar, por isso precisa de um controller no GET.
+// Cadastro discente
+router.get('/cadastro-discente', (req, res) =>
+    res.render('cadastroDiscente', { title: 'Cadastro de Discente' })
+);
 
-router.get('/cadastro-discente', function (req, res, next) {
-  res.render('cadastroDiscente', { title: 'Página de Cadastro de Discente' });
-});
+// Cadastro docente (busca disciplinas no banco)
+router.get('/cadastro-docente', verCadastroDocente);
 
-router.get('/customizar', function (req, res, next) {
-  res.render('customizar', { title: 'Página de Customização de Perfil' });
-});
+// Customização de perfil (pós-cadastro, sem auth pois sessão ainda não foi criada)
+router.get('/customizar', (req, res) =>
+    res.render('customizar', { title: 'Personalizar Perfil' })
+);
 
-router.get('/configuracoes-perfil', function (req, res, next) {
-  res.render('configuracoesPerfil', { title: 'Configurações da conta' });
-});
-
-router.get('/perfil', auth, verPerfil, function (req, res, next) {
-  res.render('perfil', { title: 'Meu Perfil' });
-});
-
-// Rota de API que retorna os dados do usuário logado em JSON
-router.get('/perfil-dados', auth, (req, res) => {
-  res.json({ mensagem: 'Acesso autorizado!', usuario: req.usuario });
-});
-
-// Logout — destroi a sessão e redireciona para o login
-router.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/usuario');
-  });
-});
-
-router.get('/esqueceu-senha', (req, res) => 
-  res.render('esqueceuSenha', { title: 'Esqueceu a senha', mensagem: null, erro: null }));
-
+// Recuperação de senha
+router.get('/esqueceu-senha', (req, res) =>
+    res.render('esqueceuSenha', { title: 'Esqueceu a senha', mensagem: null, erro: null })
+);
 router.get('/redefinir-senha/:token', verRedefinirSenha);
 
-// ==================== API ====================
+// ═══════════════════════════════════════════════
+// PÁGINAS AUTENTICADAS
+// ═══════════════════════════════════════════════
 
-router.post('/cadastro-discente', cadastrarDiscente);
-router.post('/login', login);
+router.get('/perfil',                  auth, verPerfil);
+router.get('/minhas-audiodescricoes',  auth, verMinhasAudiodescricoes);
+router.get('/configuracoes-perfil',    auth, (req, res) =>
+    res.render('configuracoesPerfil', { title: 'Configurações da conta' })
+);
+
+// Dados do usuário em JSON (uso interno/debug)
+router.get('/perfil-dados', auth, (req, res) =>
+    res.json({ mensagem: 'Acesso autorizado!', usuario: req.usuario })
+);
+
+// Logout
+router.get('/logout', (req, res) =>
+    req.session.destroy(() => res.redirect('/usuario'))
+);
+
+// ═══════════════════════════════════════════════
+// AÇÕES (POST)
+// ═══════════════════════════════════════════════
+
+// Auth
+router.post('/login',            login);
+
+// Cadastro
+router.post('/cadastro-discente',        cadastrarDiscente);
+router.post('/cadastro-docente',         uploadComprovante.single('comprovante'), cadastrarDocente);
+router.post('/reenviar-cadastro-docente',uploadComprovante.single('comprovante'), reenviarCadastroDocente);
+router.post('/customizar',               upload.single('foto'), salvarCustomizacao);
+
+// Perfil
 router.post('/editar-perfil', auth, upload.single('foto'), editarPerfil);
-// upload.single('foto') — processa o upload do campo 'foto' do formulário
-router.post('/customizar', upload.single('foto'), salvarCustomizacao);
-router.post('/cadastro-docente', uploadComprovante.single('comprovante'), cadastrarDocente);
-router.post('/reenviar-cadastro-docente', uploadComprovante.single('comprovante'), reenviarCadastroDocente);
-router.post('/redefinir-senha/:token', redefinirSenha);
-router.post('/esqueceu-senha', esqueceuSenha);
 
-
+// Senha
+router.post('/esqueceu-senha',          esqueceuSenha);
+router.post('/redefinir-senha/:token',  redefinirSenha);
 
 export default router;

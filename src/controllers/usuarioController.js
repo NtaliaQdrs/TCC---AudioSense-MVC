@@ -545,3 +545,42 @@ export const redefinirSenha = async (req, res) => {
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };
+
+export const verMinhasAudiodescricoes = async (req, res) => {
+  try {
+    const usuarioId = req.usuario.id;
+ 
+    const usuario = await db.Usuario.findOne({ where: { id: usuarioId } });
+    if (!usuario) return res.redirect('/usuario');
+ 
+    let audiodescricoes = [];
+ 
+    if (usuario.tipo_usuario === 'discente') {
+      const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId } });
+      if (discente) {
+        audiodescricoes = await db.projetoAudiodescricao.findAll({
+          where: { discente_id: discente.id },
+          order: [['data_submissao', 'DESC']]
+        });
+      }
+    } else if (usuario.tipo_usuario === 'docente') {
+      const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId } });
+      if (docente) {
+        audiodescricoes = await db.projetoAudiodescricao.findAll({
+          where: { docente_id: docente.id },
+          order: [['data_submissao', 'DESC']]
+        });
+      }
+    }
+ 
+    return res.render('minhasAudiodescricoes', {
+      title: 'Minhas Audiodescrições',
+      audiodescricoes: audiodescricoes.map(a => a.toJSON())
+    });
+ 
+  } catch (err) {
+    console.error('Erro ao carregar audiodescrições:', err);
+    return res.status(500).json({ erro: 'Erro interno no servidor.' });
+  }
+};
+ 

@@ -12,9 +12,12 @@ html(lang="pt-br")
   body
     main.container(role="main")
       .saudacao
-        img.logo(src="../images/audiosense-login.png" alt="")
+        //- Logo para tema CLARO
+        img.logo.logo-light(src="../images/audiosense-login.png" alt="Logo AudioSense")
+        //- Logo para tema ESCURO
+        img.logo.logo-dark(src="../images/audiosense-login-dark.png" alt="Logo AudioSense")
         h1 Bem vindo(a) de volta ao AudioSense!
-
+        
       if erro === 'email'
         .alert-rejeitado
           i.bi.bi-x-circle-fill
@@ -66,12 +69,7 @@ html(lang="pt-br")
           .input-content
             label(for="senha") Senha
             input#senha(type="password" name="senha" placeholder="••••••••••" required)
-            button.btn-toggle-password(
-              type="button"
-              onclick="togglePassword('senha')"
-              aria-label="Mostrar senha"
-              style="background: none; border: none; cursor: pointer;"
-            )
+           
             i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
 
         .options
