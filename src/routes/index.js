@@ -89,3 +89,11 @@ router.post('/inserir-entretenimento', (req, res) =>
 );
 
 export default router;
+
+// ═══════════════════════════════════════════════
+// FÓRUM
+// ═══════════════════════════════════════════════
+
+router.get('/forum', (req, res) =>
+    res.render('forum', { title: 'Fórum' })
+);

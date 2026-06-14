@@ -1,0 +1,108 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/forum.css')
+
+block content
+
+  main.page
+    .forum-header
+      h1.title Fórum: Interaja e compartilhe
+      .view-options
+        i.bi.bi-grid-fill
+        i.bi.bi-list
+
+    section.forum-container
+      .forum-posts
+        article.post-card
+          .post-user
+            .avatar
+            .user-info
+              span.name Fulano de tal
+              br
+              span.date 21 de setembro
+          .post-content
+            h3 Logística de Audiodescrição em Eventos ao Vivo
+            p A audiodescrição em eventos ao vivo (teatro, shows) é um desafio logístico, pois é em tempo real.
+            p Quem tem experiência nisso? Quais são os maiores desafios técnicos (equipamento, latência) e de roteiro (improvisação)? Um checklist básico de equipamentos seria ótimo!
+            img(src="../images/exemplo-forum.png")
+            br
+          .post-actions
+            span
+              i.bi.bi-chat-left
+              | 2
+            span
+              i.bi.bi-heart
+              | 5
+
+        article.post-card
+          .post-user
+            .avatar
+            .user-info
+              span.name Fulano de tal
+              br
+              span.date 21 de setembro
+          .post-content
+            h3 Desafios e Soluções na Audiodescrição de Filmes de Ação
+            p Pessoal, estou audiodescrevendo um filme de ação e o tempo é curtíssimo! Como descrever a intensidade de uma perseguição sem atropelar o áudio original?
+            p Minha dúvida é: focar no movimento ou na emoção da cena? Quais técnicas vocês usam para ser concisos em cenas rápidas? Compartilhem suas dicas de roteirização!
+            br
+          .post-actions
+            span
+              i.bi.bi-chat-left
+              | 2
+            span
+              i.bi.bi-heart
+              | 5
+
+        article.post-card
+          .post-user
+            .avatar
+            .user-info
+              span.name Fulano de tal
+              br
+              span.date 21 de setembro
+          .post-content
+            h3  A Voz Perfeita para Audiodescrição
+            p  Como produtor de áudio, sei que a voz do narrador é crucial. Uma boa entonação transforma a experiência. Mas qual o critério ideal?
+            p Vocês preferem vozes neutras e informativas, ou aquelas que transmitem um pouco da emoção da cena? Quais dicas de gravação para garantir uma voz de alta qualidade em um home studio?
+            br
+          .post-actions
+            span
+              i.bi.bi-chat-left
+              | 2
+            span
+              i.bi.bi-heart
+              | 5
+
+        article.post-card
+          .post-user
+            .avatar
+            .user-info
+              span.name Fulano de tal
+              br
+              span.date 21 de setembro
+          .post-content
+            h3 Meu Setup de Produção Minimalista
+            p Finalmente organizei meu pequeno canto de produção! Não é muito, mas consigo criar bastante coisa com ele. O que acharam? Compartilhem seus setups também!
+            br
+          .post-actions
+            span
+              i.bi.bi-chat-left
+              | 2
+            span
+              i.bi.bi-heart
+              | 5
+
+      //- Barra Lateral (Sidebar)
+      aside.forum-sidebar
+        //- Caixa branca com os filtros
+        .sidebar-box
+          button.btn-filter Recentes
+          button.btn-filter Populares
+          br
+          button.btn-create-post
+            | Criar post
+
+
+
