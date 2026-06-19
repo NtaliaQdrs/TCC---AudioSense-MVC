@@ -25,12 +25,9 @@ block content
           .upload-area(onclick="document.getElementById('midia').click()")
             input#midia(type="file" name="midia" style="display: none;")
             svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
-              //- Linhas superiores (ondas/som)
               rect(x="35" y="10" width="30" height="5" rx="2" fill="#582d86")
               rect(x="25" y="18" width="50" height="5" rx="2" fill="#582d86")
-              //- Corpo do player
               rect(x="15" y="30" width="70" height="50" rx="10" stroke="#582d86" stroke-width="6")
-              //- Triângulo do Play
               path(d="M45 45L60 55L45 65V45Z" fill="#582d86")
             
             .upload-text
@@ -41,9 +38,10 @@ block content
           label(for="roteiro") Roteiro
           textarea#roteiro.form-control.textarea-large(name="roteiro" placeholder="Escreva aqui o roteiro da sua audiodescrição...")
 
+        //- Padronizado para usar button em ambos, gerando simetria perfeita na tela
         .button-group
+          button.btn-cancel(type="button" onclick="window.location.href='/audiodescricao'") Cancelar
           button.btn-submit(type="submit") Salvar e enviar para análise
-          a.btn-cancel(href="/audiodescricao") Cancelar
           
   script.
     document.getElementById('midia').addEventListener('change', function(e) {
@@ -53,7 +51,6 @@ block content
       const uploadArea = document.querySelector('.upload-area');
       const reader = new FileReader();
 
-      // Remove preview anterior se existir
       const previewAnterior = uploadArea.querySelector('.preview-midia');
       if (previewAnterior) previewAnterior.remove();
 
@@ -62,15 +59,16 @@ block content
         preview.className = 'preview-midia';
         preview.style.marginTop = '10px';
 
+        // Ajustado para aplicar a cor do tema #60a5fa no retorno do texto do upload
         if (file.type.startsWith('image/')) {
           preview.innerHTML = `
             <img src="${event.target.result}" style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;">
-            <p style="margin-top: 10px; color: #2eb086; font-weight: 600;">${file.name}</p>
+            <p style="margin-top: 10px; color: #60a5fa; font-weight: 600;">${file.name}</p>
           `;
         } else if (file.type.startsWith('video/')) {
           preview.innerHTML = `
             <video src="${event.target.result}" controls style="max-width: 100%; max-height: 250px; border-radius: 10px;"></video>
-            <p style="margin-top: 10px; color: #2eb086; font-weight: 600;">${file.name}</p>
+            <p style="margin-top: 10px; color: #60a5fa; font-weight: 600;">${file.name}</p>
           `;
         }
 

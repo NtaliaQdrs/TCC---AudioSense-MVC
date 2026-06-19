@@ -7,8 +7,7 @@ body {
 }
 
 .page {
-  max-width: 1200px;
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -38,7 +37,7 @@ body {
 /* CARDS */
 .card {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   background: #f6edf6;
   border-radius: 20px;
   padding: 40px 30px;
@@ -87,6 +86,8 @@ body {
   transition: all 0.3s ease;
   overflow: hidden;
   border: 2px solid #2eb086;
+  position: sticky ;
+  top: 80px;
 }
 
 .sidebar i { color: #2eb086; }

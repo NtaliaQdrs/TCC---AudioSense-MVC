@@ -6,6 +6,7 @@ body {
   --primary-color: #6b3fa0;
   --primary-light: #e8d5f2;
   --secondary-color: #8b5fbf;
+  --tertiary-color: #60a5fa;
   --text-dark: #1a1a1a;
   --text-light: #666666;
   --border-color: #d4c5e2;
@@ -29,6 +30,7 @@ body {
   padding: 40px;
   margin-bottom: 30px;
   box-shadow: var(--shadow-lg);
+  border: 2px solid var(--primary-color);
 }
 
 .perfil-header-content {
@@ -53,6 +55,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-lg);
+  border: 4px solid var(--white);
 }
 
 .perfil-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -129,6 +132,7 @@ body {
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
   min-width: 0;
+  border: 2px solid var(--primary-color);
 }
 
 .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
@@ -163,7 +167,7 @@ body {
   flex: 1;
   padding: 16px 12px;
   border: none;
-  background-color: transparent;
+  background-color: var(--white);
   color: var(--text-light);
   font-size: 14px;
   font-weight: 600;
@@ -192,7 +196,7 @@ body {
   display: flex;
   gap: 16px;
   padding: 16px;
-  background-color: var(--bg-light);
+  background-color: var(--white);
   border-radius: 12px;
   border-left: 4px solid var(--primary-color);
   transition: all 0.3s ease;
@@ -242,24 +246,24 @@ body {
   display: flex;
   gap: 16px;
   padding: 16px;
-  background-color: var(--bg-light);
+  background-color: var(--white);
   border-radius: 12px;
-  border-left: 4px solid var(--secondary-color);
+  border-left: 4px solid var(--tertiary-color);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.forum-item:hover { background-color: var(--primary-light); transform: translateX(4px); }
+.forum-item:hover { background-color: rgba(74, 144, 226, 0.1); transform: translateX(4px); }
 
 .forum-icon {
   width: 50px;
   height: 50px;
   border-radius: 10px;
-  background-color: rgba(139, 95, 191, 0.2);
+  background-color: rgba(96, 165, 238, 0.275);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
   font-size: 22px;
   flex-shrink: 0;
 }
@@ -281,23 +285,23 @@ body {
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background-color: var(--bg-light);
+  background-color: var(--white);
   border-radius: 12px;
-  border-left: 4px solid #4a90e2;
+  border-left: 4px solid #2eb086;
   transition: all 0.3s ease;
 }
 
-.material-item:hover { background-color: rgba(74, 144, 226, 0.1); transform: translateX(4px); }
+.material-item:hover { background-color: rgba(74, 226, 183, 0.1); transform: translateX(4px); }
 
 .material-icon {
   width: 50px;
   height: 50px;
   border-radius: 10px;
-  background-color: rgba(74, 144, 226, 0.2);
+  background-color: rgba(74, 226, 183, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4a90e2;
+  color: #2eb086;
   font-size: 22px;
   flex-shrink: 0;
 }
@@ -494,6 +498,10 @@ a.btn-ver {
 
 a.btn-ver:hover { background-color: var(--primary-color); color: var(--white); }
 
+.perfil-tabs {
+  border: 2px solid var(--primary-color);
+}
+
 /* RESPONSIVO */
 @media (max-width: 768px) {
   .perfil-container { padding: 20px 15px; }
@@ -560,10 +568,11 @@ a.btn-ver:hover { background-color: var(--primary-color); color: var(--white); }
 
 .avatar-badge img { 
   filter: invert(1);
-  width: 25px;
+  width: 27px;
   height: auto;
   }
 
 html.dark-theme .avatar-badge {
     border-color: #1e1e2e;
 }
+

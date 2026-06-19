@@ -65,7 +65,16 @@ export default (sequelize) => {
         timestamps: false
     });
 
-    
+    Usuario.associate = (models) => {
+        Usuario.hasOne(models.UsuarioDocente, {
+            foreignKey: 'usuario_id',
+            as: 'docente'
+        });
+        Usuario.hasOne(models.UsuarioDiscente, {
+            foreignKey: 'usuario_id',
+            as: 'discente'
+        });
+    };
 
     return Usuario;
 };

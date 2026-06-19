@@ -16,7 +16,8 @@ CREATE TABLE usuario (
 
 CREATE TABLE plataforma_streaming (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL UNIQUE
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    logo_url VARCHAR(255)
 );
 
 CREATE TABLE obra_audiovisual (

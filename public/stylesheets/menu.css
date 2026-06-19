@@ -991,11 +991,32 @@ html.dark-theme .user-card {
     background: #252538 !important;
 }
 
-/* Dropdown perfil */
 html.dark-theme .profile-dropdown {
     background: #1e1e2e !important;
     border: 1px solid #2e2e4e !important;
 }
+
+html.dark-theme .dropdown-tabs {
+    background: #1e1e2e !important;
+    border-color: #3a3a3a !important;
+}
+
+html.dark-theme .tab-btn {
+    background: #1e1e2e !important;
+    color: #888 !important;
+}
+
+html.dark-theme .tab-btn.tab-active,
+html.dark-theme .tab-btn.active {
+    background: #1e1e2e !important;
+    color: #a78bfa !important;
+    border-bottom-color: #a78bfa !important;
+}
+
+html.dark-theme .dropdown-item {
+    background: transparent !important;
+}
+
 html.dark-theme .dropdown-item:hover {
-    background: #252538 !important;
+    background: #2a2a3e !important;
 }

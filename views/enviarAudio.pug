@@ -2,6 +2,7 @@ extends layout
 
 block styles
   link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
 
 block content
   main.page
@@ -11,14 +12,24 @@ block content
       h2.form-title Envie o áudio da sua audiodescrição
 
       .form-group
-        label Título
-        p.form-control(style="background:#f0fdf4; margin:0")= projeto.titulo
+        .projeto-resumo
+          .projeto-resumo-info
+            span.projeto-resumo-label Projeto
+            h2.projeto-resumo-titulo= projeto.titulo
+
+          if projeto.imagem_url
+            img.projeto-resumo-img(
+              src='/uploads/midias/' + projeto.imagem_url
+              alt=projeto.titulo)
+          else
+            .projeto-resumo-placeholder
+              i.bi.bi-film
 
       form(action=`/enviar-audio/${projeto.id}` method="POST" enctype="multipart/form-data")
         .form-group
           label Arquivo de áudio
           .upload-area(onclick="document.getElementById('audio').click()")
-            img.upload-icon(src="/images/upload-icon.png" alt="Upload")
+            i.bi.bi-cloud-arrow-up(style="font-size: 48px; color: #582d86;")
             .upload-text
               p Clique para selecionar o arquivo de áudio
               p(style="font-size:14px; color:#999") Formatos aceitos: MP3, WAV, OGG

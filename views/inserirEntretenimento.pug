@@ -6,69 +6,131 @@ block styles
 
 block content
   main.page
-    h1.title Entretenimento acessível 
+    h1.title Entretenimento acessível
 
     section.container-form
       h2.form-title Recomende algo
 
+      if erro
+        p.form-erro
+          | Erro ao salvar recomendação. Tente novamente.
+
       form(action="/inserir-entretenimento" method="POST" enctype="multipart/form-data")
 
-        //- Novo contêiner para alinhar lado a lado
         .form-row-top
-          //- Coluna da Esquerda: Upload
+          //- Coluna esquerda: upload do poster
           .column-upload
             .form-group
               label Poster
-              .upload-area(onclick="document.getElementById('midia').click()")
-                input#midia(type="file" name="midia" style="display: none;")
-                //- Novo ícone baseado na imagem enviada
-                svg.upload-icon(viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" )
-                  //- Moldura externa (Borda grossa e arredondada)
+              .upload-area#uploadArea(onclick="document.getElementById('poster').click()")
+                input#poster(type="file" name="poster" accept="image/*" style="display:none" onchange="previewPoster(event)")
+                
+                svg#uploadIcon.upload-icon(viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg")
                   rect(x="10" y="10" width="80" height="100" rx="15" stroke="#1f4677" stroke-width="10")
-                  //- Círculo (Sol/Lua)
                   circle(cx="38" cy="35" r="7" fill="#1f4677")
-                  //- Montanhas
                   path(d="M28 68 L42 50 L55 62 L72 45 L72 68 Z" fill="#1f4677")
-                  //- Linhas de texto inferiores
                   rect(x="28" y="78" width="44" height="7" rx="3.5" fill="#1f4677")
                   rect(x="28" y="92" width="25" height="7" rx="3.5" fill="#1f4677")
+
+                img#posterPreview(src="" alt="Preview do poster" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:12px;")
+
+                //- Texto e botão dentro da upload-area
                 .upload-text
                   p Faça upload ou solte a mídia aqui
-                  button.btn-upload(type="button") Escolher arquivo
+                  button.btn-upload(type="button" onclick="event.stopPropagation(); document.getElementById('poster').click()") Escolher arquivo
 
-          //- Coluna da Direita: Nome e Sinopse
+          //- Coluna direita: título e sinopse
           .column-info
             .form-group
-              label(for="nome") Nome
-              input#titulo.form-control(type="text" name="titulo" placeholder="Insira o nome do filme...")
+              label(for="titulo") Nome
+              input#titulo.form-control(
+                type="text"
+                name="titulo"
+                placeholder="Insira o nome do filme..."
+                required)
 
             .form-group
               label(for="sinopse") Sinopse
-              textarea#roteiro.form-control.textarea-large(name="sinopse" placeholder="Insira aqui uma breve sinopse da obra" style="height: 150px;")
-            .upload-text
-            
-        .form-group
-            label(for="tipo") Tipo de Obra
-            select#tipo.form-control(name="tipo")
-              option(value="" disabled selected) Selecione o tipo...
-              option(value="filme") Filme
-              option(value="serie") Série
-              option(value="documentario") Documentário
-              option(value="curta") Curta-metragem
-              option(value="peça de teatro") Peça de Teatro
+              textarea#sinopse.form-control.textarea-large(
+                name="sinopse"
+                placeholder="Insira aqui uma breve sinopse da obra"
+                style="height: 150px;")
 
-        //- Novo contêiner para alinhar Data e Plataforma
+        //- Tipo de Obra
+        .form-group
+          label(for="tipo_obra") Tipo de Obra
+          select#tipo_obra.form-control(name="tipo_obra" required)
+            option(value="" disabled selected) Selecione o tipo...
+            option(value="filme") Filme
+            option(value="serie") Série
+            option(value="documentario") Documentário
+            option(value="outro") Outro
+
+        //- Data + Plataforma
         .form-row-inline
           .form-group
-            label(for="data-lancamento") Data de Lançamento
-            input#data-lancamento.form-control(type="date" name="data_lancamento")
+            label(for="data_lancamento") Data de Lançamento
+            input#data_lancamento.form-control(type="date" name="data_lancamento")
 
           .form-group
-            label(for="plataforma_streaming") Plataforma de Streaming
-            input#plataforma.form-control(type="text" name="plataforma_streaming" placeholder="Insira o nome da plataforma de streaming")
+            label(for="plataforma_streaming_id") Plataforma de Streaming
+            select#plataforma_streaming_id.form-control(name="plataforma_streaming_id" required)
+              option(value="" disabled selected) Selecione a plataforma...
+              each plataforma in plataformas
+                option(value=plataforma.id)= plataforma.nome
 
-
+        //- Preview da plataforma selecionada
+        #plataforma-preview.plataforma-preview(style="display:none")
+          img#plataforma-logo(src="" alt="Logo da plataforma")
+          span#plataforma-nome
 
         .button-group
           button.btn-submit(type="submit") Salvar e enviar para análise
           a.btn-cancel(href="/entretenimento") Cancelar
+
+  script.
+    // Preview do poster ao escolher arquivo
+    function previewPoster(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById('posterPreview');
+        const icon = document.getElementById('uploadIcon');
+        const text = document.querySelector('.upload-text');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        preview.style.width = '100%';
+        preview.style.height = '100%';
+        preview.style.position = 'absolute';
+        preview.style.top = '0';
+        preview.style.left = '0';
+        preview.style.borderRadius = '12px';
+        icon.style.display = 'none';
+        text.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Dados das plataformas para o preview da logo
+    const plataformasData = !{JSON.stringify(plataformas)};
+
+    document.getElementById('plataforma_streaming_id').addEventListener('change', function() {
+      const id = parseInt(this.value);
+      const plataforma = plataformasData.find(p => p.id === id);
+      const preview = document.getElementById('plataforma-preview');
+      const logo = document.getElementById('plataforma-logo');
+      const nome = document.getElementById('plataforma-nome');
+
+      if (plataforma && plataforma.logo_url) {
+        logo.src = plataforma.logo_url;
+        nome.textContent = plataforma.nome;
+        preview.style.display = 'flex';
+      } else if (plataforma) {
+        logo.src = '';
+        nome.textContent = plataforma.nome;
+        preview.style.display = 'flex';
+      } else {
+        preview.style.display = 'none';
+      }
+    });

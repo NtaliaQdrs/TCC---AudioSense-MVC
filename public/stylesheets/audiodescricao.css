@@ -159,6 +159,8 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
   transition: all 0.3s ease;
   overflow: hidden;
   border: 2px solid #2eb086;
+  position: sticky ;
+  top: 80px;
 }
 
 .sidebar i { color: #2eb086; }

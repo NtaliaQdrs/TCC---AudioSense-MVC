@@ -83,7 +83,7 @@ body {
 .card-text p { margin-top: 15px; font-size: 16px; }
 .card-text h4 { margin-top: 15px; font-size: 15px; }
 
-/* CONTEÚDO ESCONDIDO */
+/* CONTEÚDO ESCONDIDO (sinopse longa) */
 .card-content {
   max-height: 0;
   overflow: hidden;
@@ -107,8 +107,8 @@ body {
 
 .platform { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; }
 .netflix-icon { width: 18px; height: 18px; object-fit: contain; }
-.expand-btn { background: transparent; border: none; font-size: 25px; color: #2eb086; cursor: pointer; line-height: 1; }
 .card-footer .netflix-icon { width: 50px !important; height: 50px !important; }
+.expand-btn { background: transparent; border: none; font-size: 25px; color: #2eb086; cursor: pointer; line-height: 1; }
 
 /* SIDEBAR */
 .sidebar {
@@ -122,10 +122,12 @@ body {
   margin-bottom: 10px;
   margin-left: 20px;
   border: 2px solid #2eb086;
+  position: sticky;
+  top: 80px;
 }
 
 .sidebar i { color: #2eb086; }
-.sidebar h3 { color: #2fa36b; font-size: 18px; line-height: 1.4; text-align: center;}
+.sidebar h3 { color: #2fa36b; font-size: 18px; line-height: 1.4; text-align: center; }
 .sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
 
 .toggle-sidebar {
@@ -154,15 +156,15 @@ body {
   flex-direction: column;
   gap: 20px;
   align-items: flex-start;
+  align-self: start;
+  position: sticky;
+  top: 80px;
 }
 
 .recommend-btn {
-  width: 40px;
-  min-width: 40px;
-  height: 40px;
-  min-height: 40px;
+  width: 100%;
   border: none;
-  border-radius: 50% ;
+  border-radius: 12px;
   background: #2f4f7f;
   color: white;
   cursor: pointer;
@@ -171,24 +173,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  flex-shrink: 0;
+  padding: 15px 20px;
   gap: 8px;
   font-weight: 600;
-  margin-top: 20px;
+  margin-top: 10px;
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.right-column .recommend-btn {
+  width: 100%;
+  border-radius: 12px;
+  height: auto;
+  padding: 15px 20px;
+  white-space: nowrap;
 }
 
 .recommend-btn i { color: white; }
 .recommend-btn:hover { background: #1e3a5f; transform: scale(1.03); }
-
-.sidebar:not(.collapsed)~.recommend-btn,
-.right-column:not(.collapsed-column) .recommend-btn {
-  width: 100%;
-  border-radius: 12px;
-  height: auto;
-  padding: 20px;
-  font-size: 16px;
-}
 
 /* FULLSCREEN */
 article.fullscreen {
@@ -224,24 +226,33 @@ article.fullscreen .card-inner img {
   flex-shrink: 0;
 }
 
-article.fullscreen .card-text {
-  flex: 1;
-}
+article.fullscreen .card-text { flex: 1; }
 
 article.fullscreen h3 {
   font-size: 22px;
   color: #2f4f7f;
   margin-bottom: 10px;
+  text-align: left;
 }
 
+article.fullscreen .card-text h4 { text-align: left; }
+
+/* Esconde sinopse curta no fullscreen (evita duplicação) */
+article.fullscreen .card-text > p { display: none; }
+
+/* Mostra conteúdo longo no fullscreen */
 article.fullscreen .card-content {
   max-height: none;
   opacity: 1;
   margin-top: 15px;
+  text-align: left;
 }
 
-article.fullscreen .card-footer {
-  margin-top: 20px;
+article.fullscreen .card-footer { margin-top: 20px; }
+
+article.fullscreen .card-footer .netflix-icon {
+  width: 40px !important;
+  height: 40px !important;
 }
 
 /* OVERLAY */
@@ -257,6 +268,94 @@ article.fullscreen .card-footer {
 }
 
 .card-overlay.active { display: block; }
+
+/* Placeholder poster */
+.poster-placeholder {
+  width: 140px;
+  height: 200px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.poster-placeholder i { font-size: 40px; color: #999; }
+
+/* Sem recomendações */
+.sem-conteudo {
+  color: #2f4f7f;
+  font-size: 18px;
+  text-align: center;
+  padding: 40px;
+}
+
+/* Sinopse truncada no card fechado */
+.card-text > p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card fullscreen se ajusta ao conteúdo (sem altura fixa) */
+article.fullscreen {
+  height: auto;
+  max-height: 90vh;
+}
+
+/* Info do docente — só aparece no fullscreen */
+.docente-info {
+  display: none;
+}
+
+article.fullscreen .docente-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.docente-foto {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.docente-nome {
+  font-size: 14px;
+  color: #2f4f7f;
+  font-weight: 600;
+}
+
+/* Footer do fullscreen — tudo na mesma linha */
+article.fullscreen .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 15px;
+}
+
+article.fullscreen .docente-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+article.fullscreen .card-footer {
+  margin-top: 40px;
+}
+
 
 /* RESPONSIVO */
 @media (max-width: 900px) {

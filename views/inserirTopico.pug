@@ -1,0 +1,76 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/stylesheets/inserirTopico.css')
+
+block content
+  .page
+    .form-header
+    
+    .container-form
+      .form-autor
+        img.form-avatar(src= usuario && usuario.foto_perfil ? '/uploads/fotos-perfil/' + usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar")
+        p.perfil-username #{usuario && usuario.nome_usuario ? usuario.nome_usuario : "Usuário Logado"}
+
+      form(action="/forum/criar" method="POST")
+
+        .form-group
+          label(for="titulo") Título
+          input#titulo.form-control-titulo(
+            type="text"
+            name="titulo"
+            placeholder="Insira um título para o seu tópico..."
+            required
+          )
+  
+        .form-divider
+
+        .form-group
+          label(for="corpo") Conteúdo
+          textarea#corpo.form-control-corpo(
+            name="corpo"
+            placeholder="Escreva sobre o que você quer discutir..."
+            rows="8"
+            required
+          )
+
+        //- BARRA DE FERRAMENTAS
+        .form-toolbar
+          button.toolbar-btn(type="button" title="Adicionar imagem" aria-label="Adicionar imagem")
+            i.bi.bi-image
+          button.toolbar-btn(type="button" title="Adicionar link" aria-label="Adicionar link")
+            i.bi.bi-link-45deg
+          button.toolbar-btn(type="button" title="Negrito" aria-label="Negrito")
+            i.bi.bi-type-bold
+          button.toolbar-btn(type="button" title="Itálico" aria-label="Itálico")
+            i.bi.bi-type-italic
+          button.toolbar-btn(type="button" title="Lista" aria-label="Lista")
+            i.bi.bi-list-ul
+
+        .form-divider
+
+        //- TAGS
+        .form-group.form-tags-group
+          label(for="tags") Tags
+          i.bi.bi-hash.tags-icon
+          input#tags.form-control-tags(
+            type="text"
+            name="tags"
+            placeholder="Adicione tags relacionadas ao tópico"
+            autocomplete="off"
+          )
+
+        .form-divider
+
+        //- RODAPÉ DO FORM
+        .form-footer
+          .form-visibilidade
+            label(for="visibilidade") Visibilidade
+            i.bi.bi-globe2
+            select#visibilidade(name="visibilidade")
+              option(value="publico") Para todo mundo
+              option(value="privado") Somente eu
+
+          .button-group
+            button.btn-cancel(type="button" onclick="history.back()") Fechar
+            button.btn-submit(type="submit") Postar

@@ -51,5 +51,16 @@ export default (sequelize) => {
     timestamps: false
   });
 
+  UsuarioDocente.associate = (models) => {
+    UsuarioDocente.belongsTo(models.Usuario, {
+      foreignKey: 'usuario_id',
+      as: 'usuario'
+    });
+    UsuarioDocente.hasMany(models.Recomendacao, {
+      foreignKey: 'usuario_docente_id',
+      as: 'recomendacoes'
+    });
+  };
+
   return UsuarioDocente;
 };

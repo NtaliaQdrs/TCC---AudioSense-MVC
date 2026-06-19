@@ -13,9 +13,11 @@ block content
         i.bi.bi-search(aria-hidden="true")
         input(type="text" placeholder="Buscar por título, descrição ou disciplina" aria-label="Buscar materiais na biblioteca")
       
-      button.btn-insert(aria-label="Inserir novo conteúdo na biblioteca")
-        i.bi.bi-plus(aria-hidden="true")
-        |  Inserir conteúdo
+      //- Condicional para renderizar o botão apenas para docentes
+      if usuario && usuario.tipo_usuario === 'docente'
+        button.btn-insert(aria-label="Inserir novo conteúdo na biblioteca")
+          i.bi.bi-plus(aria-hidden="true")
+          |  Inserir conteúdo
 
     //- Filtros por matéria
     .filters-section

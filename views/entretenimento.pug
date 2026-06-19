@@ -11,85 +11,50 @@ block content
     section.cards-extra
       .main-grid
 
-        article.extra-card1
-          .card-inner
-            img(src="../images/entretenimento1.png")
+        if recomendacoes && recomendacoes.length
+          each rec in recomendacoes
+            article.extra-card1
+              .card-inner
+                if rec.obra.poster_url
+                  img(src=rec.obra.poster_url alt=rec.obra.titulo)
+                else
+                  .poster-placeholder
+                    i.bi.bi-film
 
-            .card-text
-              h3 Não olhe para cima
-              p Dois astrônomos medíocres descobrem que em poucos meses um meteorito destruirá o planeta Terra.
-              h4 Lançamento: 9 de dezembro de 2021
+                .card-text
+                  h3= rec.obra.titulo
 
-              .card-content
-                p Não Olhe Para Cima conta a história de Randall Mindy (Leonardo DiCaprio) e Kate Dibiasky (Jennifer Lawrence), dois astrônomos que fazem uma descoberta surpreendente de um cometa orbitando dentro do sistema solar que está em rota de colisão direta com a Terra. Com a ajuda do doutor Oglethorpe (Rob Morgan), Kate e Randall embarcam em um tour pela mídia que os leva ao escritório da Presidente Orlean (Meryl Streep) e de seu filho, Jason (Jonah Hill). Com apenas seis meses até o cometa fazer o impacto, gerenciar o ciclo de notícias de 24 horas e ganhar a atenção do público obcecado pelas mídias sociais antes que seja tarde demais se mostra chocantemente cômico. Porém a dupla terá que fazer mais do que falar a chocante notícia para o público, já que ninguém quer acreditar neles ou muito menos dar notícias tristes para o mundo. Um retrato de uma realidade e de um futuro extremamente próximo.
+                  //- Sinopse curta — visível no card fechado, some no fullscreen via CSS
+                  p= rec.obra.sinopse
 
-              .card-footer
-                .platform
-                  img.netflix-icon(src="../images/netflix.png")
-                  span Acesse na Netflix
+                  if rec.obra.data_lancamento
+                    h4
+                      | Lançamento: 
+                      = new Date(rec.obra.data_lancamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })
 
-                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+                  //- Sinopse longa — visível só no fullscreen
+                  .card-content
+                    p= rec.obra.sinopse
 
+                  .card-footer
+                    .docente-info
+                      if rec.docente && rec.docente.usuario
+                        if rec.docente.usuario.foto_perfil
+                          img.docente-foto(src='/uploads/fotos-perfil/' + rec.docente.usuario.foto_perfil alt=rec.docente.usuario.nome_usuario)
+                        else
+                          img.docente-foto(src='/images/foto-perfil-default.png' alt='Docente')
+                        span.docente-nome Recomendado por @#{rec.docente.usuario.nome_usuario}
 
-        article.extra-card1
-          .card-inner
-            img(src="../images/entretenimento2.png")
-
-            .card-text
-              h3 Projeto Adam
-              p Um viajante do tempo volta ao ano de 2022 por acidente e acaba se encontrando com seu eu mais novo.
-              h4 Lançamento: 9 de março de 2022 
-
-              .card-content
-                p Em O Projeto Adam, Adam Reed é um menino de 13 anos que ainda está de luto pela morte repentina de seu pai um ano antes. Ele vai para a garagem de sua casa uma noite e acaba encontrando um piloto ferido escondido. Este misterioso piloto acaba por ser a versão mais antiga de si mesmo do futuro. Um futuro onde viagens no tempo são possíveis e ele acabou voltando para seu passado, presente de Adam de 13 anos. Ele arriscou tudo para voltar no tempo em uma missão secreta. Juntos, eles devem embarcar em uma aventura no passado para encontrar seu pai, acertar as coisas e salvar o mundo. Trabalhando juntos, tanto o jovem quanto o adulto Adam, aceitam a perda de seu pai e têm a chance de curar as feridas que os moldaram. Aumentando o desafio da missão, os dois Adams descobrem que realmente não gostam muito um do outro e, se quiserem salvar o mundo, primeiro terão que descobrir como se dar bem.
-
-              .card-footer
-                .platform
-                  img.netflix-icon(src="../images/netflix.png")
-                  span Acesse na Netflix
-
-                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
-
-
-        article.extra-card1
-          .card-inner
-            img(src="../images/entretenimento3.jpg")
-
-            .card-text
-              h3 A caminho da lua
-              p Estimulada pelas histórias da mãe, Fei Fei constrói uma nave espacial para ir até à Lua e comprovar a existência de uma deusa.
-              h4 Lançamento: 9 de dezembro de 2021
-
-              .card-content
-                p Na animação da Netflix, A Caminho da Lua, depois de ter finalizado a construção de uma engenhosa nave espacial, uma garota embarca para a lua para provar ao seu pai a existência de uma deusa mística que habitaria no astro. Chegando ao seu destino. a jovem descobre criaturas fantásticas que a ajudarão a completar sua missão e retornar para a terra sã e salva.
-
-              .card-footer
-                .platform
-                  img.netflix-icon(src="../images/netflix.png")
-                  span Acesse na Netflix
-
-                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+                    .platform
+                      if rec.plataforma.logo_url
+                        img.netflix-icon(src=rec.plataforma.logo_url alt=rec.plataforma.nome)
+                      span Acesse na #{rec.plataforma.nome}
 
 
-        article.extra-card1
-          .card-inner
-            img(src="../images/entretenimento4.jpg")
+                    button.expand-btn(onclick="toggleFullscreen(this)") ⤢
 
-            .card-text
-              h3 Wicked
-              p Na Terra de Oz, uma jovem chamada Elphaba forma uma improvável amizade com uma estudante popular chamada Glinda.
-              h4 Lançamento: 22 de novembro de 2024
-
-              .card-content
-                p Baseado no musical homônimo da Broadway, Wicked é o prelúdio da famosa história de Dorothy e do Mágico de Oz, onde conhecemos a história não contada da Bruxa Boa e da Bruxa Má do Oeste. Na trama, Elphaba (Cynthia Erivo) é uma jovem do Reino de Oz, mas incompreendida por causa de sua pele verde incomum e por ainda não ter descoberto seu verdadeiro poder. Sua rotina é tranquila e pouco interessante, mas ao iniciar seus estudos na Universidade de Shiz, seu destino encontra Glinda (Ariana Grande), uma jovem popular e ambiciosa, nascida em berço de ouro, que só quer garantir seus privilégios e ainda não conhece sua verdadeira alma. As duas iniciam uma inesperada amizade; no entanto, suas diferenças, como o desejo de Glinda pela popularidade e poder, e a determinação de Elphaba em permanecer fiel a si mesma, entram no caminho, o que pode perpetuar no futuro de cada uma e em como as pessoas de Oz as enxergam.
-
-              .card-footer
-                .platform
-                  img.netflix-icon(src="../images/primevideo.png")
-                  span Acesse no Prime Video
-
-                button.expand-btn(onclick="toggleFullscreen(this)") ⤢
-
+        else
+          p.sem-conteudo Nenhuma recomendação cadastrada ainda.
 
         div.right-column
 
@@ -119,20 +84,19 @@ block content
                   a(href="#") (Depoimentos)
                 hr
 
-            button.toggle-sidebar( 
-                onclick="toggleSidebar()" 
-                aria-expanded="true" aria-label="Expandir ou recolher menu" ) ↑
+            button.toggle-sidebar(
+              onclick="toggleSidebar()"
+              aria-expanded="true"
+              aria-label="Expandir ou recolher menu") ↑
 
-    
-            button.recommend-btn(title="Recomende algo!")
-              i.bi.bi-hand-thumbs-up(aria-hidden="true")
-              span   Recomende algo!
+            if usuario && (usuario.tipo_usuario === 'docente' || usuario.is_admin)
+              button.recommend-btn(title="Recomende algo!" onclick="window.location.href='/inserir-entretenimento'")
+                i.bi.bi-hand-thumbs-up(aria-hidden="true")
+                span   Recomende algo!
 
-
-  // Overlay
   #overlay.card-overlay(onclick="closeAllCards()")
 
-  script(src="../javascripts/entretenimento.js")
+  script(src="/javascripts/entretenimento.js")
   script.
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
@@ -143,14 +107,13 @@ block content
       grid.classList.toggle('sidebar-collapsed', isCollapsed);
       button.textContent = isCollapsed ? '↓' : '↑';
       button.setAttribute('aria-expanded', !isCollapsed);
-      
+
       if (recommendBtn) {
         if (isCollapsed) {
           recommendBtn.innerHTML = '<i class="bi bi-hand-thumbs-up"></i>';
           recommendBtn.style.width = '40px';
           recommendBtn.style.borderRadius = '50%';
           recommendBtn.style.padding = '0';
-          
         } else {
           recommendBtn.innerHTML = '<i class="bi bi-hand-thumbs-up"></i> Recomende algo!';
           recommendBtn.style.width = '100%';
@@ -163,7 +126,6 @@ block content
     function toggleFullscreen(button) {
       const card = button.closest('article');
       const overlay = document.getElementById('overlay');
-
       if (card.classList.contains('fullscreen')) {
         closeAllCards();
       } else {
@@ -186,4 +148,3 @@ block content
       overlay.classList.remove('active');
       document.body.style.overflow = 'auto';
     }
-

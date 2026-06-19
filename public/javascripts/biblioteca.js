@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const materialCards = document.querySelectorAll('.material-card');
   const btnInsert = document.querySelector('.btn-insert');
   const btnAudios = document.querySelectorAll('.btn-audio');
+  
 
   // =============================
   // BUSCA
@@ -70,11 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================
   if (btnInsert) {
     btnInsert.addEventListener('click', () => {
-      // Redireciona para página de inserção (a ser implementada)
+      // Redireciona para página de inserção
       window.location.href = '/inserir-material';
-      //alert('Funcionalidade de inserção em desenvolvimento!');
     });
+
   }
+
+  // BOTÃO SOME PARA DISCENTES
+
 
   // =============================
   // BOTÕES DE AUDIODESCRIÇÃO

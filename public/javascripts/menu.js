@@ -115,26 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // GESTÃO DE ESTADO DO USUÁRIO
     // =============================
     function atualizarInterfaceUsuario() {
-    // Esconde tudo por padrão
-    if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
-    if (meusMateriais) meusMateriais.style.display = 'none';
-    if (adminPainel) adminPainel.style.display = 'none'; // ← adiciona isso
+        // Esconde tudo por padrão
+        if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
+        if (meusMateriais) meusMateriais.style.display = 'none';
+        if (adminPainel) adminPainel.style.display = 'none'; // ← adiciona isso
 
-    if (!usuarioLogado) return; // se não logado, para aqui
+        if (!usuarioLogado) return; // se não logado, para aqui
 
-    const tipo = usuarioLogado.tipo_usuario;
-    const isAdmin = usuarioLogado.is_admin;
+        const tipo = usuarioLogado.tipo_usuario;
+        const isAdmin = usuarioLogado.is_admin;
 
-    if (tipo === 'docente') {
-        if (meusMateriais) meusMateriais.style.display = 'flex';
-        if (adminPainel) {
-            adminPainel.style.display = 'flex';
-            adminPainel.href = isAdmin ? '/painelAdmin1/painel-admin' : '/painelAdmin1';
+        if (tipo === 'docente') {
+            if (meusMateriais) meusMateriais.style.display = 'flex';
+            if (adminPainel) {
+                adminPainel.style.display = 'flex';
+                adminPainel.href = isAdmin ? '/painelAdmin1/painel-admin' : '/painelAdmin1';
+            }
+        } else if (tipo === 'discente') {
+            if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
         }
-    } else if (tipo === 'discente') {
-        if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'flex';
     }
-}
 
     function destacarLinkAtivo() {
         const todosOsLinks = document.querySelectorAll('.sub-menu a, .menu-links a');

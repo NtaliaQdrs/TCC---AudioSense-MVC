@@ -1,0 +1,329 @@
+/* BASE */
+body {
+    background-color: #E9CCEF;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.page {
+    max-width: 900px;
+    width: 90%;
+    margin: 30px auto 60px;
+}
+
+/* VOLTAR */
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: opacity 0.2s;
+}
+.btn-voltar:hover { opacity: 0.7; }
+
+/* CONTAINER FORM (Padronizado com Audiodescrição) */
+.container-form {
+    background-color: #ffffff;
+    border: 2px solid #60a5fa;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+
+}
+
+.form-group label {
+    display: block;
+    font-size: 22px;
+    color: #2f4f7f;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+/* AUTOR */
+.form-autor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.form-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+}
+
+.perfil-username {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2f4f7f;
+}
+
+/* CAMPOS E GRUPOS (Padronizado com Audiodescrição) */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-control-titulo {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #60a5fa;
+    border-radius: 12px;
+     font-size: 18px;      /* era 22px */
+    font-weight: 400;
+    color: #bbb;
+    font-family: 'Poppins', Arial, sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.form-control-titulo::placeholder { 
+    color: #ccc; 
+     
+}
+
+.form-control-titulo:focus {
+    border-color: #1f4677;
+}
+
+.form-control-corpo {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #60a5fa;
+    border-radius: 12px;
+    font-size: 18px;
+    color: #333;
+    font-family: 'Poppins', Arial, sans-serif;
+    outline: none;
+    resize: vertical;
+    min-height: 180px;
+    box-sizing: border-box;
+    line-height: 1.6;
+    transition: border-color 0.3s;
+}
+
+.form-control-corpo::placeholder { 
+    color: #bbb; 
+}
+
+.form-control-corpo:focus {
+    border-color: #1f4677;
+}
+
+/* DIVISOR */
+.form-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* BARRA DE FERRAMENTAS */
+.form-toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+.toolbar-btn {
+    background: none;
+    border: 2px solid #60a5fa;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.toolbar-btn:hover { 
+    background: #60a5fa; 
+    color: white; 
+}
+
+/* TAGS */
+.form-tags-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 2px solid #60a5fa;
+    border-radius: 12px;
+    padding: 5px 20px;
+}
+
+.tags-icon { 
+    color: #60a5fa; 
+    font-size: 20px; 
+}
+
+.form-control-tags {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: transparent;
+    flex: 1;
+    padding: 10px 0;
+}
+
+.form-control-tags::placeholder { 
+    color: #bbb; 
+}
+
+/* RODAPÉ E SELETORES */
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.form-visibilidade {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2f4f7f;
+    font-size: 16px;
+    font-weight: 500;
+    border: 2px solid #60a5fa;
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+
+.form-visibilidade i { 
+    font-size: 18px; 
+    color: #60a5fa; 
+}
+
+.form-visibilidade select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #333;
+    background: transparent;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* BOTÕES DE AÇÕES (Copiados cirurgicamente do padrão Audiodescrição) */
+.form-acoes {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    background-color: #60a5fa;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex: 1;
+    max-width: 250px;
+    text-align: center;
+}
+
+.btn-submit:hover {
+    background-color: #e0f2fe; /* Equivalente ao d1fae5 em azul claro */
+    color: #60a5fa;
+    border: 2px solid #60a5fa;
+}
+
+.btn-cancel {
+    background-color: #e0f2fe;
+    color: #60a5fa;
+    border: 2px solid #60a5fa;
+    padding: 12px 30px; /* Corrigido de 27px para alinhar perfeitamente com o submit */
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    max-width: 200px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background-color: #60a5fa;
+    color: white;
+}
+
+html.dark-theme .form-group label { color: #e0e0e0 !important; }
+/* TEMA ESCURO */
+html.dark-theme .container-form {
+    background: #1e1e2e !important;
+    border-color: #2e2e4e !important;
+}
+html.dark-theme .form-nome { color: #e0e0e0 !important; }
+html.dark-theme .form-control-titulo { color: #e0e0e0 !important; border-color: #3a3a5a; }
+html.dark-theme .form-control-corpo { color: #ccc !important; border-color: #3a3a5a; }
+html.dark-theme .form-tags-group { border-color: #3a3a5a; }
+html.dark-theme .form-control-tags { color: #ccc !important; }
+html.dark-theme .form-divider { border-color: #2e2e4e !important; }
+html.dark-theme .toolbar-btn { color: #60a5fa !important; border-color: #3a3a5a; }
+html.dark-theme .toolbar-btn:hover { background: #2a2a3e !important; color: white !important; }
+html.dark-theme .form-visibilidade { border-color: #3a3a5a; }
+html.dark-theme .form-visibilidade select { color: #ccc !important; }
+html.dark-theme .btn-cancel { border-color: #60a5fa !important; background: transparent; color: #60a5fa !important; }
+
+/* RESPONSIVIDADE (Padronizada com Audiodescrição) */
+@media (max-width: 768px) {
+    .container-form {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .form-control-titulo { 
+        font-size: 18px; 
+    }
+
+    .form-footer { 
+        flex-direction: column; 
+        align-items: flex-start; 
+    }
+
+    .form-visibilidade {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+    }
+    
+    .form-acoes {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-submit, .btn-cancel {
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+html.dark-theme .form-control-titulo,
+html.dark-theme .form-control-corpo {
+  background-color: #1e1e2e !important;
+}

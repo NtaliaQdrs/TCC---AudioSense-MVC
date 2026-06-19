@@ -80,7 +80,9 @@ export const login = async (req, res) => {
         req.session.usuarioLogado = {
             id: usuario.id,
             tipo_usuario: usuario.tipo_usuario,
-            is_admin: docente ? docente.is_admin : 0
+            is_admin: docente ? docente.is_admin : 0,
+            nome_usuario: usuario.nome_usuario,
+            foto_perfil: usuario.foto_perfil || null
         };
 
         // Gera o token JWT
@@ -177,6 +179,16 @@ export const verPerfil = async (req, res) => {
 
         if (!usuario) return res.redirect('/usuario');
 
+        let is_admin = false;
+
+        if (usuario.tipo_usuario === 'docente') {
+            const docente = await db.UsuarioDocente.findOne({
+                where: { usuario_id: usuario.id }
+            });
+
+            is_admin = !!docente?.is_admin;
+        }
+
         const dataCadastro = new Date(usuario.data_cadastro);
         const membroDesde = dataCadastro.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
 
@@ -224,7 +236,8 @@ export const verPerfil = async (req, res) => {
             disciplinas,
             podeTrocarNome,
             diasRestantes,
-            audiodescricoes
+            audiodescricoes,
+            is_admin
         });
 
     } catch (err) {
@@ -547,40 +560,39 @@ export const redefinirSenha = async (req, res) => {
 };
 
 export const verMinhasAudiodescricoes = async (req, res) => {
-  try {
-    const usuarioId = req.usuario.id;
- 
-    const usuario = await db.Usuario.findOne({ where: { id: usuarioId } });
-    if (!usuario) return res.redirect('/usuario');
- 
-    let audiodescricoes = [];
- 
-    if (usuario.tipo_usuario === 'discente') {
-      const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId } });
-      if (discente) {
-        audiodescricoes = await db.projetoAudiodescricao.findAll({
-          where: { discente_id: discente.id },
-          order: [['data_submissao', 'DESC']]
+    try {
+        const usuarioId = req.usuario.id;
+
+        const usuario = await db.Usuario.findOne({ where: { id: usuarioId } });
+        if (!usuario) return res.redirect('/usuario');
+
+        let audiodescricoes = [];
+
+        if (usuario.tipo_usuario === 'discente') {
+            const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId } });
+            if (discente) {
+                audiodescricoes = await db.projetoAudiodescricao.findAll({
+                    where: { discente_id: discente.id },
+                    order: [['data_submissao', 'DESC']]
+                });
+            }
+        } else if (usuario.tipo_usuario === 'docente') {
+            const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId } });
+            if (docente) {
+                audiodescricoes = await db.projetoAudiodescricao.findAll({
+                    where: { docente_id: docente.id },
+                    order: [['data_submissao', 'DESC']]
+                });
+            }
+        }
+
+        return res.render('minhasAudiodescricoes', {
+            title: 'Minhas Audiodescrições',
+            audiodescricoes: audiodescricoes.map(a => a.toJSON())
         });
-      }
-    } else if (usuario.tipo_usuario === 'docente') {
-      const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId } });
-      if (docente) {
-        audiodescricoes = await db.projetoAudiodescricao.findAll({
-          where: { docente_id: docente.id },
-          order: [['data_submissao', 'DESC']]
-        });
-      }
+
+    } catch (err) {
+        console.error('Erro ao carregar audiodescrições:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
- 
-    return res.render('minhasAudiodescricoes', {
-      title: 'Minhas Audiodescrições',
-      audiodescricoes: audiodescricoes.map(a => a.toJSON())
-    });
- 
-  } catch (err) {
-    console.error('Erro ao carregar audiodescrições:', err);
-    return res.status(500).json({ erro: 'Erro interno no servidor.' });
-  }
 };
- 

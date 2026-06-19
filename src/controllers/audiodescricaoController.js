@@ -270,3 +270,32 @@ export const verAudiodescricao = async (req, res) => {
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 };
+
+// APAGAR AUDIODESCRIÇÃO
+export const apagarAudiodescricao = async (req, res) => {
+  try {
+    const usuarioId = req.session.usuarioLogado.id;
+    const projetoId = req.params.id;
+
+    const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId } });
+    if (!discente) return res.status(403).json({ erro: 'Acesso negado.' });
+
+    const projeto = await db.projetoAudiodescricao.findOne({
+      where: { id: projetoId, discente_id: discente.id }
+    });
+
+    if (!projeto) return res.status(404).json({ erro: 'Projeto não encontrado.' });
+
+    // Só permite apagar se não estiver concluído
+    // Só bloqueia se estiver em análise (docente já viu)
+    if (projeto.status === 'em_analise') {
+      return res.status(400).json({ erro: 'Não é possível apagar uma audiodescrição que está em análise.' });
+    }
+
+    await projeto.destroy();
+    return res.redirect('/usuario/minhas-audiodescricoes');
+  } catch (err) {
+    console.error('Erro ao apagar audiodescrição:', err);
+    return res.status(500).json({ erro: 'Erro interno no servidor.' });
+  }
+};

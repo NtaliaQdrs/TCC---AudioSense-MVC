@@ -13,7 +13,7 @@ block content
 
       .form-group
         label Descrição
-        p.form-control(style="background:#eee1fc; margin:0")= projeto.descricao
+        p.form-control(style="margin:0")= projeto.descricao
 
       .form-group
         label Imagem
@@ -21,7 +21,7 @@ block content
 
       .form-group
         label Roteiro
-        .form-control(style="background:#eee1fc; min-height:120px; white-space: pre-wrap")= projeto.roteiro_texto
+        .form-control(style=" min-height:120px; white-space: pre-wrap")= projeto.roteiro_texto
 
       if projeto.audio_final_url
         .form-group
@@ -32,12 +32,12 @@ block content
 
       .form-group
         label Status
-        p.form-control(style="background:#eee1fc; margin:0")= projeto.status
+        p.form-control(style=" margin:0")= projeto.status
 
       if projeto.data_aprovacao
         .form-group
           label Aprovado em
-          p.form-control(style="background:#eee1fc; margin:0")= new Date(projeto.data_aprovacao).toLocaleDateString('pt-BR')
+          p.form-control(style="margin:0")= new Date(projeto.data_aprovacao).toLocaleDateString('pt-BR')
 
       .button-group
         a.btn-cancel(href="/usuario/perfil") Voltar ao perfil

@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 
 const storage = multer.diskStorage({
-  
+
   // Define a pasta onde as fotos serão salvas
   destination: (req, file, cb) => {
     cb(null, 'public/uploads/fotos-perfil');
@@ -11,9 +11,8 @@ const storage = multer.diskStorage({
 
   // Define o nome do arquivo salvo — usa o id da sessão + timestamp para evitar duplicatas
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname); // pega a extensão (.jpg, .png, etc)
-    const nome = `usuario-${req.session.usuarioId}-${Date.now()}${ext}`;
-    cb(null, nome);
+    const ext = path.extname(file.originalname);
+    cb(null, `usuario-${Date.now()}${ext}`);
   }
 });
 

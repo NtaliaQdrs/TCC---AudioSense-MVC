@@ -71,21 +71,31 @@ block content
                   span= new Date(item.data_submissao).toLocaleDateString('pt-BR')
 
               .ad-card-acoes
-                if item.status === 'aprovado'
-                  a.btn-acao.btn-acao-primary(href='/enviar-audio/' + item.id)
-                    i.bi.bi-mic
-                    span Enviar áudio
-                else if item.status === 'requer_ajustes'
-                  a.btn-acao.btn-acao-warning(href='/ajustar-audiodescricao/' + item.id)
-                    i.bi.bi-pencil
-                    span Ajustar
-                else if item.status === 'concluido'
-                  a.btn-acao.btn-acao-success(href='/ver-audiodescricao/' + item.id)
-                    i.bi.bi-eye
-                    span Ver resultado
-                else
-                  span.btn-acao-disabled
-                    i.bi.bi-hourglass-split
-                    span Aguardando análise
+                  if item.status === 'aprovado'
+                    a.btn-acao.btn-acao-primary(href='/enviar-audio/' + item.id)
+                      i.bi.bi-mic
+                      span Enviar áudio
+                  else if item.status === 'requer_ajustes'
+                    a.btn-acao.btn-acao-warning(href='/ajustar-audiodescricao/' + item.id)
+                      i.bi.bi-pencil
+                      span Ajustar
+                  else if item.status === 'concluido'
+                    a.btn-acao.btn-acao-success(href='/ver-audiodescricao/' + item.id)
+                      i.bi.bi-eye
+                      span Ver resultado
+                  else
+                    span.btn-acao-disabled
+                      i.bi.bi-hourglass-split
+                      span Aguardando análise
+
+                  //- Botão apagar — aparece para todos exceto concluído
+                  if item.status !== 'em_analise'
+                    form(action='/apagar-audiodescricao/' + item.id method='POST'
+                      onsubmit= item.status === 'concluido' 
+                        ? "return confirm('⚠️ Esta audiodescrição está concluída. Apagar irá remover permanentemente todo o trabalho, incluindo o áudio final. Tem certeza?')" 
+                        : "return confirm('Tem certeza que deseja apagar esta audiodescrição? Esta ação não pode ser desfeita.')")
+                      button.btn-acao.btn-acao-danger(type='submit')
+                        i.bi.bi-trash
+                        span Apagar
 
   script(src="/javascripts/minhasAudiodescricoes.js")
