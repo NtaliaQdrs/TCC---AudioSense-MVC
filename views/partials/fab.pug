@@ -1,0 +1,84 @@
+//- views/partials/fab.pug
+
+.fab-container
+  #fab-panel.fab-panel(role="dialog" aria-label="Acessibilidade rápida" aria-modal="false")
+    p.fab-panel__titulo
+      i.bi.bi-universal-access(aria-hidden="true")
+      |  Acessibilidade
+
+    //- Tema
+    .fab-group
+      p.fab-group__label Tema
+      .fab-group__btns
+        button.fab-btn-opt(
+          data-fab-chave="theme"
+          data-fab-valor="Escuro"
+          aria-pressed="false"
+        )
+          i.bi.bi-moon(aria-hidden="true")
+          span Escuro
+        button.fab-btn-opt(
+          data-fab-chave="theme"
+          data-fab-valor="Sistema"
+          aria-pressed="false"
+        )
+          i.bi.bi-display(aria-hidden="true")
+          span Sistema
+
+        button.fab-btn-opt(
+          data-fab-chave="theme"
+          data-fab-valor="Claro"
+          aria-pressed="false"
+        )
+          i.bi.bi-sun(aria-hidden="true")
+          span Claro
+          
+
+    //- Tamanho da fonte (usa fontScale numérico)
+    .fab-group
+      p.fab-group__label Fonte
+      .fab-group__btns
+        button.fab-btn-opt(
+          data-fab-chave="fontScale"
+          data-fab-valor="85"
+          aria-pressed="false"
+        ) P
+        button.fab-btn-opt(
+          data-fab-chave="fontScale"
+          data-fab-valor="100"
+          aria-pressed="false"
+        ) M
+        button.fab-btn-opt(
+          data-fab-chave="fontScale"
+          data-fab-valor="130"
+          aria-pressed="false"
+        ) G
+
+    //- Contraste (modos fixos)
+    .fab-group
+      p.fab-group__label Contraste
+      .fab-group__btns
+        button.fab-btn-opt(
+          data-fab-chave="contrast"
+          data-fab-valor="Padrão"
+          aria-pressed="false"
+        ) Padrão
+        button.fab-btn-opt(
+          data-fab-chave="contrast"
+          data-fab-valor="Alto contraste"
+          aria-pressed="false"
+        ) Alto
+        button.fab-btn-opt(
+          data-fab-chave="contrast"
+          data-fab-valor="Preto e branco"
+          aria-pressed="false"
+        ) P&B
+
+    
+
+  button#fab-btn.fab-btn(
+    aria-label="Abrir painel de acessibilidade"
+    aria-expanded="false"
+    aria-controls="fab-panel"
+  )
+    i.bi.bi-universal-access(aria-hidden="true")

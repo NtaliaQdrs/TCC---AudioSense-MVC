@@ -1,0 +1,60 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
+
+block content
+  main.page
+    h1.title= projeto.tipo_midia === 'video' ? 'Enviar Vídeo Final' : 'Enviar Áudio Final'
+
+    section.container-form
+      h2.form-title= projeto.tipo_midia === 'video' ? 'Envie o vídeo com a audiodescrição embutida' : 'Envie o áudio da sua audiodescrição'
+
+      .form-group
+        .projeto-resumo
+          .projeto-resumo-info
+            span.projeto-resumo-label Projeto
+            h2.projeto-resumo-titulo= projeto.titulo
+
+          if projeto.imagem_url
+            img.projeto-resumo-img(
+              src=projeto.imagem_url
+              alt=projeto.titulo)
+          else
+            .projeto-resumo-placeholder
+              i.bi.bi-film
+
+      form(action=`/enviar-midia-final/${projeto.id}` method="POST" enctype="multipart/form-data")
+        .form-group
+          label= projeto.tipo_midia === 'video' ? 'Arquivo de vídeo' : 'Arquivo de áudio'
+          .upload-area(onclick="document.getElementById('midia-final').click()")
+            i.bi.bi-cloud-arrow-up(style="font-size: 48px; color: #582d86;")
+            .upload-text
+              if projeto.tipo_midia === 'video'
+                p Clique para selecionar o arquivo de vídeo
+                p(style="font-size:14px; color:#999") Formatos aceitos: MP4, WEBM
+              else
+                p Clique para selecionar o arquivo de áudio
+                p(style="font-size:14px; color:#999") Formatos aceitos: MP3, WAV, OGG
+            button.btn-upload(type="button") Selecionar arquivo
+
+          if projeto.tipo_midia === 'video'
+            input#midia-final(type="file" name="midia" accept="video/mp4,video/webm" hidden required)
+          else
+            input#midia-final(type="file" name="audio" accept="audio/*" hidden required)
+
+          p#nome-arquivo(style="margin-top:10px; color:#2eb086; font-weight:600; display:none")
+
+        .button-group
+          button.btn-submit(type="submit")= projeto.tipo_midia === 'video' ? 'Enviar vídeo' : 'Enviar áudio'
+          a.btn-cancel(href="/audiodescricao") Cancelar
+
+  script.
+    document.getElementById('midia-final').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const label = document.getElementById('nome-arquivo');
+      label.textContent = '✅ ' + file.name;
+      label.style.display = 'block';
+    });

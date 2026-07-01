@@ -36,8 +36,21 @@ const estatisticaController = {
             console.error('Erro ao contar docentes:', error);
             res.status(500).json({ error: 'Erro interno no servidor.' });
         }
+    },
+
+    contarAudiovisual: async (req, res) => {
+    try {
+        const result = await db.sequelize.query(
+            'SELECT COUNT(*) as total FROM obra_audiovisual',
+            { type: db.Sequelize.QueryTypes.SELECT }
+        );
+        res.status(200).json({ total: result[0].total });
+    } catch (error) {
+        console.error('Erro ao contar obras audiovisuais:', error);
+        res.status(500).json({ error: 'Erro interno no servidor.' });
     }
 
+    }
     
 };
 

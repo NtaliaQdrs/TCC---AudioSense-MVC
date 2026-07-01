@@ -5,100 +5,194 @@ block styles
 
 block content
   .config-container
-    a.back-link(href="/")
-      //i.bi.bi-arrow-left
-      //span Voltar
 
-    //- CARD GRANDE PRINCIPAL
     .main-config-card
+
       .config-header
         h1 Configurações
         p Personalize sua experiência.
-      
+
       hr.header-divider
 
-
-
-      //- Seção Acessibilidade
+      //- ── SEÇÃO: ACESSIBILIDADE ─────────────────────────────────────────
       section.config-section-inner
         .section-title
           .section-icon.accessibility
             i.bi.bi-universal-access-circle(aria-hidden="true")
           .title-text
             h2 Acessibilidade
-            p Personalize sua experiência para melhor usabilidade.
+            p Adapte a interface para melhor usabilidade.
 
         .config-controls
-          .control-row
-            .control-info
-              h3 Ajustar tamanho da fonte
-              p Escolha o tamanho da fonte que melhor se adapta a você.
-            .button-group
-              button.group-btn
-                span A
-                span Pequeno
-              button.group-btn.active
-                span(style="font-size: 1.2em;") A
-                span Médio
-              button.group-btn
-                span(style="font-size: 1.4em;") A
-                span Grande
 
+          //- Tamanho da fonte
           .control-row
             .control-info
-              h3 Alterar contraste
-              p Ajuste o contraste da interface para facilitar a leitura.
-            .button-group
-              button.group-btn
-                i.bi.bi-circle-half
-                span Padrão
-              button.group-btn.active
-                i.bi.bi-circle-fill
-                span Alto contraste
-              button.group-btn
-                i.bi.bi-circle
-                span Preto e branco
-
-          .control-row
-            .control-info
-              h3 Velocidade de reprodução de áudios
-              p Ajuste a velocidade da audiodescrição conforme sua preferência.
+              h3 Tamanho da fonte
+              p Ajuste o tamanho do texto em toda a interface.
             .slider-container
-              i.bi.bi-turtle-fill
-              .slider-wrapper
-                input(type="range", min="0.5", max="2.0", step="0.1", value="1.0")
-                .slider-labels
-                  span 0.5x
-                  span 1.0x
-                  span 2.0x
-              i.bi.bi-rabbit-fill
+              .slider-header
+                span.slider-label-name Tamanho
+                span#label-fonte.slider-value 100%
+              input#slider-fonte(
+                type="range"
+                min="50"
+                max="150"
+                step="5"
+                value="100"
+                aria-label="Tamanho da fonte"
+                aria-valuemin="50"
+                aria-valuemax="150"
+              )
+              .slider-marks
+                span 50%
+                span 100%
+                span 150%
 
+          //- Contraste
+          .control-row
+            .control-info
+              h3 Intensidade do contraste
+              p Aumenta o contraste das cores para facilitar a leitura.
+            .slider-container
+              .slider-header
+                span.slider-label-name Contraste
+                span#label-contraste.slider-value 100%
+              input#slider-contraste(
+                type="range"
+                min="100"
+                max="200"
+                step="10"
+                value="100"
+                aria-label="Intensidade do contraste"
+                aria-valuemin="100"
+                aria-valuemax="200"
+              )
+              .slider-marks
+                span 100%
+                span 150%
+                span 200%
+
+          //- Espaçamento entre linhas
+          .control-row
+            .control-info
+              h3 Espaçamento entre linhas
+              p Melhora a leitura de textos longos.
+            .slider-container
+              .slider-header
+                span.slider-label-name Espaçamento
+                span#label-espacamento.slider-value 1.5
+              input#slider-espacamento(
+                type="range"
+                min="10"
+                max="25"
+                step="1"
+                value="15"
+                aria-label="Espaçamento entre linhas"
+                aria-valuemin="10"
+                aria-valuemax="25"
+              )
+              .slider-marks
+                span 1.0
+                span 1.5
+                span 2.5
+
+          //- Tema
           .control-row
             .control-info
               h3 Tema
-              p Escolha o tema da interface.
+              p Aparência geral da interface.
             .button-group
-              button.group-btn
-                i.bi.bi-sun
-                span Claro
-              button.group-btn.active
-                i.bi.bi-moon
+              button.group-btn(aria-pressed="false")
+                i.bi.bi-moon(aria-hidden="true")
                 span Escuro
-              button.group-btn
-                i.bi.bi-display
+              button.group-btn(aria-pressed="false")
+                i.bi.bi-display(aria-hidden="true")
                 span Sistema
+              button.group-btn(aria-pressed="false")
+                i.bi.bi-sun(aria-hidden="true")
+                span Claro
 
-    //- Dica de Acessibilidade
+          //- Reduzir animações
+          .control-row
+            .control-info
+              h3 Reduzir animações
+              p Para quem tem sensibilidade a movimentos na tela.
+            label.toggle-switch(for="toggle-reduce-motion" aria-label="Reduzir animações")
+              input#toggle-reduce-motion(type="checkbox" role="switch")
+              span.toggle-track
+                span.toggle-thumb
+
+          //- Cursor ampliado
+          .control-row
+            .control-info
+              h3 Cursor ampliado
+              p Aumenta o tamanho do cursor do mouse.
+            label.toggle-switch(for="toggle-cursor-large" aria-label="Cursor ampliado")
+              input#toggle-cursor-large(type="checkbox" role="switch")
+              span.toggle-track
+                span.toggle-thumb
+
+      hr.header-divider
+
+      
+
+      //- ── SEÇÃO: NOTIFICAÇÕES ──────────────────────────────────────────
+      section.config-section-inner
+        .section-title
+          .section-icon.notificacoes
+            i.bi.bi-bell(aria-hidden="true")
+          .title-text
+            h2 Notificações
+            p Controle o que você recebe de avisos.
+
+        .config-controls
+
+          .control-row
+            .control-info
+              h3 Novas audiodescrições disponíveis
+              p Avisa quando um novo conteúdo for publicado.
+            label.toggle-switch(for="toggle-notif-novas-ads" aria-label="Notificação de novas audiodescrições")
+              input#toggle-notif-novas-ads(type="checkbox" role="switch")
+              span.toggle-track
+                span.toggle-thumb
+
+          .control-row
+            .control-info
+              h3 Correções solicitadas pelo docente
+              p Avisa quando seu trabalho precisar de revisão.
+            label.toggle-switch(for="toggle-notif-correcoes" aria-label="Notificação de correções")
+              input#toggle-notif-correcoes(type="checkbox" role="switch")
+              span.toggle-track
+                span.toggle-thumb
+
+          .control-row
+            .control-info
+              h3 Atividade no fórum
+              p Avisa sobre respostas nos seus tópicos.
+            label.toggle-switch(for="toggle-notif-forum" aria-label="Notificação do fórum")
+              input#toggle-notif-forum(type="checkbox" role="switch")
+              span.toggle-track
+                span.toggle-thumb
+
+          .control-row
+            .control-info
+              h3 Resumo semanal por e-mail
+              p Receba um resumo das atividades da semana.
+            label.toggle-switch(for="toggle-notif-email-semanal" aria-label="Resumo semanal por e-mail")
+              input#toggle-notif-email-semanal(type="checkbox" role="switch")
+              span.toggle-track
+                span.toggle-thumb
+
+    //- Dica de acessibilidade
     .accessibility-tip
       .tip-icon
-        i.bi.bi-info-circle
+        i.bi.bi-info-circle(aria-hidden="true")
       .tip-content
         h4 Dica de acessibilidade
-        p Essas configurações ajudam a tornar sua experiência mais confortável e acessível. Suas preferências serão aplicadas automaticamente em toda a plataforma.
-      button.close-tip
-        i.bi.bi-x
+        p Suas preferências são salvas automaticamente e aplicadas em toda a plataforma.
+      button.close-tip(aria-label="Fechar dica")
+        i.bi.bi-x(aria-hidden="true")
 
-    
-
-  script(src="/javascripts/configuracoes.js")
   script(src="/javascripts/accessibility.js")
+  script(src="/javascripts/configuracoes.js")

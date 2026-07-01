@@ -127,7 +127,7 @@ export const salvarCustomizacao = async (req, res) => {
                 tipo_usuario,
                 nome_usuario,
                 biografia,
-                foto_perfil: req.file ? req.file.filename : null
+                foto_perfil: req.file ? `${process.env.R2_PUBLIC_URL}/${req.file.key}` : null
             });
 
             // Se for discente, cria o vínculo
@@ -156,7 +156,7 @@ export const salvarCustomizacao = async (req, res) => {
             {
                 nome_usuario,
                 biografia,
-                foto_perfil: req.file ? req.file.filename : null
+                foto_perfil: req.file ? `${process.env.R2_PUBLIC_URL}/${req.file.key}` : null
             },
             { where: { id: usuarioId } }
         );
@@ -314,7 +314,7 @@ export const cadastrarDocente = async (req, res) => {
         // Cria o vínculo na tabela usuario_docente — status começa como pendente
         const novoDocente = await db.UsuarioDocente.create({
             usuario_id: novoUsuario.id,
-            comprovante_vinculo: req.file ? req.file.filename : null,
+            comprovante_vinculo: req.file ? `${process.env.R2_PUBLIC_URL}/${req.file.key}` : null,
             informacao_adicional: informacao_adicional || null,
             status_aprovacao: 'pendente'
         });
@@ -383,7 +383,7 @@ export const editarPerfil = async (req, res) => {
         }
 
         if (req.file) {
-            atualizacao.foto_perfil = req.file.filename;
+            atualizacao.foto_perfil = `${process.env.R2_PUBLIC_URL}/${req.file.key}`;
         }
 
         await Usuario.update(atualizacao, { where: { id: usuarioId } });
@@ -417,7 +417,7 @@ export const reenviarCadastroDocente = async (req, res) => {
         // Atualiza o comprovante e reseta o status
         await db.UsuarioDocente.update(
             {
-                comprovante_vinculo: req.file ? req.file.filename : docente.comprovante_vinculo,
+                comprovante_vinculo: req.file ? `${process.env.R2_PUBLIC_URL}/${req.file.key}` : docente.comprovante_vinculo,
                 informacao_adicional: informacao_adicional || docente.informacao_adicional,
                 status_aprovacao: 'pendente',
                 motivo_rejeicao: null

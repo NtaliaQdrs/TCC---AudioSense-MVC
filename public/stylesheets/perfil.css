@@ -3,7 +3,7 @@ body {
 }
 
 :root {
-  --primary-color: #6b3fa0;
+  --primary-color: #6b3fa0 !important;
   --primary-light: #e8d5f2;
   --secondary-color: #8b5fbf;
   --tertiary-color: #60a5fa;

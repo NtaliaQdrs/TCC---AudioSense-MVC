@@ -99,15 +99,16 @@ CREATE TABLE usuario_discente (
 CREATE TABLE projeto_audiodescricao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(255) NOT NULL,
+    descricao VARCHAR(100),
+    tipo_midia ENUM('imagem', 'video') NOT NULL DEFAULT 'imagem',
     imagem_url VARCHAR(255),
     roteiro_texto TEXT,
-    audio_final_url BLOB,
-    status ENUM('pendente', 'em_revisao', 'aprovado', 'rejeitado') DEFAULT 'pendente',
+    audio_final_url VARCHAR(255),
+    status ENUM('em_analise', 'requer_ajustes', 'aprovado', 'concluido') DEFAULT 'em_analise',
     discente_id INT NOT NULL,
     docente_id INT,
     data_submissao DATETIME DEFAULT CURRENT_TIMESTAMP,
     data_aprovacao DATETIME,
-    descricao VARCHAR(100),
     FOREIGN KEY (discente_id) REFERENCES usuario_discente(id),
     FOREIGN KEY (docente_id) REFERENCES usuario_docente(id)
 );

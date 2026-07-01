@@ -89,7 +89,7 @@ export const salvarEntretenimento = async (req, res) => {
 
     // URL do poster (se fez upload)
     const posterUrl = req.file
-      ? getUrlArquivo('posters', req.file.filename)
+      ? `${process.env.R2_PUBLIC_URL}/${req.file.key}`
       : null;
 
     // Cria a obra

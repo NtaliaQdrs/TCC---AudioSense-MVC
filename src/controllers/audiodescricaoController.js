@@ -2,14 +2,10 @@ import db from '../models/index.js';
 
 // INSERIR AUDIODESCRIÇÃO
 export const inserirAudiodescricao = async (req, res) => {
-  console.log('Models disponíveis:', Object.keys(db));
   try {
-    console.log('FILE:', req.file);
-    console.log('BODY:', req.body);
-    const { titulo, descricao, roteiro } = req.body;
+    const { titulo, descricao, roteiro, tipo_midia } = req.body;
     const usuarioId = req.session.usuarioLogado.id;
 
-    // Busca o discente_id
     const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId } });
     if (!discente) {
       return res.status(403).json({ erro: 'Apenas discentes podem inserir audiodescrições.' });
@@ -18,14 +14,15 @@ export const inserirAudiodescricao = async (req, res) => {
     await db.projetoAudiodescricao.create({
       titulo,
       descricao,
+      tipo_midia,
+      imagem_url: tipo_midia === 'imagem' && req.file ? `${process.env.R2_PUBLIC_URL}/${req.file.key}` : null,
       roteiro_texto: roteiro,
-      imagem_url: req.file ? req.file.filename : null,
+      audio_final_url: null,
       status: 'em_analise',
       discente_id: discente.id
     });
 
     return res.redirect('/audiodescricao?sucesso=1');
-
   } catch (err) {
     console.error('Erro ao inserir audiodescrição:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
@@ -46,12 +43,7 @@ export const listarAudiodescricoes = async (req, res) => {
           {
             model: db.UsuarioDiscente,
             attributes: ['id'],
-            include: [
-              {
-                model: db.Usuario,
-                attributes: ['nome_completo']
-              }
-            ]
+            include: [{ model: db.Usuario, attributes: ['nome_completo'] }]
           }
         ]
       });
@@ -64,10 +56,7 @@ export const listarAudiodescricoes = async (req, res) => {
 
       if (discente) {
         projetoEmAnalise = await db.projetoAudiodescricao.findOne({
-          where: {
-            discente_id: discente.id,
-            status: 'em_analise'
-          }
+          where: { discente_id: discente.id, status: 'em_analise' }
         });
       }
     }
@@ -78,7 +67,6 @@ export const listarAudiodescricoes = async (req, res) => {
       projetosParaCorrigir,
       projetoEmAnalise
     });
-
   } catch (err) {
     console.error('Erro ao listar audiodescrições:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
@@ -104,14 +92,13 @@ export const exibirCorrecao = async (req, res) => {
       usuarioLogado: req.session.usuarioLogado,
       projeto
     });
-
   } catch (err) {
     console.error('Erro ao exibir correção:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 };
 
-// SALVAR CORREÇÃO
+// SALVAR CORREÇÃO (docente)
 export const salvarCorrecao = async (req, res) => {
   try {
     const { feedback, status } = req.body;
@@ -119,27 +106,22 @@ export const salvarCorrecao = async (req, res) => {
     const docente = await db.UsuarioDocente.findOne({
       where: { usuario_id: req.session.usuarioLogado.id }
     });
-
     if (!docente) return res.status(403).json({ erro: 'Docente não encontrado.' });
 
-    // Busca o projeto para pegar o discente_id
     const projeto = await db.projetoAudiodescricao.findByPk(req.params.id, {
       include: [{ model: db.UsuarioDiscente }]
     });
-
     if (!projeto) return res.status(404).json({ erro: 'Projeto não encontrado.' });
 
-    // Atualiza status do projeto
     await db.projetoAudiodescricao.update(
-        { 
-          status, 
-          docente_id: docente.id,
-          data_aprovacao: status === 'aprovado' ? new Date() : null
-        },
-        { where: { id: req.params.id } }
-      );
+      {
+        status,
+        docente_id: docente.id,
+        data_aprovacao: status === 'aprovado' ? new Date() : null
+      },
+      { where: { id: req.params.id } }
+    );
 
-    // Salva a correção
     await db.correcaoAudiodescricao.create({
       projeto_id: req.params.id,
       texto_sugestao: feedback,
@@ -147,38 +129,31 @@ export const salvarCorrecao = async (req, res) => {
       data_correcao: new Date()
     });
 
-    // Monta notificação de acordo com o status
     const usuario_id = projeto.UsuarioDiscente.usuario_id;
+    const midiaLabel = projeto.tipo_midia === 'video' ? 'vídeo' : 'áudio';
 
     let titulo, mensagem, link;
 
     if (status === 'aprovado') {
-      titulo = '✅ Audiodescrição aprovada!';
-      mensagem = `Sua audiodescrição "${projeto.titulo}" foi aprovada. Agora você pode enviar o áudio final.`;
-      link = `/enviar-audio/${projeto.id}`;
+      titulo = '✅ Roteiro aprovado!';
+      mensagem = `Seu roteiro "${projeto.titulo}" foi aprovado. Agora você pode enviar o ${midiaLabel} final.`;
+      link = `/enviar-midia-final/${projeto.id}`;
     } else if (status === 'requer_ajustes') {
       titulo = '✏️ Ajustes necessários';
-      mensagem = `Sua audiodescrição "${projeto.titulo}" requer ajustes. Veja o feedback do docente e reenvie.`;
+      mensagem = `Seu roteiro "${projeto.titulo}" requer ajustes. Veja o feedback do docente e reenvie.`;
       link = `/ajustar-audiodescricao/${projeto.id}`;
     }
 
-    await db.Notificacao.create({
-      usuario_id,
-      titulo,
-      mensagem,
-      link,
-      data_criacao: new Date()
-    });
+    await db.Notificacao.create({ usuario_id, titulo, mensagem, link, data_criacao: new Date() });
 
     return res.redirect('/audiodescricao');
-
   } catch (err) {
     console.error('Erro ao salvar correção:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 };
 
-// EXIBIR TELA DE AJUSTE (discente corrige e reenviar)
+// EXIBIR TELA DE AJUSTE (discente reenviar)
 export const exibirAjuste = async (req, res) => {
   try {
     const projeto = await db.projetoAudiodescricao.findByPk(req.params.id, {
@@ -219,45 +194,44 @@ export const salvarAjuste = async (req, res) => {
   }
 };
 
-// EXIBIR TELA DE ENVIO DE ÁUDIO
-export const exibirEnviarAudio = async (req, res) => {
+// EXIBIR TELA DE ENVIO DE MÍDIA FINAL
+export const exibirEnviarMidiaFinal = async (req, res) => {
   try {
     const projeto = await db.projetoAudiodescricao.findByPk(req.params.id);
     if (!projeto) return res.status(404).send('Projeto não encontrado.');
 
-    return res.render('enviarAudio', {
-      title: 'Enviar Áudio',
+    return res.render('enviarMidiaFinal', {
+      title: projeto.tipo_midia === 'video' ? 'Enviar Vídeo' : 'Enviar Áudio',
       usuarioLogado: req.session.usuarioLogado,
-      projeto
+      projeto: projeto.toJSON()
     });
   } catch (err) {
-    console.error('Erro ao exibir envio de áudio:', err);
+    console.error('Erro ao exibir envio de mídia final:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 };
 
-// SALVAR ÁUDIO FINAL
-export const salvarAudio = async (req, res) => {
+// SALVAR MÍDIA FINAL (áudio ou vídeo)
+export const salvarMidiaFinal = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ erro: 'Nenhum arquivo enviado.' });
 
     await db.projetoAudiodescricao.update(
-      { audio_final_url: req.file.filename, status: 'concluido' },
+      { audio_final_url: `${process.env.R2_PUBLIC_URL}/${req.file.key}`, status: 'concluido' },
       { where: { id: req.params.id } }
     );
 
     return res.redirect('/audiodescricao?sucesso=1');
   } catch (err) {
-    console.error('Erro ao salvar áudio:', err);
+    console.error('Erro ao salvar mídia final:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 };
 
+// VER AUDIODESCRIÇÃO
 export const verAudiodescricao = async (req, res) => {
-  console.log('verAudiodescricao chamado, id:', req.params.id);
   try {
     const projeto = await db.projetoAudiodescricao.findByPk(req.params.id);
-    console.log('projeto encontrado:', projeto ? projeto.titulo : 'não encontrado');
     if (!projeto) return res.status(404).send('Projeto não encontrado.');
 
     return res.render('verAudiodescricao', {
@@ -283,11 +257,8 @@ export const apagarAudiodescricao = async (req, res) => {
     const projeto = await db.projetoAudiodescricao.findOne({
       where: { id: projetoId, discente_id: discente.id }
     });
-
     if (!projeto) return res.status(404).json({ erro: 'Projeto não encontrado.' });
 
-    // Só permite apagar se não estiver concluído
-    // Só bloqueia se estiver em análise (docente já viu)
     if (projeto.status === 'em_analise') {
       return res.status(400).json({ erro: 'Não é possível apagar uma audiodescrição que está em análise.' });
     }

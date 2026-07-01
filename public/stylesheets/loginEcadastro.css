@@ -193,6 +193,22 @@ html.dark-theme .checkbox-label { color: #e0e0e0 !important; }
 html.dark-theme .warning p { color: #e0e0e0 !important; }
 html.dark-theme .input-group:has(select) .input-content::after { color: #aaa !important; }
 
-/* ─── TEMA CLARO EXPLÍCITO ────────────────────────── */
-html.light-theme body { background-color: #E9CCEF !important; }
-html.light-theme .container { background-color: #ffffff !important; }
+
+
+/* Padrão (tema claro) */
+.logo-contrast { display: none;  }
+.logo-dark     { display: none; }
+.logo-light    { display: block; margin-left: auto;
+  margin-right: auto;}
+
+/* Tema escuro */
+html.dark-theme .logo-light    { display: none; }
+html.dark-theme .logo-dark     { display: block; margin-left: auto;
+  margin-right: auto;}
+html.dark-theme .logo-contrast { display: none; }
+
+/* Alto contraste */
+html.high-contrast .logo-light    { display: none; }
+html.high-contrast .logo-dark     { display: none; }
+html.high-contrast .logo-contrast { display: block; text-align: center; margin-left: auto;
+  margin-right: auto;}

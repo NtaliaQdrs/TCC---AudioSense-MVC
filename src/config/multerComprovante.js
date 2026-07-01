@@ -1,20 +1,18 @@
-// Configuração do multer para comprovantes de vínculo docente
 import multer from 'multer';
+import multerS3 from 'multer-s3';
 import path from 'path';
+import { r2Client, R2_BUCKET } from '../config/storage.js';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/uploads/comprovantes');
-  },
-
-  filename: (req, file, cb) => {
+const storage = multerS3({
+  s3: r2Client,
+  bucket: R2_BUCKET,
+  contentType: multerS3.AUTO_CONTENT_TYPE,
+  key: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const nome = `comprovante-${Date.now()}${ext}`;
-    cb(null, nome);
+    cb(null, `comprovantes/comprovante-${Date.now()}${ext}`);
   }
 });
 
-// Aceita PDF e imagens
 const fileFilter = (req, file, cb) => {
   const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
   if (tiposPermitidos.includes(file.mimetype)) {

@@ -59,40 +59,12 @@ html.light-theme {
     --category-dropdown-text: #1f4677;
 }
 
-html.high-contrast {
-    --primary-color: #000000;
-    --secondary-color: #ffff00;
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --card-bg: #000000;
-    --header-text: #ffff00;
-    --divider-color: #ffffff;
-    --menu-bg: #000000;
-    --submenu-bg: #000000;
-    --submenu-btn-bg: #333300;
-    --profile-btn-bg: #222200;
-    --profile-btn-hover: #333300;
-    --dropdown-bg: #000000;
-    --dropdown-text: #ffff00;
-    --category-dropdown-bg: #000000;
-    --category-dropdown-text: #ffff00;
-}
+
 
 /* Tamanhos de Fonte */
 html.font-small  { font-size: 14px; }
 html.font-medium { font-size: 16px; }
 html.font-large  { font-size: 20px; }
-
-/* Modo Preto e Branco */
-html.black-white {
-    filter: grayscale(100%) contrast(120%);
-}
-
-html.black-white .top-bar,
-html.black-white .footer,
-html.black-white .group-btn.active {
-    border: 1px solid #000;
-}
 
 * {
     margin: 0;
@@ -227,25 +199,25 @@ body {
     background-color: var(--profile-btn-bg);
     border: none;
     border-radius: 30px;
-    padding: 8px 14px;
+    padding: 8px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
     font-size: 16px;
-    width: 140px;
     height: 40px;
     transition: all 0.3s ease;
+    width: 140px;
 }
 
 #badge-perfil {
     position: absolute;
     top: -5px;
-    right: -5px;
+    margin-right: -5px;
     background-color: #aa36f3;
     color: white !important;
     border-radius: 50%;
-    width: 18px;
+    width: 17px;
     height: 20px;
     font-size: 11px;
     display: flex;
@@ -356,7 +328,6 @@ html.dark-theme .dropdown-item.logout:hover { background-color: #3a1a1a; color: 
     text-align: center;
     transition: all 0.3s ease;
     border: 1px solid #4972a4;
-
 }
 
 .sub-menu a:hover { background-color: #4972a4; transform: scale(1.1); }
@@ -404,7 +375,7 @@ html.dark-theme .sub-menu a.active { background-color: #5dade2 !important; color
     .sub-menu nav { gap: 45px; }
     .search-box1 { width: 300px; }
     .search-box1 input { width: 100%; }
-    #profileBtn { width: 160px; }
+    
 }
 
 @media (max-width: 1456px) {
@@ -879,16 +850,11 @@ html.dark-theme .footer-bottom {
     color: #888 !important;
     border-top-color: rgba(255,255,255,0.1) !important;
 }
-html.dark-theme .social-icons a {
-    background-color: #3a2a6a !important;
-}
-html.dark-theme .social-icons a:hover {
-    background-color: #5a3aaa !important;
-}
+html.dark-theme .social-icons a { background-color: #3a2a6a !important; }
+html.dark-theme .social-icons a:hover { background-color: #5a3aaa !important; }
 
 /* ── Melhorias gerais de cores no tema escuro ── */
 
-/* Cards com leve gradiente para mais profundidade */
 html.dark-theme .welcome-container,
 html.dark-theme .stats-container,
 html.dark-theme .learning-extra-container,
@@ -905,7 +871,6 @@ html.dark-theme .sidebar {
     border: 1px solid #2e2e4e !important;
 }
 
-/* Cards de lista com cor levemente diferente */
 html.dark-theme .learning-item,
 html.dark-theme .projeto-card,
 html.dark-theme .user-card,
@@ -917,13 +882,11 @@ html.dark-theme .material-card {
     border: 1px solid #2e2e4e !important;
 }
 
-/* Stat cards com destaque sutil */
 html.dark-theme .stat-card {
     background: linear-gradient(135deg, #1e1e2e, #252538) !important;
     border: 1px solid #3a2a5a !important;
 }
 
-/* Perfil */
 html.dark-theme .perfil-header {
     background: linear-gradient(135deg, #1e1e2e, #252538) !important;
     border: 1px solid #2e2e4e !important;
@@ -934,11 +897,8 @@ html.dark-theme .perfil-tabs {
     border: 1px solid #2e2e4e !important;
 }
 
-html.dark-theme .tabs-header {
-    background: #16162a !important;
-}
+html.dark-theme .tabs-header { background: #16162a !important; }
 
-/* Botão editar perfil */
 html.dark-theme .btn-editar-perfil {
     background: #252538 !important;
     border-color: #6d4aff !important;
@@ -962,7 +922,6 @@ html.dark-theme .forum-title { color: #e0e0e0 !important; }
 html.dark-theme .forum-description { color: #aaa !important; }
 html.dark-theme .forum-meta { color: #888 !important; }
 
-/* Filtros biblioteca */
 html.dark-theme .filter-btn {
     background: #252538 !important;
     border-color: #3a3a5a !important;
@@ -973,13 +932,11 @@ html.dark-theme .filter-btn:hover {
     color: #e0e0e0 !important;
 }
 
-/* Materials section */
 html.dark-theme .materials-section {
     background: #1e1e2e !important;
     border: 1px solid #2e2e4e !important;
 }
 
-/* Admin */
 html.dark-theme .admin-section {
     background: #1e1e2e !important;
     border: 1px solid #2e2e4e !important;
@@ -987,9 +944,7 @@ html.dark-theme .admin-section {
 html.dark-theme .admin-header-banner {
     background: linear-gradient(90deg, #16162a, #1e1e38) !important;
 }
-html.dark-theme .user-card {
-    background: #252538 !important;
-}
+html.dark-theme .user-card { background: #252538 !important; }
 
 html.dark-theme .profile-dropdown {
     background: #1e1e2e !important;
@@ -1013,10 +968,118 @@ html.dark-theme .tab-btn.active {
     border-bottom-color: #a78bfa !important;
 }
 
-html.dark-theme .dropdown-item {
-    background: transparent !important;
+html.dark-theme .dropdown-item { background: transparent !important; }
+html.dark-theme .dropdown-item:hover { background: #2a2a3e !important; }
+
+#page-wrapper {
+    margin-top: 55px;
 }
 
-html.dark-theme .dropdown-item:hover {
-    background: #2a2a3e !important;
+/* ═══════════════════════════════════════════════════════════
+   ALTO CONTRASTE — preto/amarelo, ratio 21:1 (WCAG AAA)
+   ═══════════════════════════════════════════════════════════ */
+
+
+
+/* FAB isolado — não afetado pelo alto contraste */
+html.high-contrast .fab-container { all: revert; }
+
+/* ═══════════════════════════════════════════════════════════
+   PRETO E BRANCO
+   O filter: grayscale é aplicado pelo JS no elemento html.
+   O CSS só define as variáveis e overrides necessários.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Variáveis apenas quando NÃO é dark-theme — dark herda as próprias */
+html.black-white:not(.dark-theme) {
+    --bg-color: #d8d8d8;
+    --text-color: #111;
+    --card-bg: #fff;
+    --header-text: #111;
+    --menu-bg: #2a2a2a;
+    --submenu-bg: #d8d8d8;
+    --submenu-btn-bg: #3a3a3a;
+    --profile-btn-bg: #ccc;
+    --profile-btn-hover: #bbb;
+    --dropdown-bg: #fff;
+    --dropdown-text: #111;
+    --divider-color: #888;
+    --primary-color: #111;
+    --secondary-color: #444;
+    --category-dropdown-bg: #ddd;
+    --category-dropdown-text: #111;
+}
+
+/* Body: cor clara só no tema claro/sistema */
+html.black-white:not(.dark-theme) body {
+    background-color: #d8d8d8 !important;
+    color: #111 !important;
+}
+
+/* Menu */
+html.black-white:not(.dark-theme) .top-bar {
+    background-color: #2a2a2a !important;
+    border-color: #555 !important;
+}
+html.black-white:not(.dark-theme) .menu-links a { color: #eee !important; }
+html.black-white:not(.dark-theme) .menu-links a:hover { background-color: #555 !important; }
+html.black-white:not(.dark-theme) .menu-links a.active {
+    background-color: #888 !important;
+    color: #fff !important;
+}
+
+/* Submenu */
+html.black-white:not(.dark-theme) .sub-menu { background-color: #d8d8d8 !important; }
+html.black-white:not(.dark-theme) .sub-menu a {
+    background-color: #3a3a3a !important;
+    color: #eee !important;
+    border-color: #666 !important;
+}
+html.black-white:not(.dark-theme) .sub-menu a:hover { background-color: #666 !important; }
+html.black-white:not(.dark-theme) .sub-menu a.active {
+    background-color: #888 !important;
+    color: #fff !important;
+}
+
+/* Perfil */
+html.black-white:not(.dark-theme) #profileBtn { background-color: #ccc !important; }
+html.black-white:not(.dark-theme) #profileBtn span,
+html.black-white:not(.dark-theme) #perfil-logo { color: #111 !important; }
+html.black-white:not(.dark-theme) .profile-dropdown {
+    background-color: #fff !important;
+    border: 1px solid #888 !important;
+}
+html.black-white:not(.dark-theme) .dropdown-item { color: #111 !important; }
+
+/* Inputs */
+html.black-white:not(.dark-theme) .search-box1 input {
+    background-color: #eee !important;
+    color: #111 !important;
+    border: 1px solid #888 !important;
+}
+
+/* Footer */
+html.black-white:not(.dark-theme) .footer { background-color: #1a1a1a !important; }
+html.black-white:not(.dark-theme) .footer-column h3,
+html.black-white:not(.dark-theme) .footer-column p,
+html.black-white:not(.dark-theme) .footer-column a,
+html.black-white:not(.dark-theme) .footer-column li { color: #ccc !important; }
+html.black-white:not(.dark-theme) .footer-column h3::after { background-color: #888 !important; }
+html.black-white:not(.dark-theme) .social-icons a { background-color: #444 !important; }
+
+/* Imagens dessaturadas — vale para ambos os temas */
+html.black-white img { filter: grayscale(100%) !important; }
+
+/* Bordas de destaque — ambos os temas */
+html.black-white .top-bar,
+html.black-white .footer,
+html.black-white .group-btn.active {
+    border: 1px solid #000;
+}
+
+/* FAB: mantém posição mas o grayscale do html já cobre */
+html.black-white .fab-container {
+    position: fixed !important;
+    bottom: 28px !important;
+    right: 28px !important;
 }

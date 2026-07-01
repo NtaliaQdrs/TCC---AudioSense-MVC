@@ -1,0 +1,277 @@
+/* ─── FAB — Widget Flutuante de Acessibilidade ──────────────────────────────
+   Segue as variáveis de tema definidas em menu.css (:root, dark-theme, etc.)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ── Container posicionado fixo no canto inferior direito ── */
+.fab-container {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9998; /* abaixo do skip-link (9999) mas acima de tudo mais */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+/* ── Botão principal ── */
+.fab-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: #5d3fd3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 14px rgba(93, 63, 211, 0.45);
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    flex-shrink: 0;
+}
+
+.fab-btn:hover {
+    background-color: #4a2fb8;
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(93, 63, 211, 0.55);
+}
+
+.fab-btn:focus {
+    outline: 3px solid #007bff;
+    outline-offset: 3px;
+}
+
+.fab-btn[aria-expanded="true"] {
+    background-color: #3a2090;
+    transform: rotate(15deg) scale(1.05);
+}
+
+/* ── Painel de opções ── */
+.fab-panel {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--divider-color);
+    border-radius: 16px;
+    padding: 16px;
+    width: 232px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: fabEntrar 0.18s ease;
+    /* Isola o FAB do tamanho de fonte global */
+    font-size: 13px !important;
+}
+
+/* Todos os textos filhos do FAB ignoram o font-size global */
+.fab-panel *,
+.fab-panel *::before,
+.fab-panel *::after {
+    font-size: inherit !important;
+}
+
+.fab-panel__titulo { font-size: 13px !important; }
+.fab-group__label  { font-size: 11px !important; }
+.fab-btn-opt       { font-size: 12px !important; }
+.fab-btn-opt i     { font-size: 14px !important; }
+.fab-speed-val     { font-size: 12px !important; }
+.fab-group__speed-marks span { font-size: 10px !important; }
+
+.fab-panel--open {
+    display: flex;
+}
+
+@keyframes fabEntrar {
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Título do painel ── */
+.fab-panel__titulo {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--header-text);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--divider-color);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+.fab-panel__titulo i {
+    color: #5d3fd3;
+    font-size: 15px;
+}
+
+/* ── Grupo de configuração (label + botões) ── */
+.fab-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fab-group__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.fab-group__btns {
+    display: flex;
+    gap: 5px;
+}
+
+/* ── Botões de opção dentro do FAB ── */
+.fab-btn-opt {
+    flex: 1;
+    background: var(--bg-color);
+    border: 1px solid var(--divider-color);
+    border-radius: 8px;
+    padding: 6px 4px;
+    font-size: 12px;
+    font-family: 'Poppins', Arial, sans-serif;
+    color: var(--text-color);
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+    line-height: 1.3;
+}
+
+.fab-btn-opt i {
+    font-size: 14px;
+}
+
+.fab-btn-opt:hover:not(.fab-btn-opt--active) {
+    background-color: #f0e6ff;
+    border-color: #c9a8f5;
+    color: #5d3fd3;
+}
+
+.fab-btn-opt--active {
+    background-color: #5d3fd3;
+    border-color: #5d3fd3;
+    color: #fff;
+    font-weight: 600;
+}
+
+.fab-btn-opt:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* ── Slider de velocidade ── */
+.fab-group__speed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fab-speed-val {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5d3fd3;
+}
+
+.fab-group input[type="range"] {
+    width: 100%;
+    accent-color: #5d3fd3;
+    margin: 0;
+}
+
+.fab-group__speed-marks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEMA ESCURO
+   ═══════════════════════════════════════════════════════ */
+
+html.dark-theme .fab-panel {
+    background: #1e1e2e;
+    border-color: #2e2e4e;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+html.dark-theme .fab-panel__titulo {
+    color: #e0e0e0;
+    border-bottom-color: #2e2e4e;
+}
+
+html.dark-theme .fab-group__label {
+    color: #aaa;
+    opacity: 1;
+}
+
+html.dark-theme .fab-btn-opt {
+    background: #252538;
+    border-color: #3a3a5a;
+    color: #ccc;
+}
+
+html.dark-theme .fab-btn-opt:hover:not(.fab-btn-opt--active) {
+    background: #2e2e4e;
+    border-color: #6d4aff;
+    color: #a78bfa;
+}
+
+html.dark-theme .fab-btn-opt--active {
+    background: #6d4aff;
+    border-color: #6d4aff;
+    color: #fff;
+}
+
+html.dark-theme .fab-speed-val {
+    color: #a78bfa;
+}
+
+html.dark-theme .fab-group input[type="range"] {
+    accent-color: #a78bfa;
+}
+
+html.dark-theme .fab-btn {
+    background-color: #6d4aff;
+    box-shadow: 0 4px 14px rgba(109, 74, 255, 0.45);
+}
+
+html.dark-theme .fab-btn:hover {
+    background-color: #5a3aee;
+}
+
+html.dark-theme .fab-btn[aria-expanded="true"] {
+    background-color: #4a2ad0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ALTO CONTRASTE
+   ═══════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVO — mobile
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    .fab-container {
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .fab-panel {
+        width: calc(100vw - 32px);
+        max-width: 280px;
+    }
+}

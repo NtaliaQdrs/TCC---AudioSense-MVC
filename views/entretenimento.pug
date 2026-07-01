@@ -40,7 +40,7 @@ block content
                     .docente-info
                       if rec.docente && rec.docente.usuario
                         if rec.docente.usuario.foto_perfil
-                          img.docente-foto(src='/uploads/fotos-perfil/' + rec.docente.usuario.foto_perfil alt=rec.docente.usuario.nome_usuario)
+                          img.docente-foto(src=rec.docente.usuario.foto_perfil alt=rec.docente.usuario.nome_usuario)
                         else
                           img.docente-foto(src='/images/foto-perfil-default.png' alt='Docente')
                         span.docente-nome Recomendado por @#{rec.docente.usuario.nome_usuario}

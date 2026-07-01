@@ -1,22 +1,18 @@
-// Configuração do multer — define como e onde os arquivos enviados serão salvos
 import multer from 'multer';
+import multerS3 from 'multer-s3';
 import path from 'path';
+import { r2Client, R2_BUCKET } from './storage.js';
 
-const storage = multer.diskStorage({
-
-  // Define a pasta onde as fotos serão salvas
-  destination: (req, file, cb) => {
-    cb(null, 'public/uploads/fotos-perfil');
-  },
-
-  // Define o nome do arquivo salvo — usa o id da sessão + timestamp para evitar duplicatas
-  filename: (req, file, cb) => {
+const storage = multerS3({
+  s3: r2Client,
+  bucket: R2_BUCKET,
+  contentType: multerS3.AUTO_CONTENT_TYPE,
+  key: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    cb(null, `usuario-${Date.now()}${ext}`);
+    cb(null, `fotos-perfil/usuario-${Date.now()}${ext}`);
   }
 });
 
-// Filtro — aceita só imagens
 const fileFilter = (req, file, cb) => {
   const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
   if (tiposPermitidos.includes(file.mimetype)) {

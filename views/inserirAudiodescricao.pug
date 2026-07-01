@@ -21,6 +21,16 @@ block content
           input#descricao.form-control(type="text" name="descricao" placeholder="Descreva sobre o conteúdo...")
 
         .form-group
+          label Tipo de mídia
+          .tipo-midia-group
+            label.tipo-midia-option
+              input(type="radio" name="tipo_midia" value="imagem" checked)
+              span 🖼️ Imagem
+            label.tipo-midia-option
+              input(type="radio" name="tipo_midia" value="video")
+              span 🎬 Vídeo
+
+        .form-group
           label Upload de mídia (imagem ou vídeo)
           .upload-area(onclick="document.getElementById('midia').click()")
             input#midia(type="file" name="midia" style="display: none;")
@@ -29,51 +39,63 @@ block content
               rect(x="25" y="18" width="50" height="5" rx="2" fill="#582d86")
               rect(x="15" y="30" width="70" height="50" rx="10" stroke="#582d86" stroke-width="6")
               path(d="M45 45L60 55L45 65V45Z" fill="#582d86")
-            
             .upload-text
-              p Faça upload ou solte a mídia aqui
+              p#upload-label Faça upload ou solte a mídia aqui
               button.btn-upload(type="button") Escolher arquivo
+          br
+          p *Lembrete: Caso a mídia seja do tipo VÍDEO e contenha falas, é necessário que o vídeo possua legendas para que a audiodescrição compreendida.
 
         .form-group
           label(for="roteiro") Roteiro
           textarea#roteiro.form-control.textarea-large(name="roteiro" placeholder="Escreva aqui o roteiro da sua audiodescrição...")
 
-        //- Padronizado para usar button em ambos, gerando simetria perfeita na tela
         .button-group
           button.btn-cancel(type="button" onclick="window.location.href='/audiodescricao'") Cancelar
           button.btn-submit(type="submit") Salvar e enviar para análise
-          
+
   script.
-    document.getElementById('midia').addEventListener('change', function(e) {
+    const radios = document.querySelectorAll('input[name="tipo_midia"]');
+    const inputMidia = document.getElementById('midia');
+    const uploadLabel = document.getElementById('upload-label');
+
+    function atualizarUpload() {
+      const tipo = document.querySelector('input[name="tipo_midia"]:checked').value;
+      if (tipo === 'imagem') {
+        inputMidia.accept = 'image/jpeg,image/png,image/webp';
+        uploadLabel.textContent = 'Faça upload da imagem aqui';
+      } else {
+        inputMidia.accept = 'video/mp4,video/webm';
+        uploadLabel.textContent = 'Faça upload do vídeo aqui';
+      }
+      const preview = document.querySelector('.preview-midia');
+      if (preview) preview.remove();
+      inputMidia.value = '';
+    }
+
+    radios.forEach(function(r) { r.addEventListener('change', atualizarUpload); });
+    atualizarUpload();
+
+    inputMidia.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
 
       const uploadArea = document.querySelector('.upload-area');
-      const reader = new FileReader();
-
       const previewAnterior = uploadArea.querySelector('.preview-midia');
       if (previewAnterior) previewAnterior.remove();
 
+      const reader = new FileReader();
       reader.onload = function(event) {
         const preview = document.createElement('div');
         preview.className = 'preview-midia';
         preview.style.marginTop = '10px';
 
-        // Ajustado para aplicar a cor do tema #60a5fa no retorno do texto do upload
-        if (file.type.startsWith('image/')) {
-          preview.innerHTML = `
-            <img src="${event.target.result}" style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;">
-            <p style="margin-top: 10px; color: #60a5fa; font-weight: 600;">${file.name}</p>
-          `;
-        } else if (file.type.startsWith('video/')) {
-          preview.innerHTML = `
-            <video src="${event.target.result}" controls style="max-width: 100%; max-height: 250px; border-radius: 10px;"></video>
-            <p style="margin-top: 10px; color: #60a5fa; font-weight: 600;">${file.name}</p>
-          `;
+        if (file.type.indexOf('image') === 0) {
+          preview.innerHTML = '<img src="' + event.target.result + '" style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;"><p style="margin-top: 10px; color: #60a5fa; font-weight: 600;">' + file.name + '</p>';
+        } else if (file.type.indexOf('video') === 0) {
+          preview.innerHTML = '<video src="' + event.target.result + '" controls style="max-width: 100%; max-height: 250px; border-radius: 10px;"></video><p style="margin-top: 10px; color: #60a5fa; font-weight: 600;">' + file.name + '</p>';
         }
 
         uploadArea.appendChild(preview);
       };
-
       reader.readAsDataURL(file);
     });

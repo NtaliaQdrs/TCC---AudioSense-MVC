@@ -9,7 +9,8 @@ block content
     
     .container-form
       .form-autor
-        img.form-avatar(src= usuario && usuario.foto_perfil ? '/uploads/fotos-perfil/' + usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar")
+        img.form-avatar(src= usuario && usuario.foto_perfil ? usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar")
+
         p.perfil-username #{usuario && usuario.nome_usuario ? usuario.nome_usuario : "Usuário Logado"}
 
       form(action="/forum/criar" method="POST")

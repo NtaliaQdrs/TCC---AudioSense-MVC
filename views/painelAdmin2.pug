@@ -39,7 +39,7 @@ block content
               span.status-badge= docente.status_aprovacao
               .action-buttons
                 if docente.comprovante_vinculo
-                  a.btn-action.btn-view(href=`/uploads/comprovantes/${docente.comprovante_vinculo}` target="_blank")
+                  a.btn-action.btn-view(href=docente.comprovante_vinculo target="_blank")
                     i.bi.bi-file-earmark-text
                     | Ver Documentos
                 form(action=`/painelAdmin1/aprovar/${docente.docente_id}` method="POST" style="display:inline")

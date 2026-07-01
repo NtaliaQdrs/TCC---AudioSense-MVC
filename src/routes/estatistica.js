@@ -10,5 +10,7 @@ router.get('/contar-discentes', estatisticaController.contarDiscentes);
 // URL: /api/estatisticas/docentes
 router.get('/contar-docentes', estatisticaController.contarDocentes);
 
+router.get('/contar-audiovisual', estatisticaController.contarAudiovisual);
+
 
 export default router;

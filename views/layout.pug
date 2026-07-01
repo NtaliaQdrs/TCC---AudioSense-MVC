@@ -6,13 +6,13 @@ html(lang="pt-br")
     link(rel="icon" type="image/png" href="/images/boasvindas.png")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel='stylesheet' href='/stylesheets/menu.css')
+    link(rel='stylesheet' href='/stylesheets/fab.css')
     block styles
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap")
 
   body
 
-    //- MENU PRINCIPAL
     header.top-bar
       .top-bar-content
         a.skip-link(href="#main-content") Pular para o conteúdo principal
@@ -21,7 +21,6 @@ html(lang="pt-br")
           a(aria-label="AudioSense - Página Inicial")
             img(src="/images/audiosense.png" alt="")
 
-        //- Botão de categorias mobile
         button#categoryToggle.category-toggle(
           aria-label="Abrir menu de categorias" 
           aria-haspopup="true" 
@@ -30,7 +29,6 @@ html(lang="pt-br")
         )
           i.bi.bi-grid-3x3-gap-fill(aria-hidden="true")
 
-        //- Dropdown mobile
         #categoryDropdown.category-dropdown
           .category-links
             a.dropdown-item(href="/") Início
@@ -55,7 +53,6 @@ html(lang="pt-br")
               aria-label="Pesquisar conteúdo no AudioSense"
             )
 
-          //- Perfil
           .profile-menu
             button#profileBtn.profile-button(
               aria-haspopup="true" 
@@ -67,7 +64,6 @@ html(lang="pt-br")
               i#perfil-logo.bi.bi-person-circle(aria-hidden="true")
               span#badge-perfil.badge(style="display:none") 0
 
-            //- Dropdown
             #profileDropdown.profile-dropdown(role="menu")
 
               .dropdown-tabs
@@ -78,7 +74,6 @@ html(lang="pt-br")
                   i.bi.bi-bell(aria-hidden="true")
                   span#badge-notificacoes.badge(style="display:none") 0
 
-              //- PERFIL
               .tab-pane.tab-pane-active#profile-tab
 
                 a.dropdown-item(href="/usuario/perfil" role="menuitem")
@@ -119,22 +114,12 @@ html(lang="pt-br")
                   i.bi.bi-box-arrow-right(aria-hidden="true")
                   |   Sair da conta
 
-              //- NOTIFICAÇÕES
               .tab-pane#notifications-tab
-                p(
-                  style="padding: 15px; color: #666; font-size: 14px;"
-                ) Sem novas notificações.
-
+                p(style="padding: 15px; color: #666; font-size: 14px;") Sem novas notificações.
                 hr.dropdown-divider
-
-                a.dropdown-item(
-                  href="#"
-                  role="menuitem"
-                  style="text-align: center; font-size: 12px;"
-                )
+                a.dropdown-item(href="#" role="menuitem" style="text-align: center; font-size: 12px;")
                   | Ver todas as notificações
 
-    //- MENU SECUNDÁRIO
     section.sub-menu
       nav(aria-label="Menu de Páginas")
         a(href="/deficiencia-visual") Deficiência visual
@@ -143,11 +128,9 @@ html(lang="pt-br")
         a(href="/forum") Fórum
         a(href="/biblioteca") Biblioteca
 
-    //- CONTEÚDO PRINCIPAL
     main#main-content(tabindex="-1")
       block content
 
-    //- RODAPÉ
     footer.footer
       .footer-container
 
@@ -155,7 +138,6 @@ html(lang="pt-br")
           h3
             i.bi.bi-headphones
             |  Sobre AudioSense
-
           p
             | AudioSense é uma plataforma sobre audiodescrição e deficiência visual.
             | Oferecemos recursos para profissionais especializados,
@@ -166,17 +148,13 @@ html(lang="pt-br")
           h3
             i.bi.bi-link-45deg
             |  Links úteis
-
           ul
             li
               a(href="#") Política de Privacidade
-
             li
               a(href="#") Termos de Uso
-
             li
               a(href="#") Perguntas Frequentes
-
             li
               a(href="#") Central de Suporte
 
@@ -184,16 +162,13 @@ html(lang="pt-br")
           h3
             i.bi.bi-envelope
             |  Entre em contato
-
           ul
             li
               i.bi.bi-envelope
               |  contato.audiosense@gmail.com
-
             li
               i.bi.bi-telephone
               |  +55 (48) 99999-9999
-
             li
               i.bi.bi-geo-alt
               |  Sombrio, SC - Brasil
@@ -202,17 +177,12 @@ html(lang="pt-br")
           h3
             i.bi.bi-share
             |  Redes Sociais
-
-          p
-            | Acompanhe-nos nas redes sociais para dicas e novidades
-
+          p Acompanhe-nos nas redes sociais para dicas e novidades
           .social-icons
             a(href="#" aria-label="Instagram")
               i.bi.bi-instagram
-
             a(href="#" aria-label="Facebook")
               i.bi.bi-facebook
-
             a(href="#" aria-label="Twitter")
               i.bi.bi-twitter
 
@@ -222,9 +192,11 @@ html(lang="pt-br")
           br
           | Desenvolvido por [nome do grupo ou instituição].
 
-    //- Scripts
     script.
       const usuarioLogado = !{JSON.stringify(usuarioLogado)};
 
     script(src="/javascripts/menu.js")
     script(src="/javascripts/accessibility.js")
+    script(src="/javascripts/fab.js")
+
+  include partials/fab

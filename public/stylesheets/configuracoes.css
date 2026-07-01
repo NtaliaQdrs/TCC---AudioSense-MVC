@@ -1,31 +1,22 @@
+/* ── Reset local ── */
 body {
-    background-color: #E9CCEF; /* Roxo claro do projeto */
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--bg-color, #f6edf6);
+    font-family: 'Poppins', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    color: #1f4677;
+    color: var(--text-color, #1f4677);
 }
 
+/* ── Container ── */
 .config-container {
     max-width: 1000px;
-    margin: 0px auto 40px;
+    margin: 0 auto 40px;
     padding: 20px;
-
 }
 
-.back-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: #1f4677;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* CARD GRANDE PRINCIPAL */
+/* ── Card principal ── */
 .main-config-card {
-    background: var(--card-bg);
+    background: #f6edf6;
     border-radius: 25px;
     padding: 40px;
     box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.1);
@@ -35,29 +26,26 @@ body {
 .config-header h1 {
     font-size: 36px;
     margin-bottom: 5px;
-    color: var(--header-text);
+    color: var(--header-text, #1f4677);
 }
 
 .config-header p {
     color: #666;
     margin-bottom: 0;
-    font-size: 17px; /* Aumentado */
+    font-size: 17px;
 }
 
 .header-divider {
     margin: 30px 0;
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--divider-color, #eee);
 }
 
-/* SEÇÕES INTERNAS */
+/* ── Seções ── */
 .config-section-inner {
     margin-bottom: 40px;
 }
-
-.config-section-inner:last-child {
-    margin-bottom: 0;
-}
+.config-section-inner:last-child { margin-bottom: 0; }
 
 .section-title {
     display: flex;
@@ -69,124 +57,65 @@ body {
 .section-icon {
     background: #5d3fd3;
     color: white;
-    width: 50px; /* Aumentado de 45px */
-    height: 50px; /* Aumentado de 45px */
+    width: 50px;
+    height: 50px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px; /* Aumentado de 23px */
+    font-size: 26px;
+    flex-shrink: 0;
 }
 
-.section-icon.accessibility {
-    background: #6f42c1;
-}
+.section-icon.accessibility { background: #6f42c1; }
+.section-icon.reproducao    { background: #185FA5; }
+.section-icon.notificacoes  { background: #0F6E56; }
 
 .title-text h2 {
     font-size: 22px;
     margin: 0;
-    color: var(--header-text);
+    color: var(--header-text, #1f4677);
 }
 
 .title-text p {
-    font-size: 17px; /* Aumentado de 16px */
+    font-size: 15px;
     color: #666;
     margin: 5px 0 0;
 }
 
-/* List Items */
-.config-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.config-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid #f0f0f0;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.2s;
-}
-
-.config-item:last-child {
-    border-bottom: none;
-}
-
-.config-divider {
-    border: 0;
-    border-top: 1px solid #000000;
-    margin: 5px 0;
-    opacity: 0.5;
-}
-
-.item-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.item-icon {
-    background: #f0e6ff;
-    color: #5d3fd3;
-    width: 45px; /* Aumentado de 40px */
-    height: 45px; /* Aumentado de 40px */
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px; /* Aumentado de 18px */
-}
-
-.item-text h3 {
-    font-size: 18px; /* Aumentado de 16px */
-    margin: 0;
-}
-
-.item-text p {
-    font-size: 15px; /* Aumentado de 13px */
-    color: #777;
-    margin: 3px 0 0;
-}
-
-.chevron {
-    color: #ccc;
-    font-size: 20px; /* Aumentado */
-}
-
-/* Accessibility Controls */
+/* ── Linhas de controle ── */
 .control-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--divider-color, #f0f0f0);
+    gap: 20px;
 }
+.control-row:last-child { border-bottom: none; }
 
-.control-row:last-child {
-    border-bottom: none;
-}
+.control-info { flex: 1; min-width: 0; }
 
 .control-info h3 {
-    font-size: 18px; /* Aumentado de 16px */
+    font-size: 16px;
     margin: 0;
+    color: var(--header-text, #1f4677);
 }
 
 .control-info p {
-    font-size: 15px; /* Aumentado de 13px */
+    font-size: 14px;
     color: #777;
-    margin: 5px 0 0;
+    margin: 4px 0 0;
 }
 
+/* ── Botões de grupo ── */
 .button-group {
     display: flex;
     background: #d1d0d0;
     border-radius: 10px;
     padding: 5px;
     gap: 5px;
-    border: 1px solid var(--divider-color);
+    flex-shrink: 0;
 }
 
 .group-btn {
@@ -198,57 +127,119 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    min-width: 100px;
+    min-width: 90px;
+    background: transparent;
     transition: all 0.2s;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
-.group-btn i {
-    font-size: 24px; /* Aumentado */
-}
-
-.group-btn span {
-    font-size: 14px; /* Aumentado de 12px */
-    color: #666;
-}
+.group-btn i    { font-size: 20px; color: #555; }
+.group-btn span { font-size: 13px; color: #555; }
 
 .group-btn.active {
-    background: var(--card-bg);
+    background: var(--card-bg, #fff);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border: 1px solid var(--secondary-color);
+    border: 1px solid #5d3fd3;
+}
+.group-btn.active i,
+.group-btn.active span {
+    color: #5d3fd3;
+    font-weight: 600;
 }
 
-.group-btn.active i, .group-btn.active span {
-    color: var(--secondary-color);
-    font-weight: bold;
-}
-
-/* Range Slider */
+/* ── Sliders granulares ── */
 .slider-container {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    width: 300px;
+    flex-direction: column;
+    gap: 6px;
+    width: 280px;
+    flex-shrink: 0;
 }
 
-.slider-wrapper {
-    flex-grow: 1;
-    position: relative;
-}
-
-input[type="range"] {
-    width: 100%;
-    accent-color: #5d3fd3;
-}
-
-.slider-labels {
+.slider-header {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
-    font-size: 14px; /* Aumentado de 12px */
+    align-items: center;
+}
+
+.slider-label-name {
+    font-size: 13px;
     color: #777;
 }
 
-/* Accessibility Tip */
+.slider-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5d3fd3;
+    min-width: 40px;
+    text-align: right;
+}
+
+.slider-container input[type="range"] {
+    width: 100%;
+    accent-color: #5d3fd3;
+    height: 4px;
+    cursor: pointer;
+}
+
+.slider-marks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #999;
+}
+
+/* ── Toggle switch ── */
+.toggle-switch {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.toggle-switch input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 12px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-thumb {
+    position: absolute;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-track {
+    background: #5d3fd3;
+}
+
+.toggle-switch input:checked + .toggle-track .toggle-thumb {
+    transform: translateX(20px);
+}
+
+.toggle-switch:focus-within .toggle-track {
+    outline: 3px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* ── Dica de acessibilidade ── */
 .accessibility-tip {
     background: #f0f4ff;
     border: 1px solid #d0e0ff;
@@ -263,56 +254,95 @@ input[type="range"] {
 
 .tip-icon {
     color: #1f4677;
-    font-size: 28px; /* Aumentado de 24px */
+    font-size: 26px;
+    flex-shrink: 0;
 }
 
 .tip-content h4 {
     margin: 0 0 5px;
-    font-size: 18px; /* Aumentado de 16px */
+    font-size: 16px;
+    color: #1f4677;
 }
 
 .tip-content p {
     margin: 0;
-    font-size: 16px; /* Aumentado de 14px */
+    font-size: 14px;
     color: #555;
 }
 
 .close-tip {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 12px;
+    right: 12px;
     background: none;
     border: none;
     cursor: pointer;
     color: #999;
-    font-size: 20px; /* Aumentado */
+    font-size: 18px;
+    line-height: 1;
+}
+.close-tip:hover { color: #555; }
+
+/* ══════════════════════════════════════════
+   TEMA ESCURO
+══════════════════════════════════════════ */
+
+html.dark-theme .config-header p,
+html.dark-theme .title-text p,
+html.dark-theme .control-info p { color: #aaa !important; }
+
+html.dark-theme .control-info h3 { color: #e0e0e0 !important; }
+
+html.dark-theme .header-divider,
+html.dark-theme .control-row { border-color: #2e2e4e !important; }
+
+html.dark-theme .button-group { background: #2a2a3e; }
+
+html.dark-theme .group-btn i,
+html.dark-theme .group-btn span { color: #ccc; }
+
+html.dark-theme .group-btn.active {
+    background: #1e1e2e;
+    border-color: #6d4aff;
+}
+html.dark-theme .group-btn.active i,
+html.dark-theme .group-btn.active span { color: #a78bfa; }
+
+html.dark-theme .slider-label-name { color: #aaa; }
+html.dark-theme .slider-value       { color: #a78bfa; }
+html.dark-theme .slider-marks       { color: #666; }
+
+html.dark-theme .slider-container input[type="range"] {
+    accent-color: #a78bfa;
 }
 
-.footer-copyright {
-    text-align: center;
-    padding: 40px 0;
-    color: #888;
-    font-size: 16px; /* Aumentado de 14px */
-}
+html.dark-theme .toggle-track { background: #3a3a5a; }
+html.dark-theme .toggle-switch input:checked + .toggle-track { background: #6d4aff; }
 
-/* Responsive */
+html.dark-theme .accessibility-tip {
+    background: #1a2035 !important;
+    border-color: #2a3a5a !important;
+}
+html.dark-theme .tip-content h4 { color: #e0e0e0 !important; }
+html.dark-theme .tip-content p   { color: #aaa !important; }
+html.dark-theme .tip-icon        { color: #a78bfa !important; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVO
+══════════════════════════════════════════ */
+
 @media (max-width: 768px) {
-    .main-config-card {
-        padding: 20px;
-    }
-    
+    .main-config-card { padding: 20px; }
+
     .control-row {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
     }
-    
+
     .button-group {
         width: 100%;
         overflow-x: auto;
     }
-    
-    .slider-container {
-        width: 100%;
-    }
+
+    .slider-container { width: 100%; }
 }

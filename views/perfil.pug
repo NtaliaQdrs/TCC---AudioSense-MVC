@@ -10,7 +10,8 @@ block content
       .perfil-header-content
         .perfil-avatar-section
           .perfil-avatar
-            img(src= usuario.foto_perfil ? '/uploads/fotos-perfil/' + usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar do usuário")
+            img(src= usuario.foto_perfil ? usuario.foto_perfil : '/images/foto-perfil-default.png' alt="Avatar do usuário")
+
           
           if is_admin 
             .avatar-badge(aria-label="Administrador")
