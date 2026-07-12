@@ -189,7 +189,7 @@ export const aprovarSolicitacaoAdmin = async (req, res) => {
     );
 
     await db.UsuarioDocente.update(
-      { is_admin: 1 },
+      { is_admin: true },
       { where: { id: solicitacao.usuario_docente_id } }
     );
 

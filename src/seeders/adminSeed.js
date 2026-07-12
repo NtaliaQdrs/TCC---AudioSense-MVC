@@ -26,7 +26,7 @@ const criarAdmin = async () => {
     await db.UsuarioDocente.create({
       usuario_id: usuario.id,
       comprovante_vinculo: 'admin',
-      is_admin: 1,
+      is_admin: true,
       status_aprovacao: 'aprovado'
     });
 

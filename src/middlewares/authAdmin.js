@@ -22,7 +22,7 @@ const authAdmin = async (req, res, next) => {
     // Verifica se o docente tem is_admin = 1 no banco
     const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: id } });
 
-    if (!docente || docente.is_admin !== 1) {
+    if (!docente || !docente.is_admin)  {
       return res.status(403).render('error', { 
         message: 'Acesso negado. Você não tem permissão de administrador.', 
         error: { status: 403 } 

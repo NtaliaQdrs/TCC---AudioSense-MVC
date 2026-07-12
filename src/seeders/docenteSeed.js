@@ -23,7 +23,7 @@ const criarDocente = async () => {
     await db.UsuarioDocente.create({
       usuario_id: usuario.id,
       comprovante_vinculo: 'hellvig',
-      is_admin: 0,
+      is_admin: false,
       status_aprovacao: 'aprovado'
     });
  
