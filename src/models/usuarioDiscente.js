@@ -34,5 +34,4 @@ export default (sequelize) => {
 
   return UsuarioDiscente;
 
-  return UsuarioDiscente;
 };

@@ -25,8 +25,8 @@ export default (sequelize) => {
 
     // Define se o docente tem permissão de administrador
     is_admin: {
-      type: DataTypes.TINYINT,
-      defaultValue: 0
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
 
     // Status da aprovação pelo administrador

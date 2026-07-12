@@ -28,8 +28,8 @@ export default (sequelize) => {
     },
 
     usado: {
-      type: DataTypes.TINYINT,
-      defaultValue: 0
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
 
   }, {

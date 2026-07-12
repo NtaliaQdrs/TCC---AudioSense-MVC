@@ -52,7 +52,7 @@ app.use('/estatisticas', estatisticaRoutes);
 app.use('/notificacoes', notificacaoRoutes);
 
 const PORT = process.env.PORT || 3000;
-const RECONSTRUIR_BANCO = false;
+const RECONSTRUIR_BANCO = true;
 
 db.sequelize.sync({ force: RECONSTRUIR_BANCO })
   .then(async() => {

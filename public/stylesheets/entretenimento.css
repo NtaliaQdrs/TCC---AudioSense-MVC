@@ -200,7 +200,7 @@ article.fullscreen {
   transform: translate(-50%, -50%);
   width: 90vw;
   height: 85vh;
-  max-width: 900px;
+  max-width: 950px;
   z-index: 9999;
   overflow-y: auto;
   padding: 40px;
@@ -233,6 +233,7 @@ article.fullscreen h3 {
   color: #2f4f7f;
   margin-bottom: 10px;
   text-align: left;
+  margin-top: 10px;
 }
 
 article.fullscreen .card-text h4 { text-align: left; }

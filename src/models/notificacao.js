@@ -27,8 +27,8 @@ export default (sequelize) => {
     },
 
     lida: {
-      type: DataTypes.TINYINT,
-      defaultValue: 0
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
 
     data_criacao: {
