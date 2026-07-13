@@ -29,7 +29,7 @@ export const marcarTodasLidas = async (req, res) => {
 
     await db.Notificacao.update(
       { lida: 1 },
-      { where: { usuario_id: usuarioId, lida: 0 } }
+      { where: { usuario_id: usuarioId, lida: false } }
     );
 
     return res.json({ mensagem: 'Notificações marcadas como lidas.' });

@@ -1,0 +1,104 @@
+.topico-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 16px;
+}
+
+.post-card-full img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.comentarios-container {
+  margin-top: 24px;
+}
+
+.comentarios-titulo {
+  margin-bottom: 12px;
+}
+
+.form-comentario,
+.form-resposta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-comentario textarea,
+.form-resposta textarea {
+  resize: vertical;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.btn-submit-comentario {
+  align-self: flex-end;
+  background: #4a6cf7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.comentario-card {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+}
+
+.comentario-resposta {
+  margin-left: 40px;
+  background: #f7f7f7;
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.btn-responder {
+  background: none;
+  border: none;
+  color: #4a6cf7;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+.no-comentarios {
+  opacity: 0.7;
+}
+
+.btn-curtir {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-curtir:hover {
+  background: rgba(217, 83, 79, 0.1);
+  color: #d9534f;
+}
+
+.btn-curtir:hover i {
+  color: #d9534f;
+}

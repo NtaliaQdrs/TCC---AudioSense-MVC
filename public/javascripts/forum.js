@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const btnGrid = document.getElementById('btn-grid');
   const btnList = document.getElementById('btn-list');
-  const posts   = document.querySelector('.forum-posts');
+  const posts = document.querySelector('.forum-posts');
 
 
   btnGrid.classList.add('active');
@@ -18,6 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGrid.classList.remove('active');
   });
 
- 
+  document.querySelectorAll('.btn-curtir').forEach(botao => {
+    botao.addEventListener('click', async () => {
+      const id = botao.dataset.id;
+      try {
+        const resp = await fetch(`/forum/${id}/curtir`, { method: 'POST' });
+        const data = await resp.json();
+        if (resp.ok) {
+          const icone = data.curtido ? 'bi-heart-fill' : 'bi-heart';
+          botao.innerHTML = `<i class="bi ${icone}"></i>  ${data.curtidas}`;
+        }
+      } catch (err) {
+        console.error('Erro ao curtir:', err);
+      }
+    });
+  });
 
 });

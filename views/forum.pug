@@ -14,85 +14,42 @@ block content
 
     section.forum-container
       .forum-posts
-        article.post-card
-          .post-user
-            img.avatar(src="/images/foto-perfil-default.png" alt="Foto de perfil")
-            .user-info
-              span.name Fulano de tal
-              br
-              span.date 21 de setembro
-          .post-content
-            h3 Logística de Audiodescrição em Eventos ao Vivo
-            p A audiodescrição em eventos ao vivo (teatro, shows) é um desafio logístico, pois é em tempo real.
-            p Quem tem experiência nisso? Quais são os maiores desafios técnicos (equipamento, latência) e de roteiro (improvisação)? Um checklist básico de equipamentos seria ótimo!
-            img(src="../images/exemplo-forum.png")
-            br
-          .post-actions
-            span
-              i.bi.bi-chat-left
-              | 2
-            span
-              i.bi.bi-heart
-              | 5
-
-        article.post-card
-          .post-user
-            img.avatar(src="/images/foto-perfil-default.png" alt="Foto de perfil")
-            .user-info
-              span.name Fulano de tal
-              br
-              span.date 21 de setembro
-          .post-content
-            h3 Desafios e Soluções na Audiodescrição de Filmes de Ação
-            p Pessoal, estou audiodescrevendo um filme de ação e o tempo é curtíssimo! Como descrever a intensidade de uma perseguição sem atropelar o áudio original?
-            p Minha dúvida é: focar no movimento ou na emoção da cena? Quais técnicas vocês usam para ser concisos em cenas rápidas? Compartilhem suas dicas de roteirização!
-            br
-          .post-actions
-            span
-              i.bi.bi-chat-left
-              | 2
-            span
-              i.bi.bi-heart
-              | 5
-
-        article.post-card
-          .post-user
-            img.avatar(src="/images/foto-perfil-default.png" alt="Foto de perfil")
-            .user-info
-              span.name Fulano de tal
-              br
-              span.date 21 de setembro
-          .post-content
-            h3  A Voz Perfeita para Audiodescrição
-            p  Como produtor de áudio, sei que a voz do narrador é crucial. Uma boa entonação transforma a experiência. Mas qual o critério ideal?
-            p Vocês preferem vozes neutras e informativas, ou aquelas que transmitem um pouco da emoção da cena? Quais dicas de gravação para garantir uma voz de alta qualidade em um home studio?
-            br
-          .post-actions
-            span
-              i.bi.bi-chat-left
-              | 2
-            span
-              i.bi.bi-heart
-              | 5
-
-        article.post-card
-          .post-user
-            img.avatar(src="/images/foto-perfil-default.png" alt="Foto de perfil")
-            .user-info
-              span.name Fulano de tal
-              br
-              span.date 21 de setembro
-          .post-content
-            h3 Meu Setup de Produção Minimalista
-            p Finalmente organizei meu pequeno canto de produção! Não é muito, mas consigo criar bastante coisa com ele. O que acharam? Compartilhem seus setups também!
-            br
-          .post-actions
-            span
-              i.bi.bi-chat-left
-              | 2
-            span
-              i.bi.bi-heart
-              | 5
+        if topicos && topicos.length
+          each topico in topicos
+            - const fotoAutor = (topico.autor && topico.autor.foto_perfil) ? topico.autor.foto_perfil : '/images/foto-perfil-default.png'
+            - const nomeAutor = topico.autor ? topico.autor.nome_usuario : 'Usuário removido'
+            - const dataFormatada = new Date(topico.data_postagem).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })
+            - const totalComentarios = topico.comentarios ? topico.comentarios.length : 0
+            article.post-card
+              a(href=`/forum/${topico.id}` style="text-decoration:none; color:inherit;")
+                .post-user
+                  img.avatar(src=fotoAutor alt="Foto de perfil")
+                  .user-info
+                    span.name= nomeAutor
+                    br
+                    span.date= dataFormatada
+                .post-content
+                  h3= topico.titulo
+                  p= topico.corpo_texto
+                  if topico.imagem_url
+                    img(src=topico.imagem_url)
+                  br
+              .post-actions
+                span
+                  i.bi.bi-chat-left
+                  |  #{totalComentarios}
+                - const curtido = idsCurtidos.includes(topico.id)
+                span.btn-curtir(data-id=topico.id data-curtido=curtido style="cursor:pointer")
+                  i.bi(class=curtido ? 'bi-heart-fill' : 'bi-heart')
+                  |  #{topico.curtidas}
+                if usuarioLogadoId && topico.usuario_id === usuarioLogadoId
+                  form.form-apagar-topico(action=`/forum/${topico.id}/apagar` method="POST" onsubmit="return confirm('Tem certeza que quer apagar este tópico? Essa ação não pode ser desfeita.')")
+                    button.btn-apagar(type="submit")
+                      i.bi.bi-trash
+                      |  Apagar
+                  
+        else
+          p.no-posts Ainda não há tópicos no fórum. Seja o primeiro a postar!
 
       //- Barra Lateral (Sidebar)
       aside.forum-sidebar
@@ -101,13 +58,12 @@ block content
           button.btn-filter Recentes
           button.btn-filter Populares
           br
-          button.toggle-sidebar( 
-                onclick="toggleSidebar()" 
+          button.toggle-sidebar(
+                onclick="toggleSidebar()"
                 aria-expanded="true" aria-label="Expandir ou recolher menu" ) ↑
-          a.btn-criar-post(href="/inserir-topico")
+          a.btn-criar-post(href="/forum/inserir-topico")
             i.bi.bi-pencil
             span.btn-criar-texto  Criar post
-          
 
     script(src="/javascripts/forum.js")
     script.

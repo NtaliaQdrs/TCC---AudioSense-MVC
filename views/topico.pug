@@ -1,0 +1,85 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/forum.css')
+  link(rel='stylesheet', href='/stylesheets/topico.css')
+
+block content
+
+  main.page
+    .forum-header
+
+    section.topico-container
+      article.post-card.post-card-full
+        .post-user
+          - const fotoAutor = (topico.autor && topico.autor.foto_perfil) ? topico.autor.foto_perfil : '/images/foto-perfil-default.png'
+          - const nomeAutor = topico.autor ? topico.autor.nome_usuario : 'Usuário removido'
+          - const dataFormatada = new Date(topico.data_postagem).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })
+          img.avatar(src=fotoAutor alt="Foto de perfil")
+          .user-info
+            span.name= nomeAutor
+            br
+            span.date= dataFormatada
+        .post-content
+          h3= topico.titulo
+          p= topico.corpo_texto
+          if topico.imagem_url
+            img(src=topico.imagem_url)
+          if topico.video_url
+            video(src=topico.video_url controls)
+        .post-actions
+          span
+            i.bi.bi-chat-left
+            |  #{comentarios.length}
+          span.btn-curtir(data-id=topico.id data-curtido=jaCurtiu style="cursor:pointer")
+            i.bi(class=jaCurtiu ? 'bi-heart-fill' : 'bi-heart')
+            |  #{topico.curtidas}
+
+      section.comentarios-container
+        h4.comentarios-titulo Comentários
+
+        form.form-comentario(action=`/forum/${topico.id}/comentario` method="POST")
+          textarea(name="texto_comentario" placeholder="Escreva um comentário..." rows="3" required)
+          button.btn-submit-comentario(type="submit") Comentar
+
+        if comentarios && comentarios.length
+          each comentario in comentarios
+            - const fotoComentario = (comentario.autor && comentario.autor.foto_perfil) ? comentario.autor.foto_perfil : '/images/foto-perfil-default.png'
+            - const nomeComentario = comentario.autor ? comentario.autor.nome_usuario : 'Usuário removido'
+            - const dataComentario = new Date(comentario.data_comentario).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })
+            article.comentario-card
+              .comentario-user
+                img.avatar-sm(src=fotoComentario alt="Foto de perfil")
+                .user-info
+                  span.name= nomeComentario
+                  br
+                  span.date= dataComentario
+              .comentario-texto
+                p= comentario.texto_comentario
+
+              button.btn-responder(type="button" data-target=`resposta-form-${comentario.id}`) Responder
+
+              form.form-resposta(id=`resposta-form-${comentario.id}` action=`/forum/${topico.id}/comentario` method="POST" style="display:none;")
+                input(type="hidden" name="resposta_a_comentario_id" value=comentario.id)
+                textarea(name="texto_comentario" placeholder="Escreva uma resposta..." rows="2" required)
+                button.btn-submit-comentario(type="submit") Responder
+
+              if comentario.respostas && comentario.respostas.length
+                .respostas-lista
+                  each resposta in comentario.respostas
+                    - const fotoResposta = (resposta.autor && resposta.autor.foto_perfil) ? resposta.autor.foto_perfil : '/images/foto-perfil-default.png'
+                    - const nomeResposta = resposta.autor ? resposta.autor.nome_usuario : 'Usuário removido'
+                    - const dataResposta = new Date(resposta.data_comentario).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })
+                    article.comentario-card.comentario-resposta
+                      .comentario-user
+                        img.avatar-sm(src=fotoResposta alt="Foto de perfil")
+                        .user-info
+                          span.name= nomeResposta
+                          br
+                          span.date= dataResposta
+                      .comentario-texto
+                        p= resposta.texto_comentario
+        else
+          p.no-comentarios Ainda não há comentários. Seja o primeiro a comentar!
+
+    script(src="/javascripts/topico.js")

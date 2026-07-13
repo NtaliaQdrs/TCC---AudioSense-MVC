@@ -376,3 +376,48 @@ html.dark-theme .btn-filter {
 html.dark-theme .btn-filter:hover {
   background: #383850;
 }
+
+.form-apagar-topico {
+  display: inline-block;
+  margin: 0;
+}
+
+.btn-apagar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #d9534f;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.btn-apagar:hover {
+  background: rgba(217, 83, 79, 0.1);
+}
+
+.btn-apagar i {
+  font-size: 1rem;
+}
+
+.btn-curtir {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-curtir:hover {
+  background: rgba(217, 83, 79, 0.1);
+  color: #d9534f;
+}
+
+.btn-curtir:hover i {
+  color: #d9534f;
+}

@@ -70,7 +70,7 @@ block content
         .stat-icon
           i.bi.bi-chat-dots(aria-hidden="true")
         .stat-content
-          .stat-number 0
+          .stat-number= postagensForum.length
           .stat-label Postagens no fórum
 
       if usuario.tipo_usuario === 'docente'
@@ -141,53 +141,26 @@ block content
       //- TAB: FÓRUM
       .tab-content#tab-forum.tab-pane(role="tabpanel" aria-labelledby="tab-btn-forum")
         .forum-list
-          .forum-item
-            .forum-icon
-              i.bi.bi-chat-dots(aria-hidden="true")
-            .forum-content
-              h3.forum-title Como aplicar audiodescição em conteúdos educacionais?
-              p.forum-description Discussão sobre boas práticas e exemplos.
-              .forum-meta
-                span.forum-replies
-                  i.bi.bi-chat-left(aria-hidden="true")
-                  | 10 respostas
-                span.forum-date
-                  i.bi.bi-calendar(aria-hidden="true")
-                  | 12/05/2025
-                i.bi.bi-chevron-right(aria-hidden="true")
-
-          .forum-item
-            .forum-icon
-              i.bi.bi-chat-dots(aria-hidden="true")
-            .forum-content
-              h3.forum-title Dúvida: descrição de gráficos e tabelas
-              p.forum-description Alguém pode compartilhar técnicas?
-              .forum-meta
-                span.forum-replies
-                  i.bi.bi-chat-left(aria-hidden="true")
-                  | 7 respostas
-                span.forum-date
-                  i.bi.bi-calendar(aria-hidden="true")
-                  | 05/05/2025
-                i.bi.bi-chevron-right(aria-hidden="true")
-
-          .forum-item
-            .forum-icon
-              i.bi.bi-chat-dots(aria-hidden="true")
-            .forum-content
-              h3.forum-title Indicação de ferramentas gratuitas
-              p.forum-description Quais ferramentas vocês usam para gravar áudios?
-              .forum-meta
-                span.forum-replies
-                  i.bi.bi-chat-left(aria-hidden="true")
-                  | 15 respostas
-                span.forum-date
-                  i.bi.bi-calendar(aria-hidden="true")
-                  | 28/04/2025
-                i.bi.bi-chevron-right(aria-hidden="true")
+          if postagensForum.length === 0
+            p(style="color:#6B7280; padding: 20px") Você ainda não postou no fórum.
+          each topico in postagensForum
+            a.forum-item(href=`/forum/${topico.id}` style="text-decoration:none; color:inherit;")
+              .forum-icon
+                i.bi.bi-chat-dots(aria-hidden="true")
+              .forum-content
+                h3.forum-title= topico.titulo
+                p.forum-description= topico.corpo_texto_curto
+                .forum-meta
+                  span.forum-replies
+                    i.bi.bi-chat-left(aria-hidden="true")
+                    |  #{topico.comentarios ? topico.comentarios.length : 0} respostas
+                  span.forum-date
+                    i.bi.bi-calendar(aria-hidden="true")
+                    |  #{new Date(topico.data_postagem).toLocaleDateString('pt-BR')}
+                  i.bi.bi-chevron-right(aria-hidden="true")
 
         .view-all-link
-          a(href="#") Ver todas
+          a(href="/forum") Ver todas
 
       //- TAB: MATERIAIS
       .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais")

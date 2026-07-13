@@ -170,6 +170,7 @@ export const salvarCustomizacao = async (req, res) => {
     }
 };
 // VER PERFIL — busca os dados do usuário logado e passa para a view
+// VER PERFIL — busca os dados do usuário logado e passa para a view
 export const verPerfil = async (req, res) => {
     try {
         const usuario = await Usuario.findOne({
@@ -229,6 +230,22 @@ export const verPerfil = async (req, res) => {
             }
         }
 
+      
+        // Busca postagens do fórum feitas pelo usuário
+        const postagensForumRaw = await db.Publicacao.findAll({
+            where: { usuario_id: usuario.id },
+            include: [{ model: db.Comentario, as: 'comentarios', attributes: ['id'] }],
+            order: [['data_postagem', 'DESC']]
+        });
+
+        const postagensForum = postagensForumRaw.map(topico => {
+            const dados = topico.toJSON();
+            dados.corpo_texto_curto = dados.corpo_texto.length > 100
+                ? dados.corpo_texto.slice(0, 100) + '...'
+                : dados.corpo_texto;
+            return dados;
+        });
+
         return res.render('perfil', {
             title: 'Meu Perfil',
             usuario: usuario.toJSON(),
@@ -237,6 +254,7 @@ export const verPerfil = async (req, res) => {
             podeTrocarNome,
             diasRestantes,
             audiodescricoes,
+            postagensForum,
             is_admin
         });
 

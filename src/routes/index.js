@@ -91,16 +91,6 @@ router.get('/inserir-material', auth, (req, res) =>
 router.get('/inserir-entretenimento', auth, exibirInserirEntretenimento);
 router.post('/inserir-entretenimento', auth, uploadPoster.single('poster'), salvarEntretenimento);
 
-// ═══════════════════════════════════════════════
-// FÓRUM
-// ═══════════════════════════════════════════════
 
-router.get('/forum', (req, res) =>
-    res.render('forum', { title: 'Fórum' })
-);
-router.get('/inserir-topico', auth, (req, res) => {
-    console.log("DADOS DO USUÁRIO NO FÓRUM:", req.session.usuarioLogado);
-    res.render('inserirTopico', { title: 'Inserir Tópico', usuario: req.session.usuarioLogado || null });
-});
 
 export default router;

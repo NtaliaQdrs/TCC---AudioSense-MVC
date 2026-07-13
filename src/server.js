@@ -19,6 +19,7 @@ import adminRoutes from './routes/admin.js';
 import usuarioRoutes from './routes/usuario.js';
 import estatisticaRoutes from './routes/estatistica.js';
 import notificacaoRoutes from './routes/notificacao.js';
+import forumRoutes from './routes/forum.js';
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use('/users', usersRoutes);
 app.use('/painelAdmin1', adminRoutes);
 app.use('/estatisticas', estatisticaRoutes);
 app.use('/notificacoes', notificacaoRoutes);
+app.use('/forum', forumRoutes);
 
 const PORT = process.env.PORT || 3000;
 const RECONSTRUIR_BANCO = false;
