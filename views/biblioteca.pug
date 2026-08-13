@@ -15,7 +15,7 @@ block content
       
       //- Condicional para renderizar o botão apenas para docentes
       if usuario && usuario.tipo_usuario === 'docente'
-        button.btn-insert(aria-label="Inserir novo conteúdo na biblioteca")
+        a.btn-insert(href="/inserir-material" aria-label="Inserir novo conteúdo na biblioteca")
           i.bi.bi-plus(aria-hidden="true")
           |  Inserir conteúdo
 
@@ -29,108 +29,57 @@ block content
 
     //- Seção de materiais disponíveis
     .materials-section
-      h2.materials-title Materiais disponíveis (3)
+      h2.materials-title Materiais disponíveis (#{materiais.length})
 
-      //- Card 1: Guia Completo de LIBRAS
-      .material-card
-        .card-icon
-          i.bi.bi-book-fill(aria-hidden="true")
-        
-        .card-image
-          img(src="../images/guia-libras.png" alt="Capa do Guia Completo de LIBRAS")
-        
-        .card-content
-          h3.card-title Guia Completo de LIBRAS
-          p.card-description Apostila completa sobre vocabulário em LIBRAS
-          
-          .card-meta
-            span.meta-item
-              i.bi.bi-person(aria-hidden="true")
-              |  Prof. João da Silva
-            
-            span.meta-item
-              i.bi.bi-calendar(aria-hidden="true")
-              |  04/10/2026
-          
-          .card-tags
-            span.tag Acessibilidade
-            span.tag Educação
-            span.tag Apostila
-          
-          button.btn-audio(aria-label="Ouvir audiodescrição do material")
-            i.bi.bi-volume-up(aria-hidden="true")
-            |  Ouvir audiodescrição
-        
-        .card-rating
-          i.bi.bi-star-fill(aria-hidden="true")
-          span.rating-value 4.8
+      if materiais.length === 0
+        p Nenhum material disponível ainda.
 
-      //- Card 2: Introdução a Geografia
-      .material-card
-        .card-icon.purple
-          i.bi.bi-play-circle-fill(aria-hidden="true")
-        
-        .card-image
-          img(src="../images/introducao-geografia.png" alt="Capa de Introdução a Geografia")
-        
-        .card-content
-          h3.card-title Introdução a Geografia
-          p.card-description Vídeo introdutório à matéria geografia
-          
-          .card-meta
-            span.meta-item
-              i.bi.bi-person(aria-hidden="true")
-              |  Prof. Maria de Souza
-            
-            span.meta-item
-              i.bi.bi-calendar(aria-hidden="true")
-              |  04/10/2026
-          
-          .card-tags
-            span.tag Geografia
-            span.tag Educação
-            span.tag Vídeo
-          
-          button.btn-audio(aria-label="Ouvir audiodescrição do material")
-            i.bi.bi-volume-up(aria-hidden="true")
-            |  Ouvir audiodescrição
-        
-        .card-rating
-          i.bi.bi-star-fill(aria-hidden="true")
-          span.rating-value 4.5
+      each material in materiais
+        .material-card(data-href=`/material/${material.id}`)
+          .card-icon(class=material.tipo_material === 'video' ? 'purple' : (material.tipo_material === 'artigo' ? 'blue' : ''))
+            if material.tipo_material === 'video'
+              i.bi.bi-play-circle-fill(aria-hidden="true")
+            else if material.tipo_material === 'artigo'
+              i.bi.bi-file-earmark-text-fill(aria-hidden="true")
+            else if material.tipo_material === 'slide'
+              i.bi.bi-file-slides-fill(aria-hidden="true")
+            else
+              i.bi.bi-folder-fill(aria-hidden="true")
 
-      //- Card 3: Educação ambiental
-      .material-card
-        .card-icon.blue
-          i.bi.bi-file-earmark-text-fill(aria-hidden="true")
-        
-        .card-image
-          img(src="../images/educacao-ambiental.png" alt="Capa de Educação ambiental")
-        
-        .card-content
-          h3.card-title Educação ambiental
-          p.card-description Artigo Seção temática sobre educação ambiental
-          
-          .card-meta
-            span.meta-item
-              i.bi.bi-person(aria-hidden="true")
-              |  Prof. Ana Cristina
-            
-            span.meta-item
-              i.bi.bi-calendar(aria-hidden="true")
-              |  04/10/2026
-          
-          .card-tags
-            span.tag Educação ambiental
-            span.tag Educação
-            span.tag Artigo
-          
-          button.btn-audio(aria-label="Ouvir audiodescrição do material")
-            i.bi.bi-volume-up(aria-hidden="true")
-            |  Ouvir audiodescrição
-        
-        .card-rating
-          i.bi.bi-star-fill(aria-hidden="true")
-          span.rating-value 5
+          if material.capa
+            .card-image
+              img(src=material.capa alt=`Capa de ${material.titulo}`)
+
+          .card-content
+            h3.card-title #{material.titulo}
+            if material.descricao
+              p.card-description #{material.descricao}
+
+            .card-meta
+              span.meta-item
+                i.bi.bi-person(aria-hidden="true")
+                |  Prof. #{material.docenteNome}
+
+              span.meta-item
+                i.bi.bi-calendar(aria-hidden="true")
+                |  #{material.data_publicacao.toLocaleDateString('pt-BR')}
+
+            .card-tags
+              if material.disciplinaNome
+                span.tag #{material.disciplinaNome}
+              span.tag #{material.tipo_material}
+
+          .card-rating
+            if material.media
+              i.bi.bi-star-fill(aria-hidden="true")
+              span.rating-value #{material.media}
+            else
+              span.rating-value Sem avaliações
+
+          if material.podeApagar
+            form.form-apagar-material(action=`/material/${material.id}/apagar` method="POST")
+              button.btn-delete-material(type="submit" aria-label="Apagar material")
+                i.bi.bi-trash(aria-hidden="true")
+                |  Apagar
 
   script(src="../javascripts/biblioteca.js")

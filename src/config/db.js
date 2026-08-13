@@ -22,4 +22,6 @@ const sequelize = new Sequelize(
     }
 );
 
+console.log('Conectando em:', process.env.DB_HOST, process.env.DB_DATABASE);
+
 export default sequelize;

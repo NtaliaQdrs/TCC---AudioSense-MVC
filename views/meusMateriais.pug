@@ -1,0 +1,71 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/stylesheets/meusMateriais.css')
+
+block content
+  .page
+    .minha-ad-header
+      .minha-ad-header-left
+        h1.title Meus Materiais
+
+    .search-section
+      .search-box
+        i.bi.bi-search
+        input(type="text" id="buscaInput" placeholder="Buscar por título ou descrição...")
+      a.btn-insert(href="/inserir-material")
+        i.bi.bi-plus-circle
+        span Novo material
+
+    .filters-section
+      button.filter-btn.active(data-filtro="todos") Todos
+      button.filter-btn(data-filtro="artigo") Artigo
+      button.filter-btn(data-filtro="slide") Slide
+      button.filter-btn(data-filtro="video") Vídeo
+      button.filter-btn(data-filtro="outro") Outro
+
+    .materials-section
+      h2.materials-title Materiais (#{materiais.length})
+
+      if materiais.length === 0
+        .minha-ad-vazio
+          i.bi.bi-folder2-open
+          p Você ainda não publicou nenhum material.
+
+      else
+        .minha-ad-grid
+          each item in materiais
+            .ad-card(data-tipo=item.tipo_material data-titulo=item.titulo)
+              .ad-card-imagem
+                if item.capa
+                  img(src=item.capa alt=item.titulo)
+                else
+                  .ad-card-video-thumb
+                    i.bi(class=item.tipo_material === 'video' ? 'bi-play-circle' : (item.tipo_material === 'artigo' ? 'bi-file-earmark-text' : (item.tipo_material === 'slide' ? 'bi-file-slides' : 'bi-folder')))
+                    span= item.tipo_material.charAt(0).toUpperCase() + item.tipo_material.slice(1)
+
+                .ad-card-status-badge(class='badge-tipo-' + item.tipo_material)
+                  span= item.tipo_material.charAt(0).toUpperCase() + item.tipo_material.slice(1)
+
+              .ad-card-corpo
+                h3.ad-card-titulo= item.titulo
+                p.ad-card-descricao= item.descricao || 'Sem descrição.'
+                .ad-card-data
+                  i.bi.bi-calendar3
+                  span= new Date(item.data_publicacao).toLocaleDateString('pt-BR')
+                if item.media
+                  .ad-card-data
+                    i.bi.bi-star-fill
+                    span= item.media + ' (' + item.totalAvaliacoes + ' avaliações)'
+
+              .ad-card-acoes
+                a.btn-acao.btn-acao-primary(href='/material/' + item.id)
+                  i.bi.bi-eye
+                  span Ver material
+
+                form(action='/material/' + item.id + '/apagar' method='POST' onsubmit="return confirm('Tem certeza que deseja apagar este material? Essa ação não pode ser desfeita.')")
+                  button.btn-acao.btn-acao-danger(type='submit')
+                    i.bi.bi-trash
+                    span Apagar
+
+  script(src="/javascripts/meusMateriais.js")

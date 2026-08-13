@@ -16,8 +16,12 @@ block content
             img(src="../images/definicao.png")
             h3 Definição e conceitos
             .card-content
-              p A audiodescrição é um recurso de acessibilidade que traduz imagens em palavras, permitindo que pessoas cegas ou com baixa visão compreendam conteúdos visuais em filmes, peças de teatro, programas de TV e outros eventos.
-              p Além disso, a audiodescrição fornece informações sobre expressões faciais, figurinos, cenários e movimentos, preenchendo as lacunas que o diálogo sozinho não consegue transmitir. É uma ferramenta fundamental para a autonomia e inclusão cultural.
+              p A audiodescrição é um recurso de acessibilidade comunicacional, que traduz imagens em palavras, possibilitando que as pessoas que se beneficiam desse recurso tenham acesso às informações visuais.
+
+              p Trata-se de uma tradução intersemiótica, que traduz informações imagéticas para informações verbais.
+
+              p Intersemiótica é a transmutação de um sistema de signos para outro, nesse caso, de um sistema não verbal, imagético, para o verbal.
+
             button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         article.extra-card.card2
@@ -25,7 +29,8 @@ block content
             img(src="../images/usuarios.png")
             h3 Quem são os usuários?
             .card-content
-              p Embora seja essencial para pessoas com deficiência visual, a audiodescrição também beneficia pessoas com dislexia, idosos e pessoas com deficiência intelectual, ajudando na compreensão de contextos visuais complexos.
+              p Ele beneficia principalmente pessoas com deficiência visual, entre elas cegas e com baixa visão.
+              p E amplia a compreensão, como uma segunda forma de acesso à comunicação, para pessoas com deficiência intelectual, com TDAH, autistas, disléxicos, idosos e crianças.
               p No contexto educacional, ela auxilia estudantes a focarem em detalhes importantes de imagens técnicas ou mapas, tornando o aprendizado mais robusto para todos os tipos de perfis cognitivos.
             button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
@@ -34,8 +39,17 @@ block content
             img(src="../images/importancia.png")
             h3 A importância deste recurso
             .card-content
-              p Este recurso promove a inclusão social e cultural, garantindo o direito de acesso à informação e ao entretenimento de forma autônoma e igualitária para todos os cidadãos.
-              p Sem a audiodescrição, uma grande parcela da população fica excluída de debates culturais, produções cinematográficas e até mesmo de informações básicas transmitidas via vídeo, o que fere o princípio da acessibilidade universal.
+              p Este recurso é necessário em quaisquer lugares que tenham informações visuais para fruição, tais como: sites, cinema, teatro, escola, programas televisivos, passeios turísticos, shows, desfiles, apresentações de dança, e tantos outros.
+
+              p Ela oportuniza:
+
+              p  - a locomoção nos espaços com autonomia;
+              p  - a participação em eventos artísticos culturais em igualdade com os demais;
+              p  - o acesso à informação;
+              p  - a navegação por ambientes virtuais com independência;
+              p  - o acesso a internet com autonomia;
+
+
             button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         article.extra-card1.card4
@@ -44,7 +58,24 @@ block content
             h3 Exemplos práticos
             .card-content
               p Exemplos incluem a descrição de cenários, expressões faciais, figurinos e ações físicas que não são reveladas apenas pelo som ou pelo diálogo em uma produção audiovisual.
-              p Imagine uma cena de suspense onde um personagem entra silenciosamente em uma sala com uma faca na mão. Sem a audiodescrição, o usuário cego ouviria apenas o silêncio ou uma música tensa, perdendo o elemento crucial da narrativa.
+              .exemplos-galeria
+                figure.exemplo-item
+                  img(src="/images/exemplo1.png", alt="Exemplo prático de audiodescrição 1")
+                  figcaption
+                    strong Exemplo 1:
+                    |  Pintura vertical. Uma figura de corpo esguio com o rosto pálido e arredondado, olhos bem abertos e boca ovulada, está sobre uma ponte de madeira com parapeito, diante de um corpo d'água sinuoso e um céu com faixas horizontais amarelas e vermelhas. Vê-se de perto a figura com as duas mãos apoiadas nas laterais da cabeça e a boca aberta. 
+
+                figure.exemplo-item
+                  img(src="/images/exemplo2.png", alt="Exemplo prático de audiodescrição 2")
+                  figcaption
+                    strong Exemplo 2:
+                    |  Fotografia colorida na qual vê-se de perto a cabeça do animal. Um gato de pelagem predominantemente branca com manchas beges nas orelhas e olhos abertos está em um cômodo interno com teto de madeira, lâmpada acesa e araras com roupas ao fundo. O gato projeta a cabeça em direção à câmera com a língua rosa estendida para fora da boca. 
+                figure.exemplo-item
+                  img(src="/images/exemplo3.png", alt="Exemplo prático de audiodescrição 3")
+                  figcaption
+                    strong Exemplo 3:
+                    |  Cartaz vertical com informações em texto nas extremidades superior e inferior. Um homem com bigode vestindo camisa clara, uma mulher de vestido branco com colar colorido e duas crianças à frente estão em um local ao ar livre, diante do mar e de um céu azul claro. O homem e as crianças mostram os dentes em um sorriso direcionado à câmera, enquanto a mulher olha para a frente com os lábios fechados e segura uma mecha do cabelo da criança ao seu lado. 
+
             button.read-more(onclick="toggleFullscreen(this)") Ler mais
 
         // SIDEBAR
@@ -100,7 +131,11 @@ block content
       .practice
         h2 Coloque em prática o que você aprendeu!
         br
-        p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais.
+        p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais. 
+        p Faça as audiodescrição da usando a fórmula: O que é; quem é? onde? O que está fazendo? 
+        p (Formato + sujeito + paisagem + ação)
+        p Não utilize termos técnicos como: primeiro plano, close, opte por vê-se de perto.
+
         a(href="/inserir-audiodescricao") Inserir audiodescrição
 
     if usuarioLogado && usuarioLogado.tipo_usuario === 'docente'

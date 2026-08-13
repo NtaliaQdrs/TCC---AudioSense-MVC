@@ -1,0 +1,244 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
+  link(rel='stylesheet', href='/stylesheets/verMaterial.css')
+
+block content
+  main.vm-page
+    .vm-wrapper
+      h1.vm-page-title Biblioteca de materiais acessibilizados
+
+      .vm-card-container
+
+        .vm-top-grid
+
+          //- --- Card lateral: docente / metadados ---
+          aside.vm-info-card
+            
+
+            button.vm-minimize-btn(type="button" aria-label="Minimizar informações" aria-expanded="true")
+              i.bi.bi-dash-lg
+
+            .vm-info-body
+              .vm-avatar-wrap
+                if material.docente.usuario.foto_perfil
+                  img.vm-avatar(src=material.docente.usuario.foto_perfil alt=`Foto de ${material.docente.usuario.nome_completo}`)
+                else
+                  .vm-avatar.vm-avatar-placeholder
+                    i.bi.bi-person-circle
+
+              ul.vm-meta-list
+                li
+                  i.bi.bi-person-badge-fill
+                  span Prof. #{material.docente.usuario.nome_completo}
+                li
+                  i.bi.bi-calendar-event-fill
+                  span= new Date(material.data_publicacao).toLocaleDateString('pt-BR')
+
+              if material.descricao
+                p.vm-descricao= material.descricao
+
+              .vm-tags
+                if material.tags && material.tags.length
+                  each tag in material.tags
+                    span.vm-tag= tag
+                else
+                  if material.disciplina
+                    span.vm-tag= material.disciplina.titulo
+                  else if material.disciplina_outro
+                    span.vm-tag= material.disciplina_outro
+                  span.vm-tag= material.tipo_material === 'video' ? 'Vídeo' : (material.tipo_material === 'slide' ? 'Apresentação' : 'Documento')
+
+          //- --- Card principal: preview do material ---
+          section.vm-preview-card
+            h2.vm-title= material.titulo
+
+            .vm-media
+              if material.tipo_material === 'video'
+                video.vm-video(controls)
+                  source(src=material.caminho_arquivo)
+                  | Seu navegador não suporta vídeo.
+
+              else
+                //- PPTX/DOC não têm visualizador nativo no navegador (ele baixa em vez de mostrar).
+                //- O Office Online Viewer (Microsoft) renderiza PPTX/DOCX/XLSX externos embutido.
+                //- PDF também abre nele, então serve pra tudo que não é vídeo.
+                iframe.vm-doc-viewer(src=`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(material.caminho_arquivo)}` title=material.titulo)
+
+                a.vm-open-btn(href=material.caminho_arquivo target="_blank" rel="noopener")
+                  i.bi.bi-box-arrow-up-right
+                  |  Abrir em nova aba
+
+            if material.caminho_audio_descricao
+              .vm-audio-block
+                label
+                  i.bi.bi-headphones
+                  | Audiodescrição
+                audio(controls)
+                  source(src=material.caminho_audio_descricao)
+                  | Seu navegador não suporta áudio.
+
+            .vm-disciplina-row
+              span.vm-disciplina-label Disciplina:
+              span.vm-disciplina-valor= material.disciplina ? material.disciplina.titulo : (material.disciplina_outro || 'Não informada')
+
+        //- ===== Avaliações =====
+        section.vm-reviews-card
+          .vm-rating-summary
+            if media
+              span.vm-rating-numero= media.toString().replace('.', ',')
+              .vm-rating-estrelas
+                each i in [1,2,3,4,5]
+                  if i <= Math.floor(media)
+                    i.bi.bi-star-fill
+                  else if i === Math.ceil(media) && media % 1 !== 0
+                    i.bi.bi-star-half
+                  else
+                    i.bi.bi-star
+              span.vm-rating-total Avaliações (#{totalAvaliacoes})
+            else
+              p.vm-sem-avaliacoes Ainda não há avaliações para este material.
+
+          if podeAvaliar
+            form.vm-form-avaliacao(action=`/material/${material.id}/avaliar` method="POST")
+              textarea.vm-textarea(name="comentario" placeholder="Deixe um comentário e uma avaliação...")
+              .vm-form-footer
+                .vm-estrelas-input
+                  each i in [5,4,3,2,1]
+                    input(type="radio" name="nota" id=`estrela-${i}` value=i required)
+                    label(for=`estrela-${i}`)
+                      i.bi.bi-star-fill
+                button.vm-submit-btn(type="submit") Enviar resenha
+              p.vm-aviso(style="font-size: 13px; color: var(--vm-text-muted); margin-top: 10px;")
+                | Ao enviar, você concorda com nossa 
+                a(href="#" style="color: var(--vm-accent); text-decoration: none;") política de privacidade
+          else if !usuario
+            p.vm-aviso
+              | 
+              a(href="/usuario" style="color: var(--vm-accent); font-weight: 600;") Faça login
+              |  como discente para avaliar este material.
+          else if usuario.tipo_usuario !== 'discente'
+            p.vm-aviso(style="color: var(--vm-text-muted);") Apenas discentes podem avaliar materiais.
+          else
+            p.vm-aviso(style="color: var(--vm-text-muted);") Você já avaliou este material.
+
+          .vm-lista-avaliacoes
+            each avaliacao in material.avaliacoes
+              .vm-avaliacao-item
+                .vm-avaliacao-avatar
+                  i.bi.bi-person-fill
+                .vm-avaliacao-corpo
+                  .vm-avaliacao-header
+                    span.vm-avaliacao-nome= avaliacao.discente.Usuario.nome_completo
+                    .vm-rating-estrelas.vm-rating-estrelas-sm(style="font-size: 16px;")
+                      each i in [1,2,3,4,5]
+                        i.bi(class=i <= avaliacao.nota ? 'bi-star-fill' : 'bi-star')
+                    span.vm-avaliacao-data= new Date(avaliacao.data_avaliacao).toLocaleDateString('pt-BR')
+                  if avaliacao.comentario
+                    p.vm-avaliacao-comentario= avaliacao.comentario
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      // ---- Minimizar card do docente ----
+      var infoCard = document.querySelector('.vm-info-card');
+      var topGrid = document.querySelector('.vm-top-grid');
+      var minimizeBtn = document.querySelector('.vm-minimize-btn');
+      if (infoCard && minimizeBtn) {
+        minimizeBtn.addEventListener('click', function () {
+          var collapsed = infoCard.classList.toggle('is-collapsed');
+          if (topGrid) topGrid.classList.toggle('is-collapsed', collapsed);
+          minimizeBtn.setAttribute('aria-expanded', String(!collapsed));
+          minimizeBtn.innerHTML = collapsed
+            ? '<i class="bi bi-plus-lg"></i>'
+            : '<i class="bi bi-dash-lg"></i>';
+        });
+      }
+
+      // ---- Carrossel de slides ----
+      document.querySelectorAll('.vm-carousel').forEach(function (carousel) {
+        var slides = Array.prototype.slice.call(carousel.querySelectorAll('.vm-carousel-slide'));
+        var dots = Array.prototype.slice.call(carousel.querySelectorAll('.vm-carousel-dot'));
+        var counter = carousel.querySelector('.vm-carousel-current');
+        var prevBtn = carousel.querySelector('.vm-carousel-prev');
+        var nextBtn = carousel.querySelector('.vm-carousel-next');
+        var track = carousel.querySelector('.vm-carousel-track');
+        var current = 0;
+
+        function goTo(index) {
+          if (index < 0) index = slides.length - 1;
+          if (index >= slides.length) index = 0;
+          slides[current].classList.remove('is-active');
+          dots[current] && dots[current].classList.remove('is-active');
+          current = index;
+          slides[current].classList.add('is-active');
+          dots[current] && dots[current].classList.add('is-active');
+          if (counter) counter.textContent = current + 1;
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+        dots.forEach(function (dot, i) {
+          dot.addEventListener('click', function () { goTo(i); });
+        });
+
+        carousel.tabIndex = 0;
+        carousel.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft') goTo(current - 1);
+          if (e.key === 'ArrowRight') goTo(current + 1);
+        });
+
+        // ---- Arrastar (touch + mouse) ----
+        if (track) {
+          var startX = 0;
+          var deltaX = 0;
+          var isDragging = false;
+          var THRESHOLD = 40;
+
+          track.addEventListener('touchstart', function (e) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            deltaX = 0;
+          }, { passive: true });
+
+          track.addEventListener('touchmove', function (e) {
+            if (!isDragging) return;
+            deltaX = e.touches[0].clientX - startX;
+          }, { passive: true });
+
+          track.addEventListener('touchend', function () {
+            if (!isDragging) return;
+            isDragging = false;
+            if (Math.abs(deltaX) > THRESHOLD) {
+              goTo(deltaX < 0 ? current + 1 : current - 1);
+            }
+            deltaX = 0;
+          });
+
+          track.addEventListener('mousedown', function (e) {
+            startX = e.clientX;
+            isDragging = true;
+            deltaX = 0;
+            track.classList.add('is-dragging');
+            e.preventDefault();
+          });
+
+          window.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            deltaX = e.clientX - startX;
+          });
+
+          window.addEventListener('mouseup', function () {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('is-dragging');
+            if (Math.abs(deltaX) > THRESHOLD) {
+              goTo(deltaX < 0 ? current + 1 : current - 1);
+            }
+            deltaX = 0;
+          });
+        }
+      });
+    });

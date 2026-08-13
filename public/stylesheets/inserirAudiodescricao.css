@@ -129,7 +129,7 @@ textarea.form-control {
     color: #582d86;
     padding: 8px 25px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
@@ -237,7 +237,7 @@ textarea.form-control {
 }
 
 .projeto-resumo-label {
-    font-size: 12px;
+    font-size: 13px;
     color: #999;
     text-transform: uppercase;
     letter-spacing: 1px;

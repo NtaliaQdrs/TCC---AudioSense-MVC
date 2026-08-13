@@ -13,33 +13,49 @@ block content
       // Conteúdo principal (cards)
       .main-content
 
-        .card
+        article.card
           .card-header
             img(src="../images/cegueira.png" alt="")
             h2 O que é cegueira?
-          p
-            | A cegueira é a perda total ou quase total da visão, na qual em muitos casos não há um tratamento. 
-            | Essa condição pode ter várias causas, podendo estar presente desde o nascimento 
-            | ou ser provocada por doenças oculares e acidentes.
+          p.card-text#texto-cegueira
+            | De acordo com o Decreto nº 5.296/2004, a cegueira é caracterizada pela acuidade visual igual ou menor que 0,05 no melhor olho, mesmo com a melhor correção óptica, ou campo visual somado igual ou menor que 60°. No contexto pedagógico, isso leva o estudante a utilizar o Sistema Braille, recursos táteis e tecnologias assistivas como principal via de acesso ao conteúdo, tendo na audiodescrição um recurso essencial de comunicação escrita e sonora.
+          button.toggle-card(
+            type="button"
+            onclick="toggleFullscreen(this)"
+            aria-expanded="false"
+            aria-controls="texto-cegueira"
+          ) Ler mais
 
-        .card
+        article.card
           .card-header
             img(src="../images/visaobaixa.png" alt="")
             h2 O que é baixa visão?
-          p
+          p.card-text#texto-baixavisao
             | A baixa visão é a perda significativa da visão, não sendo possível ser corrigida por óculos, 
             | lentes de contato, medicamentos ou cirurgia. Apesar disso, a pessoa ainda possui algum grau 
             | de visão com uma funcionalidade preservada.
+          button.toggle-card(
+            type="button"
+            onclick="toggleFullscreen(this)"
+            aria-expanded="false"
+            aria-controls="texto-baixavisao"
+          ) Ler mais
 
-        .card
+        article.card
           .card-header
             img(src="../images/auxilio.png" alt="")
             h2 Como interagir e guiar pessoas com deficiência visual
-          p
+          p.card-text#texto-auxilio
             | Ao interagir com pessoas com deficiência visual é importante perguntar antes de oferecer ajuda. 
             | Caso precise guiar alguém, deixe que a pessoa segure o seu braço, em vez de puxá-la. 
             | Identifique-se antes de iniciar uma conversa e descreva o ambiente com clareza. 
             | Mantendo sempre uma comunicação respeitosa e clara.
+          button.toggle-card(
+            type="button"
+            onclick="toggleFullscreen(this)"
+            aria-expanded="false"
+            aria-controls="texto-auxilio"
+          ) Ler mais
 
       // Sidebar
       aside.sidebar(aria-labelledby="sidebar-title")
@@ -66,30 +82,160 @@ block content
                 i.bi.bi-people(aria-hidden="true")
                 small.text Relatos
               a(href="#") (Depoimentos)
+            hr
 
-        nav(aria-label="Links complementares")
-          // seus itens...
-
-          hr
 
         button.toggle-sidebar(
           onclick="toggleSidebar()"
           aria-expanded="true"
           aria-label="Expandir ou recolher menu"
         ) ↑
-  
-  // 👇 fora da sidebar (mesmo nível do main)
+
+  // Overlay para fechar o card expandido clicando fora
+  #overlay.card-overlay(onclick="closeAllCards()")
+
   script.
+    let lastFocusedElement = null;
+
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const wrapper = document.querySelector('.content-wrapper');
       const button = document.querySelector('.toggle-sidebar');
 
       const isCollapsed = sidebar.classList.toggle('collapsed');
-
-      wrapper.classList.toggle('sidebar-collapsed'); // 👈 ESSENCIAL
+      wrapper.classList.toggle('sidebar-collapsed');
 
       button.textContent = isCollapsed ? '↓' : '↑';
       button.setAttribute('aria-expanded', !isCollapsed);
     }
-  
+
+    function getTargetRect() {
+      const width = Math.min(window.innerWidth * 0.9, 800);
+      const height = Math.min(window.innerHeight * 0.8, 600);
+      const top = window.innerHeight / 2 + 50 - height / 2;
+      const left = window.innerWidth / 2 - width / 2;
+      return { top, left, width, height };
+    }
+
+    function toggleFullscreen(button) {
+      const card = button.closest('article');
+      const overlay = document.getElementById('overlay');
+
+      if (card.classList.contains('fullscreen')) {
+        closeAllCards();
+      } else {
+        closeAllCards();
+
+        lastFocusedElement = button;
+
+        // 1. FIRST: guarda a posição/tamanho original do card
+        const startRect = card.getBoundingClientRect();
+
+        // 2. Cria um placeholder do mesmo tamanho, pra segurar o espaço vazio
+        const placeholder = document.createElement('div');
+        placeholder.className = 'card-placeholder';
+        placeholder.style.width = startRect.width + 'px';
+        placeholder.style.height = startRect.height + 'px';
+        placeholder.style.margin = window.getComputedStyle(card).margin;
+        placeholder.id = 'placeholder-' + Math.random().toString(36).slice(2);
+        card.parentNode.insertBefore(placeholder, card);
+        card.dataset.placeholderId = placeholder.id;
+
+        // 3. Move o card pro body, posicionado exatamente onde ele estava (sem pulo visual)
+        document.body.appendChild(card);
+        card.style.position = 'fixed';
+        card.style.top = startRect.top + 'px';
+        card.style.left = startRect.left + 'px';
+        card.style.width = startRect.width + 'px';
+        card.style.height = startRect.height + 'px';
+        card.style.transition = 'none';
+
+        document.body.appendChild(overlay);
+        card.setAttribute('role', 'dialog');
+        card.setAttribute('aria-modal', 'true');
+        document.body.style.overflow = 'hidden';
+
+        // Bloqueia foco/clique/leitor de tela em tudo que não é o modal
+        Array.from(document.body.children).forEach(el => {
+          if (el !== card && el !== overlay) el.setAttribute('inert', '');
+        });
+
+        // força o navegador a registrar a posição inicial antes de animar
+        void card.offsetHeight;
+
+        requestAnimationFrame(() => {
+          card.style.transition = '';
+          card.classList.add('fullscreen');
+          overlay.classList.add('active');
+
+          // 4. LAST/PLAY: anima do ponto original até o centro da tela
+          const target = getTargetRect();
+          card.style.top = target.top + 'px';
+          card.style.left = target.left + 'px';
+          card.style.width = target.width + 'px';
+          card.style.height = target.height + 'px';
+
+          requestAnimationFrame(() => {
+            overlay.classList.add('show');
+          });
+
+          button.textContent = 'Fechar';
+          const focusTarget = card.querySelector('.toggle-card');
+          if (focusTarget) focusTarget.focus();
+        });
+
+        document.addEventListener('keydown', handleEscKey);
+      }
+    }
+
+    function closeAllCards() {
+      const cards = document.querySelectorAll('article.fullscreen');
+      const overlay = document.getElementById('overlay');
+
+      cards.forEach(card => {
+        const placeholder = document.getElementById(card.dataset.placeholderId);
+        if (!placeholder) return;
+
+        const endRect = placeholder.getBoundingClientRect();
+        overlay.classList.remove('show');
+
+        // anima de volta pra posição do placeholder
+        card.style.top = endRect.top + 'px';
+        card.style.left = endRect.left + 'px';
+        card.style.width = endRect.width + 'px';
+        card.style.height = endRect.height + 'px';
+
+        const btn = card.querySelector('.toggle-card');
+        if (btn) btn.textContent = 'Ler mais';
+
+        setTimeout(() => {
+          card.classList.remove('fullscreen');
+          card.removeAttribute('role');
+          card.removeAttribute('aria-modal');
+          card.style.position = '';
+          card.style.top = '';
+          card.style.left = '';
+          card.style.width = '';
+          card.style.height = '';
+
+          placeholder.parentNode.insertBefore(card, placeholder);
+          placeholder.remove();
+          delete card.dataset.placeholderId;
+        }, 400);
+      });
+
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+
+      Array.from(document.body.children).forEach(el => el.removeAttribute('inert'));
+      document.removeEventListener('keydown', handleEscKey);
+
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+      }
+    }
+
+    function handleEscKey(e) {
+      if (e.key === 'Escape') closeAllCards();
+    }

@@ -92,7 +92,7 @@ body { background-color: #E9CCEF; }
 
 .user-info { flex: 1; }
 .user-name { font-weight: bold; font-size: 16px; color: #111827; }
-.user-email { font-size: 14px; color: #6b7280; }
+.user-email { font-size: 15px; color: #6b7280; }
 
 .user-tag {
   display: inline-block;
@@ -103,28 +103,28 @@ body { background-color: #E9CCEF; }
   margin-top: 5px;
 }
 
-.tag-musica { background-color: #f3e8ff; color: #6b21a8; }
-.tag-artes { background-color: #f3e8ff; color: #6b21a8; }
-.tag-docente { background-color: #dbeafe; color: #1e40af; margin-right: 5px; }
+.tag-musica { background-color: #f3e8ff; color: #6b21a8; font-size: 13px;  }
+.tag-artes { background-color: #f3e8ff; color: #6b21a8; font-size: 13px;  }
+.tag-docente { background-color: #dbeafe; color: #1e40af; margin-right: 5px; font-size: 13px;  }
 
 .status-badge {
   padding: 5px 15px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   background-color: #fef3c7;
   color: #92400e;
   margin: 0 40px;
 }
 
-.sent-date { font-size: 14px; color: #4b5563; margin-right: 40px; }
+.sent-date { font-size: 15px; color: #4b5563; margin-right: 40px; }
 
 .action-buttons { display: flex; gap: 10px; }
 
 .btn-action {
   padding: 8px 15px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -147,7 +147,7 @@ body { background-color: #E9CCEF; }
   align-items: center;
   gap: 15px;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 15px;
   color: #4b5563;
 }
 

@@ -22,10 +22,31 @@ import {
     exibirInserirEntretenimento,
     salvarEntretenimento
 } from '../controllers/recomendacaoController.js';
+import { inserirMaterial, 
+        exibirInserirMaterial, 
+        listarMateriais, 
+        apagarMaterial, 
+        verMaterial, 
+        avaliarMaterial, 
+        meusMateriais } from '../controllers/materialDidaticoController.js';
 import { criarUpload } from '../config/uploadService.js';
 
 const router = express.Router();
 const uploadPoster = criarUpload('posters', ['image/jpeg', 'image/png', 'image/webp']);
+const uploadMaterial = criarUpload('materiais', [
+    'application/pdf',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'video/mp4',
+    'video/webm',
+    'audio/mpeg',
+    'audio/mp3',
+    'audio/wav',
+    'audio/ogg',
+    'image/jpeg',
+    'image/png',
+    'image/webp'
+]);
 
 // ═══════════════════════════════════════════════
 // PÁGINAS PÚBLICAS / ACESSO GERAL
@@ -41,9 +62,9 @@ router.get('/deficiencia-visual', (req, res) =>
     res.render('deficienciaVisual', { title: 'Deficiência Visual', usuario: req.user || null })
 );
 router.get('/entretenimento', listarEntretenimento);
-router.get('/biblioteca', (req, res) =>
-    res.render('biblioteca', { title: 'Biblioteca', usuario: req.session.usuarioLogado || null })
-);
+
+router.get('/biblioteca', listarMateriais);
+
 
 // ═══════════════════════════════════════════════
 // AUDIODESCRIÇÃO
@@ -84,10 +105,26 @@ router.get('/ver-audiodescricao/:id', auth, verAudiodescricao);
 // ═══════════════════════════════════════════════
 // MATERIAIS / ENTRETENIMENTO
 // ═══════════════════════════════════════════════
+router.get('/inserir-material', auth, exibirInserirMaterial);
 
-router.get('/inserir-material', auth, (req, res) =>
-    res.render('inserirMaterial', { title: 'Inserir Material', usuario: req.session.usuarioLogado || null })
+router.post(
+    '/inserir-material',
+    auth,
+    uploadMaterial.fields([
+        { name: 'arquivo', maxCount: 1 },
+        { name: 'audio_descricao', maxCount: 1 },
+        { name: 'capa', maxCount: 1 }
+        
+    ]),
+    inserirMaterial
 );
+
+router.get('/usuario/meus-materiais', auth, meusMateriais);
+
+router.post('/material/:id/apagar', auth, apagarMaterial);
+
+router.get('/material/:id', verMaterial);
+
 router.get('/inserir-entretenimento', auth, exibirInserirEntretenimento);
 router.post('/inserir-entretenimento', auth, uploadPoster.single('poster'), salvarEntretenimento);
 

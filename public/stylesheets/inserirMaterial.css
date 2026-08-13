@@ -1,4 +1,4 @@
-/* Estilos para a página de Inserir Audiodescrição */
+/* Estilos para a página de Material */
 
 .container-form {
     background-color: #ffffff;
@@ -94,7 +94,7 @@ textarea.form-control {
     color: #2eb086;
     padding: 8px 25px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;

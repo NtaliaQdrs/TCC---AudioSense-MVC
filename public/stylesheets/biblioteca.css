@@ -168,36 +168,50 @@ body {
 .card-description { font-size: 16px; color: #666; margin: 0 0 15px 0; line-height: 1.5; }
 
 .card-meta { display: flex; gap: 20px; margin-bottom: 15px; flex-wrap: wrap; }
-.meta-item { font-size: 14px; color: #666; display: flex; align-items: center; gap: 6px; }
+.meta-item { font-size: 15px; color: #666; display: flex; align-items: center; gap: 6px; }
 .meta-item i { color: #2eb086; font-size: 16px; }
 
 .card-tags { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-.tag { background-color: #e9e9ec; color: #2f4f7f; padding: 6px 14px; border-radius: 15px; font-size: 13px; font-weight: 600; }
+.tag { background-color: #e9e9ec; color: #2f4f7f; padding: 6px 14px; border-radius: 15px; font-size: 14px; font-weight: 600; }
 
-.btn-audio {
-  background-color: #e9e9ec;
-  color: #2f4f7f;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: background-color 0.3s ease;
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-}
 
-.btn-audio:hover { background-color: #dcdcdc; }
-.btn-audio i { font-size: 16px; }
 
 .card-rating { position: absolute; top: 15px; right: 20px; display: flex; align-items: center; gap: 8px; }
 .card-rating i { color: #ffc107; font-size: 18px; }
-.rating-value { font-size: 15px; font-weight: 700; color: #2f4f7f; }
+.rating-value { font-size: 16px; font-weight: 700; color: #2f4f7f; }
+
+
+
+.form-apagar-material {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  margin-top: 0;
+}
+
+.btn-delete-material {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid #e05252;
+  border-radius: 20px;
+  background-color: transparent;
+  color: #e05252;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-delete-material:hover {
+  background-color: #e05252;
+  color: #ffffff;
+}
+
+.btn-delete-material i {
+  font-size: 15px;
+}
 
 /* RESPONSIVO */
 @media (max-width: 900px) {
@@ -225,15 +239,15 @@ body {
   .search-box input { padding: 12px 16px 12px 45px; font-size: 14px; }
   .btn-insert { padding: 12px 20px; font-size: 14px; }
   .filters-section { gap: 8px; }
-  .filter-btn { min-width: 100px; padding: 8px 14px; font-size: 12px; }
+  .filter-btn { min-width: 100px; padding: 8px 14px; font-size: 13px; }
   .materials-section { padding: 25px 15px; }
   .materials-title { font-size: 18px; margin-bottom: 20px; }
   .material-card { padding: 15px; margin-bottom: 15px; }
   .card-title { font-size: 16px; }
-  .card-description { font-size: 14px; }
-  .meta-item { font-size: 12px; }
-  .tag { font-size: 11px; padding: 5px 10px; }
-  .btn-audio { padding: 8px 16px; font-size: 12px; }
+  .card-description { font-size: 15px; }
+  .meta-item { font-size: 13px; }
+  .tag { font-size: 13px; padding: 5px 10px; }
+  .btn-audio { padding: 8px 16px; font-size: 13px; }
   .card-rating i { font-size: 16px; }
-  .rating-value { font-size: 13px; }
+  .rating-value { font-size: 14px; }
 }

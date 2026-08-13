@@ -29,19 +29,7 @@ body {
     font-weight: 1000;
 }
 
-.saudacao h2 {
-    color: #1f4677;
-    font-size: 20px;
-    margin-bottom: 40px;
-    font-weight: 7000;
-}
 
-.divider {
-    margin: 20px 0;
-    font-size: 16px;
-    color: #122e51;
-    position: relative;
-}
 
 .input-group {
     text-align: left;
@@ -163,12 +151,10 @@ body {
     text-decoration: underline;
 }
 
-h1 {
-    color: #1f4677;
-    font-size: 19px;
-    line-height: 1.5;
-    font-weight: 500;
-
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 .btn-cancel {
@@ -192,4 +178,12 @@ h1 {
 
 .form-area {
     flex: 1;
+}
+
+@media (max-width: 600px) {
+    .containercust { padding: 24px; margin-top: 20px; }
+    .content-wrapper { flex-direction: column; align-items: center; }
+    .image-card { width: 100%; max-width: 260px; }
+    .btn-group { flex-direction: column; }
+    .btn-submitcust, .btn-cancel { width: 100%; }
 }

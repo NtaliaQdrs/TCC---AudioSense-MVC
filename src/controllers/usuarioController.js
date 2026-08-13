@@ -5,8 +5,10 @@ import db from '../models/index.js';
 import crypto from 'crypto';
 import { enviarEmail } from '../config/email.js';
 
+
 const Usuario = db.Usuario;
 const UsuarioDiscente = db.UsuarioDiscente;
+
 
 // CADASTRO DISCENTE — cria o usuário base e o vínculo na tabela usuario_discente
 export const cadastrarDiscente = async (req, res) => {
@@ -230,7 +232,7 @@ export const verPerfil = async (req, res) => {
             }
         }
 
-      
+
         // Busca postagens do fórum feitas pelo usuário
         const postagensForumRaw = await db.Publicacao.findAll({
             where: { usuario_id: usuario.id },
@@ -246,6 +248,19 @@ export const verPerfil = async (req, res) => {
             return dados;
         });
 
+        // Busca materiais didáticos publicados pelo docente
+        let materiais = [];
+        if (usuario.tipo_usuario === 'docente') {
+            const docenteMaterial = await db.UsuarioDocente.findOne({ where: { usuario_id: usuario.id } });
+            if (docenteMaterial) {
+                const materiaisRaw = await db.MaterialDidatico.findAll({
+                    where: { docente_id: docenteMaterial.id },
+                    order: [['data_publicacao', 'DESC']]
+                });
+                materiais = materiaisRaw.map(m => m.toJSON());
+            }
+        }
+
         return res.render('perfil', {
             title: 'Meu Perfil',
             usuario: usuario.toJSON(),
@@ -255,6 +270,7 @@ export const verPerfil = async (req, res) => {
             diasRestantes,
             audiodescricoes,
             postagensForum,
+            materiais,
             is_admin
         });
 
@@ -267,7 +283,7 @@ export const verPerfil = async (req, res) => {
 export const verCadastroDocente = async (req, res) => {
     try {
         const disciplinas = await db.sequelize.query(
-            'SELECT id, titulo FROM disciplina ORDER BY CASE WHEN titulo = "Outra" THEN 1 ELSE 0 END, titulo',
+            `SELECT id, titulo FROM disciplina ORDER BY CASE WHEN titulo = 'Outra' THEN 1 ELSE 0 END, titulo`,
             { type: db.Sequelize.QueryTypes.SELECT }
         );
 
@@ -289,7 +305,7 @@ export const verCadastroDocente = async (req, res) => {
             disciplinas,
             cadastroRejeitado: !!cadastroRejeitado,
             emailRejeitado,
-            erro: req.query.erro || null  // adiciona essa linha
+            erro: req.query.erro || null
         });
 
     } catch (err) {

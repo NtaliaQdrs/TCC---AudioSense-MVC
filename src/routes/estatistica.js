@@ -12,5 +12,7 @@ router.get('/contar-docentes', estatisticaController.contarDocentes);
 
 router.get('/contar-audiovisual', estatisticaController.contarAudiovisual);
 
+router.get('/contar-materiais', estatisticaController.contarMateriais);
+
 
 export default router;

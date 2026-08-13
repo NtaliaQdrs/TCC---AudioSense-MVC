@@ -7,7 +7,7 @@ export const buscarNotificacoes = async (req, res) => {
     const usuarioId = req.session.usuarioLogado.id;
 
     const notificacoes = await db.Notificacao.findAll({
-      where: { usuario_id: usuarioId, lida: 0 },
+      where: { usuario_id: usuarioId, lida: false },
       order: [['data_criacao', 'DESC']],
       limit: 10
     });

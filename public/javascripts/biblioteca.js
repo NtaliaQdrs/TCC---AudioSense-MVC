@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.querySelector('.search-box input');
   const filterBtns = document.querySelectorAll('.filter-btn');
   const materialCards = document.querySelectorAll('.material-card');
-  const btnInsert = document.querySelector('.btn-insert');
-  const btnAudios = document.querySelectorAll('.btn-audio');
-  
 
   // =============================
   // BUSCA
@@ -24,9 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      // Remove a classe 'active' de todos os botões
       filterBtns.forEach((b) => b.classList.remove('active'));
-      // Adiciona a classe 'active' ao botão clicado
       btn.classList.add('active');
     });
   });
@@ -36,8 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================
   function filterCards(searchTerm) {
     materialCards.forEach((card) => {
-      const title = card.querySelector('.card-title').textContent.toLowerCase();
-      const description = card.querySelector('.card-description').textContent.toLowerCase();
+      const titleEl = card.querySelector('.card-title');
+      const descriptionEl = card.querySelector('.card-description');
+
+      const title = titleEl ? titleEl.textContent.toLowerCase() : '';
+      const description = descriptionEl ? descriptionEl.textContent.toLowerCase() : '';
       const tags = Array.from(card.querySelectorAll('.tag')).map((tag) => tag.textContent.toLowerCase());
 
       const matches =
@@ -48,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.display = matches ? 'flex' : 'none';
     });
 
-    // Atualiza a contagem de materiais disponíveis
     updateMaterialCount();
   }
 
@@ -67,27 +64,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =============================
-  // BOTÃO INSERIR CONTEÚDO
+  // CLIQUE NO CARD (navega, exceto se for o botão de apagar)
   // =============================
-  if (btnInsert) {
-    btnInsert.addEventListener('click', () => {
-      // Redireciona para página de inserção
-      window.location.href = '/inserir-material';
+  materialCards.forEach((card) => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.form-apagar-material')) return;
+      window.location.href = card.dataset.href;
     });
-
-  }
-
-  // BOTÃO SOME PARA DISCENTES
-
+  });
 
   // =============================
-  // BOTÕES DE AUDIODESCRIÇÃO
+  // CONFIRMAÇÃO AO APAGAR
   // =============================
-  btnAudios.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const cardTitle = btn.closest('.material-card').querySelector('.card-title').textContent;
-      alert(`Reproduzindo audiodescrição de: ${cardTitle}`);
-      // Aqui você pode adicionar a lógica de reprodução de áudio
+  document.querySelectorAll('.form-apagar-material').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      const confirmar = confirm('Tem certeza que deseja apagar este material? Essa ação não pode ser desfeita.');
+      if (!confirmar) e.preventDefault();
     });
   });
 });

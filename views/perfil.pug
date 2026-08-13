@@ -78,7 +78,7 @@ block content
           .stat-icon
             i.bi.bi-book(aria-hidden="true")
           .stat-content
-            .stat-number 0
+            .stat-number= materiais.length
             .stat-label Materiais compartilhados
 
         .stat-card
@@ -165,38 +165,24 @@ block content
       //- TAB: MATERIAIS
       .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais")
         .materiais-list
-          .material-item
-            .material-icon
-              i.bi.bi-file-earmark-pdf(aria-hidden="true")
-            .material-content
-              h3.material-title Guia prático de audiodescição
-              p.material-info PDF • 2.4 MB
-            .material-action
-              button.btn-download(aria-label="Baixar Guia prático de audiodescição")
-                i.bi.bi-download(aria-hidden="true")
-
-          .material-item
-            .material-icon
-              i.bi.bi-file-earmark-pdf(aria-hidden="true")
-            .material-content
-              h3.material-title Exemplos de roteiros de audiodescição
-              p.material-info PDF • 1.8 MB
-            .material-action
-              button.btn-download(aria-label="Baixar Exemplos de roteiros de audiodescição")
-                i.bi.bi-download(aria-hidden="true")
-
-          .material-item
-            .material-icon
-              i.bi.bi-play-circle(aria-hidden="true")
-            .material-content
-              h3.material-title Tutorial: como criar audiodescição
-              p.material-info Vídeo • 15:30
-            .material-action
-              button.btn-download(aria-label="Baixar Tutorial: como criar audiodescição")
-                i.bi.bi-download(aria-hidden="true")
+          if materiais.length === 0
+            p(style="color:#6B7280; padding: 20px") Você ainda não publicou nenhum material.
+          each material in materiais
+            .material-item
+              a.material-item-link(href=`/material/${material.id}` style="display:flex; align-items:center; gap:12px; flex:1; min-width:0; text-decoration:none; color:inherit;")
+                .material-icon
+                  i.bi(class=material.tipo_material === 'video' ? 'bi-play-circle' : 'bi-file-earmark-pdf')
+                .material-content
+                  h3.material-title= material.titulo
+                  p.material-info
+                    = material.tipo_material === 'video' ? 'Vídeo' : (material.tipo_material === 'slide' ? 'Apresentação' : (material.tipo_material === 'artigo' ? 'Artigo' : 'Documento'))
+                    |  • #{new Date(material.data_publicacao).toLocaleDateString('pt-BR')}
+              .material-action
+                a.btn-download(href=material.caminho_arquivo target="_blank" rel="noopener" aria-label=`Baixar ${material.titulo}`)
+                  i.bi.bi-download(aria-hidden="true")
 
         .view-all-link
-          a(href="#") Ver todas
+          a(href="/biblioteca") Ver todas
 
   
   .modal-overlay#modalEditar(style="display:none")

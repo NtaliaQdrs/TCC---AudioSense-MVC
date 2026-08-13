@@ -86,7 +86,7 @@ body {
 .perfil-info-header { margin-bottom: 15px; }
 
 .perfil-name { font-size: 26px; font-weight: 700; color: var(--text-dark); margin: 0 0 5px 0; }
-.perfil-username { font-size: 15px; color: var(--text-light); margin: 0; }
+.perfil-username { font-size: 16px; color: var(--text-light); margin: 0; }
 .perfil-bio { font-size: 15px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px; }
 
 .perfil-details { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; margin-top: 10px;}
@@ -152,7 +152,7 @@ body {
 
 .stat-content { flex: 1; min-width: 0; }
 .stat-number { font-size: 24px; font-weight: 700; color: var(--primary-color); margin: 0; }
-.stat-label { font-size: 13px; color: var(--text-light); margin: 4px 0 0 0; word-break: break-word; line-height: 1.3; }
+.stat-label { font-size: 14px; color: var(--text-light); margin: 4px 0 0 0; word-break: break-word; line-height: 1.3; }
 
 /* ABAS */
 .perfil-tabs { background-color: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg); }
@@ -219,7 +219,7 @@ body {
 
 .item-content { flex: 1; }
 .item-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin: 0 0 6px 0; }
-.item-description { font-size: 13px; color: var(--text-light); margin: 0; }
+.item-description { font-size: 14px; color: var(--text-light); margin: 0; }
 .item-meta { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
 .item-date { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); }
 .item-date i { font-size: 14px; }
@@ -271,7 +271,7 @@ body {
 .forum-content { flex: 1; }
 .forum-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin: 0 0 6px 0; }
 .forum-description { font-size: 13px; color: var(--text-light); margin: 0 0 10px 0; }
-.forum-meta { display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text-light); }
+.forum-meta { display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--text-light); }
 .forum-replies, .forum-date { display: flex; align-items: center; gap: 6px; }
 .forum-replies i, .forum-date i { font-size: 14px; }
 .forum-item i.bi-chevron-right { color: var(--text-light); font-size: 18px; margin-left: auto; transition: all 0.3s ease; }
@@ -308,7 +308,7 @@ body {
 
 .material-content { flex: 1; }
 .material-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin: 0 0 6px 0; }
-.material-info { font-size: 13px; color: var(--text-light); margin: 0; }
+.material-info { font-size: 14px; color: var(--text-light); margin: 0; }
 
 .btn-download {
   width: 45px;
@@ -354,7 +354,7 @@ body {
   color: #1f4677;
   padding: 4px 12px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -448,7 +448,7 @@ body {
 }
 
 .modal-campos .input-group i { font-size: 18px; color: #000000; }
-.hint { font-size: 12px; color: #2eb086; margin-top: 2px; }
+.hint { font-size: 13px; color: #2eb086; margin-top: 2px; }
 .hint.bloqueado { color: #e74c3c; }
 
 .modal-footer { display: flex; justify-content: center; gap: 15px; }

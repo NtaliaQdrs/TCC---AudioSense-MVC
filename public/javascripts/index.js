@@ -24,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (el) el.textContent = data.total || 0;
             }
 
+            const responseMateriais = await fetch('http://localhost:3000/estatisticas/contar-materiais');
+            if (responseMateriais.ok) {
+                const data = await responseMateriais.json();
+                const el = document.getElementById('total-materiais');
+                if (el) el.textContent = data.total || 0;
+            }
+
         } catch (error) {
             console.error('Erro ao carregar estatísticas:', error);
         }

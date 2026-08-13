@@ -78,16 +78,25 @@ CREATE TABLE docente_disciplina (
     FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
 );
 
+-- ATUALIZADO: tipo_material agora reflete os tipos realmente usados no sistema
+-- (era 'texto','audio','video','imagem'; passou a ser 'artigo','slide','video','outro')
+-- ATUALIZADO: caminho_arquivo agora é obrigatório (todo material precisa de um arquivo)
+-- NOVO: disciplina_id + disciplina_outro (disciplina selecionada da lista OU digitada livremente)
+-- NOVO: caminho_capa (upload manual de imagem de capa pelo docente, opcional)
 CREATE TABLE material_didatico (
     id INT PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(255) NOT NULL,
-    tipo_material ENUM('texto', 'audio', 'video', 'imagem') NOT NULL,
-    caminho_arquivo VARCHAR(255),
+    tipo_material ENUM('artigo', 'slide', 'video', 'outro') NOT NULL,
+    caminho_arquivo VARCHAR(255) NOT NULL,
     caminho_audio_descricao VARCHAR(255),
+    caminho_capa VARCHAR(255),
     descricao TEXT,
+    disciplina_id INT,
+    disciplina_outro VARCHAR(60),
     docente_id INT NOT NULL,
     data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (docente_id) REFERENCES usuario_docente(id)
+    FOREIGN KEY (docente_id) REFERENCES usuario_docente(id),
+    FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
 );
 
 CREATE TABLE usuario_discente (
@@ -123,11 +132,13 @@ CREATE TABLE correcao_roteiro (
     FOREIGN KEY (docente_id) REFERENCES usuario_docente(id)
 );
 
+-- ATUALIZADO: nota agora é INT em vez de TINYINT
+-- (Postgres/Supabase não tem o tipo TINYINT; validação de 1 a 5 fica a cargo da aplicação)
 CREATE TABLE avaliacao_material (
     id INT PRIMARY KEY AUTO_INCREMENT,
     material_didatico_id INT NOT NULL,
     discente_id INT NOT NULL,
-    nota TINYINT NOT NULL,
+    nota INT NOT NULL,
     comentario TEXT,
     data_avaliacao DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (material_didatico_id) REFERENCES material_didatico(id),
@@ -156,6 +167,16 @@ CREATE TABLE comentario (
     FOREIGN KEY (publicacao_id) REFERENCES publicacao(id),
     FOREIGN KEY (usuario_id) REFERENCES usuario(id),
     FOREIGN KEY (resposta_a_comentario_id) REFERENCES comentario(id)
+);
+
+-- ATUALIZADO: adicionada tabela publicacao_curtida (substitui o contador simples de curtidas
+-- por um registro por usuário, permitindo curtir/descurtir sem duplicar)
+CREATE TABLE publicacao_curtida (
+    usuario_id INT NOT NULL,
+    publicacao_id INT NOT NULL,
+    PRIMARY KEY (usuario_id, publicacao_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+    FOREIGN KEY (publicacao_id) REFERENCES publicacao(id)
 );
 
 CREATE TABLE redefinicao_senha (

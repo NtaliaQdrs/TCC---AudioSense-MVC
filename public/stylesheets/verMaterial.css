@@ -1,0 +1,672 @@
+/* ============================================
+   Tela de Visualização de Material
+   Paleta e padrões seguindo biblioteca.css
+   ============================================ */
+
+:root {
+  --vm-accent: #2eb086;      /* verde do sistema (botões, ícones) */
+  --vm-accent-dark: #1f7c5f;
+  --vm-heading: #2f4f7f;     /* azul dos títulos do sistema */
+  --vm-purple: #582d86;      /* roxo usado nos ícones do sistema */
+  --vm-tag-bg: #e9e9ec;
+  --vm-text: #333333;
+  --vm-text-muted: #777777;
+  --vm-star: #ffc107;
+  --vm-star-empty: #e0e0e0;
+  --vm-card-bg: #ffffff;
+  --vm-outer-bg: #f6edf6;
+  --vm-border-soft: #efe9f5;
+}
+
+.vm-page {
+  width: 75%;
+  margin: 0 auto;
+  padding: 10px 0 60px;
+  font-family: 'Poppins', Arial, sans-serif;
+  color: var(--vm-text);
+}
+
+.vm-wrapper {
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+/* ===== Título da página (mesmo padrão de .title da biblioteca) ===== */
+
+.vm-page-title {
+  margin: 20px 0 50px;
+  font-size: 28px;
+  color: var(--vm-heading);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== Card grande que agrupa preview + avaliações ===== */
+
+.vm-card-container {
+  background-color: var(--vm-outer-bg);
+  border-radius: 26px;
+  padding: 32px;
+  box-shadow: 0px 7px 2px rgba(0, 0, 0, 0.378);
+}
+
+/* ===== Grid superior: info + preview ===== */
+
+.vm-top-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+  transition: grid-template-columns 0.3s ease;
+}
+
+.vm-top-grid.is-collapsed {
+  grid-template-columns: 64px 1fr;
+}
+
+@media (max-width: 820px) {
+  .vm-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Card de info do docente ---- */
+
+.vm-info-card {
+  position: relative;
+  background: var(--vm-card-bg);
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid #2eb086;
+  overflow: hidden;
+  transition: padding 0.3s ease;
+}
+
+.vm-info-card.is-collapsed {
+  padding: 32px 6px 12px;
+}
+
+.vm-minimize-btn {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid var(--vm-accent, #582d86);
+  background-color: transparent;
+  color: var(--vm-accent, #582d86);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, right 0.3s ease, left 0.3s ease;
+  z-index: 9999;
+}
+
+.vm-info-card.is-collapsed .vm-minimize-btn {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vm-minimize-btn:hover {
+  background-color: var(--vm-accent, #582d86);
+  color: #fff;
+}
+
+.vm-info-body {
+  overflow: hidden;
+  max-height: 600px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+}
+
+.vm-info-card.is-collapsed .vm-info-body {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+}
+
+.vm-carousel-track.is-dragging {
+  cursor: grabbing;
+}
+
+.vm-back-link {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #999;
+  font-size: 1.15rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.vm-back-link:hover {
+  color: var(--vm-heading);
+}
+
+.vm-avatar-wrap {
+  margin-top: 2px;
+  height: 100px;
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.vm-avatar {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--vm-outer-bg);
+}
+
+.vm-avatar-placeholder {
+  display: flex;
+  margin: 0 auto;
+}
+
+.vm-meta-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;              /* era 8px */
+}
+
+.vm-meta-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  line-height: 1.9;       /* deixa a linha "respirar" */
+  color: var(--vm-text);
+}
+
+.vm-meta-list i {
+  color: var(--vm-accent);
+  font-size: 0.95rem;
+  width: 16px;
+  text-align: center;
+}
+
+.vm-descricao {
+  font-size: 0.88rem;
+  color: var(--vm-text-muted);
+  text-align: center;
+  margin: 8px 0 14px;        /* pequeno respiro acima da descrição */
+  line-height: 1.9;       /* era 1.45 — mais espaçado */
+}
+
+.vm-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.vm-tag {
+  background-color: var(--vm-tag-bg);
+  color: var(--vm-heading);
+  padding: 6px 14px;
+  border-radius: 15px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* ---- Card de preview do material ---- */
+
+.vm-preview-card {
+  background: var(--vm-card-bg);
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 2px solid #2eb086;
+}
+
+.vm-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--vm-heading);
+  margin: 0;
+}
+
+.vm-media {
+  position: relative;
+}
+
+.vm-video {
+  width: 100%;
+  max-height: 400px;
+  border-radius: 14px;
+  background: #000;
+  display: block;
+}
+
+.vm-cover {
+  width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 2px solid var(--vm-border-soft);
+  display: block;
+}
+
+.vm-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: var(--vm-outer-bg);
+  color: var(--vm-purple);
+  font-size: 2.4rem;
+}
+
+.vm-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 10px 22px;
+  background: var(--vm-accent);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin-top: 6px;
+}
+
+.vm-open-btn:hover {
+  background: var(--vm-accent-dark);
+}
+
+.vm-audio-block label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--vm-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+
+.vm-audio-block audio {
+  width: 100%;
+}
+
+.vm-disciplina-row {
+  font-size: 0.82rem;
+  color: var(--vm-text-muted);
+  border-top: 1px solid var(--vm-border-soft);
+  padding-top: 12px;
+}
+
+.vm-disciplina-label {
+  font-weight: 600;
+  color: var(--vm-text);
+  margin-right: 6px;
+}
+
+/* ===== Carrossel de slides ===== */
+
+.vm-carousel {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--vm-border-soft);
+  outline: none;
+}
+
+.vm-carousel-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f4f0fa;
+}
+
+.vm-carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease;
+}
+
+.vm-carousel-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.vm-carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.vm-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--vm-heading);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.15s ease;
+}
+
+.vm-carousel-arrow:hover {
+  background: #fff;
+}
+
+.vm-carousel-prev {
+  left: 12px;
+}
+
+.vm-carousel-next {
+  right: 12px;
+}
+
+.vm-carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--vm-outer-bg);
+}
+
+.vm-carousel-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.vm-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #d9cdea;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.vm-carousel-dot.is-active {
+  background: var(--vm-accent);
+  transform: scale(1.2);
+}
+
+.vm-carousel-count {
+  font-size: 0.85rem;
+  color: var(--vm-heading);
+  font-weight: 600;
+}
+
+/* ===== Avaliações ===== */
+/* Alinhado sob o card de preview (sidebar 220px + gap 24px) */
+
+.vm-reviews-card {
+  background: var(--vm-card-bg);
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-top: 24px;
+  margin-left: 244px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border: 2px solid #2eb086;
+  transition: margin-left 0.3s ease;
+}
+
+.vm-top-grid.is-collapsed ~ .vm-reviews-card {
+  margin-left: 88px;
+}
+
+@media (max-width: 820px) {
+  .vm-reviews-card {
+    margin-left: 0;
+  }
+}
+
+.vm-rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vm-rating-numero {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--vm-text);
+}
+
+.vm-rating-estrelas {
+  display: inline-flex;
+  gap: 3px;
+  color: var(--vm-star);
+  font-size: 1.2rem;
+}
+
+.vm-rating-estrelas i.bi-star {
+  color: var(--vm-star-empty);
+}
+
+.vm-rating-total {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--vm-heading);
+  margin-left: 4px;
+}
+
+.vm-sem-avaliacoes {
+  color: var(--vm-text-muted);
+  margin: 0;
+}
+
+/* ---- Formulário de avaliação ---- */
+
+.vm-form-avaliacao {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f7f4fa;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.vm-textarea {
+  width: 100%;
+  min-height: 46px;
+  resize: vertical;
+  border: 1px solid #e2dbea;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  background: #fff;
+  color: var(--vm-text);
+  box-sizing: border-box;
+}
+
+.vm-textarea:focus {
+  outline: none;
+  border-color: var(--vm-accent);
+}
+
+.vm-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vm-estrelas-input {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 4px;
+  font-size: 1.3rem;
+}
+
+.vm-estrelas-input input {
+  display: none;
+}
+
+.vm-estrelas-input label {
+  color: var(--vm-star-empty);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.vm-estrelas-input label:hover,
+.vm-estrelas-input label:hover ~ label,
+.vm-estrelas-input input:checked ~ label {
+  color: var(--vm-star);
+}
+
+.vm-submit-btn {
+  background-color: var(--vm-accent);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 26px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.vm-submit-btn:hover {
+  background-color: var(--vm-accent-dark);
+}
+
+.vm-aviso {
+  color: var(--vm-text-muted);
+  font-size: 0.9rem;
+}
+
+.vm-aviso a {
+  color: var(--vm-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vm-aviso a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Lista de avaliações ---- */
+
+.vm-lista-avaliacoes {
+  display: flex;
+  flex-direction: column;
+}
+
+.vm-avaliacao-item {
+  display: flex;
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 1px solid var(--vm-border-soft);
+}
+
+.vm-avaliacao-avatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--vm-outer-bg);
+  color: var(--vm-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.vm-avaliacao-corpo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vm-avaliacao-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vm-avaliacao-nome {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--vm-text);
+}
+
+.vm-avaliacao-data {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.vm-avaliacao-comentario {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0;
+}
+
+/* ===== Responsivo ===== */
+
+@media (max-width: 900px) {
+  .vm-page { width: 95%; }
+  .vm-card-container { padding: 22px 16px; border-radius: 20px; }
+}
+
+@media (max-width: 600px) {
+  .vm-page-title { font-size: 22px; margin: 16px 0 20px; }
+  .vm-info-card, .vm-preview-card, .vm-reviews-card { padding: 16px; }
+  .vm-rating-numero { font-size: 1.5rem; }
+  .vm-submit-btn { width: 100%; }
+  .vm-form-footer { flex-direction: column; align-items: stretch; }
+}
+
+.vm-doc-viewer {
+  width: 100%;
+  height: 500px;
+  border-radius: 14px;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .vm-doc-viewer {
+    height: 420px;
+  }
+}

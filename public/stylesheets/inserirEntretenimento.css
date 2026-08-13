@@ -66,8 +66,11 @@ textarea.form-control {
     justify-content: center;
     transition: background-color 0.3s;
     min-height: 350px;
+    height: 265px;
     flex-direction: column;
     gap: 15px;
+    position: relative;
+    overflow: hidden;
 }
 
 .upload-area:hover {
@@ -96,7 +99,7 @@ textarea.form-control {
     color: #2f4f7f;
     padding: 8px 25px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
@@ -135,14 +138,6 @@ textarea.form-control {
     flex-direction: column;
 }
 
-/* Garante que a área de upload preencha bem o espaço vertical */
-.upload-area {
-    height: 265px;
-    /* Ajuste para alinhar com a altura do Nome + Sinopse */
-    flex-direction: column;
-    /* Ícone em cima, texto embaixo */
-    justify-content: center;
-}
 
 
 /* Alinha os itens em linha */

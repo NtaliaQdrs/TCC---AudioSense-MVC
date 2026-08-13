@@ -11,56 +11,177 @@ block content
     section.container-form
       h2.form-title Inserir Material Didático
 
-      form(action="/formulario" method="POST" enctype="multipart/form-data")
-        //- Título: VARCHAR(255)
+      form(action="/inserir-material" method="POST" enctype="multipart/form-data")
         .form-group
           label(for="titulo") Título
           input#titulo.form-control(type="text" name="titulo" placeholder="Título do material..." required maxlength="255")
 
-        //- Tipo de Material: ENUM
         .form-group
           label(for="tipo_material") Tipo de Material
           select#tipo_material.form-control(name="tipo_material" required)
             option(value="") Selecione o tipo...
-            option(value="Imagem") Imagem
-            option(value="Video") Vídeo
-            option(value="PDF") PDF / Documento
-            option(value="Audio") Áudio
+            option(value="artigo") Artigo
+            option(value="slide") Slide
+            option(value="video") Vídeo
+            option(value="outro") Outro
 
-        //- Caminho Arquivo: VARCHAR(255) - Campo de Upload
         .form-group
-          label Arquivo de Mídia (Imagem, Vídeo ou Doc)
-          .upload-area(onclick="document.getElementById('caminho_arquivo').click()")
-            input#caminho_arquivo(type="file" name="caminho_arquivo" style="display: none;" accept="image/*,video/*,.pdf")
+          label(for="disciplina_id") Disciplina
+          select#disciplina_id.form-control(name="disciplina_id")
+            option(value="") Selecione a disciplina...
+            each disciplina in disciplinas
+              option(value=disciplina.id) #{disciplina.titulo}
+            option(value="outro") Outra (não está na lista)
+
+        .form-group#grupo-disciplina-outro(style="display:none;")
+          label(for="disciplina_outro") Qual disciplina?
+          input#disciplina_outro.form-control(type="text" name="disciplina_outro" placeholder="Digite o nome da disciplina..." maxlength="60")
+
+        .form-group
+          label Capa do Material (opcional)
+          .upload-area(onclick="document.getElementById('capa').click()")
+            input#capa(type="file" name="capa" style="display: none;" accept="image/jpeg,image/png,image/webp")
             svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
-              rect(x="35" y="10" width="30" height="5" rx="2" fill="#2eb086")
-              rect(x="25" y="18" width="50" height="5" rx="2" fill="#2eb086")
-              rect(x="15" y="30" width="70" height="50" rx="10" stroke="#2eb086" stroke-width="6")
-              path(d="M45 45L60 55L45 65V45Z" fill="#2eb086")
+              rect(x="15" y="20" width="70" height="55" rx="8" stroke="#2eb086" stroke-width="6")
+              circle(cx="32" cy="38" r="6" fill="#2eb086")
+              path(d="M20 65L40 45L55 58L68 42L80 60" stroke="#2eb086" stroke-width="6" stroke-linecap="round" stroke-linejoin="round")
             .upload-text
-              p Faça upload do arquivo principal aqui
+              p Faça upload de uma imagem de capa
               button.btn-upload(type="button") Escolher arquivo
 
-        //- Caminho Áudio Descrição: VARCHAR(255) - Geralmente o arquivo de áudio ou roteiro
-        .form-group
-          label(for="caminho_audio_descricao") Arquivo de Audiodescrição (Áudio)
-          input#caminho_audio_descricao.form-control(type="file" name="caminho_audio_descricao" accept="audio/*")
 
-        //- Descrição: TEXT
+        .form-group
+          label Arquivo do Material
+          .upload-area(onclick="document.getElementById('arquivo').click()")
+            input#arquivo(type="file" name="arquivo" style="display: none;" required)
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+              path(d="M30 10H55L75 30V85C75 87 73 90 70 90H30C27 90 25 87 25 85V15C25 12 27 10 30 10Z" stroke="#2eb086" stroke-width="6" stroke-linejoin="round")
+              path(d="M55 10V28C55 30 57 32 59 32H75" stroke="#2eb086" stroke-width="6" stroke-linejoin="round")
+              path(d="M50 45V70" stroke="#2eb086" stroke-width="6" stroke-linecap="round")
+              path(d="M38 58L50 70L62 58" stroke="#2eb086" stroke-width="6" stroke-linecap="round" stroke-linejoin="round")
+            .upload-text
+              p#label-arquivo Faça upload do arquivo principal aqui
+              button.btn-upload(type="button") Escolher arquivo
+
+        .form-group#grupo-audio
+          label(for="audio_descricao") Arquivo de Audiodescrição (Áudio)
+          .upload-area(onclick="document.getElementById('audio_descricao').click()")
+            input#audio_descricao(type="file" name="audio_descricao" style="display: none;" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg")
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+              rect(x="20" y="45" width="6" height="10" rx="3" fill="#2eb086")
+              rect(x="32" y="35" width="6" height="30" rx="3" fill="#2eb086")
+              rect(x="44" y="20" width="6" height="60" rx="3" fill="#2eb086")
+              rect(x="56" y="30" width="6" height="40" rx="3" fill="#2eb086")
+              rect(x="68" y="42" width="6" height="16" rx="3" fill="#2eb086")
+              rect(x="80" y="47" width="6" height="6" rx="3" fill="#2eb086")
+            .upload-text
+              p#label-audio Faça upload do áudio de audiodescrição aqui
+              button.btn-upload(type="button") Escolher arquivo
+          p *Obrigatório para artigo, slide e outros tipos de material.
+
         .form-group
           label(for="descricao") Descrição Curta
           textarea#descricao.form-control.textarea-large(name="descricao" placeholder="Breve resumo sobre o conteúdo...")
 
-        //- Docente ID: INT (Chave Estrangeira)
-        .form-group
-          label(for="docente_id") ID do Docente Responsável
-          input#docente_id.form-control(type="number" name="docente_id" required)
-
-        //- Data de Publicação: DATETIME
-        .form-group
-          label(for="data_publicacao") Data de Publicação
-          input#data_publicacao.form-control(type="datetime-local" name="data_publicacao" required)
-
         .button-group
           button.btn-submit(type="submit") Salvar Material
-          a.btn-cancel(href="/audiodescricao") Cancelar
+          a.btn-cancel(href="/biblioteca") Cancelar
+
+  script.
+    const select = document.getElementById('tipo_material');
+    const grupoAudio = document.getElementById('grupo-audio');
+    const inputAudio = document.getElementById('audio_descricao');
+    const labelArquivo = document.getElementById('label-arquivo');
+    const selectDisciplina = document.getElementById('disciplina_id');
+    const grupoDisciplinaOutro = document.getElementById('grupo-disciplina-outro');
+    const inputDisciplinaOutro = document.getElementById('disciplina_outro');
+    const inputArquivo = document.getElementById('arquivo');
+
+    function atualizarFormulario() {
+      const tipo = select.value;
+      if (tipo === 'video') {
+        grupoAudio.style.display = 'none';
+        inputAudio.required = false;
+        labelArquivo.textContent = 'Faça upload do vídeo aqui';
+      } else {
+        grupoAudio.style.display = '';
+        inputAudio.required = true;
+        labelArquivo.textContent = 'Faça upload do arquivo principal aqui';
+      }
+    }
+
+    selectDisciplina.addEventListener('change', function() {
+      if (selectDisciplina.value === 'outro') {
+        grupoDisciplinaOutro.style.display = '';
+        inputDisciplinaOutro.required = true;
+      } else {
+        grupoDisciplinaOutro.style.display = 'none';
+        inputDisciplinaOutro.required = false;
+        inputDisciplinaOutro.value = '';
+      }
+    });
+
+    select.addEventListener('change', atualizarFormulario);
+    atualizarFormulario();
+
+    // ---- Prévia de arquivo (genérica: imagem, vídeo, ou cartão com nome) ----
+    function mostrarPreviewArquivo(input, file) {
+      const uploadArea = input.closest('.upload-area');
+      const previewAnterior = uploadArea.querySelector('.preview-midia');
+      if (previewAnterior) previewAnterior.remove();
+
+      const preview = document.createElement('div');
+      preview.className = 'preview-midia';
+      preview.style.marginTop = '10px';
+
+      if (file.type.indexOf('video') === 0) {
+        const url = URL.createObjectURL(file);
+        preview.innerHTML = '<video src="' + url + '" controls style="max-width: 100%; max-height: 220px; border-radius: 10px;"></video>' +
+          '<p style="margin-top: 8px; font-weight: 600;">' + file.name + '</p>';
+      } else if (file.type.indexOf('image') === 0) {
+        const url = URL.createObjectURL(file);
+        preview.innerHTML = '<img src="' + url + '" style="max-width: 100%; max-height: 220px; border-radius: 10px; object-fit: cover;">' +
+          '<p style="margin-top: 8px; font-weight: 600;">' + file.name + '</p>';
+      } else {
+        // PDF, PPTX e outros: sem preview visual nativo do navegador, mostra só um cartão com o nome
+        preview.innerHTML = '<p style="margin-top: 8px; font-weight: 600;">📄 ' + file.name + '</p>';
+      }
+
+      uploadArea.appendChild(preview);
+    }
+
+    // ---- Prévia de áudio (sempre player de áudio) ----
+    function mostrarPreviewAudio(input, file) {
+      const uploadArea = input.closest('.upload-area');
+      const previewAnterior = uploadArea.querySelector('.preview-midia');
+      if (previewAnterior) previewAnterior.remove();
+
+      const url = URL.createObjectURL(file);
+      const preview = document.createElement('div');
+      preview.className = 'preview-midia';
+      preview.style.marginTop = '10px';
+      preview.innerHTML = '<audio src="' + url + '" controls style="width: 100%;"></audio>' +
+        '<p style="margin-top: 8px; font-weight: 600;">🔊 ' + file.name + '</p>';
+
+      uploadArea.appendChild(preview);
+    }
+
+    inputArquivo.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      labelArquivo.textContent = file.name;
+      mostrarPreviewArquivo(inputArquivo, file);
+    });
+
+    inputAudio.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      mostrarPreviewAudio(inputAudio, file);
+    });
+
+      const inputCapa = document.getElementById('capa');
+    inputCapa.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      mostrarPreviewArquivo(inputCapa, file);
+    });

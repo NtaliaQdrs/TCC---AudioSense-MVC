@@ -81,7 +81,7 @@ body {
 }
 
 .card-text p { margin-top: 15px; font-size: 16px; }
-.card-text h4 { margin-top: 15px; font-size: 15px; }
+.card-text h4 { margin-top: 15px; font-size: 16px; }
 
 /* CONTEÚDO ESCONDIDO (sinopse longa) */
 .card-content {
@@ -105,7 +105,7 @@ body {
   width: 100%;
 }
 
-.platform { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; }
+.platform { display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 600; }
 .netflix-icon { width: 18px; height: 18px; object-fit: contain; }
 .card-footer .netflix-icon { width: 50px !important; height: 50px !important; }
 .expand-btn { background: transparent; border: none; font-size: 25px; color: #2eb086; cursor: pointer; line-height: 1; }
@@ -199,7 +199,8 @@ article.fullscreen {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90vw;
-  height: 85vh;
+  height: auto;
+  max-height: 90vh;
   max-width: 950px;
   z-index: 9999;
   overflow-y: auto;
@@ -249,7 +250,7 @@ article.fullscreen .card-content {
   text-align: left;
 }
 
-article.fullscreen .card-footer { margin-top: 20px; }
+  article.fullscreen .card-footer { margin-top: 40px; }
 
 article.fullscreen .card-footer .netflix-icon {
   width: 40px !important;
@@ -301,11 +302,6 @@ article.fullscreen .card-footer .netflix-icon {
   text-overflow: ellipsis;
 }
 
-/* Card fullscreen se ajusta ao conteúdo (sem altura fixa) */
-article.fullscreen {
-  height: auto;
-  max-height: 90vh;
-}
 
 /* Info do docente — só aparece no fullscreen */
 .docente-info {
@@ -315,10 +311,10 @@ article.fullscreen {
 article.fullscreen .docente-info {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #ddd;
+  gap: 8px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .docente-foto {
@@ -330,7 +326,7 @@ article.fullscreen .docente-info {
 }
 
 .docente-nome {
-  font-size: 14px;
+  font-size: 15px;
   color: #2f4f7f;
   font-weight: 600;
 }
@@ -344,24 +340,13 @@ article.fullscreen .card-footer {
   gap: 15px;
 }
 
-article.fullscreen .docente-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 0;
-  padding-top: 0;
-  border-top: none;
-}
-
-article.fullscreen .card-footer {
-  margin-top: 40px;
-}
 
 
 /* RESPONSIVO */
 @media (max-width: 900px) {
   .main-grid {
     grid-template-columns: 1fr;
-    grid-template-areas: "card1" "card2" "sidebar" "card3" "card4";
+    grid-template-areas: "card1" "card2" "right" "card3" "card4";
   }
+  .sidebar { margin-left: 0; }
 }

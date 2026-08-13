@@ -181,6 +181,12 @@ export const apagarTopico = async (req, res) => {
         }
 
         await Comentario.destroy({ where: { publicacao_id: id } });
+        // Apaga as curtidas relacionadas antes do tópico, pra não violar a FK
+        await db.PublicacaoCurtida.destroy({ where: { publicacao_id: topico.id } });
+
+        // (se também tiver comentários vinculados, mesma lógica se aplica a eles)
+        await db.Comentario.destroy({ where: { publicacao_id: topico.id } });
+
         await topico.destroy();
 
         return res.redirect('/forum');

@@ -173,7 +173,7 @@ body {
     border: none;
     outline: none;
     width: 250px;
-    font-size: 15px;
+    font-size: 16px;
     padding: 10px 16px 10px 42px;
 }
 
@@ -274,7 +274,7 @@ body {
     cursor: pointer;
     width: 100%;
     text-align: left;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 540;
     transition: all 0.3s ease;
 }
@@ -510,11 +510,11 @@ html { scrollbar-gutter: stable; }
 .tab-pane-active { display: block; }
 
 .notif-content { display: flex; flex-direction: column; gap: 2px; }
-.notif-title { margin: 0; font-size: 14px; font-weight: 600; color: #2f4f7f; }
-.notif-time { margin: 0; font-size: 11px; color: #999; }
+.notif-title { margin: 0; font-size: 15px; font-weight: 600; color: #2f4f7f; }
+.notif-time { margin: 0; font-size: 12px; color: #999; }
 .dropdown-item.nao-lida { background-color: #f0e6f8; font-weight: 600; }
 html.dark-theme .dropdown-item.nao-lida { background-color: #2a1a3a; }
-.notif-desc { font-size: 12px; color: #666; margin: 2px 0; }
+.notif-desc { font-size: 13px; color: #666; margin: 2px 0; }
 
 /* ─── FOOTER ────────────────────────────────────────── */
 
@@ -559,7 +559,7 @@ html.dark-theme .dropdown-item.nao-lida { background-color: #2a1a3a; }
 }
 
 .footer-column p {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
     color: #f1f1f1;
 }
@@ -572,7 +572,7 @@ html.dark-theme .dropdown-item.nao-lida { background-color: #2a1a3a; }
 
 .footer-column ul li {
     margin-bottom: 14px;
-    font-size: 15px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -614,7 +614,7 @@ html.dark-theme .dropdown-item.nao-lida { background-color: #2a1a3a; }
     margin-top: 40px;
     border-top: 1px solid rgba(255,255,255,0.2);
     padding-top: 20px;
-    font-size: 14px;
+    font-size: 15px;
     color: #f1f1f1;
 }
 
@@ -975,9 +975,7 @@ html.dark-theme .dropdown-item:hover { background: #2a2a3e !important; }
     margin-top: 55px;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ALTO CONTRASTE — preto/amarelo, ratio 21:1 (WCAG AAA)
-   ═══════════════════════════════════════════════════════════ */
+
 
 
 

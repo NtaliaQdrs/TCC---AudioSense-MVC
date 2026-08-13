@@ -89,22 +89,22 @@ body {
 }
 
 .user-info .date {
-  font-size: 13px;
+  font-size: 14px;
   color: #999;
 }
 
 .post-content h3 {
-  font-size: 17px;
+  font-size: 19px;
   color: #1a3a6c;
-  margin: 0 0 5px 0;
+  margin: 15px 0 15px 0;
 }
 
 .post-content p {
-  font-size: 15px;
+  font-size: 17px;
   color: rgb(114, 114, 114);
   line-height: 1.6;
   font-weight: 600;
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 .post-content img {
