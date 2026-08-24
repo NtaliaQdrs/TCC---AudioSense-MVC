@@ -12,7 +12,7 @@ block content
       h2.form-title Recomende algo
 
       if erro
-        p.form-erro
+        p.form-erro(role="alert")
           | Erro ao salvar recomendação. Tente novamente.
 
       form(action="/inserir-entretenimento" method="POST" enctype="multipart/form-data")
@@ -21,9 +21,9 @@ block content
           //- Coluna esquerda: upload do poster
           .column-upload
             .form-group
-              label Poster
+              label(for="poster") Poster
               .upload-area#uploadArea(onclick="document.getElementById('poster').click()")
-                input#poster(type="file" name="poster" accept="image/*" style="display:none" onchange="previewPoster(event)")
+                input#poster.sr-only-file(type="file" name="poster" accept="image/*" onchange="previewPoster(event)")
                 
                 svg#uploadIcon.upload-icon(viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg")
                   rect(x="10" y="10" width="80" height="100" rx="15" stroke="#1f4677" stroke-width="10")
@@ -81,7 +81,7 @@ block content
 
         //- Preview da plataforma selecionada
         #plataforma-preview.plataforma-preview(style="display:none")
-          img#plataforma-logo(src="" alt="Logo da plataforma")
+          img#plataforma-logo(src="" alt="")
           span#plataforma-nome
 
         .button-group

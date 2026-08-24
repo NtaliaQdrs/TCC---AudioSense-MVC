@@ -1,3 +1,4 @@
+// minhasAudiodescricoes.js
 document.addEventListener('DOMContentLoaded', () => {
   const filtros    = document.querySelectorAll('.filter-btn');
   const cards      = document.querySelectorAll('.ad-card');
@@ -20,8 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   filtros.forEach(btn => {
     btn.addEventListener('click', () => {
-      filtros.forEach(b => b.classList.remove('active'));
+      filtros.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       filtroAtivo = btn.getAttribute('data-filtro');
       aplicarFiltros();
     });

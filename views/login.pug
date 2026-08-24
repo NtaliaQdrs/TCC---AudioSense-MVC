@@ -20,25 +20,30 @@ html(lang="pt-br")
         img.logo.logo-dark(src="../images/audiosense-login-dark.png" alt="Logo AudioSense")
         
         h1 Bem vindo(a) de volta ao AudioSense!
-        
+
+      if erro === 'credenciais'
+        .alert-rejeitado(role="alert")
+          i.bi.bi-x-circle-fill(aria-hidden="true")
+          | Email ou senha incorretos. Tente novamente.
+
       if erro === 'email'
         .alert-rejeitado
-          i.bi.bi-x-circle-fill
+          i.bi.bi-x-circle-fill(aria-hidden="true")
           | Este email já está cadastrado.
 
       if erro === 'disciplina'
         .alert-rejeitado
-          i.bi.bi-x-circle-fill
+          i.bi.bi-x-circle-fill(aria-hidden="true")
           | Selecione pelo menos uma disciplina.
           
       if status === 'pendente'
         .alert-pendente
-          i.bi.bi-clock-fill
+          i.bi.bi-clock-fill(aria-hidden="true")
           | Seu cadastro está aguardando aprovação do administrador.
 
       if status === 'rejeitado'
         .alert-rejeitado
-          i.bi.bi-x-circle-fill
+          i.bi.bi-x-circle-fill(aria-hidden="true")
           | Seu cadastro foi rejeitado.
           if motivo
             p.motivo= motivo
@@ -46,7 +51,7 @@ html(lang="pt-br")
 
       if status === 'senha_redefinida'
         .alert-pendente
-          i.bi.bi-check-circle-fill
+          i.bi.bi-check-circle-fill(aria-hidden="true")
           | Senha redefinida com sucesso! Faça login com sua nova senha.
 
       .social-login
@@ -72,8 +77,8 @@ html(lang="pt-br")
           .input-content
             label(for="senha") Senha
             input#senha(type="password" name="senha" placeholder="••••••••••" required)
-           
-            i.bi.bi-eye.toggle-password(onclick="togglePassword('senha')")
+          button.btn-toggle-password(type="button" onclick="togglePassword('senha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
+            i.bi.bi-eye.toggle-password(aria-hidden="true")
 
         .options
           label

@@ -10,23 +10,24 @@ block content
   section.welcome-section(aria-labelledby="titulo-boas-vindas")
     .welcome-container
       .welcome-content
-        h1.welcome-title Boas vindas ao AudioSense!
+        h1.welcome-title#titulo-boas-vindas Boas vindas ao AudioSense!
 
          //- Feedback de Status para Docentes
-        if usuarioLogado && usuarioLogado.tipo_usuario === 'docente'
+        //- Feedback de Status para Docentes
+        if usuarioLogado
           if usuarioLogado.status_aprovacao === 'pendente'
-            .status-banner.pendente
-              i.bi.bi-clock-history
+            .status-banner.pendente(role="status")
+              i.bi.bi-clock-history(aria-hidden="true")
               div
-                strong Cadastro em análise: 
+                strong Cadastro em análise:
                 | Sua solicitação de docente está sendo revisada por um administrador. Algumas funcionalidades podem estar limitadas.
-          
+
           else if usuarioLogado.status_aprovacao === 'rejeitado'
-            .status-banner.rejeitado
-              i.bi.bi-exclamation-octagon
+            .status-banner.rejeitado(role="alert")
+              i.bi.bi-exclamation-octagon(aria-hidden="true")
               div
-                strong Cadastro rejeitado: 
-                | Sua solicitação não foi aprovada. 
+                strong Cadastro rejeitado:
+                | Sua solicitação não foi aprovada.
                 if usuarioLogado.motivo_rejeicao
                   br
                   span Motivo: #{usuarioLogado.motivo_rejeicao}
@@ -43,8 +44,9 @@ block content
       .welcome-icon
         img(src="../images/boasvindas.png" alt="")
 
-  section.stats-section(aria-label="Estatísticas da plataforma")
+  section.stats-section(aria-labelledby="titulo-estatisticas")
     .stats-container
+      h2.sr-only#titulo-estatisticas Estatísticas da plataforma
       .stat-card
         .stat-icon
           i.bi.bi-people-fill(aria-hidden="true")
@@ -80,15 +82,15 @@ block content
       h2#titulo-aprendizado O que você vai aprender?
       p.learning-subtitle Aqui você poderá conhecer fundamentos da audiodescrição e da acessibilidade, entendendo como aplicar e compartilhar conhecimentos sobre inclusão.
 
-        ul.learning-items-wrapper(style="list-style: none; padding: 0;")
-          li.learning-item.learning-item1(data-num="1") Compreender a deficiência visual
-          li.learning-item.learning-item2(data-num="2") Princípios da audiodescrição
-          li.learning-item.learning-item3(data-num="3") Entretenimento e educação acessíveis
+      ul.learning-items-wrapper(style="list-style: none; padding: 0;")
+        li.learning-item.learning-item1(data-num="1") Compreender a deficiência visual
+        li.learning-item.learning-item2(data-num="2") Princípios da audiodescrição
+        li.learning-item.learning-item3(data-num="3") Entretenimento e educação acessíveis
 
   //- Cards adicionais
   section.cards-extra(aria-labelledby="titulo-conteudos")
     .cards-extra-container
-
+      h2.sr-only#titulo-conteudos Conteúdos educacionais
       .extra-card
         i.bi.bi-eye-slash-fill(aria-hidden="true")
         h3 Entendendo a deficiência visual

@@ -90,34 +90,54 @@ block content
 
     //- ABAS DE CONTEÚDO
     .perfil-tabs
-      .tabs-header
+      .tabs-header(role="tablist" aria-label="Conteúdo do perfil")
         if usuario.tipo_usuario === 'docente'
-          button.tab-btn.active(data-tab="audiodescricoes" aria-selected="true")
+          button#tab-btn-audiodescricoes.tab-btn.active(
+            role="tab"
+            data-tab="audiodescricoes"
+            aria-selected="true"
+            aria-controls="tab-audiodescricoes"
+          )
             i.bi.bi-volume-up(aria-hidden="true")
             span Audiodescrições corrigidas
         else
-          button.tab-btn.active(data-tab="audiodescricoes" aria-selected="true")
+          button#tab-btn-audiodescricoes.tab-btn.active(
+            role="tab"
+            data-tab="audiodescricoes"
+            aria-selected="true"
+            aria-controls="tab-audiodescricoes"
+          )
             i.bi.bi-volume-up(aria-hidden="true")
             span Audiodescrições
 
-        button.tab-btn(data-tab="forum" aria-selected="false")
+        button#tab-btn-forum.tab-btn(
+          role="tab"
+          data-tab="forum"
+          aria-selected="false"
+          aria-controls="tab-forum"
+        )
           i.bi.bi-chat-left-text(aria-hidden="true")
           span Fórum
 
         if usuario.tipo_usuario === 'docente'
-          button.tab-btn(data-tab="materiais" aria-selected="false")
+          button#tab-btn-materiais.tab-btn(
+            role="tab"
+            data-tab="materiais"
+            aria-selected="false"
+            aria-controls="tab-materiais"
+          )
             i.bi.bi-file-earmark-pdf(aria-hidden="true")
             span Materiais
 
       //- TAB: AUDIODESCRIÇÕES
-      .tab-content#tab-audiodescricoes.tab-pane.active
+      .tab-content#tab-audiodescricoes.tab-pane.active(role="tabpanel" aria-labelledby="tab-btn-audiodescricoes")
         .audiodescricoes-list
           if audiodescricoes.length === 0
             p(style="color:#6B7280; padding: 20px") Nenhuma audiodescrição encontrada.
           each item in audiodescricoes
             .audiodescricao-item
               .item-icon
-                i.bi.bi-film
+                i.bi.bi-film(aria-hidden="true")
               .item-content
                 h3.item-title= item.titulo
                 p.item-description= item.descricao
@@ -136,10 +156,10 @@ block content
                   else
                     span.btn-ver-disabled Em análise
         .view-all-link
-          a(href="#") Ver todas
+          a(href="#" aria-label="Ver todas as audiodescrições") Ver todas
 
       //- TAB: FÓRUM
-      .tab-content#tab-forum.tab-pane(role="tabpanel" aria-labelledby="tab-btn-forum")
+      .tab-content#tab-forum.tab-pane(role="tabpanel" aria-labelledby="tab-btn-forum" hidden)
         .forum-list
           if postagensForum.length === 0
             p(style="color:#6B7280; padding: 20px") Você ainda não postou no fórum.
@@ -160,10 +180,10 @@ block content
                   i.bi.bi-chevron-right(aria-hidden="true")
 
         .view-all-link
-          a(href="/forum") Ver todas
+          a(href="/forum" aria-label="Ver todas as postagens no fórum") Ver todas
 
       //- TAB: MATERIAIS
-      .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais")
+      .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais" hidden)
         .materiais-list
           if materiais.length === 0
             p(style="color:#6B7280; padding: 20px") Você ainda não publicou nenhum material.
@@ -182,28 +202,28 @@ block content
                   i.bi.bi-download(aria-hidden="true")
 
         .view-all-link
-          a(href="/biblioteca") Ver todas
+          a(href="/biblioteca" aria-label="Ver todos os materiais") Ver todas
 
   
-  .modal-overlay#modalEditar(style="display:none")
+  .modal-overlay#modalEditar(style="display:none" role="dialog" aria-modal="true" aria-labelledby="modal-editar-titulo")
     .modal-edicao
       .modal-header
-        h3 Editar perfil
-        button.btn-fechar-modal(type="button" onclick="fecharModalEditar()")
-          i.bi.bi-x-lg
+        h3#modal-editar-titulo Editar perfil
+        button.btn-fechar-modal(type="button" onclick="fecharModalEditar()" aria-label="Fechar")
+          i.bi.bi-x-lg(aria-hidden="true")
 
       form#formEditarPerfil(action="/usuario/editar-perfil" method="POST" enctype="multipart/form-data")
         .modal-body
           .modal-avatar-section
             img#previewAvatar(src='/images/foto-perfil-default.png' alt="Avatar")
             label.btn-foto(for="novaFoto")
-              i.bi.bi-camera-fill
+              i.bi.bi-camera-fill(aria-hidden="true")
               | Alterar foto
             input#novaFoto(type="file" name="foto" accept="image/*" hidden)
 
           .modal-campos
             .input-group
-              i.bi.bi-person-fill
+              i.bi.bi-person-fill(aria-hidden="true")
               .input-content
                 label(for="novo_nome_usuario") Nome de usuário
                 input#novo_nome_usuario(type="text" name="nome_usuario" value=usuario.nome_usuario)
@@ -213,7 +233,7 @@ block content
                   small.hint.bloqueado Disponível para troca em #{diasRestantes} dias
 
             .input-group
-              i.bi.bi-card-text
+              i.bi.bi-card-text(aria-hidden="true")
               .input-content
                 label(for="nova_biografia") Biografia
                 textarea#nova_biografia(name="biografia" rows="3")= usuario.biografia || ''

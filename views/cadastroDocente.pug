@@ -79,12 +79,19 @@ html(lang="pt-br")
             .input-group
               i.bi.bi-book-half(aria-hidden="true")
               .input-content
-                label Disciplina(s) lecionada(s)
+                p.form-group-label#label-disciplinas Disciplina(s) lecionada(s)
                 .disciplinas-dropdown
-                  button.btn-disciplinas(type="button" onclick="toggleDisciplinas()" id="btnDisciplinas")
+                  button.btn-disciplinas(
+                    type="button"
+                    onclick="toggleDisciplinas()"
+                    id="btnDisciplinas"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-labelledby="label-disciplinas textoDisciplinas"
+                  )
                     span#textoDisciplinas Selecione as disciplinas
-                    i.bi.bi-chevron-down#iconeDisciplinas
-                  .disciplinas-lista#disciplinasLista(style="display: none;")
+                    i.bi.bi-chevron-down#iconeDisciplinas(aria-hidden="true")
+                  .disciplinas-lista#disciplinasLista(style="display: none;" role="group" aria-labelledby="label-disciplinas")
                     each disciplina in disciplinas
                       if disciplina.titulo !== 'Outra'
                         label.checkbox-label
@@ -100,6 +107,7 @@ html(lang="pt-br")
                       style="display: none; margin-top: 10px;"
                       aria-label="Especifique a outra disciplina"
                     )
+                                
                       
             .input-group
               i.bi.bi-journal-text(aria-hidden="true")
@@ -130,9 +138,11 @@ html(lang="pt-br")
       function toggleDisciplinas() {
         const lista = document.getElementById('disciplinasLista');
         const icone = document.getElementById('iconeDisciplinas');
+        const btn = document.getElementById('btnDisciplinas');
         const aberto = lista.style.display === 'block';
         lista.style.display = aberto ? 'none' : 'block';
         icone.className = aberto ? 'bi bi-chevron-down' : 'bi bi-chevron-up';
+        btn.setAttribute('aria-expanded', String(!aberto));
       }
 
       function atualizarTextoDisciplinas() {

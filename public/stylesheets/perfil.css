@@ -6,7 +6,7 @@ body {
   --primary-color: #6b3fa0 !important;
   --primary-light: #e8d5f2;
   --secondary-color: #8b5fbf;
-  --tertiary-color: #60a5fa;
+  --tertiary-color: #1d5fc7;
   --text-dark: #1a1a1a;
   --text-light: #666666;
   --border-color: #d4c5e2;
@@ -17,7 +17,7 @@ body {
 }
 
 .perfil-container {
-  max-width: 950px;
+  max-width: 990px;
   margin: 0 auto;
   padding: 40px 20px;
   background-color: #E9CCEF;
@@ -287,7 +287,7 @@ body {
   padding: 16px;
   background-color: var(--white);
   border-radius: 12px;
-  border-left: 4px solid #2eb086;
+  border-left: 4px solid #1f7c5f;
   transition: all 0.3s ease;
 }
 
@@ -301,7 +301,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2eb086;
+  color: #1f7c5f;
   font-size: 22px;
   flex-shrink: 0;
 }
@@ -448,7 +448,7 @@ body {
 }
 
 .modal-campos .input-group i { font-size: 18px; color: #000000; }
-.hint { font-size: 13px; color: #2eb086; margin-top: 2px; }
+.hint { font-size: 13px; color: #1f7c5f; margin-top: 2px; }
 .hint.bloqueado { color: #e74c3c; }
 
 .modal-footer { display: flex; justify-content: center; gap: 15px; }
@@ -469,7 +469,7 @@ body {
 .modal-footer .btn-submitcust {
   width: 40%;
   padding: 15px;
-  background-color: #2eb086;
+  background-color: #1f7c5f;
   color: white;
   border: none;
   border-radius: 5px;

@@ -250,6 +250,26 @@ textarea.form-control {
     margin: 0;
 }
 
+.form-group label,
+.form-group .form-group-label {
+    display: block;
+    font-size: 22px;
+    color: #2f4f7f;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.tipo-midia-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tipo-midia-fieldset .form-group-label {
+  padding: 0;
+  width: 100%;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .container-form {

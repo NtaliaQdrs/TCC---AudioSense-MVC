@@ -13,21 +13,21 @@ block content
 
         article.extra-card1.card1
           .card-inner
-            img(src="../images/definicao.png")
-            h3 Definição e conceitos
-            .card-content
+            img(src="../images/definicao.png" alt="")
+            h2 Definição e conceitos
+            .card-content(id="card-content-1" aria-hidden="true")
               p A audiodescrição é um recurso de acessibilidade comunicacional, que traduz imagens em palavras, possibilitando que as pessoas que se beneficiam desse recurso tenham acesso às informações visuais.
 
               p Trata-se de uma tradução intersemiótica, que traduz informações imagéticas para informações verbais.
 
               p Intersemiótica é a transmutação de um sistema de signos para outro, nesse caso, de um sistema não verbal, imagético, para o verbal.
 
-            button.read-more(onclick="toggleFullscreen(this)") Ler mais
+            button.read-more(type="button" onclick="toggleFullscreen(this)" aria-expanded="false" aria-controls="card-content-1") Ler mais
 
         article.extra-card.card2
           .card-inner
-            img(src="../images/usuarios.png")
-            h3 Quem são os usuários?
+            img(src="../images/usuarios.png" alt="")
+            h2 Quem são os usuários?
             .card-content
               p Ele beneficia principalmente pessoas com deficiência visual, entre elas cegas e com baixa visão.
               p E amplia a compreensão, como uma segunda forma de acesso à comunicação, para pessoas com deficiência intelectual, com TDAH, autistas, disléxicos, idosos e crianças.
@@ -36,8 +36,8 @@ block content
 
         article.extra-card.card3
           .card-inner
-            img(src="../images/importancia.png")
-            h3 A importância deste recurso
+            img(src="../images/importancia.png" alt="")
+            h2 A importância deste recurso
             .card-content
               p Este recurso é necessário em quaisquer lugares que tenham informações visuais para fruição, tais como: sites, cinema, teatro, escola, programas televisivos, passeios turísticos, shows, desfiles, apresentações de dança, e tantos outros.
 
@@ -54,8 +54,8 @@ block content
 
         article.extra-card1.card4
           .card-inner
-            img(src="../images/exemplos.png")
-            h3 Exemplos práticos
+            img(src="../images/exemplos.png" alt="")
+            h2 Exemplos práticos
             .card-content
               p Exemplos incluem a descrição de cenários, expressões faciais, figurinos e ações físicas que não são reveladas apenas pelo som ou pelo diálogo em uma produção audiovisual.
               .exemplos-galeria
@@ -118,7 +118,7 @@ block content
         br
         if projetoEmAnalise
           .a.aviso-analise
-            i.bi.bi-hourglass-split
+            i.bi.bi-hourglass-split(aria-hidden="true")
             .aviso-analise-texto
               p Você já possui uma audiodescrição em processo de correção:
                 strong  #{projetoEmAnalise.titulo}
@@ -160,16 +160,9 @@ block content
   #overlay.card-overlay(onclick="closeAllCards()")
 
   script.
-    function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      const button = document.querySelector('.toggle-sidebar');
-      const isCollapsed = sidebar.classList.toggle('collapsed');
-      button.textContent = isCollapsed ? '↓' : '↑';
-      button.setAttribute('aria-expanded', !isCollapsed);
-    }
-
     function toggleFullscreen(button) {
       const card = button.closest('article');
+      const content = card.querySelector('.card-content');
       const overlay = document.getElementById('overlay');
       
       if (card.classList.contains('fullscreen')) {
@@ -179,6 +172,8 @@ block content
         card.classList.add('fullscreen');
         overlay.classList.add('active');
         button.textContent = 'Fechar';
+        button.setAttribute('aria-expanded', 'true');
+        content.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
       }
     }
@@ -189,7 +184,12 @@ block content
       cards.forEach(card => {
         card.classList.remove('fullscreen');
         const btn = card.querySelector('.read-more');
-        if (btn) btn.textContent = 'Ler mais';
+        const content = card.querySelector('.card-content');
+        if (btn) {
+          btn.textContent = 'Ler mais';
+          btn.setAttribute('aria-expanded', 'false');
+        }
+        if (content) content.setAttribute('aria-hidden', 'true');
       });
       overlay.classList.remove('active');
       document.body.style.overflow = 'auto';

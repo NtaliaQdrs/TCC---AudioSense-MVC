@@ -2,84 +2,145 @@ extends layout
 
 block styles
   link(rel='stylesheet', href='/stylesheets/configuracoes.css')
+  link(rel='stylesheet', href='/stylesheets/modais-conta.css')
 
 block content
   .config-container
-    a.back-link(href="/")
-      //i.bi.bi-arrow-left
-      //span Voltar
+    .config-conteudo-principal
+      a.back-link(href="/")
 
-    //- CARD GRANDE PRINCIPAL
-    .main-config-card
-      .config-header
-        h1 Configurações
-        p Gerencie sua conta 
-      
-      hr.header-divider
+      .main-config-card
+        .config-header
+          h1 Configurações
+          p Gerencie sua conta
 
-      //- Seção Conta e Segurança
-      section.config-section-inner
-        .section-title
-          .section-icon
-            i.bi.bi-shield-lock
-          .title-text
-            h2 Conta e segurança
-            p Gerencie suas informações pessoais e a segurança da sua conta.
+        hr.header-divider
 
-        .config-list
-          a.config-item(href="#")
-            .item-info
-              .item-icon
-                i.bi.bi-person
-              .item-text
-                h3 Alterar nome
-                p Atualize o nome exibido no seu perfil.
-            i.bi.bi-chevron-right.chevron
+        section.config-section-inner
+          .section-title
+            .section-icon
+              i.bi.bi-shield-lock(aria-hidden="true")
+            .title-text
+              h2 Conta e segurança
+              p Gerencie suas informações pessoais e a segurança da sua conta.
 
-          hr.config-divider
+          .config-list
+            button.config-item(type="button" data-modal="modal-nome" aria-label="Alterar nome")
+              .item-info
+                .item-icon
+                  i.bi.bi-person(aria-hidden="true")
+                .item-text
+                  h3 Alterar nome
+                  p Atualize o nome exibido no seu perfil.
+              i.bi.bi-chevron-right.chevron
 
-          a.config-item(href="#")
-            .item-info
-              .item-icon
-                i.bi.bi-envelope
-              .item-text
-                h3 Alterar e-mail
-                p Atualize o e-mail da sua conta.
-            i.bi.bi-chevron-right.chevron
+            hr.config-divider
 
-          hr.config-divider
+            button.config-item(type="button" data-modal="modal-email" aria-label="Alterar email")
+              .item-info
+                .item-icon
+                  i.bi.bi-envelope(aria-hidden="true")
+                .item-text
+                  h3 Alterar e-mail
+                  p Atualize o e-mail da sua conta.
+              i.bi.bi-chevron-right.chevron
 
-          a.config-item(href="#")
-            .item-info
-              .item-icon
-                i.bi.bi-lock
-              .item-text
-                h3 Alterar senha
-                p Escolha uma nova senha para sua conta.
-            i.bi.bi-chevron-right.chevron
+            hr.config-divider
 
-          hr.config-divider
+            button.config-item(type="button" data-modal="modal-senha" aria-label="Alterar senha")
+              .item-info
+                .item-icon
+                  i.bi.bi-lock(aria-hidden="true")
+                .item-text
+                  h3 Alterar senha
+                  p Escolha uma nova senha para sua conta.
+              i.bi.bi-chevron-right.chevron
 
-          a.config-item(href="/sair")
-            .item-info
-              .item-icon(style="background: #f0f0f0; color: #666;")
-                i.bi.bi-box-arrow-right
-              .item-text
-                h3 Sair da conta
-                p Encerrar sessão em sua conta neste dispositivo.
+            hr.config-divider
 
-          hr.config-divider
-          
-          a.config-item(href="#")
-            .item-info
-              .item-icon(style="background: #ffe5e5; color: #d32f2f;")
-                i.bi.bi-trash
-              .item-text
-                h3 Excluir conta
-                p Excluir permanentemente sua conta e todos os seus dados.
-            i.bi.bi-chevron-right.chevron
+            a.config-item(href="/usuario/logout")
+              .item-info
+                .item-icon(style="background: #f0f0f0; color: #666;")
+                  i.bi.bi-box-arrow-right(aria-hidden="true")
+                .item-text
+                  h3 Sair da conta
+                  p Encerrar sessão em sua conta neste dispositivo.
 
+            hr.config-divider
 
-  
+            button.config-item(type="button" data-modal="modal-excluir" aria-label="Excluir conta")
+              .item-info
+                .item-icon(style="background: #ffe5e5; color: #d32f2f;")
+                  i.bi.bi-trash(aria-hidden="true")
+                .item-text
+                  h3 Excluir conta
+                  p Excluir permanentemente sua conta e todos os seus dados.
+              i.bi.bi-chevron-right.chevron
+
+    //- ═══════════════ MODAIS ═══════════════
+
+    //- Modal: Alterar nome
+    .modal-overlay(id="modal-nome" hidden)
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-nome-titulo")
+        button.modal-close(type="button" data-fechar aria-label="Fechar") ×
+        h2#modal-nome-titulo Alterar nome de usuário
+        p.modal-aviso Você só pode trocar o nome de usuário a cada 30 dias.
+        form.modal-form(data-endpoint="/usuario/alterar-nome")
+          label(for="input-novo-nome") Novo nome de usuário
+          input#input-novo-nome(type="text" name="nome_usuario" required autocomplete="off")
+          .modal-feedback(role="alert")
+          .modal-actions
+            button.btn-secundario(type="button" data-fechar) Cancelar
+            button.btn-primario(type="submit") Salvar
+
+    //- Modal: Alterar email
+    .modal-overlay(id="modal-email" hidden)
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-email-titulo")
+        button.modal-close(type="button" data-fechar aria-label="Fechar") ×
+        h2#modal-email-titulo Alterar e-mail
+        form.modal-form(data-endpoint="/usuario/alterar-email")
+          label(for="input-novo-email") Novo e-mail
+          input#input-novo-email(type="email" name="novo_email" required autocomplete="off")
+          label(for="input-senha-email") Confirme sua senha atual
+          input#input-senha-email(type="password" name="senha" required autocomplete="current-password")
+          .modal-feedback(role="alert")
+          .modal-actions
+            button.btn-secundario(type="button" data-fechar) Cancelar
+            button.btn-primario(type="submit") Salvar
+
+    //- Modal: Alterar senha
+    .modal-overlay(id="modal-senha" hidden)
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-senha-titulo")
+        button.modal-close(type="button" data-fechar aria-label="Fechar") ×
+        h2#modal-senha-titulo Alterar senha
+        form.modal-form(data-endpoint="/usuario/alterar-senha")
+          label(for="input-senha-atual") Senha atual
+          input#input-senha-atual(type="password" name="senha_atual" required autocomplete="current-password")
+          a.modal-link-esqueceu(href="/usuario/esqueceu-senha") Esqueceu sua senha atual?
+          label(for="input-nova-senha") Nova senha
+          input#input-nova-senha(type="password" name="nova_senha" required autocomplete="new-password" minlength="8")
+          label(for="input-confirmar-senha") Confirmar nova senha
+          input#input-confirmar-senha(type="password" name="confirmar_senha" required autocomplete="new-password" minlength="8")
+          .modal-feedback(role="alert")
+          .modal-actions
+            button.btn-secundario(type="button" data-fechar) Cancelar
+            button.btn-primario(type="submit") Salvar
+
+    //- Modal: Excluir conta
+    .modal-overlay(id="modal-excluir" hidden)
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-excluir-titulo")
+        button.modal-close(type="button" data-fechar aria-label="Fechar") ×
+        h2#modal-excluir-titulo Excluir conta
+        p.modal-aviso Esta ação é permanente. Todos os seus dados serão apagados e não poderão ser recuperados.
+        form.modal-form(data-endpoint="/usuario/excluir-conta" data-redirecionar="/usuario" data-confirmar-texto="EXCLUIR")
+          label(for="input-senha-excluir") Confirme sua senha para excluir
+          input#input-senha-excluir(type="password" name="senha" required autocomplete="current-password")
+          label(for="input-confirmar-exclusao") Digite #[strong EXCLUIR] para confirmar
+          input#input-confirmar-exclusao(type="text" name="confirmacao_texto" required autocomplete="off")
+          .modal-feedback(role="alert")
+          .modal-actions
+            button.btn-secundario(type="button" data-fechar) Cancelar
+            button.btn-perigo(type="submit") Excluir minha conta
 
   script(src="/javascripts/configuracoes.js")
+  script(src="/javascripts/modaisConta.js")

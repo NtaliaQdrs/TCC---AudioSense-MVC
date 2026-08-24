@@ -1,6 +1,7 @@
 // Model que representa a tabela 'usuario' já existente no banco de dados
 import { DataTypes } from 'sequelize';
 
+
 export default (sequelize) => {
     const Usuario = sequelize.define('Usuario', {
 

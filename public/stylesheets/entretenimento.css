@@ -31,11 +31,25 @@ body {
   transition: grid-template-columns 0.3s ease;
 }
 
-.main-grid.sidebar-collapsed { grid-template-columns: 1fr 1fr 60px; }
-.main-grid article:nth-child(1) { grid-area: card1; }
-.main-grid article:nth-child(2) { grid-area: card2; }
-.main-grid article:nth-child(3) { grid-area: card3; }
-.main-grid article:nth-child(4) { grid-area: card4; }
+.main-grid.sidebar-collapsed {
+  grid-template-columns: 1fr 1fr 60px;
+}
+
+.main-grid article:nth-child(1) {
+  grid-area: card1;
+}
+
+.main-grid article:nth-child(2) {
+  grid-area: card2;
+}
+
+.main-grid article:nth-child(3) {
+  grid-area: card3;
+}
+
+.main-grid article:nth-child(4) {
+  grid-area: card4;
+}
 
 /* CARDS */
 .card-inner {
@@ -80,8 +94,12 @@ body {
   flex-shrink: 0;
 }
 
-.card-text p { margin-top: 15px; font-size: 16px; }
-.card-text h4 { margin-top: 15px; font-size: 16px; }
+.card-text p {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+.card-text .release-date { margin-top: 15px; font-size: 16px; }
 
 /* CONTEÚDO ESCONDIDO (sinopse longa) */
 .card-content {
@@ -93,8 +111,16 @@ body {
   padding: 0 10px;
 }
 
-.card-content p { font-size: 16px; line-height: 1.6; margin-bottom: 15px; }
-.extra-card1 .card-content p { color: #000; font-weight: 600; }
+.card-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.extra-card1 .card-content p {
+  color: #000;
+  font-weight: 600;
+}
 
 /* FOOTER */
 .card-footer {
@@ -105,10 +131,33 @@ body {
   width: 100%;
 }
 
-.platform { display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 600; }
-.netflix-icon { width: 18px; height: 18px; object-fit: contain; }
-.card-footer .netflix-icon { width: 50px !important; height: 50px !important; }
-.expand-btn { background: transparent; border: none; font-size: 25px; color: #2eb086; cursor: pointer; line-height: 1; }
+.platform {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.netflix-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.card-footer .netflix-icon {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.expand-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #1f7c5f;
+  cursor: pointer;
+  line-height: 1;
+}
 
 /* SIDEBAR */
 .sidebar {
@@ -121,14 +170,27 @@ body {
   box-sizing: border-box;
   margin-bottom: 10px;
   margin-left: 20px;
-  border: 2px solid #2eb086;
+  border: 2px solid #1f7c5f;
   position: sticky;
   top: 80px;
 }
 
-.sidebar i { color: #2eb086; }
-.sidebar h3 { color: #2fa36b; font-size: 18px; line-height: 1.4; text-align: center; }
-.sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
+.sidebar i {
+  color: #1f7c5f;
+}
+
+.sidebar h3 {
+  color: #2fa36b;
+  font-size: 18px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.sidebar hr {
+  height: 1px;
+  background: #ccc;
+  margin: 20px 0;
+}
 
 .toggle-sidebar {
   width: 40px;
@@ -138,16 +200,22 @@ body {
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background: #2eb086;
+  background: #1f7c5f;
   color: white;
   cursor: pointer;
   font-size: 22px;
 }
 
-.sidebar.collapsed { max-width: 60px; padding: 10px; }
+.sidebar.collapsed {
+  max-width: 60px;
+  padding: 10px;
+}
+
 .sidebar.collapsed h3,
 .sidebar.collapsed nav,
-.sidebar.collapsed hr { display: none; }
+.sidebar.collapsed hr {
+  display: none;
+}
 
 /* BOTÃO RECOMENDAR */
 .right-column {
@@ -189,8 +257,14 @@ body {
   white-space: nowrap;
 }
 
-.recommend-btn i { color: white; }
-.recommend-btn:hover { background: #1e3a5f; transform: scale(1.03); }
+.recommend-btn i {
+  color: white;
+}
+
+.recommend-btn:hover {
+  background: #1e3a5f;
+  transform: scale(1.03);
+}
 
 /* FULLSCREEN */
 article.fullscreen {
@@ -198,7 +272,7 @@ article.fullscreen {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
+  width: 93vw;
   height: auto;
   max-height: 90vh;
   max-width: 950px;
@@ -215,7 +289,7 @@ article.fullscreen .card-inner {
   display: flex;
   flex-direction: row;
   gap: 30px;
-  align-items: flex-start;
+  align-items: stretch;
   width: 100%;
 }
 
@@ -227,7 +301,9 @@ article.fullscreen .card-inner img {
   flex-shrink: 0;
 }
 
-article.fullscreen .card-text { flex: 1; }
+article.fullscreen .card-text {
+  flex: 1;
+}
 
 article.fullscreen h3 {
   font-size: 22px;
@@ -237,10 +313,14 @@ article.fullscreen h3 {
   margin-top: 10px;
 }
 
-article.fullscreen .card-text h4 { text-align: left; }
+article.fullscreen .card-text h4 {
+  text-align: left;
+}
 
 /* Esconde sinopse curta no fullscreen (evita duplicação) */
-article.fullscreen .card-text > p { display: none; }
+article.fullscreen .card-text>p {
+  display: none;
+}
 
 /* Mostra conteúdo longo no fullscreen */
 article.fullscreen .card-content {
@@ -250,7 +330,10 @@ article.fullscreen .card-content {
   text-align: left;
 }
 
-  article.fullscreen .card-footer { margin-top: 40px; }
+article.fullscreen .card-footer {
+  margin-top: auto;
+  padding-top: 15px;
+}
 
 article.fullscreen .card-footer .netflix-icon {
   width: 40px !important;
@@ -269,7 +352,9 @@ article.fullscreen .card-footer .netflix-icon {
   display: none;
 }
 
-.card-overlay.active { display: block; }
+.card-overlay.active {
+  display: block;
+}
 
 /* Placeholder poster */
 .poster-placeholder {
@@ -283,7 +368,10 @@ article.fullscreen .card-footer .netflix-icon {
   flex-shrink: 0;
 }
 
-.poster-placeholder i { font-size: 40px; color: #999; }
+.poster-placeholder i {
+  font-size: 40px;
+  color: #999;
+}
 
 /* Sem recomendações */
 .sem-conteudo {
@@ -294,7 +382,7 @@ article.fullscreen .card-footer .netflix-icon {
 }
 
 /* Sinopse truncada no card fechado */
-.card-text > p {
+.card-text>p {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -348,5 +436,8 @@ article.fullscreen .card-footer {
     grid-template-columns: 1fr;
     grid-template-areas: "card1" "card2" "right" "card3" "card4";
   }
-  .sidebar { margin-left: 0; }
+
+  .sidebar {
+    margin-left: 0;
+  }
 }

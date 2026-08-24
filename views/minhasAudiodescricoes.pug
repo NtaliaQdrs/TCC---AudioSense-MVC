@@ -12,25 +12,25 @@ block content
 
     .search-section
       .search-box
-        i.bi.bi-search
-        input(type="text" id="buscaInput" placeholder="Buscar por título ou descrição...")
+        i.bi.bi-search(aria-hidden="true")
+        input(type="text" id="buscaInput" placeholder="Buscar por título ou descrição..." aria-label="Buscar")
       a.btn-insert(href="/inserir-audiodescricao")
-        i.bi.bi-plus-circle
+        i.bi.bi-plus-circle(aria-hidden="true")
         span Nova audiodescrição
 
-    .filters-section
-      button.filter-btn.active(data-filtro="todos") Todos
-      button.filter-btn(data-filtro="em_analise")
-        span.badge-filtro.badge-analise
+    .filters-section(role="group" aria-label="Filtrar audiodescrições")
+      button.filter-btn.active(data-filtro="todos" aria-pressed="true") Todos
+      button.filter-btn(data-filtro="em_analise" aria-pressed="false")
+        span.badge-filtro.badge-analise(aria-hidden="true")
         | Em análise
       button.filter-btn(data-filtro="requer_ajustes")
-        span.badge-filtro.badge-ajustes
+        span.badge-filtro.badge-ajustes(aria-hidden="true")
         | Requer ajustes
       button.filter-btn(data-filtro="aprovado")
-        span.badge-filtro.badge-aprovado
+        span.badge-filtro.badge-aprovado(aria-hidden="true")
         | Aprovado
       button.filter-btn(data-filtro="concluido")
-        span.badge-filtro.badge-concluido
+        span.badge-filtro.badge-concluido(aria-hidden="true")
         | Concluído
 
     //- CONTEÚDO
@@ -39,7 +39,7 @@ block content
 
       if audiodescricoes.length === 0
         .minha-ad-vazio
-          i.bi.bi-volume-mute
+          i.bi.bi-volume-mute(aria-hidden="true")
           p Você ainda não tem audiodescrições.
           
       else
@@ -49,7 +49,7 @@ block content
               .ad-card-imagem
                 if item.tipo_midia === 'video'
                   .ad-card-video-thumb
-                    i.bi.bi-play-circle
+                    i.bi.bi-play-circle(aria-hidden="true")
                     span Vídeo
                 else
                   img(src= item.imagem_url ? item.imagem_url : '/images/placeholder.png' alt=item.titulo)
@@ -57,50 +57,50 @@ block content
 
                 .ad-card-status-badge(class='badge-' + item.status)
                   if item.status === 'em_analise'
-                    i.bi.bi-clock
+                    i.bi.bi-clock(aria-hidden="true")
                     span Em análise
                   else if item.status === 'requer_ajustes'
-                    i.bi.bi-exclamation-triangle
+                    i.bi.bi-exclamation-triangle(aria-hidden="true")
                     span Requer ajustes
                   else if item.status === 'aprovado'
-                    i.bi.bi-check-circle
+                    i.bi.bi-check-circle(aria-hidden="true")
                     span Aprovado
                   else if item.status === 'concluido'
-                    i.bi.bi-trophy
+                    i.bi.bi-trophy(aria-hidden="true")
                     span Concluído
 
               .ad-card-corpo
                 h3.ad-card-titulo= item.titulo
                 p.ad-card-descricao= item.descricao || 'Sem descrição.'
                 .ad-card-data
-                  i.bi.bi-calendar3
+                  i.bi.bi-calendar3(aria-hidden="true")
                   span= new Date(item.data_submissao).toLocaleDateString('pt-BR')
 
               .ad-card-acoes
                 if item.status === 'aprovado'
                   a.btn-acao.btn-acao-primary(href='/enviar-midia-final/' + item.id)
-                    i.bi.bi-mic
+                    i.bi.bi-mic(aria-hidden="true")
                     span= item.tipo_midia === 'video' ? 'Enviar vídeo' : 'Enviar áudio'
                 else if item.status === 'requer_ajustes'
                   a.btn-acao.btn-acao-warning(href='/ajustar-audiodescricao/' + item.id)
-                    i.bi.bi-pencil
+                    i.bi.bi-pencil(aria-hidden="true")
                     span Ajustar
                 else if item.status === 'concluido'
                   a.btn-acao.btn-acao-success(href='/ver-audiodescricao/' + item.id)
-                    i.bi.bi-eye
+                    i.bi.bi-eye(aria-hidden="true")
                     span Ver resultado
                 else
                   span.btn-acao-disabled
-                    i.bi.bi-hourglass-split
+                    i.bi.bi-hourglass-split(aria-hidden="true")
                     span Aguardando análise
 
                 if item.status !== 'em_analise'
                   form(action='/apagar-audiodescricao/' + item.id method='POST'
                     onsubmit= item.status === 'concluido' 
-                      ? "return confirm('⚠️ Esta audiodescrição está concluída. Apagar irá remover permanentemente todo o trabalho. Tem certeza?')" 
+                      ? "return confirm('Atenção: esta audiodescrição está concluída. Apagar irá remover permanentemente todo o trabalho. Tem certeza?')" 
                       : "return confirm('Tem certeza que deseja apagar esta audiodescrição?')")
                     button.btn-acao.btn-acao-danger(type='submit')
-                      i.bi.bi-trash
+                      i.bi.bi-trash(aria-hidden="true")
                       span Apagar
 
                

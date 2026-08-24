@@ -122,7 +122,7 @@ body {
 .btn-submitcust {
     width: 40%;
     padding: 15px;
-    background-color: #2eb086;
+    background-color: #1f7c5f;
     color: white;
     border: none;
     border-radius: 5px;
@@ -133,7 +133,7 @@ body {
 }
 
 .btn-submitcust:hover {
-    background-color: #1e7c5f;
+    background-color: #2eb086;
 }
 
 .footer-text {

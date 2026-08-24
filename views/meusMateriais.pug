@@ -11,25 +11,25 @@ block content
 
     .search-section
       .search-box
-        i.bi.bi-search
-        input(type="text" id="buscaInput" placeholder="Buscar por título ou descrição...")
+        i.bi.bi-search(aria-hidden="true")
+        input(type="text" id="buscaInput" placeholder="Buscar por título ou descrição..." aria-label="Buscar")
       a.btn-insert(href="/inserir-material")
-        i.bi.bi-plus-circle
+        i.bi.bi-plus-circle(aria-hidden="true")
         span Novo material
 
-    .filters-section
-      button.filter-btn.active(data-filtro="todos") Todos
-      button.filter-btn(data-filtro="artigo") Artigo
-      button.filter-btn(data-filtro="slide") Slide
-      button.filter-btn(data-filtro="video") Vídeo
-      button.filter-btn(data-filtro="outro") Outro
+    .filters-section(role="group" aria-label="Filtrar materiais")
+      button.filter-btn.active(data-filtro="todos" aria-pressed="true") Todos
+      button.filter-btn(data-filtro="artigo" aria-pressed="false") Artigo
+      button.filter-btn(data-filtro="slide" aria-pressed="false") Slide
+      button.filter-btn(data-filtro="video" aria-pressed="false") Vídeo
+      button.filter-btn(data-filtro="outro" aria-pressed="false") Outro
 
     .materials-section
       h2.materials-title Materiais (#{materiais.length})
 
       if materiais.length === 0
         .minha-ad-vazio
-          i.bi.bi-folder2-open
+          i.bi.bi-folder2-open(aria-hidden="true")
           p Você ainda não publicou nenhum material.
 
       else
@@ -51,21 +51,21 @@ block content
                 h3.ad-card-titulo= item.titulo
                 p.ad-card-descricao= item.descricao || 'Sem descrição.'
                 .ad-card-data
-                  i.bi.bi-calendar3
+                  i.bi.bi-calendar3(aria-hidden="true")
                   span= new Date(item.data_publicacao).toLocaleDateString('pt-BR')
                 if item.media
                   .ad-card-data
-                    i.bi.bi-star-fill
+                    i.bi.bi-star-fill(aria-hidden="true")
                     span= item.media + ' (' + item.totalAvaliacoes + ' avaliações)'
 
               .ad-card-acoes
                 a.btn-acao.btn-acao-primary(href='/material/' + item.id)
-                  i.bi.bi-eye
+                  i.bi.bi-eye(aria-hidden="true")
                   span Ver material
 
                 form(action='/material/' + item.id + '/apagar' method='POST' onsubmit="return confirm('Tem certeza que deseja apagar este material? Essa ação não pode ser desfeita.')")
                   button.btn-acao.btn-acao-danger(type='submit')
-                    i.bi.bi-trash
+                    i.bi.bi-trash(aria-hidden="true")
                     span Apagar
 
   script(src="/javascripts/meusMateriais.js")

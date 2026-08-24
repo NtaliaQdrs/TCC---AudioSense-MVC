@@ -19,6 +19,10 @@ import {
     redefinirSenha,
     // Auth
     login,
+    alterarNome,
+    alterarEmail,
+    alterarSenha,
+    excluirConta,
 } from '../controllers/usuarioController.js';
 
 const router = express.Router();
@@ -34,6 +38,7 @@ router.get('/', (req, res) =>
         status: req.query.status || null,
         motivo: req.query.motivo || null,
         email:  req.query.email  || null,
+        erro:   req.query.erro   || null,
     })
 );
 
@@ -60,6 +65,12 @@ router.get('/esqueceu-senha', (req, res) =>
     res.render('esqueceuSenha', { title: 'Esqueceu a senha', mensagem: null, erro: null })
 );
 router.get('/redefinir-senha/:token', verRedefinirSenha);
+
+// Configurações de conta (modais)
+router.post('/alterar-nome',  auth, alterarNome);
+router.post('/alterar-email', auth, alterarEmail);
+router.post('/alterar-senha', auth, alterarSenha);
+router.post('/excluir-conta', auth, excluirConta);
 
 // ═══════════════════════════════════════════════
 // PÁGINAS AUTENTICADAS

@@ -36,7 +36,7 @@ body {
 
 .minha-ad-subtitulo {
   font-size: 16px;
-  color: #6B7280;
+  color: #4b5563;
   margin: 0 0 30px;
 }
 
@@ -124,7 +124,7 @@ body {
   justify-content: center;
 }
 .filter-btn:hover { background-color: #2f4f7f; color: white; }
-.filter-btn.active { background-color: #5dade2; color: white; border-color: #5dade2; }
+.filter-btn.active { background-color: #52a7de; color: white; border-color: #52a7de; }
 
 .badge-filtro {
   width: 8px; height: 8px;
@@ -249,7 +249,7 @@ body {
 .btn-acao-warning { background: #f59e0b; color: white; }
 .btn-acao-warning:hover { background: #d97706; }
 .btn-acao-success { background: #10b981; color: white; }
-.btn-acao-success:hover { background: #059669; }
+.btn-acao-success:hover { background:#2eb086; }
 .btn-acao-disabled {
   display: inline-flex; align-items: center;
   gap: 7px; padding: 9px 20px;
@@ -296,7 +296,7 @@ body {
   text-align: center; padding: 60px 20px; color: #9ca3af;
 }
 .minha-ad-vazio i { font-size: 60px; margin-bottom: 20px; display: block; color: #d1d5db; }
-.minha-ad-vazio p { font-size: 18px; margin-bottom: 25px; color: #6B7280; }
+.minha-ad-vazio p { font-size: 18px; margin-bottom: 25px; color: #4b5563; }
 
 /* TEMA ESCURO */
 html.dark-theme .materials-section { background: #1e1e2e !important; border: 1px solid #2e2e4e !important; }
@@ -308,7 +308,7 @@ html.dark-theme .materials-title { color: #e0e0e0 !important; }
 html.dark-theme .title { color: #e0e0e0 !important; }
 html.dark-theme .minha-ad-subtitulo { color: #aaa !important; }
 html.dark-theme .filter-btn { background: #252538 !important; border-color: #3a3a5a !important; color: #ccc !important; }
-html.dark-theme .filter-btn.active { background: #5dade2 !important; color: white !important; border-color: #5dade2 !important; }
+html.dark-theme .filter-btn.active { background: #52a7de !important; color: white !important; border-color: #52a7de !important; }
 html.dark-theme .btn-acao-disabled { background: #2a2a3e !important; color: #666 !important; }
 html.dark-theme .search-box input { background: #2a2a3e !important; color: #e0e0e0 !important; border-color: #582d86 !important; }
 

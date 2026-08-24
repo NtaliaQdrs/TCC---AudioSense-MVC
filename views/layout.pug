@@ -18,7 +18,7 @@ html(lang="pt-br")
         a.skip-link(href="#main-content") Pular para o conteúdo principal
 
         .logo
-          a(aria-label="AudioSense - Página Inicial")
+          a(href="/" aria-label="AudioSense - Página Inicial")
             img(src="/images/audiosense.png" alt="")
 
         button#categoryToggle.category-toggle(
@@ -39,13 +39,15 @@ html(lang="pt-br")
             a.dropdown-item(href="/forum") Fórum
             a.dropdown-item(href="/biblioteca") Biblioteca
 
+        
+
         nav.menu-links(aria-label="Menu Principal")
           a(href="/") Início
           a(href="/configuracoes") Configurações
           a(href="#") Sobre nós
 
         .menu-right
-          .search-box1
+          .search-box1(role="search")
             i.bi.bi-search(aria-hidden="true")
             input(
               type="text"
@@ -62,32 +64,41 @@ html(lang="pt-br")
             )
               span Perfil 
               i#perfil-logo.bi.bi-person-circle(aria-hidden="true")
-              span#badge-perfil.badge(style="display:none") 0
+              span#badge-perfil.badge(style="display:none" aria-live="polite") 0
 
-            #profileDropdown.profile-dropdown(role="menu")
+            #profileDropdown.profile-dropdown
 
-              .dropdown-tabs
-                button.tab-btn.tab-active(data-tab="profile" aria-selected="true")
+              .dropdown-tabs(role="tablist" aria-label="Perfil e notificações")
+                button#tab-profile.tab-btn.tab-active(
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="profile-tab"
+                  data-tab="profile"
+                )
                   i.bi.bi-person-circle(aria-hidden="true")
 
-                button.tab-btn(data-tab="notifications" aria-selected="false")
+                button#tab-notifications.tab-btn(
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="notifications-tab"
+                  data-tab="notifications"
+                )
                   i.bi.bi-bell(aria-hidden="true")
-                  span#badge-notificacoes.badge(style="display:none") 0
+                  span#badge-notificacoes.badge(style="display:none" aria-live="polite") 0
 
-              .tab-pane.tab-pane-active#profile-tab
+              .tab-pane.tab-pane-active#profile-tab(role="tabpanel" aria-labelledby="tab-profile")
 
-                a.dropdown-item(href="/usuario/perfil" role="menuitem")
+                a.dropdown-item(href="/usuario/perfil")
                   i.bi.bi-person(aria-hidden="true")
                   |   Meu Perfil
 
-                a.dropdown-item(href="/usuario/configuracoes-perfil" role="menuitem")
+                a.dropdown-item(href="/usuario/configuracoes-perfil")
                   i.bi.bi-gear(aria-hidden="true")
                   |   Configurações
 
                 a#minhasAudiodescricoes.dropdown-item(
                   href="/usuario/minhas-audiodescricoes"
                   style="display: none;"
-                  role="menuitem"
                 )
                   i.bi.bi-headphones(aria-hidden="true")
                   |   Minhas Audiodescrições
@@ -95,7 +106,6 @@ html(lang="pt-br")
                 a#meusMateriais.dropdown-item(
                   href="/usuario/meus-materiais"
                   style="display: none;"
-                  role="menuitem"
                 )
                   i.bi.bi-file-earmark(aria-hidden="true")
                   |   Meus Materiais
@@ -103,7 +113,6 @@ html(lang="pt-br")
                 a#adminPainel.dropdown-item(
                   href="/painelAdmin1"
                   onclick="irParaPainelAdmin(event)"
-                  role="menuitem"
                 )
                   i.bi.bi-shield-lock(aria-hidden="true")
                   |   Painel do Administrador
@@ -114,10 +123,10 @@ html(lang="pt-br")
                   i.bi.bi-box-arrow-right(aria-hidden="true")
                   |   Sair da conta
 
-              .tab-pane#notifications-tab
+              .tab-pane#notifications-tab(role="tabpanel" aria-labelledby="tab-notifications" hidden)
                 p(style="padding: 15px; color: #666; font-size: 14px;") Sem novas notificações.
                 hr.dropdown-divider
-                a.dropdown-item(href="#" role="menuitem" style="text-align: center; font-size: 12px;")
+                a.dropdown-item(href="#" style="text-align: center; font-size: 12px;")
                   | Ver todas as notificações
 
     section.sub-menu
@@ -128,6 +137,8 @@ html(lang="pt-br")
         a(href="/forum") Fórum
         a(href="/biblioteca") Biblioteca
 
+    include partials/fab
+
     main#main-content(tabindex="-1")
       block content
 
@@ -136,7 +147,7 @@ html(lang="pt-br")
 
         .footer-column
           h3
-            i.bi.bi-headphones
+            i.bi.bi-headphones(aria-hidden="true")
             |  Sobre AudioSense
           p
             | AudioSense é uma plataforma sobre audiodescrição e deficiência visual.
@@ -146,7 +157,7 @@ html(lang="pt-br")
 
         .footer-column
           h3
-            i.bi.bi-link-45deg
+            i.bi.bi-link-45deg(aria-hidden="true")
             |  Links úteis
           ul
             li
@@ -160,31 +171,31 @@ html(lang="pt-br")
 
         .footer-column
           h3
-            i.bi.bi-envelope
+            i.bi.bi-envelope(aria-hidden="true")
             |  Entre em contato
           ul
             li
-              i.bi.bi-envelope
+              i.bi.bi-envelope(aria-hidden="true")
               |  contato.audiosense@gmail.com
             li
-              i.bi.bi-telephone
+              i.bi.bi-telephone(aria-hidden="true")
               |  +55 (48) 99999-9999
             li
-              i.bi.bi-geo-alt
+              i.bi.bi-geo-alt(aria-hidden="true")
               |  Sombrio, SC - Brasil
 
         .footer-column
           h3
-            i.bi.bi-share
+            i.bi.bi-share(aria-hidden="true")
             |  Redes Sociais
           p Acompanhe-nos nas redes sociais para dicas e novidades
           .social-icons
             a(href="#" aria-label="Instagram")
-              i.bi.bi-instagram
+              i.bi.bi-instagram(aria-hidden="true")
             a(href="#" aria-label="Facebook")
-              i.bi.bi-facebook
+              i.bi.bi-facebook(aria-hidden="true")
             a(href="#" aria-label="Twitter")
-              i.bi.bi-twitter
+              i.bi.bi-twitter(aria-hidden="true")
 
       .footer-bottom
         p
@@ -199,6 +210,6 @@ html(lang="pt-br")
     script(src="/javascripts/accessibility.js")
     script(src="/javascripts/fab.js")
 
-  include partials/fab
+  
 
   block scripts

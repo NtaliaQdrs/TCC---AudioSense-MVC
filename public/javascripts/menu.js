@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryDropdown = document.getElementById('categoryDropdown');
 
     // =============================
-    // ABAS NO DROPDOWN (NOVO)
+    // ABAS NO DROPDOWN
     // =============================
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
@@ -24,22 +24,22 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const tabName = btn.getAttribute('data-tab');
 
-            // Remove ativa de todos
             tabBtns.forEach(b => {
                 b.classList.remove('tab-active');
                 b.setAttribute('aria-selected', 'false');
             });
             tabPanes.forEach(pane => {
                 pane.classList.remove('tab-pane-active');
+                pane.setAttribute('hidden', '');
             });
 
-            // Ativa o clicado
             btn.classList.add('tab-active');
             btn.setAttribute('aria-selected', 'true');
 
             const pane = document.getElementById(tabName + '-tab');
             if (pane) {
                 pane.classList.add('tab-pane-active');
+                pane.removeAttribute('hidden');
             }
         });
     });
@@ -50,8 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (profileBtn && profileDropdown) {
         profileBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            e.stopPropagation(); // Evita que o clique no botão feche o menu imediatamente pelo evento global
-            profileDropdown.classList.toggle('show');
+            e.stopPropagation();
+            const aberto = profileDropdown.classList.toggle('show');
+            profileBtn.setAttribute('aria-expanded', aberto);
         });
     }
 
@@ -62,11 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
         categoryToggle.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            categoryDropdown.classList.toggle('active');
+            const aberto = categoryDropdown.classList.toggle('active');
+            categoryToggle.setAttribute('aria-expanded', aberto);
 
             const icon = categoryToggle.querySelector('i');
             if (icon) {
-                if (categoryDropdown.classList.contains('active')) {
+                if (aberto) {
                     icon.classList.replace('bi-grid-3x3-gap-fill', 'bi-x');
                 } else {
                     icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
@@ -79,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // FECHAR MENUS AO CLICAR FORA OU ESC
     // =============================
     document.addEventListener('click', (e) => {
-        // Fecha Perfil — mas não bloqueia cliques em links dentro do dropdown
         if (profileDropdown && !e.target.closest('.profile-menu')) {
             profileDropdown.classList.remove('show');
+            profileBtn?.setAttribute('aria-expanded', 'false');
         }
 
-        // Fecha Categorias
         if (categoryDropdown && !categoryDropdown.contains(e.target) && !categoryToggle.contains(e.target)) {
             categoryDropdown.classList.remove('active');
+            categoryToggle?.setAttribute('aria-expanded', 'false');
             const icon = categoryToggle?.querySelector('i');
             if (icon) icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
         }
@@ -94,11 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+            const perfilAberto = profileDropdown?.classList.contains('show');
+            const categoriasAberto = categoryDropdown?.classList.contains('active');
+
             profileDropdown?.classList.remove('show');
+            profileBtn?.setAttribute('aria-expanded', 'false');
+
             categoryDropdown?.classList.remove('active');
-            // Opcional: voltar o ícone das categorias ao normal
+            categoryToggle?.setAttribute('aria-expanded', 'false');
             const icon = categoryToggle?.querySelector('i');
             if (icon) icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
+
+            // Devolve o foco pro botão que estava aberto
+            if (perfilAberto) profileBtn?.focus();
+            else if (categoriasAberto) categoryToggle?.focus();
         }
     });
 
@@ -115,12 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // GESTÃO DE ESTADO DO USUÁRIO
     // =============================
     function atualizarInterfaceUsuario() {
-        // Esconde tudo por padrão
         if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
         if (meusMateriais) meusMateriais.style.display = 'none';
-        if (adminPainel) adminPainel.style.display = 'none'; // ← adiciona isso
+        if (adminPainel) adminPainel.style.display = 'none';
 
-        if (!usuarioLogado) return; // se não logado, para aqui
+        if (!usuarioLogado) return;
 
         const tipo = usuarioLogado.tipo_usuario;
         const isAdmin = usuarioLogado.is_admin;
@@ -148,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.setAttribute('aria-current', 'page');
             } else {
                 link.classList.remove('active');
+                link.removeAttribute('aria-current');
             }
         });
     }
@@ -164,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             const { notificacoes, naoLidas } = data;
 
-            // Atualiza os badges
             const badgeSino = document.getElementById('badge-notificacoes');
             const badgePerfil = document.getElementById('badge-perfil');
 
@@ -177,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 badgePerfil.style.display = naoLidas > 0 ? 'inline' : 'none';
             }
 
-            // Preenche a lista de notificações
             const tab = document.getElementById('notifications-tab');
             if (!tab) return;
 
@@ -187,20 +196,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const itens = notificacoes.map(n => `
-                <a class="dropdown-item nao-lida" href="${n.link || '#'}" role="menuitem">
-                    <div class="notif-content">
-                    <p class="notif-title">${n.titulo}</p>
-                    <p class="notif-desc">${n.mensagem}</p>
-                    <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
-                    </div>
-                </a>
-                `).join('');
+            <a class="dropdown-item nao-lida" href="${n.link || '#'}" data-notif-id="${n.id}">
+                <div class="notif-content">
+                <p class="notif-title">${n.titulo}</p>
+                <p class="notif-desc">${n.mensagem}</p>
+                <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
+                </div>
+            </a>
+            `).join('');
 
             tab.innerHTML = itens + `
             <hr class="dropdown-divider">
-            <a class="dropdown-item" href="#" onclick="marcarTodasLidas()" style="text-align: center; font-size: 12px;">
+            <button type="button" class="dropdown-item" onclick="marcarTodasLidas()" style="text-align: center; font-size: 12px; width: 100%; background: none; border: none; cursor: pointer;">
                 Marcar todas como lidas
-            </a>
+            </button>
             `;
 
         } catch (err) {
@@ -213,14 +222,20 @@ document.addEventListener('DOMContentLoaded', () => {
         carregarNotificacoes();
     };
 
-    // Carrega ao abrir o dropdown também
     if (profileBtn) {
         profileBtn.addEventListener('click', carregarNotificacoes);
     }
-    // Chama diretamente, pois já estamos dentro do DOMContentLoaded
     if (usuarioLogado) {
         carregarNotificacoes();
     }
     atualizarInterfaceUsuario();
     destacarLinkAtivo();
+
+});
+// Marca uma notificação como lida ao clicar nela (antes de navegar)
+document.getElementById('notifications-tab')?.addEventListener('click', (e) => {
+    const item = e.target.closest('[data-notif-id]');
+    if (!item) return;
+    const id = item.dataset.notifId;
+    fetch(`/notificacoes/${id}/marcar-lida`, { method: 'POST', keepalive: true });
 });

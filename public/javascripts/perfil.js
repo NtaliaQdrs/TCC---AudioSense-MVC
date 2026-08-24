@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function () {
       const tabName = this.getAttribute("data-tab");
 
-      // Remove classe active de todos os botões e conteúdos
       tabButtons.forEach((btn) => {
         btn.classList.remove("active");
         btn.setAttribute("aria-selected", "false");
@@ -23,18 +22,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
       tabContents.forEach((content) => {
         content.classList.remove("active");
+        content.setAttribute("hidden", "");
       });
 
-      // Adiciona classe active ao botão e conteúdo clicado
       this.classList.add("active");
       this.setAttribute("aria-selected", "true");
 
       const activeContent = document.getElementById(`tab-${tabName}`);
       if (activeContent) {
         activeContent.classList.add("active");
+        activeContent.removeAttribute("hidden");
       }
 
-      // Log para fins de debug
       console.log(`Aba ativada: ${tabName}`);
     });
   });
@@ -68,23 +67,39 @@ document.addEventListener("DOMContentLoaded", function () {
   // MODAL DE EDIÇÃO DE PERFIL
   // ============================================
 
+  let ultimoFocoModalEditar = null;
+
+  function abrirModalEditar() {
+    ultimoFocoModalEditar = document.activeElement;
+    document.getElementById("modalEditar").style.display = "flex";
+    document.getElementById("novo_nome_usuario")?.focus();
+    document.addEventListener("keydown", fecharModalEditarComEsc);
+  }
+
   const btnEditarPerfil = document.querySelector(".btn-editar-perfil");
   if (btnEditarPerfil) {
-    btnEditarPerfil.addEventListener("click", function () {
-      document.getElementById("modalEditar").style.display = "flex";
-    });
+    btnEditarPerfil.addEventListener("click", abrirModalEditar);
   }
   const avatarUploadBtn = document.querySelector('.avatar-upload-btn');
   if (avatarUploadBtn) {
     avatarUploadBtn.addEventListener('click', function () {
-      document.getElementById('modalEditar').style.display = 'flex';
+      abrirModalEditar();
       setTimeout(() => document.getElementById('novaFoto').click(), 100);
     });
   }
 
   window.fecharModalEditar = function () {
     document.getElementById("modalEditar").style.display = "none";
+    document.removeEventListener("keydown", fecharModalEditarComEsc);
+    if (ultimoFocoModalEditar) {
+      ultimoFocoModalEditar.focus();
+      ultimoFocoModalEditar = null;
+    }
   };
+
+  function fecharModalEditarComEsc(e) {
+    if (e.key === "Escape") fecharModalEditar();
+  }
 
   // Fecha modal ao clicar fora
   document
@@ -109,8 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // BOTÕES DE AÇÃO (VER, DOWNLOAD)
   // ============================================
 
-
-
   const btnDownload = document.querySelectorAll(".btn-download");
   btnDownload.forEach((button) => {
     button.addEventListener("click", function (e) {
@@ -133,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
     item.addEventListener("click", function () {
       const title = this.querySelector(".forum-title").textContent;
       console.log(`Abrindo discussão: ${title}`);
-      // Redirecionar para página da discussão
     });
   });
 
@@ -144,11 +156,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const viewAllLinks = document.querySelectorAll(".view-all-link a");
   viewAllLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
-      e.preventDefault();
-      const tabActive = document.querySelector(".tab-btn.active");
-      const tabName = tabActive.getAttribute("data-tab");
-      console.log(`Visualizando todos os itens de: ${tabName}`);
-      // Implementar navegação para página completa
+      // Só bloqueia links sem destino real ainda (href="#")
+      if (this.getAttribute("href") === "#") {
+        e.preventDefault();
+        const tabActive = document.querySelector(".tab-btn.active");
+        const tabName = tabActive.getAttribute("data-tab");
+        console.log(`Visualizando todos os itens de: ${tabName} (ainda não implementado)`);
+      }
+      // Os que já têm href real (/forum, /biblioteca) navegam normalmente
     });
   });
 
@@ -156,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // ACESSIBILIDADE - FOCUS MANAGEMENT
   // ============================================
 
-  // Adicionar suporte a focus visível
   document.addEventListener("keydown", function (e) {
     if (e.key === "Tab") {
       document.body.classList.add("keyboard-nav");
@@ -173,4 +187,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("Página de perfil carregada com sucesso");
 });
-

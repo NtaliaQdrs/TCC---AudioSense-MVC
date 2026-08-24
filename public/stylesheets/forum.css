@@ -32,7 +32,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
 .view-options {
@@ -48,9 +48,10 @@ body {
    ========================================================================== */
 .forum-posts {
   flex: 2;
-  columns: 2;
-  column-gap: 25px;
-  margin-top: -20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  align-items: start;
 }
 
 .post-card {
@@ -93,7 +94,7 @@ body {
   color: #999;
 }
 
-.post-content h3 {
+.post-content h2 {
   font-size: 19px;
   color: #1a3a6c;
   margin: 15px 0 15px 0;
@@ -124,10 +125,12 @@ body {
   justify-content: flex-end;
 }
 
-.post-actions span {
+.post-actions .btn-comentar {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: inherit;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -154,7 +157,7 @@ body {
   background: #f5edf5;
   padding: 20px;
   border-radius: 16px;
-  border: 2px solid #2eb086;
+  border: 2px solid #1f7c5f;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -167,7 +170,7 @@ body {
   border: 1px solid #eee;
   border-radius: 10px;
   background: white;
-  color: #2eb086;
+  color: #1f7c5f;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 5px rgba(0,0,0,0.15);
@@ -181,7 +184,7 @@ body {
 
 .btn-criar-post {
   margin-top: 10px;
-  background: #60a5fa;
+  background: #1d5fc7;
   color: white;
   border: none;
   padding: 15px;
@@ -225,7 +228,7 @@ body {
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background: #2eb086;
+  background: #1f7c5f;
   color: white;
   cursor: pointer;
   font-size: 22px;
@@ -283,14 +286,22 @@ body {
 /* ==========================================================================
    ÍCONES DE ALTERNÂNCIA
    ========================================================================== */
-.view-options i {
-  color: #aaa;
-  font-size: 22px;
+.view-options .view-btn {
+  background: none;
+  border: none;
+  padding: 0;
   cursor: pointer;
+  display: flex;
+  color: #aaa;
   transition: color 0.2s;
 }
 
-.view-options i.active {
+.view-options .view-btn i {
+  font-size: 22px;
+  pointer-events: none;
+}
+
+.view-options .view-btn[aria-pressed="true"] {
   color: #582d86;
 }
 
@@ -341,7 +352,7 @@ html.dark-theme .user-info .date {
   color: #6272a4;
 }
 
-html.dark-theme .post-content h3 {
+html.dark-theme .post-content h2 {
   color: #bd93f9;
 }
 
@@ -354,23 +365,23 @@ html.dark-theme .post-actions {
   border-top-color: #44475a;
 }
 
-html.dark-theme .view-options i {
+html.dark-theme .view-options .view-btn {
   color: #6272a4;
 }
 
-html.dark-theme .view-options i.active {
+html.dark-theme .view-options .view-btn[aria-pressed="true"] {
   color: #bd93f9;
 }
 
 html.dark-theme .sidebar-box {
   background: #2a2a3e;
-  border-color: #2eb086;
+  border-color: #1f7c5f;
 }
 
 html.dark-theme .btn-filter {
   background: #1e1e2e;
   border-color: #44475a;
-  color: #2eb086;
+  color: #1f7c5f;
 }
 
 html.dark-theme .btn-filter:hover {
@@ -411,6 +422,11 @@ html.dark-theme .btn-filter:hover {
   padding: 4px 8px;
   border-radius: 6px;
   transition: background 0.2s ease, color 0.2s ease;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .btn-curtir:hover {

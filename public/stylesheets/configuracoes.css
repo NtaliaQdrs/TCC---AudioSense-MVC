@@ -350,19 +350,20 @@ html.dark-theme .tip-icon        { color: #a78bfa !important; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 8px;
+    padding: 18px 0px;
     margin: 0 -8px;
     text-decoration: none;
     color: inherit;
     border-radius: 10px;
     transition: background-color 0.2s ease;
+    
 }
 .config-item:hover { background-color: rgba(93, 63, 211, 0.06); }
 
 .item-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
     flex: 1;
     min-width: 0;
 }
@@ -382,14 +383,14 @@ html.dark-theme .tip-icon        { color: #a78bfa !important; }
 
 .item-text h3 {
     font-size: 16px;
-    margin: 0;
+    margin-bottom: 4px;
     color: var(--header-text, #1f4677);
 }
 
 .item-text p {
     font-size: 15px;
     color: #777;
-    margin: 4px 0 0;
+    margin: 0;
 }
 
 .chevron {
@@ -404,7 +405,7 @@ html.dark-theme .tip-icon        { color: #a78bfa !important; }
 .config-divider {
     border: none;
     border-top: 1px solid var(--divider-color, #eee);
-    margin: 0;
+    margin: 6px 0;
 }
 
 /* ── Tema escuro ── */
@@ -415,6 +416,147 @@ html.dark-theme .item-icon { background: #2a2a3e !important; color: #a78bfa !imp
 html.dark-theme .config-divider { border-color: #2e2e4e !important; }
 html.dark-theme .chevron { color: #666 !important; }
 html.dark-theme .config-item:hover { background-color: rgba(167, 139, 250, 0.08) !important; }
+
+/* modais-conta.css — modais de Alterar nome/e-mail/senha e Excluir conta */
+
+button.config-item {
+  all: unset;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 40, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-box {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box h2 {
+  margin: 0 0 8px;
+  color: #1a2a6c;
+  font-size: 1.3rem;
+}
+
+.modal-aviso {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #888;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-form label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin: 14px 0 6px;
+}
+
+.modal-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.modal-form input:focus {
+  outline: none;
+  border-color: #6c4bd1;
+  box-shadow: 0 0 0 3px rgba(108, 75, 209, 0.15);
+}
+
+.modal-feedback {
+  min-height: 20px;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.modal-feedback--erro {
+  color: #d32f2f;
+}
+
+.modal-feedback--sucesso {
+  color: #2e7d32;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-primario,
+.btn-secundario,
+.btn-perigo {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.btn-primario {
+  background: #6c4bd1;
+  color: #fff;
+}
+.btn-primario:hover { background: #5a3cb8; }
+
+.btn-secundario {
+  background: #f0f0f0;
+  color: #333;
+}
+.btn-secundario:hover { background: #e2e2e2; }
+
+.btn-perigo {
+  background: #d32f2f;
+  color: #fff;
+}
+.btn-perigo:hover { background: #b71c1c; }
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 /* ══════════════════════════════════════════
    RESPONSIVO

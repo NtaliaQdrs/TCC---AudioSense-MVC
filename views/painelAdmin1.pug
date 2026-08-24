@@ -15,24 +15,24 @@ block content
       p.instrucoes-admin O acesso de administrador fornece controle total sobre a gestão de usuários, conteúdo, configurações do sistema e relatórios. Esta função é reservada para pessoas autorizadas e requer aprovação.
 
       if mensagem
-        .alert-success
-          i.bi.bi-check-circle-fill
+        .alert-success(role="status")
+          i.bi.bi-check-circle-fill(aria-hidden="true")
           | #{mensagem}
 
       else if solicitacaoPendente
-        .alert-success
-          i.bi.bi-clock-fill
+        .alert-success(role="status")
+          i.bi.bi-clock-fill(aria-hidden="true")
           | Solicitação pendente, aguarde a aprovação do administrador.
 
       else if solicitacaoRejeitada
-        .alert-rejeitado
-          i.bi.bi-x-circle-fill
+        .alert-rejeitado(role="alert")
+          i.bi.bi-x-circle-fill(aria-hidden="true")
           p Sua solicitação de acesso de administrador foi rejeitada.
           if motivoRejeicao
             p.motivo
               strong Motivo: 
               | #{motivoRejeicao}
-          button.btn-submitcust(onclick="this.closest('.alert-rejeitado').nextElementSibling.style.display='block'; this.closest('.alert-rejeitado').style.display='none'") Tentar novamente
+          button.btn-submitcust(type="button" onclick="mostrarFormularioNovamente(this)") Tentar novamente
 
         form(action="/painelAdmin1/solicitar-admin" method="POST" style="display:none")
           .input-group
@@ -63,3 +63,12 @@ block content
             button.btn-cancel(type="button") Cancelar
             button.btn-submitcust(type="submit") Enviar solicitação
 
+  script.
+    function mostrarFormularioNovamente(btn) {
+      const alerta = btn.closest('.alert-rejeitado');
+      const form = alerta.nextElementSibling;
+      alerta.style.display = 'none';
+      form.style.display = 'block';
+      const primeiroCampo = form.querySelector('textarea, input, select');
+      if (primeiroCampo) primeiroCampo.focus();
+    }

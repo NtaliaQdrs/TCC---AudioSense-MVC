@@ -31,12 +31,11 @@ block content
 
               ul.vm-meta-list
                 li
-                  i.bi.bi-person-badge-fill
+                  i.bi.bi-person-badge-fill(aria-hidden="true")
                   span Prof. #{material.docente.usuario.nome_completo}
                 li
-                  i.bi.bi-calendar-event-fill
+                  i.bi.bi-calendar-event-fill(aria-hidden="true")
                   span= new Date(material.data_publicacao).toLocaleDateString('pt-BR')
-
               if material.descricao
                 p.vm-descricao= material.descricao
 
@@ -68,13 +67,13 @@ block content
                 iframe.vm-doc-viewer(src=`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(material.caminho_arquivo)}` title=material.titulo)
 
                 a.vm-open-btn(href=material.caminho_arquivo target="_blank" rel="noopener")
-                  i.bi.bi-box-arrow-up-right
+                  i.bi.bi-box-arrow-up-right(aria-hidden="true")
                   |  Abrir em nova aba
 
             if material.caminho_audio_descricao
               .vm-audio-block
-                label
-                  i.bi.bi-headphones
+                p.form-group-label
+                  i.bi.bi-headphones(aria-hidden="true")
                   | Audiodescrição
                 audio(controls)
                   source(src=material.caminho_audio_descricao)
@@ -86,17 +85,17 @@ block content
 
         //- ===== Avaliações =====
         section.vm-reviews-card
-          .vm-rating-summary
+          .vm-rating-summary(aria-label=media ? `Avaliação média: ${media} de 5, ${totalAvaliacoes} avaliações` : 'Sem avaliações')
             if media
               span.vm-rating-numero= media.toString().replace('.', ',')
               .vm-rating-estrelas
                 each i in [1,2,3,4,5]
                   if i <= Math.floor(media)
-                    i.bi.bi-star-fill
+                    i.bi.bi-star-fill(aria-hidden="true")
                   else if i === Math.ceil(media) && media % 1 !== 0
-                    i.bi.bi-star-half
+                    i.bi.bi-star-half(aria-hidden="true")
                   else
-                    i.bi.bi-star
+                    i.bi.bi-star(aria-hidden="true")
               span.vm-rating-total Avaliações (#{totalAvaliacoes})
             else
               p.vm-sem-avaliacoes Ainda não há avaliações para este material.
@@ -109,7 +108,8 @@ block content
                   each i in [5,4,3,2,1]
                     input(type="radio" name="nota" id=`estrela-${i}` value=i required)
                     label(for=`estrela-${i}`)
-                      i.bi.bi-star-fill
+                      i.bi.bi-star-fill(aria-hidden="true")
+                      span.sr-only= i + (i === 1 ? ' estrela' : ' estrelas')
                 button.vm-submit-btn(type="submit") Enviar resenha
               p.vm-aviso(style="font-size: 13px; color: var(--vm-text-muted); margin-top: 10px;")
                 | Ao enviar, você concorda com nossa 
@@ -128,13 +128,16 @@ block content
             each avaliacao in material.avaliacoes
               .vm-avaliacao-item
                 .vm-avaliacao-avatar
-                  i.bi.bi-person-fill
+                  if avaliacao.discente.Usuario.foto_perfil
+                    img(src=avaliacao.discente.Usuario.foto_perfil alt=`Foto de ${avaliacao.discente.Usuario.nome_completo}`)
+                  else
+                    i.bi.bi-person-fill(aria-hidden="true")
                 .vm-avaliacao-corpo
                   .vm-avaliacao-header
                     span.vm-avaliacao-nome= avaliacao.discente.Usuario.nome_completo
                     .vm-rating-estrelas.vm-rating-estrelas-sm(style="font-size: 16px;")
                       each i in [1,2,3,4,5]
-                        i.bi(class=i <= avaliacao.nota ? 'bi-star-fill' : 'bi-star')
+                        i.bi(class=i <= avaliacao.nota ? 'bi-star-fill' : 'bi-star')(aria-hidden="true")
                     span.vm-avaliacao-data= new Date(avaliacao.data_avaliacao).toLocaleDateString('pt-BR')
                   if avaliacao.comentario
                     p.vm-avaliacao-comentario= avaliacao.comentario
@@ -151,9 +154,10 @@ block scripts
           var collapsed = infoCard.classList.toggle('is-collapsed');
           if (topGrid) topGrid.classList.toggle('is-collapsed', collapsed);
           minimizeBtn.setAttribute('aria-expanded', String(!collapsed));
+          minimizeBtn.setAttribute('aria-label', collapsed ? 'Expandir informações' : 'Minimizar informações');
           minimizeBtn.innerHTML = collapsed
-            ? '<i class="bi bi-plus-lg"></i>'
-            : '<i class="bi bi-dash-lg"></i>';
+            ? '<i class="bi bi-plus-lg" aria-hidden="true"></i>'
+            : '<i class="bi bi-dash-lg" aria-hidden="true"></i>';
         });
       }
 

@@ -12,20 +12,20 @@ block content
       h2.form-title Avaliação de Roteiro de Audiodescrição
 
       .form-group
-        label Enviado por
+        p.form-group-label Enviado por
         p.form-control(style="background:#f0fdf4")= projeto.UsuarioDiscente.Usuario.nome_completo
 
       .form-group
-        label Título
+        p.form-group-label Título
         p.form-control(style="background:#f0fdf4")= projeto.titulo
 
       .form-group
-        label Descrição
+        p.form-group-label Descrição
         p.form-control(style="background:#f0fdf4")= projeto.descricao
 
       .form-group
-        label Roteiro Original do Aluno
-        textarea.form-control.textarea-large(readonly)= projeto.roteiro_texto
+        label(for="roteiro-original") Roteiro Original do Aluno
+        textarea#roteiro-original.form-control.textarea-large(readonly aria-readonly="true")= projeto.roteiro_texto
 
       form(action=`/corrigir-audiodescricao/${projeto.id}` method="POST")
         .form-group
@@ -35,9 +35,8 @@ block content
         .form-group
           label(for="status") Decisão
           select#status.form-control(name="status")
-            option(value="aprovado") ✅ Aprovar
-            option(value="requer_ajustes") ✏️ Requer ajustes
-
+            option(value="aprovado") Aprovar
+            option(value="requer_ajustes") Requer ajustes
         .button-group
           button.btn-submit(type="submit") Enviar correção
           a.btn-cancel(href="/audiodescricao") Cancelar

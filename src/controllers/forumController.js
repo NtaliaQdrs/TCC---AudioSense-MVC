@@ -137,37 +137,52 @@ export const adicionarComentario = async (req, res) => {
 };
 
 // Curtir tópico (contador simples)
+// Curtir tópico (toggle, com proteção contra race condition)
 export const curtirTopico = async (req, res) => {
+    const t = await db.sequelize.transaction();
     try {
         const { id } = req.params;
         const usuario_id = req.usuario.id;
 
-        const topico = await Publicacao.findOne({ where: { id } });
-        if (!topico) return res.status(404).json({ erro: 'Tópico não encontrado' });
+        // lock na linha da publicação durante a transação, evita duas
+        // requisições concorrentes lendo o mesmo estado ao mesmo tempo
+        const topico = await Publicacao.findOne({
+            where: { id },
+            transaction: t,
+            lock: t.LOCK.UPDATE
+        });
+
+        if (!topico) {
+            await t.rollback();
+            return res.status(404).json({ erro: 'Tópico não encontrado' });
+        }
 
         const jaCurtiu = await db.PublicacaoCurtida.findOne({
-            where: { usuario_id, publicacao_id: id }
+            where: { usuario_id, publicacao_id: id },
+            transaction: t
         });
 
         if (jaCurtiu) {
-            // já curtiu -> remove a curtida (toggle)
-            await jaCurtiu.destroy();
-            topico.curtidas -= 1;
-            await topico.save();
+            await jaCurtiu.destroy({ transaction: t });
+            topico.curtidas = Math.max(0, topico.curtidas - 1);
+            await topico.save({ transaction: t });
+            await t.commit();
             return res.json({ curtidas: topico.curtidas, curtido: false });
         }
 
-        // ainda não curtiu -> adiciona
-        await db.PublicacaoCurtida.create({ usuario_id, publicacao_id: id });
+        await db.PublicacaoCurtida.create({ usuario_id, publicacao_id: id }, { transaction: t });
         topico.curtidas += 1;
-        await topico.save();
+        await topico.save({ transaction: t });
+        await t.commit();
 
         return res.json({ curtidas: topico.curtidas, curtido: true });
     } catch (err) {
+        await t.rollback();
         console.error('Erro ao curtir tópico:', err);
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };
+
 // Apagar tópico (só o autor pode)
 export const apagarTopico = async (req, res) => {
     try {

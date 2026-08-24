@@ -9,29 +9,29 @@ html(lang="pt-br")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
 
   body
-    .containercust
+    main.containercust(role="main")
       .saudacao
         img.logo(src="../images/audiosense-login.png" alt="AudioSense Logo")
         h1 Customizar perfil
 
       .content-wrapper
         .image-card
-          img#preview(src="../  images/foto-perfil-default.png" alt="Foto do usuário")
+          img#preview(src="../images/foto-perfil-default.png" alt="Foto do usuário")
           label.btn-foto(for="foto-upload")
-            i.bi.bi-pencil
+            i.bi.bi-pencil(aria-hidden="true")
             | Escolha uma foto
 
         form.form-area(action="/usuario/customizar" method="POST" enctype="multipart/form-data" aria-label="Formulário de Customização de Perfil")
           input#foto-upload(type="file" name="foto" accept="image/*" hidden)
           
           .input-group
-            i.bi.bi-person-fill
+            i.bi.bi-person-fill(aria-hidden="true")
             .input-content
               label(for="nome_usuario") Nome de usuário
               input#nome_usuario(type="text" name="nome_usuario" placeholder="Usuário123" required)
 
           .input-group
-            i.bi.bi-card-text
+            i.bi.bi-card-text(aria-hidden="true")
             .input-content
               label(for="biografia") Biografia/Descrição
               textarea#biografia(

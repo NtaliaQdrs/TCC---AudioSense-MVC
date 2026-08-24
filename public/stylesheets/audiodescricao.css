@@ -53,15 +53,14 @@ body {
 .extra-card { background: #f3ebfc; }
 .extra-card1 { background: #21487FB2; }
 
-.extra-card h3,
-.extra-card1 h3 {
+.extra-card h2, .extra-card1 h2 {
   margin: 15px 0;
   font-size: 20px;
   line-height: 1.4;
 }
 
-.extra-card h3 { color: #1a3a6c; }
-.extra-card1 h3 { color: #ffffff; }
+.extra-card h2 { color: #1a3a6c; }
+.extra-card1 h2 { color: #ffffff; }
 
 .extra-card img,
 .extra-card1 img {
@@ -203,12 +202,12 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
   border-radius: 16px;
   transition: all 0.3s ease;
   overflow: hidden;
-  border: 2px solid #2eb086;
+  border: 2px solid #1f7c5f;
   position: sticky ;
   top: 80px;
 }
 
-.sidebar i { color: #2eb086; }
+.sidebar i { color: #1f7c5f; }
 .sidebar h3 { color: #2fa36b; font-size: 18px; line-height: 1.4; text-align: center; }
 .sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
 
@@ -220,7 +219,7 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background: #2eb086;
+  background: #1f7c5f;
   color: white;
   cursor: pointer;
   font-size: 22px;
@@ -243,7 +242,7 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
 }
 
 .practice h2 { color: #582d86; font-size: 22px; line-height: 1.4; }
-.practice p { font-size: 16px; color: #6B7280; line-height: 1.7; font-weight: 600; margin-top: 15px; }
+.practice p { font-size: 16px; color: #4b5563; line-height: 1.7; font-weight: 600; margin-top: 15px; }
 
 .practice a {
   font-weight: 600;
@@ -293,7 +292,7 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
 }
 
 .projeto-card .projeto-descricao {
-  color: #6B7280;
+  color: #4b5563;
   font-size: 15px;
   margin: 0;
 }

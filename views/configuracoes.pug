@@ -43,6 +43,7 @@ block content
                 aria-label="Tamanho da fonte"
                 aria-valuemin="50"
                 aria-valuemax="150"
+                aria-valuenow="100"
               )
               .slider-marks
                 span 50%
@@ -102,7 +103,7 @@ block content
             .control-info
               h3 Tema
               p Aparência geral da interface.
-            .button-group
+            .button-group(role="group" aria-label="Tema")
               button.group-btn(aria-pressed="false")
                 i.bi.bi-moon(aria-hidden="true")
                 span Escuro
@@ -119,7 +120,7 @@ block content
               h3 Reduzir animações
               p Para quem tem sensibilidade a movimentos na tela.
             label.toggle-switch(for="toggle-reduce-motion" aria-label="Reduzir animações")
-              input#toggle-reduce-motion(type="checkbox" role="switch")
+              input#toggle-reduce-motion(type="checkbox" role="switch" aria-checked="false")
               span.toggle-track
                 span.toggle-thumb
 
@@ -191,7 +192,7 @@ block content
       .tip-content
         h4 Dica de acessibilidade
         p Suas preferências são salvas automaticamente e aplicadas em toda a plataforma.
-      button.close-tip(aria-label="Fechar dica")
+      button.close-tip(aria-label="Fechar dica de acessibilidade")
         i.bi.bi-x(aria-hidden="true")
 
   script(src="/javascripts/accessibility.js")

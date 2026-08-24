@@ -38,10 +38,10 @@ block content
           input#disciplina_outro.form-control(type="text" name="disciplina_outro" placeholder="Digite o nome da disciplina..." maxlength="60")
 
         .form-group
-          label Capa do Material (opcional)
+          p.form-group-label Capa do Material (opcional)
           .upload-area(onclick="document.getElementById('capa').click()")
             input#capa(type="file" name="capa" style="display: none;" accept="image/jpeg,image/png,image/webp")
-            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false")
               rect(x="15" y="20" width="70" height="55" rx="8" stroke="#2eb086" stroke-width="6")
               circle(cx="32" cy="38" r="6" fill="#2eb086")
               path(d="M20 65L40 45L55 58L68 42L80 60" stroke="#2eb086" stroke-width="6" stroke-linecap="round" stroke-linejoin="round")
@@ -51,10 +51,10 @@ block content
 
 
         .form-group
-          label Arquivo do Material
+          p.form-group-label Arquivo do Material
           .upload-area(onclick="document.getElementById('arquivo').click()")
             input#arquivo(type="file" name="arquivo" style="display: none;" required)
-            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false")
               path(d="M30 10H55L75 30V85C75 87 73 90 70 90H30C27 90 25 87 25 85V15C25 12 27 10 30 10Z" stroke="#2eb086" stroke-width="6" stroke-linejoin="round")
               path(d="M55 10V28C55 30 57 32 59 32H75" stroke="#2eb086" stroke-width="6" stroke-linejoin="round")
               path(d="M50 45V70" stroke="#2eb086" stroke-width="6" stroke-linecap="round")
@@ -67,7 +67,7 @@ block content
           label(for="audio_descricao") Arquivo de Audiodescrição (Áudio)
           .upload-area(onclick="document.getElementById('audio_descricao').click()")
             input#audio_descricao(type="file" name="audio_descricao" style="display: none;" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg")
-            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
+            svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false")
               rect(x="20" y="45" width="6" height="10" rx="3" fill="#2eb086")
               rect(x="32" y="35" width="6" height="30" rx="3" fill="#2eb086")
               rect(x="44" y="20" width="6" height="60" rx="3" fill="#2eb086")
@@ -140,17 +140,15 @@ block content
           '<p style="margin-top: 8px; font-weight: 600;">' + file.name + '</p>';
       } else if (file.type.indexOf('image') === 0) {
         const url = URL.createObjectURL(file);
-        preview.innerHTML = '<img src="' + url + '" style="max-width: 100%; max-height: 220px; border-radius: 10px; object-fit: cover;">' +
+        preview.innerHTML = '<img src="' + url + '" alt="Prévia da imagem selecionada: ' + file.name + '" style="max-width: 100%; max-height: 220px; border-radius: 10px; object-fit: cover;">' +
           '<p style="margin-top: 8px; font-weight: 600;">' + file.name + '</p>';
       } else {
-        // PDF, PPTX e outros: sem preview visual nativo do navegador, mostra só um cartão com o nome
-        preview.innerHTML = '<p style="margin-top: 8px; font-weight: 600;">📄 ' + file.name + '</p>';
+        preview.innerHTML = '<p style="margin-top: 8px; font-weight: 600;">Arquivo selecionado: ' + file.name + '</p>';
       }
 
       uploadArea.appendChild(preview);
     }
 
-    // ---- Prévia de áudio (sempre player de áudio) ----
     function mostrarPreviewAudio(input, file) {
       const uploadArea = input.closest('.upload-area');
       const previewAnterior = uploadArea.querySelector('.preview-midia');
@@ -161,7 +159,7 @@ block content
       preview.className = 'preview-midia';
       preview.style.marginTop = '10px';
       preview.innerHTML = '<audio src="' + url + '" controls style="width: 100%;"></audio>' +
-        '<p style="margin-top: 8px; font-weight: 600;">🔊 ' + file.name + '</p>';
+        '<p style="margin-top: 8px; font-weight: 600;">Áudio selecionado: ' + file.name + '</p>';
 
       uploadArea.appendChild(preview);
     }

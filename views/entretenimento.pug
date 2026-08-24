@@ -22,16 +22,15 @@ block content
                     i.bi.bi-film
 
                 .card-text
-                  h3= rec.obra.titulo
+                  h2= rec.obra.titulo
 
                   //- Sinopse curta — visível no card fechado, some no fullscreen via CSS
                   p= rec.obra.sinopse
 
                   if rec.obra.data_lancamento
-                    h4
+                    p.release-date
                       | Lançamento: 
                       = new Date(rec.obra.data_lancamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })
-
                   //- Sinopse longa — visível só no fullscreen
                   .card-content
                     p= rec.obra.sinopse
@@ -51,7 +50,7 @@ block content
                       span Acesse na #{rec.plataforma.nome}
 
 
-                    button.expand-btn(onclick="toggleFullscreen(this)") ⤢
+                    button.expand-btn(onclick="toggleFullscreen(this)" aria-label="Ver mais detalhes" aria-expanded="false") ⤢
 
         else
           p.sem-conteudo Nenhuma recomendação cadastrada ainda.
@@ -90,7 +89,7 @@ block content
               aria-label="Expandir ou recolher menu") ↑
 
             if usuario && (usuario.tipo_usuario === 'docente' || usuario.is_admin)
-              button.recommend-btn(title="Recomende algo!" onclick="window.location.href='/inserir-entretenimento'")
+              button.recommend-btn(aria-label="Recomende algo!" onclick="window.location.href='/inserir-entretenimento'")
                 i.bi.bi-hand-thumbs-up(aria-hidden="true")
                 span   Recomende algo!
 
@@ -133,6 +132,8 @@ block content
         card.classList.add('fullscreen');
         overlay.classList.add('active');
         button.textContent = 'Fechar';
+        button.setAttribute('aria-label', 'Fechar');
+        button.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
       }
     }
@@ -143,7 +144,11 @@ block content
       cards.forEach(card => {
         card.classList.remove('fullscreen');
         const btn = card.querySelector('.expand-btn');
-        if (btn) btn.textContent = '⤢';
+        if (btn) {
+          btn.textContent = '⤢';
+          btn.setAttribute('aria-label', 'Ver mais detalhes');
+          btn.setAttribute('aria-expanded', 'false');
+        }
       });
       overlay.classList.remove('active');
       document.body.style.overflow = 'auto';

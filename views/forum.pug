@@ -9,8 +9,10 @@ block content
     .forum-header
       h1.title Fórum: Interaja e compartilhe
       .view-options
-        i.bi.bi-grid-fill#btn-grid(style="cursor:pointer")
-        i.bi.bi-list#btn-list(style="cursor:pointer")
+        button#btn-grid.view-btn(type="button" aria-label="Ver em grade" aria-pressed="true")
+          i.bi.bi-grid-fill(aria-hidden="true")
+        button#btn-list.view-btn(type="button" aria-label="Ver em lista" aria-pressed="false")
+          i.bi.bi-list(aria-hidden="true")
 
     section.forum-container
       .forum-posts
@@ -29,23 +31,23 @@ block content
                     br
                     span.date= dataFormatada
                 .post-content
-                  h3= topico.titulo
+                  h2= topico.titulo
                   p= topico.corpo_texto
                   if topico.imagem_url
-                    img(src=topico.imagem_url)
+                    img(src=topico.imagem_url alt="")
                   br
               .post-actions
-                span
-                  i.bi.bi-chat-left
+                a.btn-comentar(href=`/forum/${topico.id}#comentarios` aria-label=`Ver ${totalComentarios} comentário(s)`)
+                  i.bi.bi-chat-left(aria-hidden="true")
                   |  #{totalComentarios}
                 - const curtido = idsCurtidos.includes(topico.id)
-                span.btn-curtir(data-id=topico.id data-curtido=curtido style="cursor:pointer")
-                  i.bi(class=curtido ? 'bi-heart-fill' : 'bi-heart')
-                  |  #{topico.curtidas}
+                button.btn-curtir(type="button" data-id=topico.id data-curtido=curtido aria-label="Curtir tópico")
+                    i.bi(class=curtido ? 'bi-heart-fill' : 'bi-heart')
+                    |  #{topico.curtidas}
                 if usuarioLogadoId && topico.usuario_id === usuarioLogadoId
                   form.form-apagar-topico(action=`/forum/${topico.id}/apagar` method="POST" onsubmit="return confirm('Tem certeza que quer apagar este tópico? Essa ação não pode ser desfeita.')")
                     button.btn-apagar(type="submit")
-                      i.bi.bi-trash
+                      i.bi.bi-trash(aria-hidden="true")
                       |  Apagar
                   
         else
@@ -54,15 +56,15 @@ block content
       //- Barra Lateral (Sidebar)
       aside.forum-sidebar
         //- Caixa branca com os filtros
-        .sidebar-box
-          button.btn-filter Recentes
-          button.btn-filter Populares
+        .sidebar-box(role="group" aria-label="Ordenar tópicos")
+          button.btn-filter(type="button" aria-pressed="true") Recentes
+          button.btn-filter(type="button" aria-pressed="false") Populares
           br
           button.toggle-sidebar(
                 onclick="toggleSidebar()"
                 aria-expanded="true" aria-label="Expandir ou recolher menu" ) ↑
           a.btn-criar-post(href="/forum/inserir-topico")
-            i.bi.bi-pencil
+            i.bi.bi-pencil(aria-hidden="true")
             span.btn-criar-texto  Criar post
 
     script(src="/javascripts/forum.js")

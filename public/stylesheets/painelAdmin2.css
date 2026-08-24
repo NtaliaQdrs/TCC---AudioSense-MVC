@@ -92,7 +92,7 @@ body { background-color: #E9CCEF; }
 
 .user-info { flex: 1; }
 .user-name { font-weight: bold; font-size: 16px; color: #111827; }
-.user-email { font-size: 15px; color: #6b7280; }
+.user-email { font-size: 15px; color: #4b5563; }
 
 .user-tag {
   display: inline-block;
@@ -134,7 +134,7 @@ body { background-color: #E9CCEF; }
 }
 
 .btn-view { background-color: white; border: 1px solid #1f4677; color: #1f4677; }
-.btn-approve { background-color: #2eb086; border: none; color: white; }
+.btn-approve { background-color: #1f7c5f; border: none; color: white; }
 .btn-reject { background-color: #991b1b; border: none; color: white; }
 .btn-view:hover { background-color: #f3f4f6; }
 .btn-approve:hover { background-color: #047857; }

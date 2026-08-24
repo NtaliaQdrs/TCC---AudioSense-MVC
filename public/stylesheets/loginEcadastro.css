@@ -70,6 +70,13 @@ html.dark-theme .logo-dark {
     padding: 5px 0; padding-right: 25px; appearance: none;
 }
 
+.input-content .form-group-label {
+    font-size: 16px;
+    color: #122e51;
+    margin: 0 0 2px;
+    font-weight: 550;
+}
+
 .input-content input[type="text"] { border: none; outline: none; font-size: 16px; width: 100%; color: #1a3a6c; border-radius: 3px; }
 .input-content input[type="text"]::placeholder { color: #999; }
 .input-content input[type="text"]:focus { background-color: white; }
@@ -79,9 +86,18 @@ html.dark-theme .logo-dark {
     color: #1a3a6c; font-size: 16px;
 }
 
+.btn-toggle-password {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
 .toggle-password {
-    cursor: pointer; position: absolute; right: 10px; top: 50%;
-    transform: translateY(-50%); color: #000000; font-size: 16px; user-select: none;
+    cursor: pointer;
+    color: #000000;
+    font-size: 16px;
+    user-select: none;
 }
 .toggle-password:hover { color: #1a3a6c; }
 
@@ -90,8 +106,8 @@ html.dark-theme .logo-dark {
 .options a { text-decoration: none; color: #1a3a6c; }
 .options a:hover { text-decoration: underline; }
 
-.btn-submit { width: 70%; padding: 15px; background-color: #2eb086; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px; font-weight: 600; }
-.btn-submit:hover { background-color: #1e7c5f; }
+.btn-submit { width: 70%; padding: 15px; background-color: #1f7c5f; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px; font-weight: 600; }
+.btn-submit:hover { background-color: #2eb086; }
 
 .footer-text { font-size: 16px; color: #1a3a6c; }
 .footer-text a { font-weight: bold; text-decoration: none; color: #1a3a6c; }
@@ -129,7 +145,7 @@ html.dark-theme .logo-dark {
 }
 
 .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #1a3a6c; cursor: pointer; padding: 3px 0; }
-.checkbox-label input[type="checkbox"] { accent-color: #2eb086; width: 16px; height: 16px; cursor: pointer; }
+.checkbox-label input[type="checkbox"] { accent-color: #1f7c5f; width: 16px; height: 16px; cursor: pointer; }
 .checkbox-label input[type="checkbox"]:focus { outline: 3px solid #7b5cff; outline-offset: 3px; }
 
 .alert-pendente, .alert-rejeitado { border-radius: 8px; padding: 15px 20px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 16px; text-align: center; }
@@ -158,6 +174,8 @@ html.dark-theme .input-group {
 }
 
 html.dark-theme .input-content label { color: #e0e0e0 !important; }
+
+html.dark-theme .input-content .form-group-label { color: #e0e0e0 !important; }
 
 html.dark-theme .input-content input,
 html.dark-theme .input-content select {

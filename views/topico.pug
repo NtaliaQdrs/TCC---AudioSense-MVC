@@ -7,7 +7,9 @@ block styles
 block content
 
   main.page
+    h1.sr-only Tópico do fórum
     .forum-header
+      
 
     section.topico-container
       article.post-card.post-card-full
@@ -21,25 +23,25 @@ block content
             br
             span.date= dataFormatada
         .post-content
-          h3= topico.titulo
+          h2= topico.titulo
           p= topico.corpo_texto
           if topico.imagem_url
-            img(src=topico.imagem_url)
+            img(src=topico.imagem_url alt="")
           if topico.video_url
             video(src=topico.video_url controls)
         .post-actions
           span
-            i.bi.bi-chat-left
+            i.bi.bi-chat-left(aria-hidden="true")
             |  #{comentarios.length}
-          span.btn-curtir(data-id=topico.id data-curtido=jaCurtiu style="cursor:pointer")
-            i.bi(class=jaCurtiu ? 'bi-heart-fill' : 'bi-heart')
+          button.btn-curtir(type="button" data-id=topico.id data-curtido=jaCurtiu aria-label="Curtir tópico")
+            i.bi(class=jaCurtiu ? 'bi-heart-fill' : 'bi-heart' aria-hidden="true")
             |  #{topico.curtidas}
 
       section.comentarios-container
-        h4.comentarios-titulo Comentários
+        h3.comentarios-titulo Comentários
 
         form.form-comentario(action=`/forum/${topico.id}/comentario` method="POST")
-          textarea(name="texto_comentario" placeholder="Escreva um comentário..." rows="3" required)
+          textarea(name="texto_comentario" placeholder="Escreva um comentário..." rows="3" required aria-label="Escrever um comentário")
           button.btn-submit-comentario(type="submit") Comentar
 
         if comentarios && comentarios.length
@@ -57,11 +59,11 @@ block content
               .comentario-texto
                 p= comentario.texto_comentario
 
-              button.btn-responder(type="button" data-target=`resposta-form-${comentario.id}`) Responder
+              button.btn-responder(type="button" data-target=`resposta-form-${comentario.id}` aria-expanded="false")
 
               form.form-resposta(id=`resposta-form-${comentario.id}` action=`/forum/${topico.id}/comentario` method="POST" style="display:none;")
                 input(type="hidden" name="resposta_a_comentario_id" value=comentario.id)
-                textarea(name="texto_comentario" placeholder="Escreva uma resposta..." rows="2" required)
+                textarea(name="texto_comentario" placeholder="Escreva uma resposta..." rows="2" required aria-label="Escrever uma resposta")
                 button.btn-submit-comentario(type="submit") Responder
 
               if comentario.respostas && comentario.respostas.length

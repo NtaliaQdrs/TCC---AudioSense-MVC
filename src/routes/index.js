@@ -125,6 +125,8 @@ router.post('/material/:id/apagar', auth, apagarMaterial);
 
 router.get('/material/:id', verMaterial);
 
+router.post('/material/:id/avaliar', auth, avaliarMaterial);
+
 router.get('/inserir-entretenimento', auth, exibirInserirEntretenimento);
 router.post('/inserir-entretenimento', auth, uploadPoster.single('poster'), salvarEntretenimento);
 

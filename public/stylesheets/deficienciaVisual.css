@@ -85,12 +85,12 @@ body {
   border-radius: 16px;
   transition: all 0.3s ease;
   overflow: hidden;
-  border: 2px solid #2eb086;
+  border: 2px solid #1f7c5f;
   position: sticky ;
   top: 80px;
 }
 
-.sidebar i { color: #2eb086; }
+.sidebar i { color: #1f7c5f; }
 .sidebar h3 { color: #2fa36b; font-size: 18px; line-height: 1.4; text-align: center; }
 .sidebar hr { height: 1px; background: #ccc; margin: 20px 0; }
 
@@ -102,7 +102,7 @@ body {
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background: #2eb086;
+  background: #1f7c5f;
   color: white;
   cursor: pointer;
   font-size: 22px;

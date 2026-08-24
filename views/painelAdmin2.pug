@@ -17,9 +17,9 @@ block content
 
       .filter-bar
         .search-input-wrapper
-          i.bi.bi-search
-          input.search-input(type="text" placeholder="Pesquisar docente...")
-        select.filter-select
+          i.bi.bi-search(aria-hidden="true")
+          input.search-input(type="text" placeholder="Pesquisar docente..." aria-label="Pesquisar docente")
+        select.filter-select(aria-label="Filtrar por status")
           option(value="") Filtrar por Status
           option(value="pendente") Pendente
           option(value="aprovado") Aprovado
@@ -40,16 +40,15 @@ block content
               .action-buttons
                 if docente.comprovante_vinculo
                   a.btn-action.btn-view(href=docente.comprovante_vinculo target="_blank")
-                    i.bi.bi-file-earmark-text
-                    | Ver Documentos
+                  i.bi.bi-file-earmark-text(aria-hidden="true")
+                  | Ver Documentos
                 form(action=`/painelAdmin1/aprovar/${docente.docente_id}` method="POST" style="display:inline")
                   button.btn-action.btn-approve(type="submit")
-                    i.bi.bi-check-lg
+                    i.bi.bi-check-lg(aria-hidden="true")
                     | Aprovar
-                button.btn-action.btn-reject(type="button" onclick=`abrirModal('docente', '${docente.docente_id}')`)
-                  i.bi.bi-x-lg
-                  | Rejeitar
-
+                  button.btn-action.btn-reject(type="button" onclick=`abrirModal('docente', '${docente.docente_id}')`)
+                    i.bi.bi-x-lg(aria-hidden="true")
+                    | Rejeitar
     //- Seção: Solicitações de Admin
     section.admin-section
       .section-title-group
@@ -91,13 +90,13 @@ block content
                   | Rejeitar
 
   //- Modal de rejeição
-  .modal-overlay#modalRejeitar(style="display:none")
+  .modal-overlay#modalRejeitar(style="display:none" role="dialog" aria-modal="true" aria-labelledby="modal-titulo")
     .modal-box
-      h3 Motivo da rejeição
-      textarea#motivoRejeicao(rows="4" placeholder="Explique o motivo da rejeição..." required)
+      h3#modal-titulo Motivo da rejeição
+      textarea#motivoRejeicao(rows="4" placeholder="Explique o motivo da rejeição..." required aria-label="Motivo da rejeição")
       .modal-buttons
-        button.btn-action.btn-approve(onclick="confirmarRejeicao()") Confirmar
-        button.btn-action.btn-reject(onclick="fecharModal()") Cancelar
+        button.btn-action.btn-approve(type="button" onclick="confirmarRejeicao()") Confirmar
+        button.btn-action.btn-reject(type="button" onclick="fecharModal()") Cancelar
       form#formRejeitar(method="POST" style="display:none")
         input(type="hidden" name="motivo_rejeicao" id="inputMotivo")
 
@@ -134,3 +133,31 @@ block content
     document.getElementById('modalRejeitar').addEventListener('click', function(e) {
       if (e.target === this) fecharModal();
     });
+
+    let ultimoElementoFocado = null;
+
+    function abrirModal(tipo, id) {
+      if (tipo === 'docente') {
+        urlRejeitar = `/painelAdmin1/rejeitar/${id}`;
+      } else {
+        urlRejeitar = `/painelAdmin1/rejeitar-admin/${id}`;
+      }
+      ultimoElementoFocado = document.activeElement;
+      document.getElementById('motivoRejeicao').value = '';
+      document.getElementById('modalRejeitar').style.display = 'flex';
+      document.getElementById('motivoRejeicao').focus();
+      document.addEventListener('keydown', fecharModalComEsc);
+    }
+
+    function fecharModal() {
+      document.getElementById('modalRejeitar').style.display = 'none';
+      document.removeEventListener('keydown', fecharModalComEsc);
+      if (ultimoElementoFocado) {
+        ultimoElementoFocado.focus();
+        ultimoElementoFocado = null;
+      }
+    }
+
+    function fecharModalComEsc(e) {
+      if (e.key === 'Escape') fecharModal();
+    }

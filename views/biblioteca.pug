@@ -20,12 +20,12 @@ block content
           |  Inserir conteúdo
 
     //- Filtros por matéria
-    .filters-section
-      button.filter-btn(data-filter="all") Matéria 1
-      button.filter-btn(data-filter="all") Matéria 2
-      button.filter-btn(data-filter="all") Matéria 3
-      button.filter-btn(data-filter="all") Matéria 4
-      button.filter-btn(data-filter="all") Matéria 5
+    .filters-section(role="group" aria-label="Filtrar por matéria")
+      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 1
+      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 2
+      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 3
+      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 4
+      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 5
 
     //- Seção de materiais disponíveis
     .materials-section
@@ -36,6 +36,7 @@ block content
 
       each material in materiais
         .material-card(data-href=`/material/${material.id}`)
+
           .card-icon(class=material.tipo_material === 'video' ? 'purple' : (material.tipo_material === 'artigo' ? 'blue' : ''))
             if material.tipo_material === 'video'
               i.bi.bi-play-circle-fill(aria-hidden="true")
@@ -48,38 +49,54 @@ block content
 
           if material.capa
             .card-image
-              img(src=material.capa alt=`Capa de ${material.titulo}`)
+              img(
+                src=material.capa
+                alt=`Capa de ${material.titulo}`
+              )
 
           .card-content
-            h3.card-title #{material.titulo}
+
+            h3.card-title
+              a(href=`/material/${material.id}`)= material.titulo
+
             if material.descricao
-              p.card-description #{material.descricao}
+              p.card-description= material.descricao
 
             .card-meta
               span.meta-item
                 i.bi.bi-person(aria-hidden="true")
-                |  Prof. #{material.docenteNome}
+                | Prof. #{material.docenteNome}
 
               span.meta-item
                 i.bi.bi-calendar(aria-hidden="true")
-                |  #{material.data_publicacao.toLocaleDateString('pt-BR')}
+                | #{material.data_publicacao.toLocaleDateString('pt-BR')}
 
             .card-tags
               if material.disciplinaNome
                 span.tag #{material.disciplinaNome}
+
               span.tag #{material.tipo_material}
 
-          .card-rating
-            if material.media
-              i.bi.bi-star-fill(aria-hidden="true")
-              span.rating-value #{material.media}
-            else
-              span.rating-value Sem avaliações
+            .card-rating(
+              aria-label=material.media ? `Avaliação: ${material.media} de 5` : 'Sem avaliações'
+            )
+              if material.media
+                i.bi.bi-star-fill(aria-hidden="true")
+                span.rating-value #{material.media}
+              else
+                span.rating-value Sem avaliações
 
           if material.podeApagar
-            form.form-apagar-material(action=`/material/${material.id}/apagar` method="POST")
-              button.btn-delete-material(type="submit" aria-label="Apagar material")
+            form.form-apagar-material(
+              action=`/material/${material.id}/apagar`
+              method="POST"
+            )
+              button.btn-delete-material(
+                type="submit"
+                aria-label=`Apagar material: ${material.titulo}`
+              )
                 i.bi.bi-trash(aria-hidden="true")
-                |  Apagar
+                | Apagar
+
 
   script(src="../javascripts/biblioteca.js")

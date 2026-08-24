@@ -48,11 +48,13 @@ export const login = async (req, res) => {
 
         const usuario = await Usuario.findOne({ where: { email } });
         if (!usuario) {
+            if (req.accepts('html')) return res.redirect('/usuario?erro=credenciais');
             return res.status(401).json({ erro: 'Email ou senha inválidos.' });
         }
 
         const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
         if (!senhaCorreta) {
+            if (req.accepts('html')) return res.redirect('/usuario?erro=credenciais');
             return res.status(401).json({ erro: 'Email ou senha inválidos.' });
         }
 
@@ -630,3 +632,180 @@ export const verMinhasAudiodescricoes = async (req, res) => {
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };
+
+// EXCLUIR CONTA — hard delete definitivo, com limpeza de dependências
+export const excluirConta = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const usuarioId = req.usuario.id;
+        const { senha } = req.body;
+
+        if (!senha) {
+            await t.rollback();
+            return res.status(400).json({ sucesso: false, mensagem: 'Confirme sua senha para excluir a conta.' });
+        }
+
+        const usuario = await Usuario.findOne({ where: { id: usuarioId }, transaction: t });
+        if (!usuario) {
+            await t.rollback();
+            return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado.' });
+        }
+
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+        if (!senhaCorreta) {
+            await t.rollback();
+            return res.status(401).json({ sucesso: false, mensagem: 'Senha incorreta.' });
+        }
+
+        // Apaga dependências diretas antes do usuário, para não esbarrar em FK
+        const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId }, transaction: t });
+        if (discente) {
+            await db.projetoAudiodescricao.destroy({ where: { discente_id: discente.id }, transaction: t });
+            await discente.destroy({ transaction: t });
+        }
+
+        const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId }, transaction: t });
+        if (docente) {
+            await db.projetoAudiodescricao.destroy({ where: { docente_id: docente.id }, transaction: t });
+            await db.MaterialDidatico.destroy({ where: { docente_id: docente.id }, transaction: t });
+            await db.DocenteDisciplina.destroy({ where: { docente_id: docente.id }, transaction: t });
+            await docente.destroy({ transaction: t });
+        }
+
+        // Fórum: comentários e publicações feitas pelo usuário
+        const publicacoes = await db.Publicacao.findAll({ where: { usuario_id: usuarioId }, transaction: t });
+        for (const pub of publicacoes) {
+            await db.Comentario.destroy({ where: { publicacao_id: pub.id }, transaction: t });
+        }
+        await db.Comentario.destroy({ where: { usuario_id: usuarioId }, transaction: t });
+        await db.Publicacao.destroy({ where: { usuario_id: usuarioId }, transaction: t });
+
+        await db.RedefinicaoSenha.destroy({ where: { usuario_id: usuarioId }, transaction: t });
+
+        // Por fim, apaga o usuário
+        await usuario.destroy({ transaction: t });
+
+        await t.commit();
+
+        req.session.destroy(() => {
+            res.json({ sucesso: true, mensagem: 'Conta excluída permanentemente.' });
+        });
+    } catch (err) {
+        await t.rollback();
+        console.error('Erro ao excluir conta:', err);
+        return res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
+    }
+};
+
+// ALTERAR NOME — respeita o limite de 30 dias já usado no resto do app
+export const alterarNome = async (req, res) => {
+    try {
+        const usuarioId = req.usuario.id;
+        const { nome_usuario } = req.body;
+
+        if (!nome_usuario || nome_usuario.trim() === '') {
+            return res.status(400).json({ sucesso: false, mensagem: 'Informe um nome de usuário.' });
+        }
+
+        const usuario = await Usuario.findOne({ where: { id: usuarioId } });
+        if (!usuario) return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado.' });
+
+        if (nome_usuario === usuario.nome_usuario) {
+            return res.status(400).json({ sucesso: false, mensagem: 'Esse já é o seu nome de usuário atual.' });
+        }
+
+        if (usuario.ultima_troca_nome) {
+            const diasPassados = Math.floor((new Date() - new Date(usuario.ultima_troca_nome)) / (1000 * 60 * 60 * 24));
+            if (diasPassados < 30) {
+                return res.status(400).json({ sucesso: false, mensagem: `Você só pode trocar o nome de usuário em ${30 - diasPassados} dia(s).` });
+            }
+        }
+
+        const nomeExistente = await Usuario.findOne({ where: { nome_usuario } });
+        if (nomeExistente && nomeExistente.id !== usuarioId) {
+            return res.status(400).json({ sucesso: false, mensagem: 'Nome de usuário já está em uso.' });
+        }
+
+        await Usuario.update(
+            { nome_usuario, ultima_troca_nome: new Date() },
+            { where: { id: usuarioId } }
+        );
+
+        if (req.session.usuarioLogado) req.session.usuarioLogado.nome_usuario = nome_usuario;
+
+        return res.json({ sucesso: true, mensagem: 'Nome de usuário atualizado com sucesso!', nome_usuario });
+    } catch (err) {
+        console.error('Erro ao alterar nome:', err);
+        return res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
+    }
+};
+
+// ALTERAR EMAIL — exige senha atual para confirmar
+export const alterarEmail = async (req, res) => {
+    try {
+        const usuarioId = req.usuario.id;
+        const { novo_email, senha } = req.body;
+
+        if (!novo_email || !senha) {
+            return res.status(400).json({ sucesso: false, mensagem: 'Preencha o novo e-mail e sua senha atual.' });
+        }
+
+        const usuario = await Usuario.findOne({ where: { id: usuarioId } });
+        if (!usuario) return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado.' });
+
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+        if (!senhaCorreta) return res.status(401).json({ sucesso: false, mensagem: 'Senha incorreta.' });
+
+        if (novo_email === usuario.email) {
+            return res.status(400).json({ sucesso: false, mensagem: 'Esse já é o seu e-mail atual.' });
+        }
+
+        const emailExistente = await Usuario.findOne({ where: { email: novo_email } });
+        if (emailExistente) return res.status(400).json({ sucesso: false, mensagem: 'Este e-mail já está em uso.' });
+
+        await Usuario.update({ email: novo_email }, { where: { id: usuarioId } });
+
+        return res.json({ sucesso: true, mensagem: 'E-mail atualizado com sucesso!', email: novo_email });
+    } catch (err) {
+        console.error('Erro ao alterar email:', err);
+        return res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
+    }
+};
+
+// ALTERAR SENHA — exige senha atual
+export const alterarSenha = async (req, res) => {
+    try {
+        const usuarioId = req.usuario.id;
+        const { senha_atual, nova_senha, confirmar_senha } = req.body;
+
+        if (!senha_atual || !nova_senha || !confirmar_senha) {
+            return res.status(400).json({ sucesso: false, mensagem: 'Preencha todos os campos.' });
+        }
+        if (nova_senha !== confirmar_senha) {
+            return res.status(400).json({ sucesso: false, mensagem: 'As senhas não coincidem.' });
+        }
+        if (nova_senha.length < 8) {
+            return res.status(400).json({ sucesso: false, mensagem: 'A nova senha deve ter pelo menos 8 caracteres.' });
+        }
+
+        const usuario = await Usuario.findOne({ where: { id: usuarioId } });
+        if (!usuario) return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado.' });
+
+        const senhaCorreta = await bcrypt.compare(senha_atual, usuario.senha);
+        if (!senhaCorreta) return res.status(401).json({ sucesso: false, mensagem: 'Senha atual incorreta.' });
+
+        const senhaIgualAtual = await bcrypt.compare(nova_senha, usuario.senha);
+        if (senhaIgualAtual) {
+            return res.status(400).json({ sucesso: false, mensagem: 'A nova senha deve ser diferente da atual.' });
+        }
+
+        const senhaCriptografada = await bcrypt.hash(nova_senha, 10);
+        await Usuario.update({ senha: senhaCriptografada }, { where: { id: usuarioId } });
+
+        return res.json({ sucesso: true, mensagem: 'Senha alterada com sucesso!' });
+    } catch (err) {
+        console.error('Erro ao alterar senha:', err);
+        return res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
+    }
+};
+

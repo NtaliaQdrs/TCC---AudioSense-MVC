@@ -1,6 +1,6 @@
 // ─── CHAVES DO LOCALSTORAGE ────────────────────────────────────────────────
 // theme          : 'Claro' | 'Escuro' | 'Sistema'
-// fontScale      : '80' a '150'  (%, aplicado como font-size no html)
+// fontScale      : '80' a '150'  (%, aplicado via estilo inline em cada elemento)
 // contrastLevel  : '100' a '200' (filter: contrast() no body)
 // lineHeight     : '12' a '25'   (×0.1 = valor real, ex: '15' = 1.5)
 // contrast       : 'Padrão' | 'Alto contraste' | 'Preto e branco' (modos fixos FAB)
@@ -19,6 +19,85 @@ function salvarPreferencia(chave, valor) {
   if (typeof sincronizarBotoesAtivos === 'function') sincronizarBotoesAtivos();
 }
 
+// ─── ESCALA DE FONTE (NOVO) ─────────────────────────────────────────────
+// Por que via estilo inline e não via <style> com seletor de tag:
+// uma regra de CLASSE em qualquer lugar do seu CSS (ex: .stat-value,
+// .menu-links a) tem especificidade maior que uma regra de TAG (p, span,
+// a...), mesmo as duas usando !important — então a regra de tag sempre
+// perde para qualquer componente com classe própria. Estilo inline com
+// !important, por outro lado, tem prioridade sobre !important de
+// stylesheet, independente da especificidade da classe. É o único jeito
+// de garantir 100% de cobertura sem precisar listar cada seletor do site.
+
+const FONT_ORIGINAL_ATTR = 'data-font-original';
+let _fontScaleAtual = 100;
+
+function _elegivelParaEscala(el) {
+  return !(el.closest && el.closest('.fab-container'));
+}
+
+// 1ª passada: só LÊ e guarda o tamanho original — não escala nada ainda.
+// Precisa ser um passo isolado: se lêssemos e escalássemos elemento por
+// elemento na mesma passada, ao chegar num filho que herda o font-size do
+// pai (não tem valor próprio), a leitura já viria contaminada pelo pai que
+// acabou de ser aumentado segundos antes — e isso composta a cada nível de
+// aninhamento (é o motivo da sidebar ter ficado gigante: mais camadas
+// aninhadas = mais composição).
+function _guardarTamanhosOriginais(elementos) {
+  elementos.forEach((el) => {
+    if (!_elegivelParaEscala(el)) return;
+    if (el.hasAttribute(FONT_ORIGINAL_ATTR)) return;
+    const computado = parseFloat(getComputedStyle(el).fontSize);
+    if (!computado) return;
+    el.setAttribute(FONT_ORIGINAL_ATTR, computado);
+  });
+}
+
+// 2ª passada: aplica a escala usando SEMPRE o valor original já guardado
+// (nunca lê getComputedStyle de novo aqui).
+function _aplicarEscalaGuardada(elementos, fator) {
+  elementos.forEach((el) => {
+    if (!_elegivelParaEscala(el)) return;
+    const original = el.getAttribute(FONT_ORIGINAL_ATTR);
+    if (original === null) return;
+    el.style.setProperty('font-size', (parseFloat(original) * fator) + 'px', 'important');
+  });
+}
+
+function aplicarEscalaFonte(fontScale) {
+  _fontScaleAtual = fontScale;
+
+  if (fontScale === 100) {
+    document.querySelectorAll('[' + FONT_ORIGINAL_ATTR + ']').forEach((el) => {
+      el.style.removeProperty('font-size');
+    });
+    return;
+  }
+
+  const fator = fontScale / 100;
+  const elementos = document.querySelectorAll('body, body *');
+  _guardarTamanhosOriginais(elementos);
+  _aplicarEscalaGuardada(elementos, fator);
+}
+
+// Cobre elementos inseridos DEPOIS (conteúdo carregado via fetch/AJAX,
+// componentes que renderizam tarde, modais abertos dinamicamente, etc.)
+const _fontObserver = new MutationObserver((mutations) => {
+  if (_fontScaleAtual === 100) return;
+  const fator = _fontScaleAtual / 100;
+  for (const m of mutations) {
+    m.addedNodes.forEach((node) => {
+      if (node.nodeType !== 1) return;
+      const elementos = [node, ...node.querySelectorAll('*')];
+      _guardarTamanhosOriginais(elementos);
+      _aplicarEscalaGuardada(elementos, fator);
+    });
+  }
+});
+document.addEventListener('DOMContentLoaded', () => {
+  _fontObserver.observe(document.body, { childList: true, subtree: true });
+});
+
 // ─── APLICAR PREFERÊNCIAS ─────────────────────────────────────────────────
 
 function aplicarPreferenciasSalvas() {
@@ -29,6 +108,9 @@ function aplicarPreferenciasSalvas() {
   const lineHeight = parseInt(localStorage.getItem('lineHeight')) || 15;
   const reduceMotion = localStorage.getItem('reduceMotion');
   const cursorLarge = localStorage.getItem('cursorLarge');
+  const underlineLinks = localStorage.getItem('underlineLinks');
+  const readableFont = localStorage.getItem('readableFont');
+  const readingGuide = localStorage.getItem('readingGuide');
   const html = document.documentElement;
 
   // ── Tema ──────────────────────────────────────────────────────────────
@@ -53,8 +135,14 @@ function aplicarPreferenciasSalvas() {
   // ── Outros toggles de classe ──────────────────────────────────────────
   html.classList.toggle('reduce-motion', reduceMotion === 'true');
   html.classList.toggle('cursor-large', cursorLarge === 'true');
+  html.classList.toggle('underline-links', underlineLinks === 'true');
+  html.classList.toggle('readable-font', readableFont === 'true');
+  html.classList.toggle('reading-guide-on', readingGuide === 'true');
 
-  // ── CSS injetado ──────────────────────────────────────────────────────
+  // ── Escala de fonte (agora via estilo inline, ver função acima) ───────
+  aplicarEscalaFonte(fontScale);
+
+  // ── CSS injetado (tudo que NÃO é font-size continua igual) ────────────
   const styleId = 'accessibility-styles';
   let styleTag = document.getElementById(styleId);
   if (!styleTag) {
@@ -65,53 +153,31 @@ function aplicarPreferenciasSalvas() {
 
   let css = '';
 
-  // ── Escala de fonte ───────────────────────────────────────────────────
-  const escala = fontScale / 100;
-  css += `html { font-size: ${fontScale}% !important; }`;
   css += `
   *, *::before, *::after {
     word-break: break-word !important;
     overflow-wrap: break-word !important;
   }
 `;
-  if (fontScale !== 100) {
-    css += `
-      body, p, span, a, li, td, th, label, input, button, select, textarea {
-        font-size: ${escala}rem !important;
-      }
-      h1 { font-size: ${(escala * 2.2).toFixed(2)}rem !important; }
-      h2 { font-size: ${(escala * 1.8).toFixed(2)}rem !important; }
-      h3 { font-size: ${(escala * 1.4).toFixed(2)}rem !important; }
-      h4 { font-size: ${(escala * 1.2).toFixed(2)}rem !important; }
-    `;
-  }
+
+  // Ajustes de layout em fontes grandes (evita quebra/overflow no menu) —
+  // continuam como estavam, isso é layout, não é a escala de fonte em si.
   if (fontScale >= 120) {
     css += `
     .top-bar { height: auto !important; min-height: 10px !important; padding: 10px 0 !important; }
     .menu-links { gap: 110px !important; margin-left: 110px !important; }
-    .menu-links a { font-size: 22px !important; }
     .search-box1 { width: 260px !important; }
-    .search-box1 input { width: 260px !important; font-size: 18px !important; }
-    #profileBtn { 
-      width: auto !important; 
+    #profileBtn {
+      width: auto !important;
       min-width: 150px !important;
       padding: 12px 22px !important;
       height: 50px !important;
     }
-    #profileBtn span { 
-      display: inline !important;
-      font-size: 19px !important; 
-    }
-    #perfil-logo { font-size: 26px !important; }
+    #profileBtn span { display: inline !important; }
     .menu-right { gap: 50px !important; margin-left: 120px !important; }
     .sub-menu { padding: 20px 0 !important; }
     .sub-menu nav { gap: 30px !important; padding: 0 40px !important; flex-wrap: wrap !important; margin-top: 15px !important; }
-    .sub-menu a { 
-      min-width: 180px !important;
-      font-size: 20px !important;
-      padding: 14px 24px !important;
-      height: auto !important;
-    }
+    .sub-menu a { min-width: 180px !important; padding: 14px 24px !important; height: auto !important; }
   `;
   }
   if (fontScale >= 130) {
@@ -119,15 +185,13 @@ function aplicarPreferenciasSalvas() {
     .menu-links { display: none !important; }
     .category-toggle { display: block !important; }
     .search-box1 { display: none !important; }
+    .sub-menu { display: none !important; }
   `;
   }
 
   // ── Modos de contraste ────────────────────────────────────────────────
   if (contrast === 'Alto contraste') {
-    const fab = document.querySelector('.fab-container');
-    if (fab && fab.parentElement === document.body) {
-      document.documentElement.appendChild(fab);
-    }
+    
 
     css += `
       html {
@@ -138,46 +202,32 @@ function aplicarPreferenciasSalvas() {
         filter: invert(1) !important;
       }
       .fab-container {
-      filter: invert(1) contrast(200%) !important;
-      position: fixed !important;
-      bottom: 28px !important;
-      right: 28px !important;
-      z-index: 9998 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: flex-end !important;
-      gap: 10px !important; }
-      fab-btn {
-      filter: invert(1) contrast(200%) !important;
-      background-color: #000 !important;
-      color: #000 !important;
+        filter: invert(1) contrast(200%) !important;
+        position: fixed !important;
+        bottom: 28px !important;
+        right: 28px !important;
+        z-index: 9998 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 10px !important;
       }
-      /* Cards com tom diferente do fundo */
       .welcome-container, .stats-container, .learning-extra-container,
       .extra-card, .collab-box, .learning-item, .main-config-card,
       .material-card, .forum-item, .audiodescricao-item, .projeto-card,
-      .user-card, .stat-card, .card, .container, .containercust, , .post-card {
+      .user-card, .stat-card, .card, .container, .containercust, .post-card {
         background-color: #b8b4b4 !important;
         border-color: #000000 !important;
-     
-  }
+      }
     `;
-
   } else if (contrast === 'Preto e branco') {
-    const fab = document.querySelector('.fab-container');
-    if (fab && fab.parentElement === document.documentElement) {
-      document.body.appendChild(fab);
-    }
+    
 
     css += `
       html { filter: grayscale(100%) contrast(${Math.max(contrastLevel, 110)}%) !important; }
     `;
-
   } else {
-    const fab = document.querySelector('.fab-container');
-    if (fab && fab.parentElement === document.documentElement) {
-      document.body.appendChild(fab);
-    }
+    
 
     if (contrastLevel !== 100) {
       const fator = (contrastLevel - 100) / 100;
@@ -256,7 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('storage', (e) => {
   const chavesMonitoradas = [
     'theme', 'contrast', 'fontScale', 'contrastLevel', 'lineHeight',
-    'reduceMotion', 'cursorLarge', 'audioSpeed'
+    'reduceMotion', 'cursorLarge', 'audioSpeed',
+    'underlineLinks', 'readableFont', 'readingGuide'
   ];
   if (chavesMonitoradas.includes(e.key)) {
     aplicarPreferenciasSalvas();

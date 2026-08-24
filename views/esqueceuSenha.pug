@@ -14,13 +14,13 @@ html(lang="pt-br")
         h1 Redefinir senha
 
       if mensagem
-        .alert-pendente
-          i.bi.bi-check-circle-fill
+        .alert-pendente(role="status")
+          i.bi.bi-check-circle-fill(aria-hidden="true")
           | #{mensagem}
 
       if erro
-        .alert-rejeitado
-          i.bi.bi-x-circle-fill
+        .alert-rejeitado(role="alert")
+          i.bi.bi-x-circle-fill(aria-hidden="true")
           | #{erro}
 
       if !mensagem

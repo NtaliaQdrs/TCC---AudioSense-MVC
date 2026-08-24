@@ -59,7 +59,9 @@ function sincronizarToggles() {
   Object.entries(toggles).forEach(([id, { chave, padrao }]) => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.checked = (localStorage.getItem(chave) ?? padrao) === 'true';
+    const ativo = (localStorage.getItem(chave) ?? padrao) === 'true';
+    el.checked = ativo;
+    el.setAttribute('aria-checked', ativo);
   });
 }
 
@@ -71,6 +73,7 @@ function sincronizarSliders() {
   if (sliderFonte) {
     const val = localStorage.getItem('fontScale') || '100';
     sliderFonte.value = val;
+    sliderFonte.setAttribute('aria-valuenow', val);
     atualizarLabel('label-fonte', val + '%');
   }
 
@@ -79,6 +82,7 @@ function sincronizarSliders() {
   if (sliderContraste) {
     const val = localStorage.getItem('contrastLevel') || '100';
     sliderContraste.value = val;
+    sliderContraste.setAttribute('aria-valuenow', val);
     atualizarLabel('label-contraste', val + '%');
   }
 
@@ -87,6 +91,7 @@ function sincronizarSliders() {
   if (sliderEspacamento) {
     const val = localStorage.getItem('lineHeight') || '15';
     sliderEspacamento.value = val;
+    sliderEspacamento.setAttribute('aria-valuenow', val);
     atualizarLabel('label-espacamento', (parseInt(val) / 10).toFixed(1));
   }
 }
@@ -116,11 +121,12 @@ function inicializarBotoes() {
     });
   });
 
-  // Slider de fonte
+    // Slider de fonte
   const sliderFonte = document.getElementById('slider-fonte');
   if (sliderFonte) {
     sliderFonte.addEventListener('input', () => {
       salvarPreferencia('fontScale', sliderFonte.value);
+      sliderFonte.setAttribute('aria-valuenow', sliderFonte.value);
       atualizarLabel('label-fonte', sliderFonte.value + '%');
     });
   }
@@ -130,6 +136,7 @@ function inicializarBotoes() {
   if (sliderContraste) {
     sliderContraste.addEventListener('input', () => {
       salvarPreferencia('contrastLevel', sliderContraste.value);
+      sliderContraste.setAttribute('aria-valuenow', sliderContraste.value);
       atualizarLabel('label-contraste', sliderContraste.value + '%');
     });
   }
@@ -139,6 +146,7 @@ function inicializarBotoes() {
   if (sliderEspacamento) {
     sliderEspacamento.addEventListener('input', () => {
       salvarPreferencia('lineHeight', sliderEspacamento.value);
+      sliderEspacamento.setAttribute('aria-valuenow', sliderEspacamento.value);
       atualizarLabel('label-espacamento', (parseInt(sliderEspacamento.value) / 10).toFixed(1));
     });
   }
@@ -154,13 +162,14 @@ function inicializarBotoes() {
     'toggle-notif-email-semanal':'notif_email_semanal',
   };
 
-  Object.entries(togglesBooleanos).forEach(([id, chave]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('change', () => {
-      salvarPreferencia(chave, el.checked ? 'true' : 'false');
+    Object.entries(togglesBooleanos).forEach(([id, chave]) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('change', () => {
+        salvarPreferencia(chave, el.checked ? 'true' : 'false');
+        el.setAttribute('aria-checked', el.checked);
+      });
     });
-  });
 
   // Botão fechar dica
   const closeTip = document.querySelector('.close-tip');

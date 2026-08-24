@@ -16,7 +16,7 @@ block content
         article.card
           .card-header
             img(src="../images/cegueira.png" alt="")
-            h2 O que é cegueira?
+            h2#titulo-cegueira O que é cegueira?
           p.card-text#texto-cegueira
             | De acordo com o Decreto nº 5.296/2004, a cegueira é caracterizada pela acuidade visual igual ou menor que 0,05 no melhor olho, mesmo com a melhor correção óptica, ou campo visual somado igual ou menor que 60°. No contexto pedagógico, isso leva o estudante a utilizar o Sistema Braille, recursos táteis e tecnologias assistivas como principal via de acesso ao conteúdo, tendo na audiodescrição um recurso essencial de comunicação escrita e sonora.
           button.toggle-card(
@@ -92,7 +92,7 @@ block content
         ) ↑
 
   // Overlay para fechar o card expandido clicando fora
-  #overlay.card-overlay(onclick="closeAllCards()")
+  #overlay.card-overlay(onclick="closeAllCards()" aria-hidden="true")
 
   script.
     let lastFocusedElement = null;
@@ -153,7 +153,11 @@ block content
         document.body.appendChild(overlay);
         card.setAttribute('role', 'dialog');
         card.setAttribute('aria-modal', 'true');
-        document.body.style.overflow = 'hidden';
+        const titulo = card.querySelector('h2');
+        if (titulo) {
+          if (!titulo.id) titulo.id = 'titulo-dialog-' + Math.random().toString(36).slice(2);
+          card.setAttribute('aria-labelledby', titulo.id);
+        }
 
         // Bloqueia foco/clique/leitor de tela em tudo que não é o modal
         Array.from(document.body.children).forEach(el => {
@@ -168,7 +172,6 @@ block content
           card.classList.add('fullscreen');
           overlay.classList.add('active');
 
-          // 4. LAST/PLAY: anima do ponto original até o centro da tela
           const target = getTargetRect();
           card.style.top = target.top + 'px';
           card.style.left = target.left + 'px';
@@ -180,6 +183,7 @@ block content
           });
 
           button.textContent = 'Fechar';
+          button.setAttribute('aria-expanded', 'true');
           const focusTarget = card.querySelector('.toggle-card');
           if (focusTarget) focusTarget.focus();
         });
@@ -206,12 +210,16 @@ block content
         card.style.height = endRect.height + 'px';
 
         const btn = card.querySelector('.toggle-card');
-        if (btn) btn.textContent = 'Ler mais';
+        if (btn) {
+          btn.textContent = 'Ler mais';
+          btn.setAttribute('aria-expanded', 'false');
+        }
 
         setTimeout(() => {
           card.classList.remove('fullscreen');
           card.removeAttribute('role');
           card.removeAttribute('aria-modal');
+          card.removeAttribute('aria-labelledby');
           card.style.position = '';
           card.style.top = '';
           card.style.left = '';
@@ -221,6 +229,14 @@ block content
           placeholder.parentNode.insertBefore(card, placeholder);
           placeholder.remove();
           delete card.dataset.placeholderId;
+
+          // Só devolve o foco DEPOIS que o card já está de volta no lugar —
+          // mover um elemento focado no DOM faz o navegador perder o foco,
+          // por isso não dá pra fazer isso antes.
+          if (lastFocusedElement) {
+            lastFocusedElement.focus();
+            lastFocusedElement = null;
+          }
         }, 400);
       });
 
@@ -229,11 +245,6 @@ block content
 
       Array.from(document.body.children).forEach(el => el.removeAttribute('inert'));
       document.removeEventListener('keydown', handleEscKey);
-
-      if (lastFocusedElement) {
-        lastFocusedElement.focus();
-        lastFocusedElement = null;
-      }
     }
 
     function handleEscKey(e) {

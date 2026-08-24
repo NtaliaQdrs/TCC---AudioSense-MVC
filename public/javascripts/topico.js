@@ -1,7 +1,13 @@
 document.querySelectorAll('.btn-responder').forEach(btn => {
   btn.addEventListener('click', () => {
     const form = document.getElementById(btn.dataset.target);
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    const abrir = form.style.display === 'none' || form.style.display === '';
+    form.style.display = abrir ? 'flex' : 'none';
+    btn.setAttribute('aria-expanded', String(abrir));
+    if (abrir) {
+      const textarea = form.querySelector('textarea');
+      if (textarea) textarea.focus();
+    }
   });
 });
 
@@ -13,7 +19,8 @@ document.querySelectorAll('.btn-curtir').forEach(botao => {
       const data = await resp.json();
       if (resp.ok) {
         const icone = data.curtido ? 'bi-heart-fill' : 'bi-heart';
-        botao.innerHTML = `<i class="bi ${icone}"></i>  ${data.curtidas}`;
+        botao.innerHTML = `<i class="bi ${icone}" aria-hidden="true"></i>  ${data.curtidas}`;
+        botao.dataset.curtido = data.curtido;
       }
     } catch (err) {
       console.error('Erro ao curtir:', err);

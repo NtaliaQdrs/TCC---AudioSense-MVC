@@ -1,7 +1,7 @@
 //- views/partials/fab.pug
 
 .fab-container
-  #fab-panel.fab-panel(role="dialog" aria-label="Acessibilidade rápida" aria-modal="false")
+  #fab-panel.fab-panel(role="dialog" aria-label="Acessibilidade rápida" aria-modal="true")
     p.fab-panel__titulo
       i.bi.bi-universal-access(aria-hidden="true")
       |  Acessibilidade
@@ -32,7 +32,7 @@
         )
           i.bi.bi-sun(aria-hidden="true")
           span Claro
-          
+
 
     //- Tamanho da fonte (usa fontScale numérico)
     .fab-group
@@ -74,7 +74,48 @@
           aria-pressed="false"
         ) P&B
 
-    
+    //- Leitura (NOVO) — sublinhar links + fonte legível
+    .fab-group
+      p.fab-group__label Leitura
+      .fab-group__btns
+        button.fab-btn-opt(
+          data-fab-toggle="underlineLinks"
+          aria-pressed="false"
+        )
+          i.bi.bi-link-45deg(aria-hidden="true")
+          span Sublinhar
+        button.fab-btn-opt(
+          data-fab-toggle="readableFont"
+          aria-pressed="false"
+        )
+          i.bi.bi-type(aria-hidden="true")
+          span Legível
+
+    //- Navegação (NOVO) — guia de leitura + reduzir animação
+    .fab-group
+      p.fab-group__label Navegação
+      .fab-group__btns
+        button.fab-btn-opt(
+          data-fab-toggle="readingGuide"
+          aria-pressed="false"
+        )
+          i.bi.bi-distribute-horizontal(aria-hidden="true")
+          span Guia
+        button.fab-btn-opt(
+          data-fab-toggle="reduceMotion"
+          aria-pressed="false"
+        )
+          i.bi.bi-pause-circle(aria-hidden="true")
+          span Animação
+
+    .fab-panel__footer
+      a.fab-link-reset(href="#" id="fab-reset")
+        | Restaurar padrões
+      button#fab-close.fab-btn-close(type="button" aria-label="Fechar painel de acessibilidade")
+        i.bi.bi-x-lg(aria-hidden="true")
+
+    //- Região viva para anunciar mudanças a leitores de tela (NOVO)
+    #fab-live.sr-only(aria-live="polite" aria-atomic="true")
 
   button#fab-btn.fab-btn(
     aria-label="Abrir painel de acessibilidade"
@@ -82,3 +123,7 @@
     aria-controls="fab-panel"
   )
     i.bi.bi-universal-access(aria-hidden="true")
+
+//- Guia de leitura — barra que segue o cursor (NOVO, fica fora do fab-container
+//- de propósito, pra não herdar filter/transform quando o alto contraste move o FAB)
+#fab-reading-guide(aria-hidden="true")

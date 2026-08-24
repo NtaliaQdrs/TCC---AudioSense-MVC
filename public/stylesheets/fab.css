@@ -4,14 +4,15 @@
 
 /* ── Container posicionado fixo no canto inferior direito ── */
 .fab-container {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: 9998; /* abaixo do skip-link (9999) mas acima de tudo mais */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
+  
+  position: fixed !important;
+  bottom: 28px !important;
+  right: 28px !important;
+  z-index: 9998 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 10px !important;
 }
 
 /* ── Botão principal ── */
@@ -58,6 +59,8 @@
     border-radius: 16px;
     padding: 16px;
     width: 232px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     animation: fabEntrar 0.18s ease;
     /* Isola o FAB do tamanho de fonte global */
@@ -72,7 +75,6 @@
 }
 
 .fab-panel__titulo { font-size: 13px !important; }
-.fab-group__label  { font-size: 11px !important; }
 .fab-btn-opt       { font-size: 12px !important; }
 .fab-btn-opt i     { font-size: 14px !important; }
 .fab-speed-val     { font-size: 12px !important; }
@@ -116,7 +118,7 @@
     font-size: 11px;
     font-weight: 600;
     color: var(--text-color);
-    opacity: 0.6;
+    opacity: 1;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0;
@@ -196,6 +198,67 @@
     opacity: 0.5;
 }
 
+/* ── Restaurar padrões (NOVO) ── */
+.fab-link-reset {
+    font-size: 11px !important;
+    color: #5d3fd3;
+    text-decoration: underline;
+}
+
+.fab-link-reset:hover {
+    color: #4a2fb8;
+}
+
+.fab-link-reset:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* ── Texto só para leitor de tela (NOVO) ──
+   usado no #fab-live pra anunciar mudanças sem aparecer visualmente ── */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ── Guia de leitura (NOVO) — barra que acompanha o cursor ── */
+#fab-reading-guide {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 42px;
+    background: rgba(93, 63, 211, 0.12);
+    border-top: 2px solid #5d3fd3;
+    border-bottom: 2px solid #5d3fd3;
+    pointer-events: none;
+    z-index: 9997; /* abaixo do fab-container */
+    display: none;
+}
+
+html.reading-guide-on #fab-reading-guide {
+    display: block;
+}
+
+/* ── Sublinhar links (NOVO) ── */
+html.underline-links a {
+    text-decoration: underline !important;
+}
+
+/* ── Fonte legível (NOVO) — mais espaçamento, ajuda leitura/dislexia ── */
+html.readable-font body,
+html.readable-font body * {
+    letter-spacing: 0.03em !important;
+    word-spacing: 0.12em !important;
+    line-height: 1.6 !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    TEMA ESCURO
    ═══════════════════════════════════════════════════════ */
@@ -255,10 +318,91 @@ html.dark-theme .fab-btn[aria-expanded="true"] {
     background-color: #4a2ad0;
 }
 
+html.dark-theme .fab-link-reset {
+    color: #a78bfa;
+    border-top-color: #2e2e4e;
+}
+
+html.dark-theme .fab-link-reset:hover {
+    color: #c9a8f5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ALTO CONTRASTE
+   ═══════════════════════════════════════════════════════ */
 /* ═══════════════════════════════════════════════════════
    ALTO CONTRASTE
    ═══════════════════════════════════════════════════════ */
 
+html.high-contrast .fab-panel {
+    background-color: #ffffff !important;
+    border: 2px solid #5d3fd3 !important;
+}
+
+html.high-contrast .fab-btn-opt {
+    background-color: #ffffff !important;
+    border: 2px solid #5d3fd3 !important;
+    color: #000000 !important;
+}
+
+html.high-contrast .fab-btn-opt--active {
+    background-color: #000000 !important;
+    border: 2px solid #5d3fd3 !important;
+    color: #ffffff !important;
+}
+
+html.high-contrast .fab-panel__titulo,
+html.high-contrast .fab-group__label {
+    color: #000000 !important;
+}
+
+/* ── Rodapé do painel (reset + fechar) ── */
+.fab-panel__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 4px;
+    border-top: 1px solid var(--divider-color);
+}
+
+.fab-btn-close {
+    background: none;
+    border: 1px solid var(--divider-color);
+    border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.fab-btn-close:hover {
+    background-color: #f0e6ff;
+    border-color: #c9a8f5;
+    color: #5d3fd3;
+}
+
+.fab-btn-close:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+html.dark-theme .fab-btn-close {
+    border-color: #3a3a5a;
+    color: #ccc;
+}
+
+html.dark-theme .fab-btn-close:hover {
+    background-color: #2e2e4e;
+    border-color: #6d4aff;
+    color: #a78bfa;
+}
 
 /* ═══════════════════════════════════════════════════════
    RESPONSIVO — mobile
