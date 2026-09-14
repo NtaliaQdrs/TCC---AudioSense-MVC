@@ -78,6 +78,7 @@ body {
   white-space: nowrap;
   transition: all 0.3s ease;
   border: 1px solid #1f7c5f;
+  text-decoration: none;
 }
 
 

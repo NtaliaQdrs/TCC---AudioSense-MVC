@@ -22,10 +22,10 @@ block content
             - const nomeAutor = topico.autor ? topico.autor.nome_usuario : 'Usuário removido'
             - const dataFormatada = new Date(topico.data_postagem).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })
             - const totalComentarios = topico.comentarios ? topico.comentarios.length : 0
-            article.post-card
+            article.post-card(data-data-postagem=topico.data_postagem data-curtidas=topico.curtidas)
               a(href=`/forum/${topico.id}` style="text-decoration:none; color:inherit;")
                 .post-user
-                  img.avatar(src=fotoAutor alt="Foto de perfil")
+                  img.avatar(src=fotoAutor alt="")
                   .user-info
                     span.name= nomeAutor
                     br
@@ -57,8 +57,9 @@ block content
       aside.forum-sidebar
         //- Caixa branca com os filtros
         .sidebar-box(role="group" aria-label="Ordenar tópicos")
-          button.btn-filter(type="button" aria-pressed="true") Recentes
-          button.btn-filter(type="button" aria-pressed="false") Populares
+          button#btn-recentes.btn-filter(type="button" aria-pressed="true") Recentes
+          button#btn-populares.btn-filter(type="button" aria-pressed="false") Populares
+          span#ordenacao-status.sr-only(aria-live="polite" role="status")
           br
           button.toggle-sidebar(
                 onclick="toggleSidebar()"

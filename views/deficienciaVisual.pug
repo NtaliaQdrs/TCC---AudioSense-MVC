@@ -2,6 +2,7 @@ extends layout
 
 block styles
   link(rel="stylesheet", href="/stylesheets/deficienciaVisual.css")
+  
 
 block content
   main.page(role="main")
@@ -31,9 +32,7 @@ block content
             img(src="../images/visaobaixa.png" alt="")
             h2 O que é baixa visão?
           p.card-text#texto-baixavisao
-            | A baixa visão é a perda significativa da visão, não sendo possível ser corrigida por óculos, 
-            | lentes de contato, medicamentos ou cirurgia. Apesar disso, a pessoa ainda possui algum grau 
-            | de visão com uma funcionalidade preservada.
+            | De acordo com o Decreto nº 5.296/2004, a baixa visão é caracterizada pela acuidade visual entre 0,3 e 0,05 no melhor olho, mesmo com a melhor correção óptica. No contexto pedagógico, o estudante com baixa visão utiliza tipos ampliados, alto contraste e instrumentos ópticos potentes como principal via de acesso ao conteúdo, tendo na audiodescrição um recurso complementar de comunicação escrita e sonora.
           button.toggle-card(
             type="button"
             onclick="toggleFullscreen(this)"
@@ -46,10 +45,10 @@ block content
             img(src="../images/auxilio.png" alt="")
             h2 Como interagir e guiar pessoas com deficiência visual
           p.card-text#texto-auxilio
-            | Ao interagir com pessoas com deficiência visual é importante perguntar antes de oferecer ajuda. 
+            | Ao interagir com pessoas com deficiência visual, é importante perguntar se elas precisam de ajuda antes de oferecer. 
             | Caso precise guiar alguém, deixe que a pessoa segure o seu braço, em vez de puxá-la. 
             | Identifique-se antes de iniciar uma conversa e descreva o ambiente com clareza. 
-            | Mantendo sempre uma comunicação respeitosa e clara.
+            | Mantenha sempre uma comunicação respeitosa e clara. 
           button.toggle-card(
             type="button"
             onclick="toggleFullscreen(this)"
@@ -67,21 +66,36 @@ block content
               .sidebar-item
                 i.bi.bi-file-earmark-text(aria-hidden="true")
                 small.text Artigos
-              a(href="#") (Links para leitura)
+              ul.sidebar-links(style="list-style: none; padding: 0; margin: 6px 0 0;")
+                li
+                  a(href="https://www.scielo.br/j/edreal/a/ShdbzbdgyXYwcqzT74Lpx9D/" target="_blank" rel="noopener" aria-label="Política de Acessibilidade: o que dizem as pessoas com deficiência visual (abre em nova aba)")
+                    | Política de Acessibilidade (SciELO)
+                li
+                  a(href="https://www.cartacapital.com.br/bem-estar/5-recursos-de-acessibilidade-para-pessoas-com-deficiencia-visual/" target="_blank" rel="noopener" aria-label="5 recursos de acessibilidade para pessoas com deficiência visual, CartaCapital (abre em nova aba)")
+                    | 5 recursos de acessibilidade (CartaCapital)
             hr
 
             li
               .sidebar-item
                 i.bi.bi-play-btn(aria-hidden="true")
                 small.text Vídeos educacionais
-              a(href="#") (Links de vídeos)
+              ul.sidebar-links(style="list-style: none; padding: 0; margin: 6px 0 0;")
+                li
+                  a(href="https://www.youtube.com/@HistoriasdeCego" target="_blank" rel="noopener" aria-label="Canal Histórias de Cego no YouTube (abre em nova aba)")
+                    | Canal "Histórias de Cego"
             hr
 
             li
               .sidebar-item
                 i.bi.bi-people(aria-hidden="true")
                 small.text Relatos
-              a(href="#") (Depoimentos)
+              ul.sidebar-links(style="list-style: none; padding: 0; margin: 6px 0 0;")
+                li
+                  a(href="https://www.catarse.com.br/posts/entrevista-conheca-marcos-lima-58978" target="_blank" rel="noopener" aria-label="Entrevista com Marcos Lima, criador do canal Histórias de Cego (abre em nova aba)")
+                    | Entrevista com Marcos Lima
+                li
+                  a(href="https://agenciaeconordeste.com.br/sustentabilidade/a-deficiencia-visual-e-o-desafio-da-acessibilidade-no-mundo-real/" target="_blank" rel="noopener" aria-label="Relato de Rafael, estudante universitário cego (abre em nova aba)")
+                    | Relato de Rafael, estudante cego
             hr
 
 
@@ -117,6 +131,14 @@ block content
       return { top, left, width, height };
     }
 
+    function getFocusableElements(container) {
+      return Array.from(
+        container.querySelectorAll(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        )
+      );
+    }
+
     function toggleFullscreen(button) {
       const card = button.closest('article');
       const overlay = document.getElementById('overlay');
@@ -128,10 +150,8 @@ block content
 
         lastFocusedElement = button;
 
-        // 1. FIRST: guarda a posição/tamanho original do card
         const startRect = card.getBoundingClientRect();
 
-        // 2. Cria um placeholder do mesmo tamanho, pra segurar o espaço vazio
         const placeholder = document.createElement('div');
         placeholder.className = 'card-placeholder';
         placeholder.style.width = startRect.width + 'px';
@@ -141,7 +161,6 @@ block content
         card.parentNode.insertBefore(placeholder, card);
         card.dataset.placeholderId = placeholder.id;
 
-        // 3. Move o card pro body, posicionado exatamente onde ele estava (sem pulo visual)
         document.body.appendChild(card);
         card.style.position = 'fixed';
         card.style.top = startRect.top + 'px';
@@ -153,18 +172,24 @@ block content
         document.body.appendChild(overlay);
         card.setAttribute('role', 'dialog');
         card.setAttribute('aria-modal', 'true');
+        card.setAttribute('tabindex', '-1');
+
         const titulo = card.querySelector('h2');
         if (titulo) {
           if (!titulo.id) titulo.id = 'titulo-dialog-' + Math.random().toString(36).slice(2);
           card.setAttribute('aria-labelledby', titulo.id);
         }
 
-        // Bloqueia foco/clique/leitor de tela em tudo que não é o modal
+        const texto = card.querySelector('.card-text');
+        if (texto) {
+          if (!texto.id) texto.id = 'texto-dialog-' + Math.random().toString(36).slice(2);
+          card.setAttribute('aria-describedby', texto.id);
+        }
+
         Array.from(document.body.children).forEach(el => {
           if (el !== card && el !== overlay) el.setAttribute('inert', '');
         });
 
-        // força o navegador a registrar a posição inicial antes de animar
         void card.offsetHeight;
 
         requestAnimationFrame(() => {
@@ -184,11 +209,39 @@ block content
 
           button.textContent = 'Fechar';
           button.setAttribute('aria-expanded', 'true');
-          const focusTarget = card.querySelector('.toggle-card');
-          if (focusTarget) focusTarget.focus();
+
+          // Foca o card (não o botão direto) pra o leitor de tela anunciar
+          // título + descrição antes do usuário chegar no "Fechar"
+          card.focus();
         });
 
         document.addEventListener('keydown', handleEscKey);
+        document.addEventListener('keydown', handleTrapFocus);
+      }
+    }
+
+    function handleTrapFocus(e) {
+      if (e.key !== 'Tab') return;
+
+      const card = document.querySelector('article.fullscreen');
+      if (!card) return;
+
+      const focusable = getFocusableElements(card);
+      if (focusable.length === 0) {
+        e.preventDefault();
+        card.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === card)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     }
 
@@ -203,7 +256,6 @@ block content
         const endRect = placeholder.getBoundingClientRect();
         overlay.classList.remove('show');
 
-        // anima de volta pra posição do placeholder
         card.style.top = endRect.top + 'px';
         card.style.left = endRect.left + 'px';
         card.style.width = endRect.width + 'px';
@@ -220,6 +272,8 @@ block content
           card.removeAttribute('role');
           card.removeAttribute('aria-modal');
           card.removeAttribute('aria-labelledby');
+          card.removeAttribute('aria-describedby');
+          card.removeAttribute('tabindex');
           card.style.position = '';
           card.style.top = '';
           card.style.left = '';
@@ -230,9 +284,6 @@ block content
           placeholder.remove();
           delete card.dataset.placeholderId;
 
-          // Só devolve o foco DEPOIS que o card já está de volta no lugar —
-          // mover um elemento focado no DOM faz o navegador perder o foco,
-          // por isso não dá pra fazer isso antes.
           if (lastFocusedElement) {
             lastFocusedElement.focus();
             lastFocusedElement = null;
@@ -245,6 +296,7 @@ block content
 
       Array.from(document.body.children).forEach(el => el.removeAttribute('inert'));
       document.removeEventListener('keydown', handleEscKey);
+      document.removeEventListener('keydown', handleTrapFocus);
     }
 
     function handleEscKey(e) {

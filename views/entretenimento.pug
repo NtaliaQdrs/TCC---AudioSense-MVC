@@ -12,11 +12,11 @@ block content
       .main-grid
 
         if recomendacoes && recomendacoes.length
-          each rec in recomendacoes
-            article.extra-card1
+          each rec, index in recomendacoes
+            article.extra-card1(data-categoria=rec.obra.tipo_obra)
               .card-inner
                 if rec.obra.poster_url
-                  img(src=rec.obra.poster_url alt=rec.obra.titulo)
+                  img(src=rec.obra.poster_url alt="")
                 else
                   .poster-placeholder
                     i.bi.bi-film
@@ -32,7 +32,7 @@ block content
                       | Lançamento: 
                       = new Date(rec.obra.data_lancamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })
                   //- Sinopse longa — visível só no fullscreen
-                  .card-content
+                  .card-content(id=`card-content-${index}` aria-hidden="true")
                     p= rec.obra.sinopse
 
                   .card-footer
@@ -41,7 +41,7 @@ block content
                         if rec.docente.usuario.foto_perfil
                           img.docente-foto(src=rec.docente.usuario.foto_perfil alt=rec.docente.usuario.nome_usuario)
                         else
-                          img.docente-foto(src='/images/foto-perfil-default.png' alt='Docente')
+                          img.docente-foto(src='/images/foto-perfil-default.png' alt="")
                         span.docente-nome Recomendado por @#{rec.docente.usuario.nome_usuario}
 
                     .platform
@@ -49,8 +49,7 @@ block content
                         img.netflix-icon(src=rec.plataforma.logo_url alt=rec.plataforma.nome)
                       span Acesse na #{rec.plataforma.nome}
 
-
-                    button.expand-btn(onclick="toggleFullscreen(this)" aria-label="Ver mais detalhes" aria-expanded="false") ⤢
+                    button.expand-btn(onclick="toggleFullscreen(this)" aria-label="Ver mais detalhes" aria-expanded="false" aria-controls=`card-content-${index}`) ⤢
 
         else
           p.sem-conteudo Nenhuma recomendação cadastrada ainda.
@@ -58,30 +57,41 @@ block content
         div.right-column
 
           aside.sidebar(aria-labelledby="sidebar-title")
-            h3#sidebar-title Sugestão de conteúdo adicional
+            h3#sidebar-title Filtrar por categoria
 
-            nav(aria-label="Links complementares")
-              ul(style="list-style: none; padding: 0;")
-                li
-                  .sidebar-item
-                    i.bi.bi-file-earmark-text(aria-hidden="true")
-                    small.text Artigos
-                  a(href="#") (Links para leitura)
-                hr
+            div.filter-group(role="group" aria-labelledby="sidebar-title")
+              button.btn-filter(
+                type="button"
+                aria-pressed="true"
+                data-categoria="todos"
+                onclick="filtrarCategoria('todos', this)"
+              ) Todos
+              button.btn-filter(
+                type="button"
+                aria-pressed="false"
+                data-categoria="filme"
+                onclick="filtrarCategoria('filme', this)"
+              ) Filmes
+              button.btn-filter(
+                type="button"
+                aria-pressed="false"
+                data-categoria="serie"
+                onclick="filtrarCategoria('serie', this)"
+              ) Séries
+              button.btn-filter(
+                type="button"
+                aria-pressed="false"
+                data-categoria="documentario"
+                onclick="filtrarCategoria('documentario', this)"
+              ) Documentários
+              button.btn-filter(
+                type="button"
+                aria-pressed="false"
+                data-categoria="outro"
+                onclick="filtrarCategoria('outro', this)"
+              ) Outros
 
-                li
-                  .sidebar-item
-                    i.bi.bi-play-btn(aria-hidden="true")
-                    small.text Vídeos educacionais
-                  a(href="#") (Links de vídeos)
-                hr
-
-                li
-                  .sidebar-item
-                    i.bi.bi-people(aria-hidden="true")
-                    small.text Relatos
-                  a(href="#") (Depoimentos)
-                hr
+              span#filtro-status.sr-only(aria-live="polite" role="status")
 
             button.toggle-sidebar(
               onclick="toggleSidebar()"
@@ -97,6 +107,39 @@ block content
 
   script(src="/javascripts/entretenimento.js")
   script.
+    let lastFocusedElement = null;
+    let inertedElements = [];
+
+    function getFocusableElements(container) {
+      return Array.from(
+        container.querySelectorAll(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        )
+      );
+    }
+
+    function hideBackgroundExcept(card, overlay) {
+      inertedElements = [];
+      let node = card;
+      while (node && node !== document.body) {
+        const parent = node.parentElement;
+        if (parent) {
+          Array.from(parent.children).forEach(sibling => {
+            if (sibling !== node && sibling !== overlay) {
+              sibling.setAttribute('inert', '');
+              inertedElements.push(sibling);
+            }
+          });
+        }
+        node = parent;
+      }
+    }
+
+    function restoreBackground() {
+      inertedElements.forEach(el => el.removeAttribute('inert'));
+      inertedElements = [];
+    }
+
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const button = document.querySelector('.toggle-sidebar');
@@ -124,32 +167,108 @@ block content
 
     function toggleFullscreen(button) {
       const card = button.closest('article');
+      const content = card.querySelector('.card-content');
       const overlay = document.getElementById('overlay');
+
       if (card.classList.contains('fullscreen')) {
         closeAllCards();
       } else {
         closeAllCards();
+
+        lastFocusedElement = button;
+
         card.classList.add('fullscreen');
         overlay.classList.add('active');
         button.textContent = 'Fechar';
         button.setAttribute('aria-label', 'Fechar');
         button.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+
+        card.setAttribute('role', 'dialog');
+        card.setAttribute('aria-modal', 'true');
+        card.setAttribute('tabindex', '-1');
+
+        const titulo = card.querySelector('h2');
+        if (titulo) {
+          if (!titulo.id) titulo.id = 'titulo-dialog-' + Math.random().toString(36).slice(2);
+          card.setAttribute('aria-labelledby', titulo.id);
+        }
+
+        if (content) {
+          content.setAttribute('aria-hidden', 'false');
+          if (!content.id) content.id = 'conteudo-dialog-' + Math.random().toString(36).slice(2);
+          card.setAttribute('aria-describedby', content.id);
+        }
+
+        hideBackgroundExcept(card, overlay);
+
+        card.focus();
+
+        document.addEventListener('keydown', handleEscKey);
+        document.addEventListener('keydown', handleTrapFocus);
       }
+    }
+
+    function handleTrapFocus(e) {
+      if (e.key !== 'Tab') return;
+
+      const card = document.querySelector('article.fullscreen');
+      if (!card) return;
+
+      const focusable = getFocusableElements(card);
+      if (focusable.length === 0) {
+        e.preventDefault();
+        card.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === card)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function handleEscKey(e) {
+      if (e.key === 'Escape') closeAllCards();
     }
 
     function closeAllCards() {
       const cards = document.querySelectorAll('article.fullscreen');
       const overlay = document.getElementById('overlay');
+
       cards.forEach(card => {
         card.classList.remove('fullscreen');
         const btn = card.querySelector('.expand-btn');
+        const content = card.querySelector('.card-content');
         if (btn) {
           btn.textContent = '⤢';
           btn.setAttribute('aria-label', 'Ver mais detalhes');
           btn.setAttribute('aria-expanded', 'false');
         }
+        if (content) content.setAttribute('aria-hidden', 'true');
+
+        card.removeAttribute('role');
+        card.removeAttribute('aria-modal');
+        card.removeAttribute('aria-labelledby');
+        card.removeAttribute('aria-describedby');
+        card.removeAttribute('tabindex');
       });
+
       overlay.classList.remove('active');
       document.body.style.overflow = 'auto';
+
+      restoreBackground();
+      document.removeEventListener('keydown', handleEscKey);
+      document.removeEventListener('keydown', handleTrapFocus);
+
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+      }
     }

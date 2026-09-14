@@ -351,6 +351,15 @@ article.fullscreen .card-content { max-height: none; opacity: 1; margin-top: 20p
   color: #3d3000 !important;
 }
 
+.sidebar-links li {
+  margin-bottom: 6px;
+}
+
+.sidebar-links a {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 /* RESPONSIVO */
 @media (max-width: 900px) {
   .main-grid {

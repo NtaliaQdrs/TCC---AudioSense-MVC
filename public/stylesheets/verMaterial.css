@@ -650,6 +650,78 @@
   border-radius: 50%;
 }
 
+.vm-roteiro-texto {
+  white-space: pre-line;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+html.dark-theme body {
+  background-color: #1e1e2e;
+}
+
+html.dark-theme {
+  --vm-card-bg: #2a2a3e;
+  --vm-outer-bg: #1e1e2e;
+  --vm-heading: #c9d1f5;
+  --vm-text: #a0a8cc;
+  --vm-text-muted: #6272a4;
+  --vm-tag-bg: #383850;
+  --vm-border-soft: #44475a;
+  --vm-star-empty: #44475a;
+}
+
+html.dark-theme .vm-page-title {
+  color: var(--vm-heading);
+}
+
+/* Elementos com cor "hardcoded" (não usavam variável) */
+html.dark-theme .vm-textarea {
+  background: #1e1e2e;
+  border-color: #44475a;
+  color: var(--vm-text);
+}
+
+html.dark-theme .vm-form-avaliacao {
+  background: #22222f;
+}
+
+html.dark-theme .vm-carousel-track {
+  background: #22222f;
+}
+
+html.dark-theme .vm-carousel-dot {
+  background: #44475a;
+}
+
+html.dark-theme .vm-carousel-arrow {
+  background: rgba(42, 42, 62, 0.9);
+  color: var(--vm-heading);
+}
+
+html.dark-theme .vm-carousel-arrow:hover {
+  background: #2a2a3e;
+}
+
+html.dark-theme .vm-avaliacao-data {
+  color: #6272a4;
+}
+
+html.dark-theme .vm-avaliacao-comentario {
+  color: var(--vm-text);
+}
+
+html.dark-theme .vm-minimize-btn {
+  border-color: #bd93f9;
+  color: #bd93f9;
+}
+
+html.dark-theme .vm-minimize-btn:hover {
+  background-color: #bd93f9;
+  color: #1e1e2e;
+}
+
 /* ===== Responsivo ===== */
 
 @media (max-width: 900px) {

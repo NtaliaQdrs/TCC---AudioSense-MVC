@@ -24,6 +24,16 @@ block content
           i.bi.bi-clock-fill(aria-hidden="true")
           | Solicitação pendente, aguarde a aprovação do administrador.
 
+      else if solicitacaoRejeitada && limiteSolicitacoesAtingido
+        .alert-rejeitado(role="alert")
+          i.bi.bi-x-circle-fill(aria-hidden="true")
+          p Sua solicitação de acesso de administrador foi rejeitada.
+          if motivoRejeicao
+            p.motivo
+              strong Motivo: 
+              | #{motivoRejeicao}
+          p.motivo Você já utilizou sua nova tentativa de solicitação e atingiu o limite permitido.
+
       else if solicitacaoRejeitada
         .alert-rejeitado(role="alert")
           i.bi.bi-x-circle-fill(aria-hidden="true")

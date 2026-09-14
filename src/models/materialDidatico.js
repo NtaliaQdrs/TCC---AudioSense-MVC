@@ -29,6 +29,18 @@ export default (sequelize) => {
             allowNull: true
         },
 
+
+
+        caminho_audio_descricao: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
+
+        roteiro_audio_descricao: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+
         caminho_capa: {
             type: DataTypes.STRING(255),
             allowNull: true
@@ -65,7 +77,9 @@ export default (sequelize) => {
         data_publicacao: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
-        }
+        },
+
+
     }, {
         tableName: 'material_didatico',
         timestamps: false

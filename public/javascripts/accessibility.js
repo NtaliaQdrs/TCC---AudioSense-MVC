@@ -114,8 +114,13 @@ function aplicarPreferenciasSalvas() {
   const html = document.documentElement;
 
   // ── Tema ──────────────────────────────────────────────────────────────
+  // ── Tema ──────────────────────────────────────────────────────────────
   html.classList.remove('dark-theme', 'light-theme');
-  if (theme === 'Escuro') {
+  if (contrast === 'Alto contraste') {
+    // Alto contraste já define suas próprias cores fixas —
+    // ignora o tema escolhido pra não competir com essas regras
+    html.classList.add('light-theme');
+  } else if (theme === 'Escuro') {
     html.classList.add('dark-theme');
   } else if (theme === 'Claro') {
     html.classList.add('light-theme');
@@ -191,7 +196,7 @@ function aplicarPreferenciasSalvas() {
 
   // ── Modos de contraste ────────────────────────────────────────────────
   if (contrast === 'Alto contraste') {
-    
+
 
     css += `
       html {
@@ -201,33 +206,27 @@ function aplicarPreferenciasSalvas() {
       img, video, canvas, svg image {
         filter: invert(1) !important;
       }
-      .fab-container {
-        filter: invert(1) contrast(200%) !important;
-        position: fixed !important;
-        bottom: 28px !important;
-        right: 28px !important;
-        z-index: 9998 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important;
-        gap: 10px !important;
-      }
-      .welcome-container, .stats-container, .learning-extra-container,
-      .extra-card, .collab-box, .learning-item, .main-config-card,
-      .material-card, .forum-item, .audiodescricao-item, .projeto-card,
-      .user-card, .stat-card, .card, .container, .containercust, .post-card {
+      html.high-contrast .welcome-container, html.high-contrast .stats-container,
+      html.high-contrast .learning-extra-container, html.high-contrast .extra-card,
+      html.high-contrast .collab-box, html.high-contrast .learning-item,
+      html.high-contrast .main-config-card, html.high-contrast .material-card,
+      html.high-contrast .forum-item, html.high-contrast .audiodescricao-item,
+      html.high-contrast .projeto-card, html.high-contrast .user-card,
+      html.high-contrast .stat-card, html.high-contrast .card,
+      html.high-contrast .container, html.high-contrast .containercust,
+      html.high-contrast .post-card {
         background-color: #b8b4b4 !important;
-        border-color: #000000 !important;
+        border: 2px solid #000000 !important;
       }
     `;
   } else if (contrast === 'Preto e branco') {
-    
+
 
     css += `
       html { filter: grayscale(100%) contrast(${Math.max(contrastLevel, 110)}%) !important; }
     `;
   } else {
-    
+
 
     if (contrastLevel !== 100) {
       const fator = (contrastLevel - 100) / 100;
@@ -268,7 +267,7 @@ function aplicarPreferenciasSalvas() {
 
   // ── Cursor ampliado ───────────────────────────────────────────────────
   if (cursorLarge === 'true') {
-    css += `* { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35"><path fill="black" stroke="white" stroke-width="1.5" d="M6 2 L6 26 L11 21 L15 30 L18 28.5 L14 19.5 L21 19.5 Z"/></svg>') 0 0, auto !important; }`;
+    css += `* { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 35 35"><path fill="black" stroke="white" stroke-width="1.5" d="M6 2 L6 26 L11 21 L15 30 L18 28.5 L14 19.5 L21 19.5 Z"/></svg>') 0 0, auto !important; }`;
   }
 
   styleTag.innerHTML = css;

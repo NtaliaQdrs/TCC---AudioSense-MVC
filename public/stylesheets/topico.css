@@ -39,7 +39,7 @@
   resize: vertical;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 2px solid #1a3a6c;
 }
 
 .btn-submit-comentario {
@@ -57,6 +57,7 @@
   border-radius: 12px;
   padding: 14px 18px;
   margin-bottom: 12px;
+  border: 2px solid #1a3a6c;
 }
 
 .comentario-resposta {
@@ -101,4 +102,52 @@
 
 .btn-curtir:hover i {
   color: #d9534f;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+html.dark-theme .comentarios-titulo {
+  color: #c9d1f5;
+}
+
+html.dark-theme .form-comentario textarea,
+html.dark-theme .form-resposta textarea {
+  background: #2a2a3e;
+  border-color: #44475a;
+  color: #a0a8cc;
+}
+
+html.dark-theme .form-comentario textarea::placeholder,
+html.dark-theme .form-resposta textarea::placeholder {
+  color: #6272a4;
+}
+
+html.dark-theme .comentario-card {
+  background: #2a2a3e;
+  border-color: #44475a;
+}
+
+html.dark-theme .comentario-resposta {
+  background: #22222f;
+}
+
+html.dark-theme .comentario-user .name {
+  color: #c9d1f5;
+}
+
+html.dark-theme .comentario-user .date {
+  color: #6272a4;
+}
+
+html.dark-theme .comentario-texto p {
+  color: #a0a8cc;
+}
+
+html.dark-theme .btn-responder {
+  color: #bd93f9;
+}
+
+html.dark-theme .no-comentarios {
+  color: #a0a8cc;
 }

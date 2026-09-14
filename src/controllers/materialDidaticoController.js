@@ -4,6 +4,7 @@ import db from '../models/index.js';
 export const exibirInserirMaterial = async (req, res) => {
   try {
     const disciplinas = await db.Disciplina.findAll({ order: [['titulo', 'ASC']] });
+    
 
     return res.render('inserirMaterial', {
       title: 'Inserir Material',
@@ -19,7 +20,7 @@ export const exibirInserirMaterial = async (req, res) => {
 // INSERIR MATERIAL (docente)
 export const inserirMaterial = async (req, res) => {
   try {
-    const { titulo, tipo_material, descricao, disciplina_id, disciplina_outro } = req.body;
+    const { titulo, tipo_material, descricao, disciplina_id, disciplina_outro, roteiro_audio_descricao } = req.body;
     const usuarioId = req.session.usuarioLogado.id;
 
     const docente = await db.UsuarioDocente.findOne({ where: { usuario_id: usuarioId } });
@@ -51,6 +52,7 @@ export const inserirMaterial = async (req, res) => {
       disciplina_outro: disciplinaOutroFinal,
       caminho_arquivo: `${process.env.R2_PUBLIC_URL}/${arquivoFile.key}`,
       caminho_audio_descricao: tipo_material === 'video' ? null : `${process.env.R2_PUBLIC_URL}/${audioFile.key}`,
+      roteiro_audio_descricao: tipo_material === 'video' ? null : (roteiro_audio_descricao || null),
       caminho_capa: capaFile ? `${process.env.R2_PUBLIC_URL}/${capaFile.key}` : null,
       docente_id: docente.id
     });

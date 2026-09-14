@@ -134,7 +134,7 @@ body { background-color: #E9CCEF; }
 }
 
 .btn-view { background-color: white; border: 1px solid #1f4677; color: #1f4677; }
-.btn-approve { background-color: #1f7c5f; border: none; color: white; }
+.btn-approve { background-color: #1f7c5f; border: none; color: white; margin-right: 5px; }
 .btn-reject { background-color: #991b1b; border: none; color: white; }
 .btn-view:hover { background-color: #f3f4f6; }
 .btn-approve:hover { background-color: #047857; }
@@ -221,3 +221,12 @@ body { background-color: #E9CCEF; }
 }
 
 .modal-buttons .btn-action:hover { opacity: 0.9; }
+
+.user-avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-right: 15px;
+}

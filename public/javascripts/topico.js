@@ -21,6 +21,10 @@ document.querySelectorAll('.btn-curtir').forEach(botao => {
         const icone = data.curtido ? 'bi-heart-fill' : 'bi-heart';
         botao.innerHTML = `<i class="bi ${icone}" aria-hidden="true"></i>  ${data.curtidas}`;
         botao.dataset.curtido = data.curtido;
+
+        const acao = data.curtido ? 'Descurtir' : 'Curtir';
+        const plural = data.curtidas === 1 ? '' : 's';
+        botao.setAttribute('aria-label', `${acao} tópico. ${data.curtidas} curtida${plural}`);
       }
     } catch (err) {
       console.error('Erro ao curtir:', err);

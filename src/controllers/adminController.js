@@ -15,6 +15,7 @@ export const verPainelAdmin = async (req, res) => {
         u.id,
         u.nome_completo,
         u.email,
+        u.foto_perfil,
         ud.id as docente_id,
         ud.comprovante_vinculo,
         ud.informacao_adicional,
@@ -35,7 +36,8 @@ export const verPainelAdmin = async (req, res) => {
         sa.data_solicitacao,
         sa.status,
         u.nome_completo,
-        u.email
+        u.email,
+        u.foto_perfil
       FROM solicitacao_admin sa
       INNER JOIN usuario_docente ud ON sa.usuario_docente_id = ud.id
       INNER JOIN usuario u ON ud.usuario_id = u.id
@@ -53,9 +55,6 @@ export const verPainelAdmin = async (req, res) => {
     console.error('Erro ao carregar painel admin:', err);
     return res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
-
-  console.log('solicitacaoRej:', solicitacaoRej);
-  console.log('motivoRejeicao:', motivoRejeicao);
 };
 
 // APROVAR DOCENTE
@@ -158,6 +157,15 @@ export const enviarSolicitacaoAdmin = async (req, res) => {
       return res.status(400).json({ erro: 'Você já tem uma solicitação pendente.' });
     }
 
+    // Limite: no máximo 2 solicitações no total (pedido inicial + 1 nova tentativa após rejeição)
+    const totalSolicitacoes = await db.SolicitacaoAdmin.count({
+      where: { usuario_docente_id: docente.id }
+    });
+
+    if (totalSolicitacoes >= 2) {
+      return res.status(403).json({ erro: 'Você já atingiu o limite de solicitações de acesso de administrador.' });
+    }
+
     await db.SolicitacaoAdmin.create({
       usuario_docente_id: docente.id,
       justificativa,
@@ -251,6 +259,7 @@ export const verPainelDocente = async (req, res) => {
     let solicitacaoPendente = false;
     let solicitacaoRejeitada = false;
     let motivoRejeicao = null;
+    let limiteSolicitacoesAtingido = false;
 
     if (docente) {
       const solicitacaoPend = await db.SolicitacaoAdmin.findOne({
@@ -260,21 +269,26 @@ export const verPainelDocente = async (req, res) => {
 
       const solicitacaoRej = await db.SolicitacaoAdmin.findOne({
         where: { usuario_docente_id: docente.id, status: 'rejeitado' },
-        order: [['id', 'DESC']] // pega a mais recente
+        order: [['id', 'DESC']]
       });
-      console.log('solicitacaoRej:', solicitacaoRej);
-      console.log('motivoRejeicao:', solicitacaoRej?.motivo_rejeicao);
+
       if (solicitacaoRej) {
         solicitacaoRejeitada = true;
         motivoRejeicao = solicitacaoRej.motivo_rejeicao;
       }
+
+      const totalSolicitacoes = await db.SolicitacaoAdmin.count({
+        where: { usuario_docente_id: docente.id }
+      });
+      limiteSolicitacoesAtingido = totalSolicitacoes >= 2;
     }
 
     return res.render('painelAdmin1', {
       title: 'Painel de Administração',
       solicitacaoPendente,
       solicitacaoRejeitada,
-      motivoRejeicao
+      motivoRejeicao,
+      limiteSolicitacoesAtingido
     });
 
   } catch (err) {

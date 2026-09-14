@@ -77,7 +77,7 @@ html(lang="pt-br")
           .input-content
             label(for="senha") Senha
             input#senha(type="password" name="senha" placeholder="••••••••••" required)
-          button.btn-toggle-password(type="button" onclick="togglePassword('senha')" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
+          button.btn-toggle-password(type="button" onclick="togglePassword('senha', this)" aria-label="Mostrar senha" style="background: none; border: none; cursor: pointer;")
             i.bi.bi-eye.toggle-password(aria-hidden="true")
 
         .options

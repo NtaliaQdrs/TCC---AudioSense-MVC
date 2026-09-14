@@ -79,6 +79,11 @@ block content
               button.btn-upload(type="button") Escolher arquivo
           p *Obrigatório para artigo, slide e outros tipos de material.
 
+        .form-group#grupo-roteiro
+          label(for="roteiro_audio_descricao") Roteiro da Audiodescrição (Texto)
+          textarea#roteiro_audio_descricao.form-control.textarea-large(name="roteiro_audio_descricao" placeholder="Escreva aqui o texto correspondente ao áudio de audiodescrição...")
+          p Esse texto será exibido junto ao áudio, como alternativa para quem preferir ler.
+
         .form-group
           label(for="descricao") Descrição Curta
           textarea#descricao.form-control.textarea-large(name="descricao" placeholder="Breve resumo sobre o conteúdo...")
@@ -90,6 +95,7 @@ block content
   script.
     const select = document.getElementById('tipo_material');
     const grupoAudio = document.getElementById('grupo-audio');
+    const grupoRoteiro = document.getElementById('grupo-roteiro');
     const inputAudio = document.getElementById('audio_descricao');
     const labelArquivo = document.getElementById('label-arquivo');
     const selectDisciplina = document.getElementById('disciplina_id');
@@ -101,10 +107,12 @@ block content
       const tipo = select.value;
       if (tipo === 'video') {
         grupoAudio.style.display = 'none';
+        grupoRoteiro.style.display = 'none';
         inputAudio.required = false;
         labelArquivo.textContent = 'Faça upload do vídeo aqui';
       } else {
         grupoAudio.style.display = '';
+        grupoRoteiro.style.display = '';
         inputAudio.required = true;
         labelArquivo.textContent = 'Faça upload do arquivo principal aqui';
       }

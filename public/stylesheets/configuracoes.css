@@ -427,6 +427,10 @@ button.config-item {
   cursor: pointer;
 }
 
+a.config-item {
+  margin: 0;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;

@@ -31,7 +31,8 @@ block content
         else
           each docente in docentesPendentes
             .user-card
-              .user-avatar= docente.nome_completo.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+              - const fotoDocente = docente.foto_perfil || '/images/foto-perfil-default.png'
+              img.user-avatar-img(src=fotoDocente alt=`Foto de ${docente.nome_completo}`)
               .user-info
                 p.user-name= docente.nome_completo
                 p.user-email= docente.email
@@ -71,16 +72,18 @@ block content
           p.section-description Nenhuma solicitação pendente no momento.
         else
           each sol in solicitacoesAdmin
-            .user-card
-              .user-avatar= sol.nome_completo.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
-              .user-info
-                p.user-name= sol.nome_completo
-                p.user-email= sol.email
-                .tags-row
-                  span.user-tag.tag-docente Docente Aprovado
-                  span.user-tag.tag-pendente Pendente
-                p.user-description= sol.justificativa
-              .action-buttons
+            each sol in solicitacoesAdmin
+              .user-card
+                - const fotoSol = sol.foto_perfil || '/images/foto-perfil-default.png'
+                img.user-avatar-img(src=fotoSol alt=`Foto de ${sol.nome_completo}`)
+                .user-info
+                  p.user-name= sol.nome_completo
+                  p.user-email= sol.email
+                  .tags-row
+                    span.user-tag.tag-docente Docente Aprovado
+                    span.user-tag.tag-pendente Pendente
+                  p.user-description= sol.justificativa
+                .action-buttons
                 form(action=`/painelAdmin1/aprovar-admin/${sol.solicitacao_id}` method="POST" style="display:inline")
                   button.btn-action.btn-approve(type="submit")
                     i.bi.bi-check-lg
@@ -102,38 +105,6 @@ block content
 
   script.
     let urlRejeitar = '';
-
-    function abrirModal(tipo, id) {
-      if (tipo === 'docente') {
-        urlRejeitar = `/painelAdmin1/rejeitar/${id}`;
-      } else {
-        urlRejeitar = `/painelAdmin1/rejeitar-admin/${id}`;
-      }
-      document.getElementById('motivoRejeicao').value = '';
-      document.getElementById('modalRejeitar').style.display = 'flex';
-    }
-
-    function fecharModal() {
-      document.getElementById('modalRejeitar').style.display = 'none';
-    }
-
-    function confirmarRejeicao() {
-      const motivo = document.getElementById('motivoRejeicao').value.trim();
-      if (!motivo) {
-        alert('Por favor, informe o motivo da rejeição.');
-        return;
-      }
-      const form = document.getElementById('formRejeitar');
-      form.action = urlRejeitar;
-      document.getElementById('inputMotivo').value = motivo;
-      form.style.display = 'block';
-      form.submit();
-    }
-
-    document.getElementById('modalRejeitar').addEventListener('click', function(e) {
-      if (e.target === this) fecharModal();
-    });
-
     let ultimoElementoFocado = null;
 
     function abrirModal(tipo, id) {
@@ -161,3 +132,20 @@ block content
     function fecharModalComEsc(e) {
       if (e.key === 'Escape') fecharModal();
     }
+
+    function confirmarRejeicao() {
+      const motivo = document.getElementById('motivoRejeicao').value.trim();
+      if (!motivo) {
+        alert('Por favor, informe o motivo da rejeição.');
+        return;
+      }
+      const form = document.getElementById('formRejeitar');
+      form.action = urlRejeitar;
+      document.getElementById('inputMotivo').value = motivo;
+      form.style.display = 'block';
+      form.submit();
+    }
+
+    document.getElementById('modalRejeitar').addEventListener('click', function(e) {
+      if (e.target === this) fecharModal();
+    });

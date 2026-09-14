@@ -70,7 +70,7 @@ body {
 .card p {
   margin-top: 10px;
   font-size: 17px;
-  color: rgb(114, 114, 114);
+  color: #1a3a6c;
   line-height: 1.6;
   font-weight: 600;
 }
@@ -88,6 +88,15 @@ body {
   border: 2px solid #1f7c5f;
   position: sticky ;
   top: 80px;
+}
+
+.sidebar-links li {
+  margin-bottom: 6px;
+}
+
+.sidebar-links a {
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .sidebar i { color: #1f7c5f; }

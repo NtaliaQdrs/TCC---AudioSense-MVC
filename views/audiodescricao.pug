@@ -28,8 +28,8 @@ block content
           .card-inner
             img(src="../images/usuarios.png" alt="")
             h2 Quem são os usuários?
-            .card-content
-              p Ele beneficia principalmente pessoas com deficiência visual, entre elas cegas e com baixa visão.
+            .card-content(id="card-content-2" aria-hidden="true")
+              p Este recurso beneficia principalmente pessoas com deficiência visual, entre elas cegas e com baixa visão.
               p E amplia a compreensão, como uma segunda forma de acesso à comunicação, para pessoas com deficiência intelectual, com TDAH, autistas, disléxicos, idosos e crianças.
               p No contexto educacional, ela auxilia estudantes a focarem em detalhes importantes de imagens técnicas ou mapas, tornando o aprendizado mais robusto para todos os tipos de perfis cognitivos.
             button.read-more(onclick="toggleFullscreen(this)") Ler mais
@@ -38,7 +38,7 @@ block content
           .card-inner
             img(src="../images/importancia.png" alt="")
             h2 A importância deste recurso
-            .card-content
+            .card-content(id="card-content-3" aria-hidden="true")
               p Este recurso é necessário em quaisquer lugares que tenham informações visuais para fruição, tais como: sites, cinema, teatro, escola, programas televisivos, passeios turísticos, shows, desfiles, apresentações de dança, e tantos outros.
 
               p Ela oportuniza:
@@ -56,7 +56,7 @@ block content
           .card-inner
             img(src="../images/exemplos.png" alt="")
             h2 Exemplos práticos
-            .card-content
+            .card-content(id="card-content-4" aria-hidden="true")
               p Exemplos incluem a descrição de cenários, expressões faciais, figurinos e ações físicas que não são reveladas apenas pelo som ou pelo diálogo em uma produção audiovisual.
               .exemplos-galeria
                 figure.exemplo-item
@@ -88,25 +88,40 @@ block content
                 .sidebar-item
                   i.bi.bi-file-earmark-text(aria-hidden="true")
                   small.text Artigos
-                a(href="#") (Links para leitura)
+                ul.sidebar-links(style="list-style: none; padding: 0; margin: 6px 0 0;")
+                  li
+                    a(href="https://www.scielo.br/j/rbee/a/fxpVTrGRt8jp7CrPjcP6HFP/" target="_blank" rel="noopener" aria-label="Acessibilidade Audiovisual: Análise de Canais Infantis do YouTube, SciELO (abre em nova aba)")
+                      | Acessibilidade Audiovisual em canais do YouTube (SciELO)
               hr
 
               li
                 .sidebar-item
                   i.bi.bi-play-btn(aria-hidden="true")
                   small.text Vídeos educacionais
-                a(href="#") (Links de vídeos)
+                ul.sidebar-links(style="list-style: none; padding: 0; margin: 6px 0 0;")
+                  li
+                    a(href="https://www.youtube.com/watch?v=jByXBdh-Ybg" target="_blank" rel="noopener" aria-label="Introdução à audiodescrição didática, vídeo no YouTube (abre em nova aba)")
+                      | Introdução à audiodescrição didática
+                  li
+                    a(href="https://www.youtube.com/watch?v=4eORinNAON8" target="_blank" rel="noopener" aria-label="O que é e como se faz Audiodescrição, vídeo no YouTube (abre em nova aba)")
+                      | O que é e como se faz Audiodescrição
+                  li
+                    a(href="https://m.youtube.com/watch?v=nfjoiBTchnE" target="_blank" rel="noopener" aria-label="Como fazer audiodescrição em sala de aula, vídeo no YouTube (abre em nova aba)")
+                      | Audiodescrição em sala de aula
               hr
 
               li
                 .sidebar-item
                   i.bi.bi-people(aria-hidden="true")
                   small.text Relatos
-                a(href="#") (Depoimentos)
-
+                ul.sidebar-links(style="list-style: none; padding: 0; margin: 6px 0 0;")
+                  li
+                    a(href="https://agenciadenoticias.uniceub.br/cidadania-e-diversidade/luta-das-pessoas-com-deficiencia-audiodescricao-significa-os-olhos-emprestados/" target="_blank" rel="noopener" aria-label="Entrevista com Marcos Lima, criador do canal Histórias de Cego (abre em nova aba)")
+                      | Relato de Luciane Molina, consultora em AD
               hr
 
           button.toggle-sidebar(
+            type="button"
             onclick="toggleSidebar()"
             aria-expanded="true"
             aria-label="Expandir ou recolher menu"
@@ -160,27 +175,113 @@ block content
   #overlay.card-overlay(onclick="closeAllCards()")
 
   script.
+    let lastFocusedElement = null;
+    let inertedElements = [];
+
+    function getFocusableElements(container) {
+      return Array.from(
+        container.querySelectorAll(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        )
+      );
+    }
+
+    function hideBackgroundExcept(card, overlay) {
+      inertedElements = [];
+      let node = card;
+      while (node && node !== document.body) {
+        const parent = node.parentElement;
+        if (parent) {
+          Array.from(parent.children).forEach(sibling => {
+            if (sibling !== node && sibling !== overlay) {
+              sibling.setAttribute('inert', '');
+              inertedElements.push(sibling);
+            }
+          });
+        }
+        node = parent;
+      }
+    }
+
+    function restoreBackground() {
+      inertedElements.forEach(el => el.removeAttribute('inert'));
+      inertedElements = [];
+    }
+
     function toggleFullscreen(button) {
       const card = button.closest('article');
       const content = card.querySelector('.card-content');
       const overlay = document.getElementById('overlay');
-      
+
       if (card.classList.contains('fullscreen')) {
         closeAllCards();
       } else {
         closeAllCards();
+
+        lastFocusedElement = button;
+
         card.classList.add('fullscreen');
         overlay.classList.add('active');
         button.textContent = 'Fechar';
         button.setAttribute('aria-expanded', 'true');
         content.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+
+        card.setAttribute('role', 'dialog');
+        card.setAttribute('aria-modal', 'true');
+        card.setAttribute('tabindex', '-1');
+
+        const titulo = card.querySelector('h2');
+        if (titulo) {
+          if (!titulo.id) titulo.id = 'titulo-dialog-' + Math.random().toString(36).slice(2);
+          card.setAttribute('aria-labelledby', titulo.id);
+        }
+
+        if (!content.id) content.id = 'conteudo-dialog-' + Math.random().toString(36).slice(2);
+        card.setAttribute('aria-describedby', content.id);
+
+        hideBackgroundExcept(card, overlay);
+
+        card.focus();
+
+        document.addEventListener('keydown', handleEscKey);
+        document.addEventListener('keydown', handleTrapFocus);
       }
+    }
+
+    function handleTrapFocus(e) {
+      if (e.key !== 'Tab') return;
+
+      const card = document.querySelector('article.fullscreen');
+      if (!card) return;
+
+      const focusable = getFocusableElements(card);
+      if (focusable.length === 0) {
+        e.preventDefault();
+        card.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === card)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function handleEscKey(e) {
+      if (e.key === 'Escape') closeAllCards();
     }
 
     function closeAllCards() {
       const cards = document.querySelectorAll('article.fullscreen');
       const overlay = document.getElementById('overlay');
+
       cards.forEach(card => {
         card.classList.remove('fullscreen');
         const btn = card.querySelector('.read-more');
@@ -190,7 +291,35 @@ block content
           btn.setAttribute('aria-expanded', 'false');
         }
         if (content) content.setAttribute('aria-hidden', 'true');
+
+        card.removeAttribute('role');
+        card.removeAttribute('aria-modal');
+        card.removeAttribute('aria-labelledby');
+        card.removeAttribute('aria-describedby');
+        card.removeAttribute('tabindex');
       });
+
       overlay.classList.remove('active');
       document.body.style.overflow = 'auto';
+
+      restoreBackground();
+      document.removeEventListener('keydown', handleEscKey);
+      document.removeEventListener('keydown', handleTrapFocus);
+
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+      }
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const wrapper = document.querySelector('.main-grid');
+      const button = document.querySelector('.toggle-sidebar');
+
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+      wrapper.classList.toggle('sidebar-collapsed');
+
+      button.textContent = isCollapsed ? '↓' : '↑';
+      button.setAttribute('aria-expanded', String(!isCollapsed));
     }

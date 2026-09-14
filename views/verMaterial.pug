@@ -19,7 +19,7 @@ block content
             
 
             button.vm-minimize-btn(type="button" aria-label="Minimizar informações" aria-expanded="true")
-              i.bi.bi-dash-lg
+              i.bi.bi-dash-lg(aria-hidden="true")
 
             .vm-info-body
               .vm-avatar-wrap
@@ -27,7 +27,7 @@ block content
                   img.vm-avatar(src=material.docente.usuario.foto_perfil alt=`Foto de ${material.docente.usuario.nome_completo}`)
                 else
                   .vm-avatar.vm-avatar-placeholder
-                    i.bi.bi-person-circle
+                    i.bi.bi-person-circle(aria-hidden="true")
 
               ul.vm-meta-list
                 li
@@ -60,10 +60,16 @@ block content
                   source(src=material.caminho_arquivo)
                   | Seu navegador não suporta vídeo.
 
+              else if material.caminho_arquivo.toLowerCase().endsWith('.pdf')
+                iframe.vm-doc-viewer(src=material.caminho_arquivo title=material.titulo)
+
+                a.vm-open-btn(href=material.caminho_arquivo target="_blank" rel="noopener")
+                  i.bi.bi-box-arrow-up-right(aria-hidden="true")
+                  |  Abrir em nova aba
+
               else
                 //- PPTX/DOC não têm visualizador nativo no navegador (ele baixa em vez de mostrar).
-                //- O Office Online Viewer (Microsoft) renderiza PPTX/DOCX/XLSX externos embutido.
-                //- PDF também abre nele, então serve pra tudo que não é vídeo.
+                //- O Office Online Viewer (Microsoft) renderiza PPTX/DOCX externos embutido.
                 iframe.vm-doc-viewer(src=`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(material.caminho_arquivo)}` title=material.titulo)
 
                 a.vm-open-btn(href=material.caminho_arquivo target="_blank" rel="noopener")
@@ -79,12 +85,18 @@ block content
                   source(src=material.caminho_audio_descricao)
                   | Seu navegador não suporta áudio.
 
+                if material.roteiro_audio_descricao
+                  details.vm-roteiro-details
+                    summary Ver roteiro da audiodescrição em texto
+                    p.vm-roteiro-texto= material.roteiro_audio_descricao
+
             .vm-disciplina-row
               span.vm-disciplina-label Disciplina:
               span.vm-disciplina-valor= material.disciplina ? material.disciplina.titulo : (material.disciplina_outro || 'Não informada')
 
         //- ===== Avaliações =====
         section.vm-reviews-card
+          h2.sr-only Avaliações do material
           .vm-rating-summary(aria-label=media ? `Avaliação média: ${media} de 5, ${totalAvaliacoes} avaliações` : 'Sem avaliações')
             if media
               span.vm-rating-numero= media.toString().replace('.', ',')
@@ -102,7 +114,8 @@ block content
 
           if podeAvaliar
             form.vm-form-avaliacao(action=`/material/${material.id}/avaliar` method="POST")
-              textarea.vm-textarea(name="comentario" placeholder="Deixe um comentário e uma avaliação...")
+              label.sr-only(for="comentario") Deixe um comentário e uma avaliação
+            textarea#comentario.vm-textarea(name="comentario" placeholder="Deixe um comentário e uma avaliação...")
               .vm-form-footer
                 .vm-estrelas-input
                   each i in [5,4,3,2,1]
@@ -135,7 +148,7 @@ block content
                 .vm-avaliacao-corpo
                   .vm-avaliacao-header
                     span.vm-avaliacao-nome= avaliacao.discente.Usuario.nome_completo
-                    .vm-rating-estrelas.vm-rating-estrelas-sm(style="font-size: 16px;")
+                    .vm-rating-estrelas.vm-rating-estrelas-sm(style="font-size: 16px;" aria-label=`${avaliacao.nota} de 5 estrelas`)
                       each i in [1,2,3,4,5]
                         i.bi(class=i <= avaliacao.nota ? 'bi-star-fill' : 'bi-star')(aria-hidden="true")
                     span.vm-avaliacao-data= new Date(avaliacao.data_avaliacao).toLocaleDateString('pt-BR')

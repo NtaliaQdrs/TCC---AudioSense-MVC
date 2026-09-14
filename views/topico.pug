@@ -32,8 +32,9 @@ block content
         .post-actions
           span
             i.bi.bi-chat-left(aria-hidden="true")
-            |  #{comentarios.length}
-          button.btn-curtir(type="button" data-id=topico.id data-curtido=jaCurtiu aria-label="Curtir tópico")
+            span.sr-only= `${comentarios.length} comentário${comentarios.length === 1 ? '' : 's'}`
+            span(aria-hidden="true")  #{comentarios.length}
+          button.btn-curtir(type="button" data-id=topico.id data-curtido=jaCurtiu aria-label=`${jaCurtiu ? 'Descurtir' : 'Curtir'} tópico. ${topico.curtidas} curtida${topico.curtidas === 1 ? '' : 's'}`)
             i.bi(class=jaCurtiu ? 'bi-heart-fill' : 'bi-heart' aria-hidden="true")
             |  #{topico.curtidas}
 
@@ -59,7 +60,7 @@ block content
               .comentario-texto
                 p= comentario.texto_comentario
 
-              button.btn-responder(type="button" data-target=`resposta-form-${comentario.id}` aria-expanded="false")
+              button.btn-responder(type="button" data-target=`resposta-form-${comentario.id}` aria-expanded="false" aria-label=`Responder ao comentário de ${nomeComentario}`)
 
               form.form-resposta(id=`resposta-form-${comentario.id}` action=`/forum/${topico.id}/comentario` method="POST" style="display:none;")
                 input(type="hidden" name="resposta_a_comentario_id" value=comentario.id)
