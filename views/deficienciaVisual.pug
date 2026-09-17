@@ -2,7 +2,7 @@ extends layout
 
 block styles
   link(rel="stylesheet", href="/stylesheets/deficienciaVisual.css")
-  
+
 
 block content
   main.page(role="main")
@@ -45,10 +45,10 @@ block content
             img(src="../images/auxilio.png" alt="")
             h2 Como interagir e guiar pessoas com deficiência visual
           p.card-text#texto-auxilio
-            | Ao interagir com pessoas com deficiência visual, é importante perguntar se elas precisam de ajuda antes de oferecer. 
-            | Caso precise guiar alguém, deixe que a pessoa segure o seu braço, em vez de puxá-la. 
-            | Identifique-se antes de iniciar uma conversa e descreva o ambiente com clareza. 
-            | Mantenha sempre uma comunicação respeitosa e clara. 
+            | Ao interagir com pessoas com deficiência visual, é importante perguntar se elas precisam de ajuda antes de oferecer.
+            | Caso precise guiar alguém, deixe que a pessoa segure o seu braço, em vez de puxá-la.
+            | Identifique-se antes de iniciar uma conversa e descreva o ambiente com clareza.
+            | Mantenha sempre uma comunicação respeitosa e clara.
           button.toggle-card(
             type="button"
             onclick="toggleFullscreen(this)"
@@ -56,7 +56,7 @@ block content
             aria-controls="texto-auxilio"
           ) Ler mais
 
-      // Sidebar
+      // Sidebar: irmã de .main-content (mesmo nível de indentação), NÃO filha dela
       aside.sidebar(aria-labelledby="sidebar-title")
         h3#sidebar-title Sugestão de conteúdo adicional
 
@@ -98,17 +98,44 @@ block content
                     | Relato de Rafael, estudante cego
             hr
 
-
         button.toggle-sidebar(
           onclick="toggleSidebar()"
           aria-expanded="true"
           aria-label="Expandir ou recolher menu"
         ) ↑
 
+    // Botão flutuante: irmão de .content-wrapper, fora de qualquer elemento com transform,
+    // pra ficar sempre fixo e clicável mesmo com a sidebar escondida no mobile
+    button.sidebar-fab(
+      id="sidebarFab"
+      type="button"
+      aria-label="Abrir filtros"
+      aria-expanded="false"
+    )
+      i.bi.bi-funnel(aria-hidden="true")
+
   // Overlay para fechar o card expandido clicando fora
   #overlay.card-overlay(onclick="closeAllCards()" aria-hidden="true")
 
   script.
+    const sidebarFab = document.getElementById('sidebarFab');
+    const sidebarEl = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('overlay');
+
+    if (sidebarFab && sidebarEl) {
+      sidebarFab.addEventListener('click', () => {
+        const isOpen = sidebarEl.classList.toggle('mobile-open');
+        sidebarOverlay.classList.toggle('active', isOpen);
+        sidebarFab.setAttribute('aria-expanded', isOpen);
+      });
+
+      sidebarOverlay.addEventListener('click', () => {
+        sidebarEl.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('active');
+        sidebarFab.setAttribute('aria-expanded', 'false');
+      });
+    }
+
     let lastFocusedElement = null;
 
     function toggleSidebar() {

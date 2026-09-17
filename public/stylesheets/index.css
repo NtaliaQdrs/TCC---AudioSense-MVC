@@ -1,26 +1,3 @@
-/* CORPO DA PÁGINA */
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', Arial, sans-serif;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 /* Seção de Boas-vindas */
 .welcome-section {
     width: 80%;
@@ -99,11 +76,13 @@ body {
     display: flex;
     justify-content: space-around;
     gap: 40px;
+    flex-wrap: wrap;
     border: 2px solid;
 }
 
 .stat-card {
     flex: 1;
+    min-width: 140px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -231,11 +210,11 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 30px;
-    
+    flex-wrap: wrap;
 }
 
 .extra-card {
-    flex: 1;
+    flex: 1 1 220px;
     background: #f6edf6;
     border-radius: 20px;
     padding: 30px 20px;
@@ -380,12 +359,13 @@ h2 {
     display: flex;
     gap: 30px;
     padding: 0 80px;
+    flex-wrap: wrap;
 }
 
 /* CARDS */
 .cards {
     display: grid;
-    grid-template-columns: repeat(2, 260px);
+    grid-template-columns: repeat(2, minmax(140px, 260px));
     gap: 30px;
 }
 
@@ -431,6 +411,8 @@ h2 {
     padding: 30px;
     border-radius: 16px;
     width: 600px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .practice h2 { color: #2fa36b; margin-bottom: 10px; }
@@ -448,7 +430,7 @@ h2 {
 
 /* RESPONSIVIDADE */
 @media (max-width: 1048px) {
-    .welcome-section { margin-top: 100px; width: 80%; }
+    .welcome-section { margin-top: 35px; width: 80%; }
     .welcome-title { font-size: 28px; }
     .welcome-description { font-size: 16px; }
     .welcome-button { font-size: 16px; }
@@ -464,6 +446,204 @@ h2 {
     .cards-extra { width: 80%; margin: 50px auto; }
     .extra-card h3 { font-size: 17px; }
     .extra-card a { font-weight: 500; }
+}
+
+/* Tablets: começa a empilhar as seções que ainda estão em linha */
+@media (max-width: 900px) {
+    .title { margin: 30px 20px 20px; }
+    .main-grid { padding: 0 20px; }
+    .practice { margin: 40px 20px; }
+}
+
+/* Celulares */
+@media (max-width: 768px) {
+    .welcome-section,
+    .stats-section,
+    .learning-extra,
+    .cards-extra,
+    .collab-extra {
+        width: 92%;
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    .welcome-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+        gap: 15px;
+        border-radius: 16px;
+    }
+
+    .welcome-title {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .welcome-description {
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    .welcome-button {
+        padding: 12px 30px;
+        font-size: 15px;
+    }
+
+    .welcome-icon img {
+        width: 100px;
+        margin-right: 0;
+    }
+
+    .stats-container {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+        border-radius: 16px;
+    }
+
+    .stat-card {
+        gap: 10px;
+    }
+
+    .stat-icon i {
+        font-size: 55px;
+    }
+
+    .stat-title {
+        font-size: 18px;
+    }
+
+    .stat-value, .stat-value span {
+        font-size: 15px;
+    }
+
+    .learning-extra-container {
+        padding: 25px 18px;
+        border-radius: 16px;
+    }
+
+    .learning-extra-container h2 {
+        font-size: 20px;
+    }
+
+    .learning-subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .learning-item {
+        width: 100%;
+        padding: 12px 18px;
+        font-size: 15px;
+    }
+
+    .learning-item::before {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        font-size: 13px;
+    }
+
+    .cards-extra-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .extra-card {
+        flex: 1 1 auto;
+        padding: 20px 15px;
+    }
+
+    .extra-card i {
+        width: 55px;
+        height: 55px;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .extra-card h3 {
+        font-size: 16px;
+    }
+
+    .extra-card p {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .collab-wrapper {
+        gap: 15px;
+    }
+
+    .collab-box {
+        padding: 25px 20px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .collab-box i {
+        width: 55px;
+        height: 55px;
+        font-size: 26px;
+    }
+
+    .collab-box h3 {
+        font-size: 16px;
+    }
+
+    .collab-box p {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .title {
+        margin: 20px 15px 12px;
+        font-size: 20px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .practice {
+        width: auto;
+        margin: 20px 15px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-container {
+        padding: 22px 16px;
+    }
+
+    .welcome-icon img {
+        width: 80px;
+    }
+
+    .stat-icon i {
+        font-size: 44px;
+    }
+
+    .stat-title {
+        font-size: 16px;
+    }
+
+    .stat-value, .stat-value span {
+        font-size: 14px;
+    }
+
+    .learning-extra-container {
+        padding: 20px 14px;
+    }
+
+    .extra-card,
+    .collab-box {
+        padding: 18px 14px;
+    }
 }
 
 body {

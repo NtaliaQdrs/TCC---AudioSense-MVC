@@ -332,6 +332,12 @@ body {
   }
   .forum-sidebar {
     max-width: 100%;
+    width: 100%;
+    min-width: unset;
+    position: static;
+    /* Sidebar (filtros + criar post) aparece PRIMEIRO, antes dos posts */
+    order: -1;
+    margin-bottom: 10px;
   }
   .forum-posts {
     columns: 1;

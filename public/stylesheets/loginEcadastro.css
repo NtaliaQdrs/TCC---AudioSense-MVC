@@ -57,8 +57,8 @@ html.dark-theme .logo-dark {
     border-radius: 5px; padding: 10px 15px; border: 1px solid #ddd;
     display: flex; align-items: center; gap: 15px;
     box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.232);
+    
 }
-
 .input-content { display: flex; flex-direction: column; flex-grow: 1; position: relative; }
 .input-content label { font-size: 16px; color: #122e51; margin-bottom: 2px; font-weight: 550; }
 .input-content input { border: none; outline: none; font-size: 16px; width: 100%; color: #1a3a6c; }
@@ -80,6 +80,18 @@ html.dark-theme .logo-dark {
 .input-content input[type="text"] { border: none; outline: none; font-size: 16px; width: 100%; color: #1a3a6c; border-radius: 3px; }
 .input-content input[type="text"]::placeholder { color: #999; }
 .input-content input[type="text"]:focus { background-color: white; }
+.input-content input[type="password"] {
+    padding-right: 28px;
+}
+/* Esconde o ícone nativo de mostrar senha do navegador (Edge/Chrome) */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none;
+}
 .input-group:has(select) .input-content::after {
     content: '❯'; position: absolute; right: 8px; top: 50%;
     transform: translateY(-50%) rotate(90deg); pointer-events: none;
@@ -91,6 +103,18 @@ html.dark-theme .logo-dark {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Só aplica position absolute quando o botão fica DENTRO do .input-content
+   (caso do cadastro de docente, onde .input-content é flex-direction: column) */
+.input-content .btn-toggle-password {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .toggle-password {
@@ -232,10 +256,19 @@ html.high-contrast .logo-contrast { display: block; text-align: center; margin-l
   margin-right: auto;}
 
   @media (max-width: 600px) {
-  .container, .containercust { padding: 24px; margin: 20px; }
+  .container, .containercust {
+    padding: 20px;
+    margin: 16px;
+    border-radius: 14px;
+  }
+  .logo { width: 70px; }
+  .saudacao h1 { font-size: 22px; margin-bottom: 24px; }
+  .saudacao h2 { font-size: 17px; margin-bottom: 24px; }
   .buttons-container, .social-login { gap: 12px; }
-  .btn-submit, .btn-cancel { width: 100%; }
+  .btn-submit, .btn-cancel { width: 100%; padding: 12px; }
   .options { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .option-button { padding: 14px 16px; }
   .option-button span { margin-right: 0; text-align: left; }
   .disciplinas-lista { left: 0; width: 100%; }
+  .alert-pendente, .alert-rejeitado { padding: 12px 15px; }
 }

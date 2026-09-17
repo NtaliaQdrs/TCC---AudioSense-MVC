@@ -68,39 +68,71 @@ block content
             i.bi.bi-pencil(aria-hidden="true")
             span.btn-criar-texto  Criar post
 
-    script(src="/javascripts/forum.js")
-    script.
-      function toggleSidebar() {
-          const sidebarBox = document.querySelector('.sidebar-box');
-          const forumSidebar = document.querySelector('.forum-sidebar');
-          const button = document.querySelector('.toggle-sidebar');
-          const forumPosts = document.querySelector('.forum-posts');
-          const btnCriar = document.querySelector('.btn-criar-post');
-          const isCollapsed = sidebarBox.classList.toggle('collapsed');
-          forumSidebar.classList.toggle('collapsed', isCollapsed);
+  // Botão flutuante que abre/fecha a sidebar (filtros + criar post) no mobile.
+  // Fica FORA do aside.forum-sidebar, então continua fixo mesmo com ela escondida.
+  button.sidebar-fab(
+    id="sidebarFab"
+    type="button"
+    aria-label="Abrir filtros e criar post"
+    aria-expanded="false"
+  )
+    i.bi.bi-funnel(aria-hidden="true")
 
-          button.textContent = isCollapsed ? '↓' : '↑';
-          button.setAttribute('aria-expanded', !isCollapsed);
+  // Overlay para fechar a sidebar clicando fora (esta página ainda não tinha)
+  #overlay.card-overlay(onclick="fecharSidebarMobile()" aria-hidden="true")
 
-          document.querySelectorAll('.btn-filter, .sidebar-box br').forEach(el => {
-              el.style.display = isCollapsed ? 'none' : '';
-          });
+  script(src="/javascripts/forum.js")
+  script.
+    const sidebarFab = document.getElementById('sidebarFab');
+    const forumSidebarEl = document.querySelector('.forum-sidebar');
+    const sidebarOverlay = document.getElementById('overlay');
 
-          if (isCollapsed) {
-              btnCriar.innerHTML = '<i class="bi bi-pencil"></i>';
-              btnCriar.style.width = '40px';
-              btnCriar.style.height = '40px';
-              btnCriar.style.borderRadius = '50%';
-              btnCriar.style.padding = '0';
-              btnCriar.style.justifyContent = 'center';
-          } else {
-              btnCriar.innerHTML = '<i class="bi bi-pencil"></i><span>  Criar post</span>';
-              btnCriar.style.width = '100%';
-              btnCriar.style.height = 'auto';
-              btnCriar.style.borderRadius = '12px';
-              btnCriar.style.padding = '15px';
-              btnCriar.style.justifyContent = 'center';
-          }
+    function fecharSidebarMobile() {
+      if (!forumSidebarEl) return;
+      forumSidebarEl.classList.remove('mobile-open');
+      sidebarOverlay.classList.remove('active');
+      if (sidebarFab) sidebarFab.setAttribute('aria-expanded', 'false');
+    }
 
-          forumPosts.style.flex = isCollapsed ? '1' : '2';
-      }
+    if (sidebarFab && forumSidebarEl) {
+      sidebarFab.addEventListener('click', () => {
+        const isOpen = forumSidebarEl.classList.toggle('mobile-open');
+        sidebarOverlay.classList.toggle('active', isOpen);
+        sidebarFab.setAttribute('aria-expanded', isOpen);
+      });
+    }
+
+    function toggleSidebar() {
+        const sidebarBox = document.querySelector('.sidebar-box');
+        const forumSidebar = document.querySelector('.forum-sidebar');
+        const button = document.querySelector('.toggle-sidebar');
+        const forumPosts = document.querySelector('.forum-posts');
+        const btnCriar = document.querySelector('.btn-criar-post');
+        const isCollapsed = sidebarBox.classList.toggle('collapsed');
+        forumSidebar.classList.toggle('collapsed', isCollapsed);
+
+        button.textContent = isCollapsed ? '↓' : '↑';
+        button.setAttribute('aria-expanded', !isCollapsed);
+
+        document.querySelectorAll('.btn-filter, .sidebar-box br').forEach(el => {
+            el.style.display = isCollapsed ? 'none' : '';
+        });
+
+        if (isCollapsed) {
+            btnCriar.innerHTML = '<i class="bi bi-pencil"></i>';
+            btnCriar.style.width = '40px';
+            btnCriar.style.height = '40px';
+            btnCriar.style.borderRadius = '50%';
+            btnCriar.style.padding = '0';
+            btnCriar.style.justifyContent = 'center';
+        } else {
+            btnCriar.innerHTML = '<i class="bi bi-pencil"></i><span>  Criar post</span>';
+            btnCriar.style.width = '100%';
+            btnCriar.style.height = 'auto';
+            btnCriar.style.borderRadius = '12px';
+            btnCriar.style.padding = '15px';
+            btnCriar.style.justifyContent = 'center';
+        }
+
+        forumPosts.style.flex = isCollapsed ? '1' : '2';
+    }

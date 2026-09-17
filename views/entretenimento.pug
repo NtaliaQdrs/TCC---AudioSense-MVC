@@ -103,10 +103,38 @@ block content
                 i.bi.bi-hand-thumbs-up(aria-hidden="true")
                 span   Recomende algo!
 
+  // Botão flutuante que abre/fecha a sidebar de filtros no mobile (fica fora
+  // do .right-column/.sidebar, então não é afetado pelo transform dela)
+  button.sidebar-fab(
+    id="sidebarFab"
+    type="button"
+    aria-label="Abrir filtros"
+    aria-expanded="false"
+  )
+    i.bi.bi-funnel(aria-hidden="true")
+
   #overlay.card-overlay(onclick="closeAllCards()")
 
   script(src="/javascripts/entretenimento.js")
   script.
+    const sidebarFab = document.getElementById('sidebarFab');
+    const sidebarEl = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('overlay');
+
+    if (sidebarFab && sidebarEl) {
+      sidebarFab.addEventListener('click', () => {
+        const isOpen = sidebarEl.classList.toggle('mobile-open');
+        sidebarOverlay.classList.toggle('active', isOpen);
+        sidebarFab.setAttribute('aria-expanded', isOpen);
+      });
+
+      sidebarOverlay.addEventListener('click', () => {
+        sidebarEl.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('active');
+        sidebarFab.setAttribute('aria-expanded', 'false');
+      });
+    }
+
     let lastFocusedElement = null;
     let inertedElements = [];
 

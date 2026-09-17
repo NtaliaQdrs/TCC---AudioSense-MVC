@@ -632,7 +632,7 @@
         }
 
         .category-toggle {
-            margin-left: 100px;
+            margin-left: 70px;
         }
 
         .search-box1 {
@@ -662,6 +662,10 @@
         .profile-dropdown {
             right: 5px;
         }
+
+        .menu-links a {
+            gap: 5px;
+        } 
     }
 
     /* ─── NAVEGAÇÃO POR TECLADO ─────────────────────────── */
@@ -1562,3 +1566,9 @@
         bottom: 28px !important;
         right: 28px !important;
     }
+
+    @media (max-width: 1120px) {
+    #main-content {
+        padding-top: 45px;
+    }
+}

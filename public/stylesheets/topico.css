@@ -151,3 +151,32 @@ html.dark-theme .btn-responder {
 html.dark-theme .no-comentarios {
   color: #a0a8cc;
 }
+
+/* RESPONSIVIDADE (este arquivo não tinha nenhuma) */
+@media (max-width: 900px) {
+  .topico-container {
+    max-width: 100%;
+    width: 92%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .comentario-resposta {
+    margin-left: 12px;
+  }
+
+  .comentario-card {
+    padding: 12px 14px;
+  }
+
+  .btn-submit-comentario {
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .form-comentario textarea,
+  .form-resposta textarea {
+    font-size: 15px;
+  }
+}
