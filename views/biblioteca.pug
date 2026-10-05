@@ -2,6 +2,7 @@ extends layout
 
 block styles
   link(rel="stylesheet", href="/stylesheets/biblioteca.css")
+  link(rel="stylesheet", href="/stylesheets/painelDenuncias.css")
 
 block content
   main.page
@@ -12,8 +13,7 @@ block content
       .search-box
         i.bi.bi-search(aria-hidden="true")
         input(type="text" placeholder="Buscar por título, descrição ou disciplina" aria-label="Buscar materiais na biblioteca")
-      
-      //- Condicional para renderizar o botão apenas para docentes
+
       if usuario && usuario.tipo_usuario === 'docente'
         a.btn-insert(href="/inserir-material" aria-label="Inserir novo conteúdo na biblioteca")
           i.bi.bi-plus(aria-hidden="true")
@@ -87,17 +87,29 @@ block content
               else
                 span.rating-value Sem avaliações
 
-          if material.podeApagar
-            form.form-apagar-material(
-              action=`/material/${material.id}/apagar`
-              method="POST"
+          //- Ações do card: denunciar (todos) + apagar (só quem pode)
+          .card-actions
+            button.btn-denunciar(
+              type="button"
+              aria-label=`Denunciar material: ${material.titulo}`
+              onclick=`event.stopPropagation(); abrirDenuncia('material', ${material.id})`
             )
-              button.btn-delete-material(
-                type="submit"
-                aria-label=`Apagar material: ${material.titulo}`
-              )
-                i.bi.bi-trash(aria-hidden="true")
-                | Apagar
+              i.bi.bi-flag(aria-hidden="true")
+              |  Denunciar
 
+            if material.podeApagar
+              form.form-apagar-material(
+                action=`/material/${material.id}/apagar`
+                method="POST"
+              )
+                button.btn-delete-material(
+                  type="submit"
+                  aria-label=`Apagar material: ${material.titulo}`
+                )
+                  i.bi.bi-trash(aria-hidden="true")
+                  | Apagar
+
+  //- Modal de denúncia (compartilhado entre as telas)
+  include partials/denuncia-modal
 
   script(src="../javascripts/biblioteca.js")

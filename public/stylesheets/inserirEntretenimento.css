@@ -1,5 +1,3 @@
-/* Estilos para a página de Inserir Audiodescrição */
-
 .container-form {
     background-color: #ffffff;
     border: 2px solid #2f4f7f;
@@ -84,20 +82,20 @@ textarea.form-control {
 }
 
 .upload-text {
-  text-align: center;
+    text-align: center;
 }
 
 .sr-only-file {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  opacity: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    opacity: 0;
 }
 
 .upload-text p {
@@ -132,7 +130,6 @@ textarea.form-control {
 .form-row-top {
     display: flex;
     gap: 30px;
-    /* Espaço entre as colunas */
     margin-bottom: 20px;
     align-items: flex-start;
 }
@@ -140,24 +137,19 @@ textarea.form-control {
 /* Coluna do Upload */
 .column-upload {
     flex: 0.5;
-    /* Ocupa metade do espaço */
 }
 
 /* Coluna das Informações (Nome e Sinopse) */
 .column-info {
     flex: 1;
-    /* Ocupa a outra metade */
     display: flex;
     flex-direction: column;
 }
-
-
 
 /* Alinha os itens em linha */
 .form-row-inline {
     display: flex;
     gap: 20px;
-    /* Espaço entre a Data e a Plataforma */
     margin-bottom: 20px;
 }
 
@@ -186,12 +178,12 @@ textarea.form-control {
     flex: 1;
     max-width: 250px;
     text-align: center;
-    border: 2px solid #2f4f7f
+    border: 2px solid #2f4f7f;
 }
 
 .btn-submit:hover {
     background-color: #d1e7fa;
-    color: #1f4677
+    color: #1f4677;
 }
 
 .btn-cancel {
@@ -215,7 +207,7 @@ textarea.form-control {
     color: white;
 }
 
-/* Responsividade */
+/* Responsividade original */
 @media (max-width: 768px) {
     .container-form {
         padding: 20px;
@@ -251,14 +243,11 @@ textarea.form-control {
 
     .form-row-inline {
         flex-direction: column;
-        /* Empilha os campos no celular */
         gap: 0;
     }
 }
 
-/* ==========================================================================
-   DARK MODE
-   ========================================================================== */
+/* DARK MODE */
 html.dark-theme .container-form {
     background-color: #2a2a3e;
     border-color: #44475a;
@@ -332,7 +321,6 @@ html.dark-theme .btn-cancel:hover {
     color: #fff;
 }
 
-
 html.dark-theme input.form-control,
 html.dark-theme textarea.form-control,
 html.dark-theme select.form-control {
@@ -380,6 +368,160 @@ html.dark-theme .plataforma-preview span {
 }
 
 .upload-area {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ajustes adicionais para evitar cortes em celular */
+@media (max-width: 768px) {
+    .container-form,
+    .form-control,
+    .upload-area,
+    .button-group button,
+    .button-group a {
+        box-sizing: border-box;
+    }
+
+    .container-form {
+        width: calc(100% - 24px);
+        max-width: 900px;
+        margin: 16px auto;
+        padding: 20px 16px;
+    }
+
+    .form-title {
+        font-size: 26px;
+        line-height: 1.3;
+        margin-bottom: 22px;
+        overflow-wrap: anywhere;
+    }
+
+    .form-group,
+    .form-row-top,
+    .form-row-inline,
+    .column-upload,
+    .column-info {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        font-size: 18px;
+        line-height: 1.35;
+    }
+
+    .form-control {
+        min-width: 0;
+        font-size: 16px;
+        padding: 12px 14px;
+    }
+
+    .form-row-top {
+        gap: 18px;
+        margin-bottom: 16px;
+    }
+
+    .form-row-inline {
+        gap: 0;
+        margin-bottom: 12px;
+    }
+
+    .upload-area {
+        width: 100%;
+        min-height: 240px;
+        height: auto;
+        padding: 20px 14px;
+        gap: 12px;
+    }
+
+    .upload-icon {
+        width: min(42vw, 160px);
+        max-width: 100%;
+    }
+
+    .upload-text p {
+        font-size: 16px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    .btn-upload {
+        max-width: 100%;
+        font-size: 16px;
+        padding: 10px 18px;
+    }
+
+    .textarea-large {
+        min-height: 140px !important;
+    }
+
+    .button-group {
+        width: 100%;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .btn-submit,
+    .btn-cancel {
+        width: 100%;
+        max-width: none;
+        min-height: 48px;
+        padding: 12px 16px;
+        font-size: 16px;
+    }
+
+    .plataforma-preview {
+        flex-wrap: wrap;
+        min-width: 0;
+        gap: 8px;
+        margin-top: 0;
+    }
+
+    .plataforma-preview span {
+        min-width: 0;
+        font-size: 15px;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-form {
+        width: calc(100% - 20px);
+        margin: 10px auto;
+        padding: 18px 12px;
+        border-radius: 16px;
+    }
+
+    .form-title {
+        font-size: 23px;
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        font-size: 17px;
+    }
+
+    .upload-area {
+        min-height: 210px;
+        padding: 16px 10px;
+    }
+
+    .upload-icon {
+        width: min(38vw, 135px);
+    }
+
+    .button-group {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-submit,
+    .btn-cancel {
+        font-size: 16px;
+        padding: 12px;
+    }
 }

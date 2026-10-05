@@ -54,25 +54,42 @@
           aria-pressed="false"
         ) G
 
-    //- Contraste (modos fixos)
+    //- Contraste (perfis com paletas explícitas)
     .fab-group
       p.fab-group__label Contraste
-      .fab-group__btns
+      .fab-group__btns.fab-group__btns--contrast
         button.fab-btn-opt(
+          type="button"
           data-fab-chave="contrast"
           data-fab-valor="Padrão"
           aria-pressed="false"
-        ) Padrão
+          aria-label="Usar contraste padrão"
+        )
+          span Padrão
         button.fab-btn-opt(
+          type="button"
           data-fab-chave="contrast"
           data-fab-valor="Alto contraste"
           aria-pressed="false"
-        ) Alto
+          aria-label="Usar alto contraste claro, preto sobre branco"
+        )
+          span Claro
         button.fab-btn-opt(
+          type="button"
+          data-fab-chave="contrast"
+          data-fab-valor="Alto contraste escuro"
+          aria-pressed="false"
+          aria-label="Usar alto contraste escuro, amarelo sobre preto"
+        )
+          span Escuro
+        button.fab-btn-opt(
+          type="button"
           data-fab-chave="contrast"
           data-fab-valor="Preto e branco"
           aria-pressed="false"
-        ) P&B
+          aria-label="Usar preto e branco"
+        )
+          span P&B
 
     //- Leitura (NOVO) — sublinhar links + fonte legível
     .fab-group

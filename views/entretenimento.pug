@@ -2,6 +2,7 @@ extends layout
 
 block styles
   link(rel='stylesheet', href='/stylesheets/entretenimento.css')
+  link(rel='stylesheet', href='/stylesheets/painelDenuncias.css')
 
 block content
 
@@ -29,8 +30,9 @@ block content
 
                   if rec.obra.data_lancamento
                     p.release-date
-                      | Lançamento: 
+                      | Lançamento:
                       = new Date(rec.obra.data_lancamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })
+
                   //- Sinopse longa — visível só no fullscreen
                   .card-content(id=`card-content-${index}` aria-hidden="true")
                     p= rec.obra.sinopse
@@ -44,12 +46,29 @@ block content
                           img.docente-foto(src='/images/foto-perfil-default.png' alt="")
                         span.docente-nome Recomendado por @#{rec.docente.usuario.nome_usuario}
 
-                    .platform
-                      if rec.plataforma.logo_url
-                        img.netflix-icon(src=rec.plataforma.logo_url alt=rec.plataforma.nome)
-                      span Acesse na #{rec.plataforma.nome}
+                    .card-footer-actions
+                      .platform
+                        if rec.plataforma.logo_url
+                          img.netflix-icon(
+                            src=rec.plataforma.logo_url
+                            alt=rec.plataforma.nome
+                          )
+                        span Acesse na #{rec.plataforma.nome}
 
-                    button.expand-btn(onclick="toggleFullscreen(this)" aria-label="Ver mais detalhes" aria-expanded="false" aria-controls=`card-content-${index}`) ⤢
+                      button.btn-denunciar(
+                        type="button"
+                        onclick=`abrirDenuncia('material', ${rec.obra.id})`
+                      )
+                        i.bi.bi-flag(aria-hidden="true")
+                        | Denunciar
+
+                      button.expand-btn(
+                        type="button"
+                        onclick="toggleFullscreen(this)"
+                        aria-label="Ver mais detalhes"
+                        aria-expanded="false"
+                        aria-controls=`card-content-${index}`
+                      ) ⤢
 
         else
           p.sem-conteudo Nenhuma recomendação cadastrada ainda.
@@ -93,15 +112,15 @@ block content
 
               span#filtro-status.sr-only(aria-live="polite" role="status")
 
-            button.toggle-sidebar(
-              onclick="toggleSidebar()"
-              aria-expanded="true"
-              aria-label="Expandir ou recolher menu") ↑
-
             if usuario && (usuario.tipo_usuario === 'docente' || usuario.is_admin)
               button.recommend-btn(aria-label="Recomende algo!" onclick="window.location.href='/inserir-entretenimento'")
                 i.bi.bi-hand-thumbs-up(aria-hidden="true")
                 span   Recomende algo!
+
+            button.toggle-sidebar(
+              onclick="toggleSidebar()"
+              aria-expanded="true"
+              aria-label="Expandir ou recolher menu") ↑
 
   // Botão flutuante que abre/fecha a sidebar de filtros no mobile (fica fora
   // do .right-column/.sidebar, então não é afetado pelo transform dela)
@@ -115,11 +134,44 @@ block content
 
   #overlay.card-overlay(onclick="closeAllCards()")
 
+  //- Modal de denúncia (compartilhado entre as telas)
+  include partials/denuncia-modal
+
   script(src="/javascripts/entretenimento.js")
   script.
     const sidebarFab = document.getElementById('sidebarFab');
     const sidebarEl = document.querySelector('.sidebar');
     const sidebarOverlay = document.getElementById('overlay');
+
+    // "Portal": move fab + overlay pro <body> (sempre) e a sidebar pro
+    // <body> só em telas mobile — assim eles nunca ficam presos como
+    // containing block de um ancestral com filter (modo daltônico),
+    // preservando o position:fixed relativo à tela inteira.
+    if (sidebarFab && sidebarFab.parentElement !== document.body) {
+      document.body.appendChild(sidebarFab);
+    }
+    if (sidebarOverlay && sidebarOverlay.parentElement !== document.body) {
+      document.body.appendChild(sidebarOverlay);
+    }
+
+    if (sidebarEl) {
+      const sidebarPlaceholder = document.createElement('div');
+      sidebarPlaceholder.style.display = 'none';
+      sidebarEl.parentNode.insertBefore(sidebarPlaceholder, sidebarEl);
+
+      (function () {
+        function reposicionarSidebar() {
+          const isMobile = window.innerWidth <= 900;
+          if (isMobile && sidebarEl.parentElement !== document.body) {
+            document.body.appendChild(sidebarEl);
+          } else if (!isMobile && sidebarEl.parentElement === document.body) {
+            sidebarPlaceholder.parentNode.insertBefore(sidebarEl, sidebarPlaceholder.nextSibling);
+          }
+        }
+        reposicionarSidebar();
+        window.addEventListener('resize', reposicionarSidebar);
+      })();
+    }
 
     if (sidebarFab && sidebarEl) {
       sidebarFab.addEventListener('click', () => {
@@ -229,7 +281,6 @@ block content
         }
 
         hideBackgroundExcept(card, overlay);
-
         card.focus();
 
         document.addEventListener('keydown', handleEscKey);

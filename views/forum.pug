@@ -2,6 +2,7 @@ extends layout
 
 block styles
   link(rel='stylesheet', href='/stylesheets/forum.css')
+  link(rel='stylesheet', href='/stylesheets/painelDenuncias.css')
 
 block content
 
@@ -42,14 +43,22 @@ block content
                   |  #{totalComentarios}
                 - const curtido = idsCurtidos.includes(topico.id)
                 button.btn-curtir(type="button" data-id=topico.id data-curtido=curtido aria-label="Curtir tópico")
-                    i.bi(class=curtido ? 'bi-heart-fill' : 'bi-heart')
-                    |  #{topico.curtidas}
+                  i.bi(class=curtido ? 'bi-heart-fill' : 'bi-heart')
+                  |  #{topico.curtidas}
                 if usuarioLogadoId && topico.usuario_id === usuarioLogadoId
                   form.form-apagar-topico(action=`/forum/${topico.id}/apagar` method="POST" onsubmit="return confirm('Tem certeza que quer apagar este tópico? Essa ação não pode ser desfeita.')")
                     button.btn-apagar(type="submit")
                       i.bi.bi-trash(aria-hidden="true")
                       |  Apagar
-                  
+                else
+                  button.btn-denunciar(
+                    type="button"
+                    aria-label=`Denunciar tópico: ${topico.titulo}`
+                    onclick=`abrirDenuncia('topico', ${topico.id})`
+                  )
+                    i.bi.bi-flag(aria-hidden="true")
+                    |  Denunciar
+
         else
           p.no-posts Ainda não há tópicos no fórum. Seja o primeiro a postar!
 
@@ -62,8 +71,10 @@ block content
           span#ordenacao-status.sr-only(aria-live="polite" role="status")
           br
           button.toggle-sidebar(
-                onclick="toggleSidebar()"
-                aria-expanded="true" aria-label="Expandir ou recolher menu" ) ↑
+            onclick="toggleSidebar()"
+            aria-expanded="true"
+            aria-label="Expandir ou recolher menu"
+          ) ↑
           a.btn-criar-post(href="/forum/inserir-topico")
             i.bi.bi-pencil(aria-hidden="true")
             span.btn-criar-texto  Criar post
@@ -78,14 +89,47 @@ block content
   )
     i.bi.bi-funnel(aria-hidden="true")
 
-  // Overlay para fechar a sidebar clicando fora (esta página ainda não tinha)
+  // Overlay para fechar a sidebar clicando fora
   #overlay.card-overlay(onclick="fecharSidebarMobile()" aria-hidden="true")
+
+  //- Modal de denúncia (compartilhado entre as telas)
+  include partials/denuncia-modal
 
   script(src="/javascripts/forum.js")
   script.
     const sidebarFab = document.getElementById('sidebarFab');
     const forumSidebarEl = document.querySelector('.forum-sidebar');
     const sidebarOverlay = document.getElementById('overlay');
+
+    // "Portal": move fab + overlay pro <body> (sempre) e a sidebar pro
+    // <body> só em telas mobile — assim eles nunca ficam presos como
+    // containing block de um ancestral com filter (modo daltônico),
+    // preservando o position:fixed relativo à tela inteira.
+    if (sidebarFab && sidebarFab.parentElement !== document.body) {
+      document.body.appendChild(sidebarFab);
+    }
+    if (sidebarOverlay && sidebarOverlay.parentElement !== document.body) {
+      document.body.appendChild(sidebarOverlay);
+    }
+
+    if (forumSidebarEl) {
+      const sidebarPlaceholder = document.createElement('div');
+      sidebarPlaceholder.style.display = 'none';
+      forumSidebarEl.parentNode.insertBefore(sidebarPlaceholder, forumSidebarEl);
+
+      (function () {
+        function reposicionarSidebar() {
+          const isMobile = window.innerWidth <= 900;
+          if (isMobile && forumSidebarEl.parentElement !== document.body) {
+            document.body.appendChild(forumSidebarEl);
+          } else if (!isMobile && forumSidebarEl.parentElement === document.body) {
+            sidebarPlaceholder.parentNode.insertBefore(forumSidebarEl, sidebarPlaceholder.nextSibling);
+          }
+        }
+        reposicionarSidebar();
+        window.addEventListener('resize', reposicionarSidebar);
+      })();
+    }
 
     function fecharSidebarMobile() {
       if (!forumSidebarEl) return;
@@ -103,36 +147,36 @@ block content
     }
 
     function toggleSidebar() {
-        const sidebarBox = document.querySelector('.sidebar-box');
-        const forumSidebar = document.querySelector('.forum-sidebar');
-        const button = document.querySelector('.toggle-sidebar');
-        const forumPosts = document.querySelector('.forum-posts');
-        const btnCriar = document.querySelector('.btn-criar-post');
-        const isCollapsed = sidebarBox.classList.toggle('collapsed');
-        forumSidebar.classList.toggle('collapsed', isCollapsed);
+      const sidebarBox = document.querySelector('.sidebar-box');
+      const forumSidebar = document.querySelector('.forum-sidebar');
+      const button = document.querySelector('.toggle-sidebar');
+      const forumPosts = document.querySelector('.forum-posts');
+      const btnCriar = document.querySelector('.btn-criar-post');
+      const isCollapsed = sidebarBox.classList.toggle('collapsed');
+      forumSidebar.classList.toggle('collapsed', isCollapsed);
 
-        button.textContent = isCollapsed ? '↓' : '↑';
-        button.setAttribute('aria-expanded', !isCollapsed);
+      button.textContent = isCollapsed ? '↓' : '↑';
+      button.setAttribute('aria-expanded', !isCollapsed);
 
-        document.querySelectorAll('.btn-filter, .sidebar-box br').forEach(el => {
-            el.style.display = isCollapsed ? 'none' : '';
-        });
+      document.querySelectorAll('.btn-filter, .sidebar-box br').forEach(el => {
+        el.style.display = isCollapsed ? 'none' : '';
+      });
 
-        if (isCollapsed) {
-            btnCriar.innerHTML = '<i class="bi bi-pencil"></i>';
-            btnCriar.style.width = '40px';
-            btnCriar.style.height = '40px';
-            btnCriar.style.borderRadius = '50%';
-            btnCriar.style.padding = '0';
-            btnCriar.style.justifyContent = 'center';
-        } else {
-            btnCriar.innerHTML = '<i class="bi bi-pencil"></i><span>  Criar post</span>';
-            btnCriar.style.width = '100%';
-            btnCriar.style.height = 'auto';
-            btnCriar.style.borderRadius = '12px';
-            btnCriar.style.padding = '15px';
-            btnCriar.style.justifyContent = 'center';
-        }
+      if (isCollapsed) {
+        btnCriar.innerHTML = '<i class="bi bi-pencil"></i>';
+        btnCriar.style.width = '40px';
+        btnCriar.style.height = '40px';
+        btnCriar.style.borderRadius = '50%';
+        btnCriar.style.padding = '0';
+        btnCriar.style.justifyContent = 'center';
+      } else {
+        btnCriar.innerHTML = '<i class="bi bi-pencil"></i><span>  Criar post</span>';
+        btnCriar.style.width = '100%';
+        btnCriar.style.height = 'auto';
+        btnCriar.style.borderRadius = '12px';
+        btnCriar.style.padding = '15px';
+        btnCriar.style.justifyContent = 'center';
+      }
 
-        forumPosts.style.flex = isCollapsed ? '1' : '2';
+      forumPosts.style.flex = isCollapsed ? '1' : '2';
     }

@@ -330,3 +330,123 @@ article.fullscreen .toggle-card {
     display: none;
   }
 }
+/* ======================================================================
+   AJUSTES EXTRA DE RESPONSIVIDADE — celulares
+   ====================================================================== */
+@media (max-width: 900px) {
+  .page {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 16px;
+  }
+
+  .content-wrapper,
+  .main-content,
+  .card,
+  .card-header,
+  .card-header h2,
+  .card-text {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .content-wrapper {
+    width: 100%;
+  }
+
+  .main-content {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  /* A regra desktop de sidebar recolhida não deve estreitar o conteúdo mobile. */
+  .content-wrapper.sidebar-collapsed .main-content {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .card {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .card-header h2,
+  .card-text,
+  .card p {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .card-header img {
+    flex-shrink: 0;
+  }
+
+  .card-overlay {
+    max-width: 100vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-inline: 12px;
+  }
+
+  .title {
+    margin: 20px 0 24px;
+    font-size: 22px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .content-wrapper {
+    gap: 16px;
+  }
+
+  .main-content {
+    gap: 16px;
+  }
+
+  .card {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .card-header {
+    margin-bottom: 14px;
+  }
+
+  .card-header h2 {
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .card p,
+  .card-text {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  article.fullscreen {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 22px 16px;
+    border-radius: 16px;
+  }
+
+  article.fullscreen .card-header h2 {
+    font-size: 20px;
+  }
+
+  article.fullscreen .card-text {
+    width: 100%;
+  }
+}
+
+@media (hover: none) and (max-width: 900px) {
+  .card:hover {
+    transform: none;
+  }
+}

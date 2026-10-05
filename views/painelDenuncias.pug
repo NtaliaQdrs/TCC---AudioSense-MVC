@@ -1,0 +1,76 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/painelDenuncias.css')
+
+block content
+  main.admin-panel-container(role="main")
+    .admin-header-banner
+      i.bi.bi-flag-fill(aria-hidden="true")
+      h1 Painel de Denúncias
+
+    section.admin-section
+
+      .filtro-status(role="tablist" aria-label="Filtrar por status")
+        a.filtro-tab(href="/admin/denuncias?status=pendente" class=filtro === 'pendente' ? 'active' : '')
+          | Pendentes
+          span.badge-contagem= contagens.pendente
+        a.filtro-tab(href="/admin/denuncias?status=procedente" class=filtro === 'procedente' ? 'active' : '')
+          | Removidas
+          span.badge-contagem= contagens.procedente
+        a.filtro-tab(href="/admin/denuncias?status=improcedente" class=filtro === 'improcedente' ? 'active' : '')
+          | Mantidas
+          span.badge-contagem= contagens.improcedente
+
+      if denuncias.length === 0
+        p.sem-denuncias Nenhuma denúncia #{filtro === 'pendente' ? 'pendente' : 'nessa categoria'} no momento.
+
+      each d in denuncias
+        .denuncia-card
+          .denuncia-card-topo
+            span.tag-tipo= d.rotuloTipo
+            span.tag-status(class=`status-${d.status}`)= d.rotuloStatus
+            time.denuncia-data(datetime=d.dataDenunciaISO)= d.dataDenuncia
+
+          h3.denuncia-resumo
+            if d.link && d.conteudoExiste
+              a(href=d.link target="_blank" rel="noopener")= d.resumo_conteudo || '(sem título)'
+            else
+              = d.resumo_conteudo || '(sem título)'
+              if !d.conteudoExiste
+                span.tag-removido  (conteúdo já removido)
+
+          .denuncia-info-grid
+            .denuncia-info
+              strong Motivo:
+              span= d.rotuloMotivo
+            .denuncia-info
+              strong Denunciado por:
+              span= d.denunciante ? (d.denunciante.nome_usuario || d.denunciante.nome_completo) : 'Usuário removido'
+            .denuncia-info
+              strong Autor do conteúdo:
+              span= d.denunciado ? (d.denunciado.nome_usuario || d.denunciado.nome_completo) : '—'
+
+          if d.descricao
+            p.denuncia-descricao
+              strong Detalhes informados:
+              |  #{d.descricao}
+
+          if d.status !== 'pendente'
+            p.denuncia-decisao
+              strong Decidido por #{d.admin ? d.admin.nome_completo : '—'} em #{d.dataDecisao}.
+              if d.observacao_admin
+                br
+                | Observação: #{d.observacao_admin}
+
+          if d.status === 'pendente'
+            .denuncia-acoes
+              form(method="POST" action=`/admin/denuncias/${d.id}/excluir` onsubmit="return confirm('Excluir este conteúdo? Essa ação não pode ser desfeita.')")
+                input(type="text" name="observacao" placeholder="Observação (opcional)" maxlength="500")
+                button.btn-acao-danger(type="submit")
+                  i.bi.bi-trash(aria-hidden="true")
+                  |  Excluir conteúdo
+              form(method="POST" action=`/admin/denuncias/${d.id}/manter`)
+                button.btn-acao-secundaria(type="submit")
+                  i.bi.bi-check2(aria-hidden="true")
+                  |  Manter conteúdo

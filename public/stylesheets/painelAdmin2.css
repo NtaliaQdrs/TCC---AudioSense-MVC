@@ -1,4 +1,3 @@
-/* BASE */
 body { background-color: #E9CCEF; }
 
 .admin-panel-container {
@@ -103,9 +102,9 @@ body { background-color: #E9CCEF; }
   margin-top: 5px;
 }
 
-.tag-musica { background-color: #f3e8ff; color: #6b21a8; font-size: 13px;  }
-.tag-artes { background-color: #f3e8ff; color: #6b21a8; font-size: 13px;  }
-.tag-docente { background-color: #dbeafe; color: #1e40af; margin-right: 5px; font-size: 13px;  }
+.tag-musica { background-color: #f3e8ff; color: #6b21a8; font-size: 13px; }
+.tag-artes { background-color: #f3e8ff; color: #6b21a8; font-size: 13px; }
+.tag-docente { background-color: #dbeafe; color: #1e40af; margin-right: 5px; font-size: 13px; }
 
 .status-badge {
   padding: 5px 15px;
@@ -175,8 +174,10 @@ body { background-color: #E9CCEF; }
 /* MODAL */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: none;
   justify-content: center;
@@ -229,4 +230,159 @@ body { background-color: #E9CCEF; }
   object-fit: cover;
   flex-shrink: 0;
   margin-right: 15px;
+}
+
+/* Ajustes para telas estreitas */
+@media (max-width: 768px) {
+  .admin-panel-container {
+    box-sizing: border-box;
+    width: 100%;
+    padding-inline: 12px;
+    margin: 16px auto;
+  }
+
+  .admin-header-banner {
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    padding: 14px 18px;
+    font-size: 15px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-section {
+    box-sizing: border-box;
+    padding: 16px 12px;
+  }
+
+  .section-title { font-size: 20px; line-height: 1.3; }
+  .section-description { line-height: 1.45; overflow-wrap: anywhere; }
+
+  .filter-bar {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-input-wrapper,
+  .filter-select {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .search-input { box-sizing: border-box; }
+
+  .user-card {
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .user-avatar,
+  .user-avatar-img {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    margin-right: 2px;
+  }
+
+  .user-info {
+    flex: 1 1 calc(100% - 60px);
+    min-width: 0;
+  }
+
+  .user-name,
+  .user-email {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .status-badge,
+  .sent-date {
+    margin: 0;
+  }
+
+  .status-badge {
+    max-width: 100%;
+    padding: 5px 10px;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .action-buttons {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .btn-action {
+    box-sizing: border-box;
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 14px;
+    justify-content: center;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .modal-box {
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+    max-width: 500px;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 22px 18px;
+    overflow-y: auto;
+  }
+
+  .modal-box textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .modal-buttons {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-panel-container { padding-inline: 10px; }
+  .admin-header-banner { padding: 12px 14px; }
+  .admin-section { padding: 14px 10px; }
+  .section-title { font-size: 18px; }
+  .section-description { font-size: 14px; }
+
+  .user-card { padding: 12px; }
+  .user-tag { max-width: 100%; overflow-wrap: anywhere; }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    justify-content: stretch;
+  }
+
+  .btn-action { width: 100%; }
+
+  .pagination { font-size: 14px; }
+
+  .modal-box {
+    width: calc(100% - 20px);
+    padding: 18px 14px;
+  }
+
+  .modal-box h3 { font-size: 18px; }
+
+  .modal-buttons .btn-action {
+    flex: 1 1 120px;
+  }
 }

@@ -122,6 +122,36 @@ block content
     const sidebarEl = document.querySelector('.sidebar');
     const sidebarOverlay = document.getElementById('overlay');
 
+    // "Portal": move fab + overlay pro <body> (sempre) e a sidebar pro
+    // <body> só em telas mobile — assim eles nunca ficam presos como
+    // containing block de um ancestral com filter (modo daltônico),
+    // preservando o position:fixed relativo à tela inteira.
+    if (sidebarFab && sidebarFab.parentElement !== document.body) {
+      document.body.appendChild(sidebarFab);
+    }
+    if (sidebarOverlay && sidebarOverlay.parentElement !== document.body) {
+      document.body.appendChild(sidebarOverlay);
+    }
+
+    if (sidebarEl) {
+      const sidebarPlaceholder = document.createElement('div');
+      sidebarPlaceholder.style.display = 'none';
+      sidebarEl.parentNode.insertBefore(sidebarPlaceholder, sidebarEl);
+
+      (function () {
+        function reposicionarSidebar() {
+          const isMobile = window.innerWidth <= 900;
+          if (isMobile && sidebarEl.parentElement !== document.body) {
+            document.body.appendChild(sidebarEl);
+          } else if (!isMobile && sidebarEl.parentElement === document.body) {
+            sidebarPlaceholder.parentNode.insertBefore(sidebarEl, sidebarPlaceholder.nextSibling);
+          }
+        }
+        reposicionarSidebar();
+        window.addEventListener('resize', reposicionarSidebar);
+      })();
+    }
+
     if (sidebarFab && sidebarEl) {
       sidebarFab.addEventListener('click', () => {
         const isOpen = sidebarEl.classList.toggle('mobile-open');

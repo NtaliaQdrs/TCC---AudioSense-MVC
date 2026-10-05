@@ -13,9 +13,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Importa as rotas que existem
-import indexRoutes from './routes/index.js'; 
+import indexRoutes from './routes/index.js';
 import usersRoutes from './routes/users.js';
-import adminRoutes from './routes/admin.js';
+import adminPainelRoutes from './routes/admin.js';       // rotas já existentes (painel de aprovação de docentes/admin)
+import adminGestaoRoutes from './routes/adminRoutes.js';  // NOVO — gestão de usuários e moderação de conteúdo
+import denunciaRoutes from './routes/denunciaRoutes.js';  // NOVO — denúncias de material/post/comentário
 import usuarioRoutes from './routes/usuario.js';
 import estatisticaRoutes from './routes/estatistica.js';
 import notificacaoRoutes from './routes/notificacao.js';
@@ -48,7 +50,9 @@ app.use((req, res, next) => {
 app.use('/usuario', usuarioRoutes);
 app.use('/', indexRoutes);
 app.use('/users', usersRoutes);
-app.use('/painelAdmin1', adminRoutes);
+app.use('/painelAdmin1', adminPainelRoutes);
+app.use('/', adminGestaoRoutes);  // /admin/usuarios, /admin/forum, /admin/materiais, /admin/audiodescricoes
+app.use('/', denunciaRoutes);     // /denuncias, /admin/denuncias
 app.use('/estatisticas', estatisticaRoutes);
 app.use('/notificacoes', notificacaoRoutes);
 app.use('/forum', forumRoutes);
@@ -57,7 +61,7 @@ const PORT = process.env.PORT || 3000;
 const RECONSTRUIR_BANCO = false;
 
 db.sequelize.sync({ force: RECONSTRUIR_BANCO })
-  .then(async() => {
+  .then(async () => {
     console.log("Banco de dados conectado e sincronizado com sucesso!");
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);

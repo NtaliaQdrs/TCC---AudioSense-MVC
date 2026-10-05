@@ -24,7 +24,6 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-
 .welcome-description {
     font-size: 18px;
     color: #4b5563;
@@ -175,10 +174,9 @@
     text-align: left;
     font-size: 17px;
     transition: all 0.3s ease;
-
 }
 
-.learning-item:hover{
+.learning-item:hover {
     transform: scale(1.05);
 }
 
@@ -265,7 +263,6 @@
 .collab-extra-container {
     display: flex;
     flex-direction: column;
-    
 }
 
 .collab-wrapper {
@@ -475,25 +472,10 @@ h2 {
         border-radius: 16px;
     }
 
-    .welcome-title {
-        font-size: 22px;
-        margin-bottom: 10px;
-    }
-
-    .welcome-description {
-        font-size: 15px;
-        margin-bottom: 18px;
-    }
-
-    .welcome-button {
-        padding: 12px 30px;
-        font-size: 15px;
-    }
-
-    .welcome-icon img {
-        width: 100px;
-        margin-right: 0;
-    }
+    .welcome-title { font-size: 22px; margin-bottom: 10px; }
+    .welcome-description { font-size: 15px; margin-bottom: 18px; }
+    .welcome-button { padding: 12px 30px; font-size: 15px; }
+    .welcome-icon img { width: 100px; margin-right: 0; }
 
     .stats-container {
         flex-direction: column;
@@ -502,147 +484,165 @@ h2 {
         border-radius: 16px;
     }
 
-    .stat-card {
-        gap: 10px;
+    .stat-card { gap: 10px; }
+    .stat-icon i { font-size: 55px; }
+    .stat-title { font-size: 18px; }
+    .stat-value, .stat-value span { font-size: 15px; }
+
+    .learning-extra-container { padding: 25px 18px; border-radius: 16px; }
+    .learning-extra-container h2 { font-size: 20px; }
+    .learning-subtitle { font-size: 14px; margin-bottom: 20px; }
+    .learning-item { width: 100%; padding: 12px 18px; font-size: 15px; }
+    .learning-item::before { width: 26px; height: 26px; min-width: 26px; font-size: 13px; }
+
+    .cards-extra-container { flex-direction: column; gap: 15px; }
+
+    .extra-card { flex: 1 1 auto; padding: 20px 15px; }
+    .extra-card i { width: 55px; height: 55px; font-size: 28px; margin-bottom: 10px; }
+    .extra-card h3 { font-size: 16px; }
+    .extra-card p { font-size: 14px; margin-bottom: 12px; }
+
+    .collab-wrapper { gap: 15px; }
+    .collab-box { padding: 25px 20px; width: 100%; max-width: 100%; }
+    .collab-box i { width: 55px; height: 55px; font-size: 26px; }
+    .collab-box h3 { font-size: 16px; }
+    .collab-box p { font-size: 14px; }
+
+    h2 { font-size: 20px; }
+    .title { margin: 20px 15px 12px; font-size: 20px; }
+    .cards { grid-template-columns: 1fr; }
+    .practice { width: auto; margin: 20px 15px; padding: 18px; }
+}
+
+@media (max-width: 480px) {
+    .welcome-container { padding: 22px 16px; }
+    .welcome-icon img { width: 80px; }
+    .stat-icon i { font-size: 44px; }
+    .stat-title { font-size: 16px; }
+    .stat-value, .stat-value span { font-size: 14px; }
+    .learning-extra-container { padding: 20px 14px; }
+    .extra-card, .collab-box { padding: 18px 14px; }
+}
+
+/* Ajustes finais contra overflow e textos cortados em telas estreitas */
+@media (max-width: 768px) {
+    .welcome-section,
+    .stats-section,
+    .learning-extra,
+    .cards-extra,
+    .collab-extra {
+        box-sizing: border-box;
+        max-width: 100%;
     }
 
-    .stat-icon i {
-        font-size: 55px;
+    .welcome-container,
+    .stats-container,
+    .learning-extra-container,
+    .learning-item,
+    .extra-card,
+    .collab-box,
+    .main-grid,
+    .cards,
+    .practice {
+        box-sizing: border-box;
+        min-width: 0;
+        max-width: 100%;
     }
 
-    .stat-title {
-        font-size: 18px;
+    .welcome-title,
+    .welcome-description,
+    .learning-subtitle,
+    .learning-item,
+    .extra-card h3,
+    .extra-card p,
+    .collab-box h3,
+    .collab-box p {
+        overflow-wrap: anywhere;
+        word-break: normal;
     }
 
-    .stat-value, .stat-value span {
-        font-size: 15px;
-    }
-
-    .learning-extra-container {
-        padding: 25px 18px;
-        border-radius: 16px;
-    }
-
-    .learning-extra-container h2 {
-        font-size: 20px;
-    }
-
-    .learning-subtitle {
-        font-size: 14px;
-        margin-bottom: 20px;
+    .welcome-icon img {
+        height: auto;
+        max-width: 100%;
     }
 
     .learning-item {
         width: 100%;
-        padding: 12px 18px;
-        font-size: 15px;
-    }
-
-    .learning-item::before {
-        width: 26px;
-        height: 26px;
-        min-width: 26px;
-        font-size: 13px;
-    }
-
-    .cards-extra-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .extra-card {
-        flex: 1 1 auto;
-        padding: 20px 15px;
-    }
-
-    .extra-card i {
-        width: 55px;
-        height: 55px;
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
-
-    .extra-card h3 {
-        font-size: 16px;
-    }
-
-    .extra-card p {
-        font-size: 14px;
-        margin-bottom: 12px;
     }
 
     .collab-wrapper {
-        gap: 15px;
+        width: 100%;
+        align-items: stretch;
     }
 
     .collab-box {
-        padding: 25px 20px;
+        flex: 1 1 100%;
+    }
+
+    .main-grid {
         width: 100%;
-        max-width: 100%;
-    }
-
-    .collab-box i {
-        width: 55px;
-        height: 55px;
-        font-size: 26px;
-    }
-
-    .collab-box h3 {
-        font-size: 16px;
-    }
-
-    .collab-box p {
-        font-size: 14px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    .title {
-        margin: 20px 15px 12px;
-        font-size: 20px;
+        padding-inline: 12px;
+        gap: 16px;
     }
 
     .cards {
-        grid-template-columns: 1fr;
+        width: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
     }
 
     .practice {
         width: auto;
-        margin: 20px 15px;
-        padding: 18px;
+        margin-left: 12px;
+        margin-right: 12px;
     }
 }
 
 @media (max-width: 480px) {
-    .welcome-container {
-        padding: 22px 16px;
+    .welcome-section,
+    .stats-section,
+    .learning-extra,
+    .cards-extra,
+    .collab-extra {
+        width: calc(100% - 24px);
     }
 
-    .welcome-icon img {
-        width: 80px;
-    }
+    .welcome-container { padding: 20px 14px; }
+    .stats-container { padding: 18px 14px; gap: 16px; }
+    .learning-extra-container { padding: 18px 12px; }
 
-    .stat-icon i {
-        font-size: 44px;
-    }
-
-    .stat-title {
-        font-size: 16px;
-    }
-
-    .stat-value, .stat-value span {
+    .learning-item {
+        padding: 11px 12px;
+        gap: 10px;
         font-size: 14px;
-    }
-
-    .learning-extra-container {
-        padding: 20px 14px;
     }
 
     .extra-card,
     .collab-box {
-        padding: 18px 14px;
+        padding: 16px 12px;
+    }
+
+    .welcome-button,
+    .extra-card a,
+    .collab-box a {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-wrap: anywhere;
+        text-align: center;
+    }
+
+    .practice {
+        margin: 18px 12px;
+        padding: 16px 12px;
+    }
+}
+
+@media (hover: none) and (max-width: 768px) {
+    .learning-item:hover,
+    .welcome-button:hover,
+    .extra-card a:hover,
+    .collab-box a:hover {
+        transform: none;
     }
 }
 

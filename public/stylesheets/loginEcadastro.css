@@ -1,5 +1,5 @@
 body {
-    background-color: #1f4677!important;
+    background-color: #1f4677 !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,58 +16,120 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Controle da Logo por Tema --- */
-
-/* 1. Esconde a logo escura por padrão */
+/* Controle da Logo por Tema */
 .logo-dark {
-  display: none !important;
+    display: none !important;
 }
 
-/* 2. Quando o tema escuro está ativo (classe .dark-theme no html) */
 html.dark-theme .logo-light {
-  display: none !important;
+    display: none !important;
 }
 
 html.dark-theme .logo-dark {
-  display: block !important;
-  margin-left: auto;
-  margin-right: auto;
-
+    display: block !important;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.logo {
+    width: 90px;
+}
 
-.logo { width: 90px; }
+.saudacao h1 {
+    color: #1f4677;
+    font-size: 27px;
+    margin-bottom: 40px;
+    font-weight: 1000;
+}
 
-.saudacao h1 { color: #1f4677; font-size: 27px; margin-bottom: 40px; font-weight: 1000; }
-.saudacao h2 { color: #1f4677; font-size: 20px; margin-bottom: 40px; font-weight: 700; }
+.saudacao h2 {
+    color: #1f4677;
+    font-size: 20px;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
 
-.social-login { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
 .btn-social {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 12px; border: 1px solid #ddd; border-radius: 5px;
-    background: white; cursor: pointer; font-size: 18px; color: #122e51;
-    text-decoration: none; box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.232);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    font-size: 18px;
+    color: #122e51;
+    text-decoration: none;
+    box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.232);
 }
 
-.divider { margin: 20px 0; font-size: 19px; color: #122e51; position: relative; }
+.divider {
+    margin: 20px 0;
+    font-size: 19px;
+    color: #122e51;
+    position: relative;
+}
 
 .input-group {
-    text-align: left; margin-bottom: 15px; background: white;
-    border-radius: 5px; padding: 10px 15px; border: 1px solid #ddd;
-    display: flex; align-items: center; gap: 15px;
+    text-align: left;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 15px;
     box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.232);
-    
 }
-.input-content { display: flex; flex-direction: column; flex-grow: 1; position: relative; }
-.input-content label { font-size: 16px; color: #122e51; margin-bottom: 2px; font-weight: 550; }
-.input-content input { border: none; outline: none; font-size: 16px; width: 100%; color: #1a3a6c; }
-.input-group i { font-size: 18px; color: #000000; }
+
+.input-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+}
+
+.input-content label {
+    font-size: 16px;
+    color: #122e51;
+    margin-bottom: 2px;
+    font-weight: 550;
+}
+
+.input-content input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    color: #1a3a6c;
+}
+
+.input-group i {
+    font-size: 18px;
+    color: #000000;
+}
 
 .input-content select {
-    border: none; outline: none; font-size: 16px; width: 100%;
-    color: #1a3a6c; background-color: white; cursor: pointer;
-    padding: 5px 0; padding-right: 25px; appearance: none;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    color: #1a3a6c;
+    background-color: white;
+    cursor: pointer;
+    padding: 5px 0;
+    padding-right: 25px;
+    appearance: none;
 }
 
 .input-content .form-group-label {
@@ -77,12 +139,27 @@ html.dark-theme .logo-dark {
     font-weight: 550;
 }
 
-.input-content input[type="text"] { border: none; outline: none; font-size: 16px; width: 100%; color: #1a3a6c; border-radius: 3px; }
-.input-content input[type="text"]::placeholder { color: #999; }
-.input-content input[type="text"]:focus { background-color: white; }
+.input-content input[type="text"] {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    color: #1a3a6c;
+    border-radius: 3px;
+}
+
+.input-content input[type="text"]::placeholder {
+    color: #999;
+}
+
+.input-content input[type="text"]:focus {
+    background-color: white;
+}
+
 .input-content input[type="password"] {
     padding-right: 28px;
 }
+
 /* Esconde o ícone nativo de mostrar senha do navegador (Edge/Chrome) */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
@@ -92,10 +169,16 @@ input[type="password"]::-ms-clear {
 input[type="password"]::-webkit-textfield-decoration-container {
     display: none;
 }
+
 .input-group:has(select) .input-content::after {
-    content: '❯'; position: absolute; right: 8px; top: 50%;
-    transform: translateY(-50%) rotate(90deg); pointer-events: none;
-    color: #1a3a6c; font-size: 16px;
+    content: '❯';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    pointer-events: none;
+    color: #1a3a6c;
+    font-size: 16px;
 }
 
 .btn-toggle-password {
@@ -108,8 +191,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
     cursor: pointer;
 }
 
-/* Só aplica position absolute quando o botão fica DENTRO do .input-content
-   (caso do cadastro de docente, onde .input-content é flex-direction: column) */
+/* Só aplica position absolute quando o botão fica dentro do .input-content */
 .input-content .btn-toggle-password {
     position: absolute;
     right: 0;
@@ -123,63 +205,400 @@ input[type="password"]::-webkit-textfield-decoration-container {
     font-size: 16px;
     user-select: none;
 }
-.toggle-password:hover { color: #1a3a6c; }
 
-.options { display: flex; justify-content: space-between; align-items: center; font-size: 16px; margin-bottom: 25px; color: #1a3a6c; }
-.options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
-.options a { text-decoration: none; color: #1a3a6c; }
-.options a:hover { text-decoration: underline; }
+.toggle-password:hover {
+    color: #1a3a6c;
+}
 
-.btn-submit { width: 70%; padding: 15px; background-color: #1f7c5f; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px; font-weight: 600; }
-.btn-submit:hover { background-color: #2eb086; }
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 25px;
+    color: #1a3a6c;
+}
 
-.footer-text { font-size: 16px; color: #1a3a6c; }
-.footer-text a { font-weight: bold; text-decoration: none; color: #1a3a6c; }
-.footer-text a:hover { text-decoration: underline; }
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
 
-.buttons-container { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
+.options a {
+    text-decoration: none;
+    color: #1a3a6c;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+.btn-submit {
+    width: 70%;
+    padding: 15px;
+    background-color: #1f7c5f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.btn-submit:hover {
+    background-color: #2eb086;
+}
+
+.footer-text {
+    font-size: 16px;
+    color: #1a3a6c;
+}
+
+.footer-text a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #1a3a6c;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
 .option-button {
-    display: flex; align-items: center; justify-content: flex-start; gap: 20px;
-    padding: 20px 25px; background-color: white; border-radius: 10px;
-    border: 2px solid #f6f6f6; text-decoration: none; color: #1f4677;
-    font-size: 16px; font-weight: 600; cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px 25px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #f6f6f6;
+    text-decoration: none;
+    color: #1f4677;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
     box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.232);
 }
-.option-button:hover { background-color: #f9f9f9; border-color: #1f4677; }
-.option-button img { font-size: 24px; color: #1f4677; min-width: 30px; display: block; transform: scale(1.4); transform-origin: left center; }
-.option-button span { flex: 1; text-align: center; margin-right: 40px; }
 
-.warning p { color: #1f4677; font-size: 16px; line-height: 1.5; font-weight: 500; }
-
-
-
-.btn-cancel { width: 70%; padding: 15px; background-color: #1f4677; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px; font-weight: 600; }
-.btn-cancel:hover { background-color: #0c1e34; }
-
-.disciplinas-dropdown { position: relative; width: 100%; }
-.btn-disciplinas { width: 100%; padding: 8px 0; background: white; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 15px; color: #1a3a6c; }
-.btn-disciplinas:focus { outline: 3px solid #7b5cff; outline-offset: 3px; }
-
-.disciplinas-lista {
-    position: absolute; top: 100%; left: -15px; width: calc(100% + 30px);
-    background: white; border: 1px solid #ddd; border-radius: 5px; padding: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; max-height: 200px;
-    overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+.option-button:hover {
+    background-color: #f9f9f9;
+    border-color: #1f4677;
 }
 
-.checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #1a3a6c; cursor: pointer; padding: 3px 0; }
-.checkbox-label input[type="checkbox"] { accent-color: #1f7c5f; width: 16px; height: 16px; cursor: pointer; }
-.checkbox-label input[type="checkbox"]:focus { outline: 3px solid #7b5cff; outline-offset: 3px; }
+.option-button img {
+    font-size: 24px;
+    color: #1f4677;
+    min-width: 30px;
+    display: block;
+    transform: scale(1.4);
+    transform-origin: left center;
+}
 
-.alert-pendente, .alert-rejeitado { border-radius: 8px; padding: 15px 20px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 16px; text-align: center; }
-.alert-pendente { background-color: #fff3cd; color: #856404; border: 1px solid #ffc107; }
-.alert-rejeitado { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-.alert-rejeitado .motivo { font-size: 14px; margin: 5px 0; }
-.alert-rejeitado a { color: #721c24; font-weight: bold; margin-top: 5px; }
+.option-button span {
+    flex: 1;
+    text-align: center;
+    margin-right: 40px;
+}
 
-/* ─── TEMA ESCURO ─────────────────────────────────── */
-html.dark-theme body { background-color: #1e1e2e !important; }
+/* Ajustes para telas pequenas */
+@media (max-width: 600px) {
+    body {
+        box-sizing: border-box;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 16px 0;
+        align-items: flex-start;
+        overflow-x: hidden;
+    }
+
+    .container {
+        box-sizing: border-box;
+        width: calc(100% - 24px);
+        max-width: 550px;
+        margin: auto;
+        padding: 28px 20px;
+    }
+
+    .logo {
+        width: 78px;
+        max-width: 100%;
+    }
+
+    .saudacao h1 {
+        font-size: 24px;
+        line-height: 1.3;
+        margin: 0 0 24px;
+        overflow-wrap: anywhere;
+    }
+
+    .saudacao h2 {
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0 0 24px;
+        overflow-wrap: anywhere;
+    }
+
+    .btn-social {
+        box-sizing: border-box;
+        width: 100%;
+        font-size: 16px;
+        overflow-wrap: anywhere;
+    }
+
+    .input-group {
+        box-sizing: border-box;
+        width: 100%;
+        gap: 10px;
+        padding: 10px 12px;
+    }
+
+    .input-content {
+        min-width: 0;
+    }
+
+    .input-content label,
+    .input-content .form-group-label {
+        font-size: 15px;
+        line-height: 1.3;
+    }
+
+    .input-content input,
+    .input-content select {
+        box-sizing: border-box;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .input-content input[type="password"] {
+        padding-right: 30px;
+    }
+
+    .input-group i {
+        flex: 0 0 auto;
+    }
+
+    .options {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 10px 14px;
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+
+    .options label {
+        min-width: 0;
+    }
+
+    .options a {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .btn-submit {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 48px;
+        padding: 13px 16px;
+    }
+
+    .footer-text {
+        font-size: 14px;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+    }
+
+    .option-button {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        gap: 12px;
+        padding: 14px 16px;
+        font-size: 15px;
+    }
+
+    .option-button img {
+        width: 26px;
+        min-width: 26px;
+        max-width: 26px;
+        height: auto;
+        transform: none;
+        transform-origin: center;
+        flex: 0 0 26px;
+    }
+
+    .option-button span {
+        min-width: 0;
+        margin-right: 0;
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        width: calc(100% - 16px);
+        padding: 22px 14px;
+    }
+
+    .saudacao h1 {
+        font-size: 22px;
+    }
+
+    .saudacao h2 {
+        font-size: 17px;
+    }
+
+    .input-group {
+        gap: 8px;
+        padding: 9px 10px;
+    }
+
+    .options {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+
+.warning p {
+    color: #1f4677;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.btn-cancel {
+    width: 70%;
+    padding: 15px;
+    background-color: #1f4677;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.btn-cancel:hover {
+    background-color: #0c1e34;
+}
+
+.disciplinas-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.btn-disciplinas {
+    width: 100%;
+    padding: 8px 0;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: #1a3a6c;
+}
+
+.btn-disciplinas:focus {
+    outline: 3px solid #7b5cff;
+    outline-offset: 3px;
+}
+
+.disciplinas-lista {
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    width: calc(100% + 30px);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #1a3a6c;
+    cursor: pointer;
+    padding: 3px 0;
+}
+
+.checkbox-label input[type="checkbox"] {
+    accent-color: #1f7c5f;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:focus {
+    outline: 3px solid #7b5cff;
+    outline-offset: 3px;
+}
+
+.alert-pendente,
+.alert-rejeitado {
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.alert-pendente {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.alert-rejeitado {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-rejeitado .motivo {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.alert-rejeitado a {
+    color: #721c24;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Tema escuro */
+html.dark-theme body {
+    background-color: #1e1e2e !important;
+}
 
 html.dark-theme .container {
     background-color: #2a2a3e !important;
@@ -190,16 +609,19 @@ html.dark-theme .container {
 html.dark-theme .saudacao h1,
 html.dark-theme .saudacao h2,
 html.dark-theme h1,
-html.dark-theme h2 { color: #e0e0e0 !important; }
+html.dark-theme h2 {
+    color: #e0e0e0 !important;
+}
 
 html.dark-theme .input-group {
     background: #1e1e2e !important;
     border-color: #444 !important;
 }
 
-html.dark-theme .input-content label { color: #e0e0e0 !important; }
-
-html.dark-theme .input-content .form-group-label { color: #e0e0e0 !important; }
+html.dark-theme .input-content label,
+html.dark-theme .input-content .form-group-label {
+    color: #e0e0e0 !important;
+}
 
 html.dark-theme .input-content input,
 html.dark-theme .input-content select {
@@ -235,40 +657,284 @@ html.dark-theme .checkbox-label { color: #e0e0e0 !important; }
 html.dark-theme .warning p { color: #e0e0e0 !important; }
 html.dark-theme .input-group:has(select) .input-content::after { color: #aaa !important; }
 
+/* Logos conforme o tema */
+.logo-contrast { display: none; }
+.logo-dark { display: none; }
+.logo-light {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-
-/* Padrão (tema claro) */
-.logo-contrast { display: none;  }
-.logo-dark     { display: none; }
-.logo-light    { display: block; margin-left: auto;
-  margin-right: auto;}
-
-/* Tema escuro */
-html.dark-theme .logo-light    { display: none; }
-html.dark-theme .logo-dark     { display: block; margin-left: auto;
-  margin-right: auto;}
+html.dark-theme .logo-light { display: none; }
+html.dark-theme .logo-dark {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 html.dark-theme .logo-contrast { display: none; }
 
-/* Alto contraste */
-html.high-contrast .logo-light    { display: none; }
-html.high-contrast .logo-dark     { display: none; }
-html.high-contrast .logo-contrast { display: block; text-align: center; margin-left: auto;
-  margin-right: auto;}
+html.high-contrast .logo-light { display: none; }
+html.high-contrast .logo-dark { display: none; }
+html.high-contrast .logo-contrast {
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-  @media (max-width: 600px) {
-  .container, .containercust {
-    padding: 20px;
-    margin: 16px;
-    border-radius: 14px;
-  }
-  .logo { width: 70px; }
-  .saudacao h1 { font-size: 22px; margin-bottom: 24px; }
-  .saudacao h2 { font-size: 17px; margin-bottom: 24px; }
-  .buttons-container, .social-login { gap: 12px; }
-  .btn-submit, .btn-cancel { width: 100%; padding: 12px; }
-  .options { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .option-button { padding: 14px 16px; }
-  .option-button span { margin-right: 0; text-align: left; }
-  .disciplinas-lista { left: 0; width: 100%; }
-  .alert-pendente, .alert-rejeitado { padding: 12px 15px; }
+/* Responsividade complementar enviada para celular */
+@media (max-width: 600px) {
+    .container,
+    .containercust {
+        padding: 20px;
+        margin: 16px;
+        border-radius: 14px;
+    }
+
+    .logo { width: 70px; }
+    .saudacao h1 { font-size: 22px; margin-bottom: 24px; }
+    .saudacao h2 { font-size: 17px; margin-bottom: 24px; }
+    .buttons-container,
+    .social-login { gap: 12px; }
+    .btn-submit,
+    .btn-cancel { width: 100%; padding: 12px; }
+    .options { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .option-button { padding: 14px 16px; }
+    .option-button span { margin-right: 0; text-align: left; }
+    .disciplinas-lista { left: 0; width: 100%; }
+    .alert-pendente,
+    .alert-rejeitado { padding: 12px 15px; }
+}
+
+/* Mantém as caixas dentro da largura disponível mesmo com padding e margem. */
+@media (max-width: 600px) {
+    .container {
+        box-sizing: border-box;
+        width: calc(100% - 24px);
+        max-width: 550px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .containercust {
+        box-sizing: border-box;
+        width: calc(100% - 24px);
+        max-width: 550px;
+        margin: 16px auto;
+    }
+
+    .input-group,
+    .btn-submit,
+    .btn-cancel,
+    .option-button,
+    .alert-pendente,
+    .alert-rejeitado {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .disciplinas-lista {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .warning p,
+    .alert-pendente,
+    .alert-rejeitado,
+    .checkbox-label {
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ALTO CONTRASTE — AudioSense
+   Claro : fundo branco, texto e bordas pretos
+   Escuro: fundo preto,  texto e bordas amarelos
+   Nada é preenchido: só texto e bordas usam a cor de destaque.
+   ═══════════════════════════════════════════════════════════ */
+
+:root.high-contrast {
+  --hc-bg: #ffffff;
+  --hc-fg: #000000;
+  color-scheme: light;
+}
+:root.high-contrast.high-contrast-dark {
+  --hc-bg: #000000;
+  --hc-fg: #ffff00;
+  color-scheme: dark;
+}
+
+:root.high-contrast { background-color: var(--hc-bg) !important; filter: none !important; }
+
+/* 1) Tudo: fundo da cor base, texto e contornos na cor de destaque */
+:root.high-contrast.high-contrast.high-contrast body,
+:root.high-contrast.high-contrast.high-contrast body *,
+:root.high-contrast.high-contrast.high-contrast body *::before,
+:root.high-contrast.high-contrast.high-contrast body *::after {
+  color: var(--hc-fg) !important;
+  background-color: var(--hc-bg) !important;
+  background-image: none !important;
+  outline-color: var(--hc-fg) !important;
+  text-decoration-color: currentColor !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* 2) Bordas: controles e blocos de conteúdo */
+:root.high-contrast.high-contrast.high-contrast body :is(
+  button, [role="button"], summary, select, textarea,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  a[class*="btn"], a[class*="button"], a.read-more,
+  .option-button, .btn-social, .social-icons a, .sub-menu a,
+  .filter-btn, .btn-filter, .pagination-btn, .toolbar-btn, .expand-btn,
+  .input-group, .upload-area, .tipo-midia-option,
+  .card, .post-card, .material-card, .extra-card, .extra-card1, .collab-box,
+  .practice, .sidebar, .sidebar-box, .welcome-container, .stats-container,
+  .learning-extra-container, .container-form, .projeto-resumo, .exemplo-item,
+  .alert-pendente, .alert-rejeitado, .aviso-analise, .ad-card, .status-badge,
+  .disciplinas-lista, .fab-panel, .profile-dropdown, .modal-box
+) {
+  border: 2px solid var(--hc-fg) !important;
+}
+:root.high-contrast.high-contrast.high-contrast body :is(.top-bar) {
+  border: 0 solid var(--hc-fg) !important;
+  border-bottom-width: 2px !important;
+}
+:root.high-contrast.high-contrast.high-contrast body :is(.footer) {
+  border: 0 solid var(--hc-fg) !important;
+  border-top-width: 2px !important;
+}
+:root.high-contrast.high-contrast.high-contrast body :is(.footer-bottom, .fab-panel__footer, .fab-panel__titulo, .dropdown-tabs) {
+  border-color: var(--hc-fg) !important;
+}
+:root.high-contrast.high-contrast.high-contrast body :is(hr, .dropdown-divider, .form-divider, .header-divider) {
+  border-color: var(--hc-fg) !important;
+}
+
+/* 3) Filhos de botões/links herdam, sem criar camadas coloridas */
+:root.high-contrast.high-contrast.high-contrast body :is(button, a, [role="button"], summary) :is(*, *::before, *::after) {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+/* 4) Campos de formulário */
+:root.high-contrast.high-contrast.high-contrast body :is(input, textarea, select) {
+  caret-color: var(--hc-fg) !important;
+}
+:root.high-contrast.high-contrast.high-contrast body :is(input, textarea, select)::placeholder {
+  color: var(--hc-fg) !important;
+  opacity: 1 !important;
+}
+:root.high-contrast.high-contrast.high-contrast body :is(
+  input[type="checkbox"], input[type="radio"], input[type="range"], progress, meter
+) { accent-color: var(--hc-fg) !important; }
+
+/* 5) Hover e ativo: borda interna extra + negrito (sem preencher) */
+:root.high-contrast.high-contrast.high-contrast body :is(
+  button, [role="button"], summary, a[class*="btn"], a[class*="button"],
+  .option-button, .sub-menu a, .menu-links a, .dropdown-item, .filter-btn, .tab-btn
+):hover,
+:root.high-contrast.high-contrast.high-contrast body :is(
+  button[aria-pressed="true"], [role="button"][aria-pressed="true"], a[aria-current="page"],
+  .menu-links a.active, .sub-menu a.active, .filter-btn.active, .btn-filter[aria-pressed="true"],
+  .tab-btn.active, .tab-btn.tab-active, .view-btn[aria-pressed="true"],
+  .fab-btn-opt--active, .fab-btn-opt[aria-pressed="true"]
+) {
+  box-shadow: inset 0 0 0 3px var(--hc-fg) !important;
+  font-weight: 800 !important;
+}
+
+/* 6) Foco do teclado bem visível */
+:root.high-contrast.high-contrast.high-contrast body :is(
+  button, a, [role="button"], summary, input, textarea, select
+):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--hc-bg), 0 0 0 5px var(--hc-fg) !important;
+}
+
+/* 7) SVG, seleção, scrollbar, botão de arquivo */
+:root.high-contrast svg [fill]:not([fill="none"])     { fill: currentColor !important; }
+:root.high-contrast svg [stroke]:not([stroke="none"]) { stroke: currentColor !important; }
+:root.high-contrast ::selection { color: var(--hc-bg) !important; background: var(--hc-fg) !important; }
+:root.high-contrast ::-webkit-scrollbar-track { background: var(--hc-bg) !important; }
+:root.high-contrast ::-webkit-scrollbar-thumb { background: var(--hc-fg) !important; }
+:root.high-contrast input[type="file"]::file-selector-button {
+  color: var(--hc-fg) !important;
+  background: var(--hc-bg) !important;
+  border: 2px solid var(--hc-fg) !important;
+}
+
+/* 8) Overlays de modal e guia de leitura não podem esconder o conteúdo */
+:root.high-contrast.high-contrast.high-contrast :is(.card-overlay.active, .modal-overlay) {
+  background: var(--hc-bg) !important;
+  opacity: .92;
+}
+:root.high-contrast.high-contrast.high-contrast body #fab-reading-guide {
+  background-color: transparent !important;
+  border: 0 solid var(--hc-fg) !important;
+  border-top-width: 2px !important;
+  border-bottom-width: 2px !important;
+}
+
+/* 9) Sublinhado: só quando a opção do FAB estiver ligada, e nunca em botões */
+:root.high-contrast:not(.underline-links) body * { text-decoration: none !important; }
+:root.high-contrast.underline-links body a { text-decoration: underline !important; }
+:root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt),
+:root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt) * {
+  text-decoration: none !important;
+}
+
+/* 10) Imagens mantêm o conteúdo; a logo da autenticação acompanha a paleta */
+:root.high-contrast :is(img, video, canvas, iframe) { filter: none !important; }
+:root.high-contrast:not(.high-contrast-dark) .logo-contrast { filter: grayscale(1) contrast(2.2) !important; }
+:root.high-contrast.high-contrast-dark .logo-contrast {
+  filter: invert(1) hue-rotate(25deg) saturate(2.5) contrast(1.25) !important;
+}
+
+/* 11) Qualquer borda que já exista passa para a cor do contraste.
+   Só recolore: não cria borda onde não havia (border-style none continua none). */
+:root.high-contrast.high-contrast.high-contrast body *,
+:root.high-contrast.high-contrast.high-contrast body *::before,
+:root.high-contrast.high-contrast.high-contrast body *::after {
+  border-color: var(--hc-fg) !important;
+}
+/* Bordas transparentes usadas só para layout (abas inativas) continuam invisíveis */
+:root.high-contrast.high-contrast.high-contrast body .tab-btn:not(.tab-active):not(.active) {
+  border-color: transparent !important;
+}
+
+/* 12) Raio padrão com especificidade ZERO: só vale para quem não definiu raio,
+   então botões redondos (pílulas, círculos) continuam como estavam. */
+:where(:root.high-contrast body) :where(
+  button, [role="button"], summary, select, textarea,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  a[class*="btn"], a[class*="button"], .view-btn
+) {
+  border-radius: 8px;
+}
+
+/* 13) Contraste escuro: ícones pretos viram amarelos.
+   brightness(0) garante que o ícone fique 100% preto antes de colorir,
+   e o resto da cadeia converte preto em #ffff00. */
+:root.high-contrast.high-contrast-dark.high-contrast-dark body :is(
+  .option-button img,
+  img[src$=".svg"],
+  img.img-icone
+):not(.logo-contrast) {
+  filter: brightness(0) invert(93%) sepia(96%) saturate(7000%) hue-rotate(2deg) brightness(105%) contrast(105%) !important;
+}
+
+/* 15) Campos dentro de .input-group: a caixa já tem borda, então o input fica sem borda própria. */
+:root.high-contrast.high-contrast.high-contrast body .input-group :is(input, select, textarea) {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* 16) O campo de senha termina antes do ícone de mostrar/esconder. */
+:root.high-contrast.high-contrast.high-contrast body .input-content input[type="password"],
+:root.high-contrast.high-contrast.high-contrast body .input-content input[type="text"].senha-visivel {
+  width: calc(100% - 5px) !important;
+  padding-right: 0 !important;
 }

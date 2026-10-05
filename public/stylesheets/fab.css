@@ -327,35 +327,6 @@ html.dark-theme .fab-link-reset:hover {
     color: #c9a8f5;
 }
 
-/* ═══════════════════════════════════════════════════════
-   ALTO CONTRASTE
-   ═══════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════
-   ALTO CONTRASTE
-   ═══════════════════════════════════════════════════════ */
-
-html.high-contrast .fab-panel {
-    background-color: #ffffff !important;
-    border: 2px solid #5d3fd3 !important;
-}
-
-html.high-contrast .fab-btn-opt {
-    background-color: #ffffff !important;
-    border: 2px solid #5d3fd3 !important;
-    color: #000000 !important;
-}
-
-html.high-contrast .fab-btn-opt--active {
-    background-color: #000000 !important;
-    border: 2px solid #5d3fd3 !important;
-    color: #ffffff !important;
-}
-
-html.high-contrast .fab-panel__titulo,
-html.high-contrast .fab-group__label {
-    color: #000000 !important;
-}
-
 /* ── Rodapé do painel (reset + fechar) ── */
 .fab-panel__footer {
     display: flex;
@@ -418,4 +389,39 @@ html.dark-theme .fab-btn-close:hover {
         width: calc(100vw - 32px);
         max-width: 280px;
     }
+}
+
+
+/* Grade das opções de contraste: quatro escolhas em duas linhas. */
+.fab-group__btns--contrast {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fab-group__btns--contrast .fab-btn-opt {
+  min-height: 40px;
+  padding: 7px 6px;
+}
+
+/* Estado ativo é marcado por sublinhado duplo, sem alterar a borda original. */
+.fab-group__btns--contrast .fab-btn-opt[aria-pressed="true"],
+.fab-group__btns--contrast .fab-btn-opt--active {
+  font-weight: 800 !important;
+}
+
+/* Alto contraste: o foco aparece apenas durante a navegação por teclado. */
+html.high-contrast:not(.high-contrast-dark) :is(.fab-btn, .fab-btn-opt, .fab-btn-close):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px #000000 !important;
+}
+html.high-contrast.high-contrast-dark :is(.fab-btn, .fab-btn-opt, .fab-btn-close):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #000000, 0 0 0 5px #ffff00 !important;
+}
+html.high-contrast:not(.high-contrast-dark) .fab-group input[type="range"] {
+  accent-color: #000000;
+}
+html.high-contrast.high-contrast-dark .fab-group input[type="range"] {
+  accent-color: #ffff00;
 }

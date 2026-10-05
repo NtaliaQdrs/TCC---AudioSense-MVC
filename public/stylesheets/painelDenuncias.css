@@ -1,0 +1,242 @@
+/* ══════════════════════════════════════════════════════════
+   MODAL DE DENÚNCIA — autossuficiente, funciona em qualquer
+   página onde o partial for incluído, sem depender de outro CSS.
+   Este é o ÚNICO lugar onde o modal e o botão "Denunciar"
+   são estilizados. Não repita esses estilos nos CSS das telas.
+═══════════════════════════════════════════════════════════ */
+
+#denuncia-modal.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 40, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Acima do card expandido do entretenimento (z-index 9999) e do menu */
+  z-index: 99999;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+#denuncia-modal.modal-overlay[hidden] {
+  display: none;
+}
+
+#denuncia-modal .modal-box {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+#denuncia-modal .modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #888;
+  border-radius: 50%;
+}
+
+#denuncia-modal .modal-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+#denuncia-modal h2 {
+  margin: 0 0 8px;
+  padding-right: 30px;
+  color: #1a2a6c;
+  font-size: 1.3rem;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+#denuncia-modal .modal-aviso {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 18px;
+  line-height: 1.5;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+#denuncia-modal .modal-form label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin: 16px 0 8px;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Lista de motivos: um por linha, com espaço de clique confortável */
+#denuncia-modal .denuncia-motivos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#denuncia-modal .denuncia-motivo-item {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: #333;
+  font-weight: 400;
+  margin: 0 !important;
+  transition: background-color 0.15s ease;
+}
+
+#denuncia-modal .denuncia-motivo-item:hover {
+  background-color: #f5f0fa;
+}
+
+#denuncia-modal .denuncia-motivo-item input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: #6c4bd1;
+  cursor: pointer;
+}
+
+#denuncia-modal .denuncia-motivo-item:has(input:checked) {
+  background-color: #ede7fc;
+  font-weight: 600;
+}
+
+#denuncia-modal .modal-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Poppins', Arial, sans-serif;
+  resize: vertical;
+  min-height: 70px;
+}
+
+#denuncia-modal .modal-form textarea:focus {
+  outline: none;
+  border-color: #6c4bd1;
+  box-shadow: 0 0 0 3px rgba(108, 75, 209, 0.15);
+}
+
+#denuncia-modal .modal-feedback {
+  min-height: 20px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+#denuncia-modal .modal-feedback--erro { color: #d32f2f; }
+#denuncia-modal .modal-feedback--sucesso { color: #2e7d32; }
+
+#denuncia-modal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+#denuncia-modal .btn-secundario,
+#denuncia-modal .btn-perigo {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+#denuncia-modal .btn-secundario {
+  background: #f0f0f0;
+  color: #333;
+}
+#denuncia-modal .btn-secundario:hover { background: #e2e2e2; }
+
+#denuncia-modal .btn-perigo {
+  background: #d32f2f;
+  color: #fff;
+}
+#denuncia-modal .btn-perigo:hover { background: #b71c1c; }
+
+#denuncia-modal button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Botão "Denunciar" que abre o modal ────────────────────── */
+.btn-denunciar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: 'Poppins', Arial, sans-serif;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-denunciar:hover {
+  background: rgba(211, 47, 47, 0.1);
+  color: #d32f2f;
+}
+
+.btn-denunciar:focus-visible {
+  outline: 3px solid rgba(31, 70, 119, 0.35);
+  outline-offset: 2px;
+}
+
+/* ── Tema escuro ────────────────────────────────────────────── */
+html.dark-theme #denuncia-modal .modal-box {
+  background: #1e1e2e;
+  color: #e0e0e0;
+}
+html.dark-theme #denuncia-modal h2 { color: #e0e0e0; }
+html.dark-theme #denuncia-modal .modal-aviso { color: #aaa; }
+html.dark-theme #denuncia-modal .modal-form label { color: #ccc; }
+html.dark-theme #denuncia-modal .denuncia-motivo-item { color: #ccc; }
+html.dark-theme #denuncia-modal .denuncia-motivo-item:hover { background-color: #2a2a3e; }
+html.dark-theme #denuncia-modal .denuncia-motivo-item:has(input:checked) { background-color: #3a2a5a; }
+html.dark-theme #denuncia-modal .modal-form textarea {
+  background: #2a2a3e;
+  border-color: #444;
+  color: #e0e0e0;
+}
+html.dark-theme #denuncia-modal .btn-secundario { background: #2a2a3e; color: #e0e0e0; }
+html.dark-theme #denuncia-modal .btn-secundario:hover { background: #3a3a4e; }
+html.dark-theme #denuncia-modal .modal-close { color: #aaa; }
+html.dark-theme #denuncia-modal .modal-close:hover { background: #2a2a3e; color: #fff; }
+
+/* ── Responsivo ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  #denuncia-modal .modal-box { padding: 22px; }
+  #denuncia-modal .modal-actions { flex-direction: column-reverse; }
+  #denuncia-modal .btn-secundario,
+  #denuncia-modal .btn-perigo { width: 100%; }
+}

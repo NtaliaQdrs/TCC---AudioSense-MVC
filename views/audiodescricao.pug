@@ -147,9 +147,9 @@ block content
         h2 Coloque em prática o que você aprendeu!
         br
         p Teste aqui o que você aprendeu sobre audiodescrição. Escolha uma imagem ou um pequeno vídeo e tente descrevê-lo, transmitindo todas as informações visuais. 
-        p Faça as audiodescrição da usando a fórmula: O que é; quem é? onde? O que está fazendo? 
+        p Faça as audiodescrição usando a fórmula: O que é? Quem é? Onde? O que está fazendo? 
         p (Formato + sujeito + paisagem + ação)
-        p Não utilize termos técnicos como: primeiro plano, close, opte por vê-se de perto.
+        p Não utilize termos técnicos como: primeiro plano, close, opte, por exemplo, por vê-se de perto.
 
         a(href="/inserir-audiodescricao") Inserir audiodescrição
 
@@ -188,6 +188,36 @@ block content
     const sidebarFab = document.getElementById('sidebarFab');
     const sidebarEl = document.querySelector('.sidebar');
     const sidebarOverlay = document.getElementById('overlay');
+
+    // "Portal": move fab + overlay pro <body> (sempre) e a sidebar pro
+    // <body> só em telas mobile — assim eles nunca ficam presos como
+    // containing block de um ancestral com filter (modo daltônico),
+    // preservando o position:fixed relativo à tela inteira.
+    if (sidebarFab && sidebarFab.parentElement !== document.body) {
+      document.body.appendChild(sidebarFab);
+    }
+    if (sidebarOverlay && sidebarOverlay.parentElement !== document.body) {
+      document.body.appendChild(sidebarOverlay);
+    }
+
+    if (sidebarEl) {
+      const sidebarPlaceholder = document.createElement('div');
+      sidebarPlaceholder.style.display = 'none';
+      sidebarEl.parentNode.insertBefore(sidebarPlaceholder, sidebarEl);
+
+      (function () {
+        function reposicionarSidebar() {
+          const isMobile = window.innerWidth <= 900;
+          if (isMobile && sidebarEl.parentElement !== document.body) {
+            document.body.appendChild(sidebarEl);
+          } else if (!isMobile && sidebarEl.parentElement === document.body) {
+            sidebarPlaceholder.parentNode.insertBefore(sidebarEl, sidebarPlaceholder.nextSibling);
+          }
+        }
+        reposicionarSidebar();
+        window.addEventListener('resize', reposicionarSidebar);
+      })();
+    }
 
     if (sidebarFab && sidebarEl) {
       sidebarFab.addEventListener('click', () => {

@@ -1,0 +1,212 @@
+//- Inclua uma vez por página, depois do conteúdo e ANTES dos scripts da página:
+//-   include partials/denuncia-modal
+//- O botão que abre é criado em cada tela, chamando abrirDenuncia('material', 42).
+//-
+//- IMPORTANTE: adicione este link no block styles da página que incluir
+//- este partial (o modal não depende de nenhum outro CSS da página):
+//-   link(rel='stylesheet', href='/stylesheets/painelDenuncias.css')
+
+#denuncia-modal.modal-overlay(hidden)
+  .modal-box(role="dialog" aria-modal="true" aria-labelledby="denuncia-titulo" aria-describedby="denuncia-aviso" tabindex="-1")
+    button.modal-close(type="button" onclick="fecharDenuncia()" aria-label="Fechar") ×
+    h2#denuncia-titulo Denunciar conteúdo
+    p#denuncia-aviso.modal-aviso Sua identidade não é divulgada para o autor do conteúdo. Denúncias falsas ou de má-fé podem resultar em penalidades na sua conta.
+
+    form#form-denuncia.modal-form(onsubmit="return enviarDenuncia(event)")
+      input#denuncia-tipo(type="hidden" name="tipo_conteudo")
+      input#denuncia-id(type="hidden" name="conteudo_id")
+
+      label#denuncia-motivo-label Motivo da denúncia
+      .denuncia-motivos(role="radiogroup" aria-labelledby="denuncia-motivo-label" aria-required="true")
+        label.denuncia-motivo-item
+          input(type="radio" name="motivo" value="spam" required)
+          span Spam ou propaganda
+        label.denuncia-motivo-item
+          input(type="radio" name="motivo" value="ofensivo")
+          span Conteúdo ofensivo ou discriminatório
+        label.denuncia-motivo-item
+          input(type="radio" name="motivo" value="inapropriado")
+          span Conteúdo inapropriado
+        label.denuncia-motivo-item
+          input(type="radio" name="motivo" value="plagio")
+          span Plágio ou violação de direitos autorais
+        label.denuncia-motivo-item
+          input(type="radio" name="motivo" value="desinformacao")
+          span Informação falsa ou enganosa
+        label.denuncia-motivo-item
+          input(type="radio" name="motivo" value="outro")
+          span Outro motivo
+
+      label(for="denuncia-descricao") Detalhes (opcional)
+      textarea#denuncia-descricao(name="descricao" rows="3" maxlength="500" placeholder="Explique melhor o motivo, se quiser...")
+
+      p#denuncia-feedback.modal-feedback(role="status" aria-live="polite")
+
+      .modal-actions
+        button.btn-secundario(type="button" onclick="fecharDenuncia()") Cancelar
+        button#btn-enviar-denuncia.btn-perigo(type="submit") Enviar denúncia
+
+script.
+  let elementoQueAbriuDenuncia = null;
+  let elementosInertDenuncia = [];
+
+  // Deixa o resto da página fora da árvore de acessibilidade enquanto o modal
+  // está aberto (aria-modal sozinho não é respeitado por todos os leitores).
+  // Só mexe no que ainda não estava inert, para não atrapalhar o card
+  // expandido do entretenimento, que faz o mesmo.
+  function bloquearFundoDenuncia(modal) {
+    elementosInertDenuncia = [];
+    let node = modal;
+    while (node && node !== document.body) {
+      const parent = node.parentElement;
+      if (parent) {
+        Array.from(parent.children).forEach(function (irmao) {
+          if (irmao === node) return;
+          if (['SCRIPT', 'STYLE', 'LINK'].includes(irmao.tagName)) return;
+          if (irmao.hasAttribute('inert')) return;
+          irmao.setAttribute('inert', '');
+          elementosInertDenuncia.push(irmao);
+        });
+      }
+      node = parent;
+    }
+  }
+
+  function liberarFundoDenuncia() {
+    elementosInertDenuncia.forEach(function (el) { el.removeAttribute('inert'); });
+    elementosInertDenuncia = [];
+  }
+
+  function abrirDenuncia(tipo, id) {
+    const modal = document.getElementById('denuncia-modal');
+    const form = document.getElementById('form-denuncia');
+
+    // Guarda o botão que abriu o modal
+    elementoQueAbriuDenuncia = document.activeElement;
+
+    form.reset();
+    document.getElementById('denuncia-tipo').value = tipo;
+    document.getElementById('denuncia-id').value = id;
+
+    const btn = document.getElementById('btn-enviar-denuncia');
+    btn.removeAttribute('aria-disabled');
+
+    const feedback = document.getElementById('denuncia-feedback');
+    feedback.textContent = '';
+    feedback.className = 'modal-feedback';
+
+    // Na tela de entretenimento o card expandido marca o resto da página
+    // como inert, inclusive este modal. Remove para ele receber foco.
+    modal.removeAttribute('inert');
+    modal.removeAttribute('hidden');
+    bloquearFundoDenuncia(modal);
+
+    // Foco na caixa: o leitor de tela anuncia o nome do diálogo (título)
+    // e a descrição (aviso) antes de qualquer botão.
+    setTimeout(function () {
+      modal.querySelector('.modal-box').focus();
+    }, 0);
+  }
+
+  function fecharDenuncia() {
+    const modal = document.getElementById('denuncia-modal');
+    modal.setAttribute('hidden', '');
+
+    // Libera o fundo ANTES de devolver o foco (inert impede focar)
+    liberarFundoDenuncia();
+
+    if (elementoQueAbriuDenuncia && typeof elementoQueAbriuDenuncia.focus === 'function') {
+      elementoQueAbriuDenuncia.focus();
+    }
+    elementoQueAbriuDenuncia = null;
+  }
+
+  // Navegação por teclado do modal.
+  // Fase de captura + stopPropagation: enquanto o modal está aberto, o Esc e o
+  // Tab são dele, e os handlers de outros componentes (ex: card expandido)
+  // não são chamados.
+  document.addEventListener('keydown', function (event) {
+    const modal = document.getElementById('denuncia-modal');
+    if (!modal || modal.hasAttribute('hidden')) return;
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      fecharDenuncia();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    event.stopPropagation();
+
+    const caixa = modal.querySelector('.modal-box');
+    const focaveis = Array.from(
+      modal.querySelectorAll(
+        'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(function (el) { return el.offsetParent !== null; });
+
+    if (!focaveis.length) {
+      event.preventDefault();
+      return;
+    }
+
+    const primeiro = focaveis[0];
+    const ultimo = focaveis[focaveis.length - 1];
+    const ativo = document.activeElement;
+
+    if (event.shiftKey && (ativo === primeiro || ativo === caixa)) {
+      event.preventDefault();
+      ultimo.focus();
+    } else if (!event.shiftKey && ativo === ultimo) {
+      event.preventDefault();
+      primeiro.focus();
+    }
+  }, true);
+
+  async function enviarDenuncia(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('form-denuncia');
+    const feedback = document.getElementById('denuncia-feedback');
+    const btn = document.getElementById('btn-enviar-denuncia');
+
+    // aria-disabled em vez de disabled: o botão desabilitado perde o foco e o
+    // leitor de tela "cai" para o início da página.
+    if (btn.getAttribute('aria-disabled') === 'true') return false;
+
+    const dados = Object.fromEntries(new FormData(form).entries());
+
+    btn.setAttribute('aria-disabled', 'true');
+    feedback.textContent = 'Enviando...';
+    feedback.className = 'modal-feedback';
+
+    try {
+      const resp = await fetch('/denuncias', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+
+      const json = await resp.json();
+
+      if (!resp.ok) {
+        feedback.textContent = json.erro || 'Não foi possível enviar a denúncia.';
+        feedback.className = 'modal-feedback modal-feedback--erro';
+        btn.removeAttribute('aria-disabled');
+        return false;
+      }
+
+      feedback.textContent = json.mensagem;
+      feedback.className = 'modal-feedback modal-feedback--sucesso';
+
+      setTimeout(fecharDenuncia, 3000);
+    } catch (err) {
+      feedback.textContent = 'Erro de conexão. Tente novamente.';
+      feedback.className = 'modal-feedback modal-feedback--erro';
+      btn.removeAttribute('aria-disabled');
+    }
+
+    return false;
+  }

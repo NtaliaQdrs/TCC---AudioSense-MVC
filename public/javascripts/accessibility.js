@@ -3,7 +3,7 @@
 // fontScale      : '80' a '150'  (%, aplicado via estilo inline em cada elemento)
 // contrastLevel  : '100' a '200' (filter: contrast() no body)
 // lineHeight     : '12' a '25'   (×0.1 = valor real, ex: '15' = 1.5)
-// contrast       : 'Padrão' | 'Alto contraste' | 'Preto e branco' (modos fixos FAB)
+// contrast       : 'Padrão' | 'Alto contraste' (claro) | 'Alto contraste escuro' | 'Preto e branco'
 // reduceMotion   : 'true' | 'false'
 // cursorLarge    : 'true' | 'false'
 // audioSpeed     : string numérico (ex: '10' = 1.0x)
@@ -112,13 +112,15 @@ function aplicarPreferenciasSalvas() {
   const readableFont = localStorage.getItem('readableFont');
   const readingGuide = localStorage.getItem('readingGuide');
   const html = document.documentElement;
+  const isHighContrast = contrast === 'Alto contraste' || contrast === 'Alto contraste escuro';
 
   // ── Tema ──────────────────────────────────────────────────────────────
-  // ── Tema ──────────────────────────────────────────────────────────────
   html.classList.remove('dark-theme', 'light-theme');
-  if (contrast === 'Alto contraste') {
-    // Alto contraste já define suas próprias cores fixas —
-    // ignora o tema escolhido pra não competir com essas regras
+  if (contrast === 'Alto contraste escuro') {
+    // O CSS de alto contraste uniformiza a interface em amarelo sobre preto.
+    html.classList.add('dark-theme');
+  } else if (contrast === 'Alto contraste') {
+    // O CSS de alto contraste uniformiza a interface em preto sobre branco.
     html.classList.add('light-theme');
   } else if (theme === 'Escuro') {
     html.classList.add('dark-theme');
@@ -133,8 +135,9 @@ function aplicarPreferenciasSalvas() {
   }
 
   // ── Contraste fixo (classes CSS) ─────────────────────────────────────
-  html.classList.remove('high-contrast', 'black-white');
+  html.classList.remove('high-contrast', 'high-contrast-dark', 'black-white');
   if (contrast === 'Alto contraste') html.classList.add('high-contrast');
+  else if (contrast === 'Alto contraste escuro') html.classList.add('high-contrast', 'high-contrast-dark');
   else if (contrast === 'Preto e branco') html.classList.add('black-white');
 
   // ── Outros toggles de classe ──────────────────────────────────────────
@@ -195,39 +198,13 @@ function aplicarPreferenciasSalvas() {
   }
 
   // ── Modos de contraste ────────────────────────────────────────────────
-  if (contrast === 'Alto contraste') {
-
-
-    css += `
-      html {
-        filter: contrast(200%) invert(1) !important;
-        background-color: #fff !important;
-      }
-      img, video, canvas, svg image {
-        filter: invert(1) !important;
-      }
-      html.high-contrast .welcome-container, html.high-contrast .stats-container,
-      html.high-contrast .learning-extra-container, html.high-contrast .extra-card,
-      html.high-contrast .collab-box, html.high-contrast .learning-item,
-      html.high-contrast .main-config-card, html.high-contrast .material-card,
-      html.high-contrast .forum-item, html.high-contrast .audiodescricao-item,
-      html.high-contrast .projeto-card, html.high-contrast .user-card,
-      html.high-contrast .stat-card, html.high-contrast .card,
-      html.high-contrast .container, html.high-contrast .containercust,
-      html.high-contrast .post-card {
-        background-color: #b8b4b4 !important;
-        border: 2px solid #000000 !important;
-      }
-    `;
+  if (isHighContrast) {
+    // As paletas uniformes são aplicadas por classes CSS; imagens ficam intactas.
   } else if (contrast === 'Preto e branco') {
-
-
     css += `
       html { filter: grayscale(100%) contrast(${Math.max(contrastLevel, 110)}%) !important; }
     `;
   } else {
-
-
     if (contrastLevel !== 100) {
       const fator = (contrastLevel - 100) / 100;
       const r = Math.round(233 - (233 - 150) * fator);

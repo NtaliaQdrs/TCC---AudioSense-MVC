@@ -59,6 +59,24 @@ export default (sequelize) => {
         ultima_troca_nome: {
             type: DataTypes.DATE,
             allowNull: true
+        },
+
+        // NOVO — status da conta, usado pelo painel de administrador.
+        // 'ativo': uso normal. 'banido': impedido de logar/usar o site,
+        // reversível pelo admin. 'excluido': exclusão "suave" — a conta e
+        // o conteúdo ligado a ela continuam no banco (preservando
+        // referências de posts/materiais), mas o login fica bloqueado e
+        // o usuário some das listagens públicas.
+        status_conta: {
+            type: DataTypes.ENUM('ativo', 'banido', 'excluido'),
+            allowNull: false,
+            defaultValue: 'ativo'
+        },
+
+        // Motivo opcional informado pelo admin ao banir/excluir
+        motivo_status: {
+            type: DataTypes.STRING(300),
+            allowNull: true
         }
 
     }, {

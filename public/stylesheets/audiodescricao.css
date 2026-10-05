@@ -483,3 +483,186 @@ html.dark-theme .sidebar-item i {
     display: none;
   }
 }
+/* ======================================================================
+   AJUSTES DE RESPONSIVIDADE — telas estreitas
+   Evita cortes, rolagem horizontal e textos espremidos no celular.
+   ====================================================================== */
+@media (max-width: 900px) {
+  .page {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 16px;
+  }
+
+  .main-grid,
+  .main-grid > *,
+  .card-inner,
+  .practice,
+  .projeto-card,
+  .aviso-analise {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .main-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .extra-card,
+  .extra-card1 {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .extra-card h2,
+  .extra-card1 h2,
+  .card-content,
+  .card-content p,
+  .practice p,
+  .projeto-card-info,
+  .projeto-card h3,
+  .projeto-card .projeto-descricao,
+  .aviso-analise-texto {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .exemplos-galeria,
+  .exemplo-item {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .exemplo-item img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .exemplo-item figcaption {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .practice {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 30px 0;
+    padding: 24px 20px;
+  }
+
+  .projeto-card {
+    box-sizing: border-box;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    margin-top: 0;
+    white-space: normal;
+  }
+
+  .btn-corrigir {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-inline: 12px;
+  }
+
+  .title {
+    margin: 20px 0 24px;
+    font-size: 22px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .main-grid {
+    gap: 18px;
+    margin-top: 14px;
+  }
+
+  .extra-card,
+  .extra-card1 {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .extra-card h2,
+  .extra-card1 h2 {
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .card-content {
+    padding-inline: 4px;
+  }
+
+  .card-content p,
+  .practice p {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .exemplo-item {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .exemplo-item img {
+    height: 160px;
+  }
+
+  .exemplo-item figcaption {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .practice {
+    margin: 24px 0;
+    padding: 20px 16px;
+  }
+
+  .practice h2 {
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  .projeto-card {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .status-badge {
+    padding: 4px 10px;
+  }
+
+  .aviso-analise {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  article.fullscreen {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    width: calc(100vw - 24px);
+    height: calc(100vh - 24px);
+    height: calc(100dvh - 24px);
+    max-width: none;
+    max-height: none;
+    padding: 22px 16px;
+  }
+
+  article.fullscreen img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}

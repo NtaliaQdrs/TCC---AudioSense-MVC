@@ -22,7 +22,7 @@ body {
 /* GRID PRINCIPAL */
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 300px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 300px;
   grid-template-areas:
     "card1 card2 right"
     "card3 card4 right";
@@ -99,7 +99,10 @@ body {
   font-size: 16px;
 }
 
-.card-text .release-date { margin-top: 15px; font-size: 16px; }
+.card-text .release-date {
+  margin-top: 15px;
+  font-size: 16px;
+}
 
 /* CONTEÚDO ESCONDIDO (sinopse longa) */
 .card-content {
@@ -151,7 +154,7 @@ body {
 }
 
 .expand-btn {
-  background: transparent;
+  background: rgba(0, 0, 0, 0);
   border: none;
   font-size: 20px;
   color: #1f7c5f;
@@ -322,10 +325,6 @@ article.fullscreen {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 970px;
-  height: auto;
-  max-height: 90vh;
-  max-width: 970px;
   z-index: 9999;
   overflow-y: auto;
   padding: 40px;
@@ -333,6 +332,10 @@ article.fullscreen {
   flex-direction: column;
   align-items: flex-start;
   box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.5);
+  width: 1100px;
+  height: auto;
+  max-height: 90vh;
+  max-width: 1100px;
 }
 
 article.fullscreen .card-inner {
@@ -381,8 +384,50 @@ article.fullscreen .card-content {
 }
 
 article.fullscreen .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  flex-wrap: nowrap;
   margin-top: auto;
-  padding-top: 15px;
+  padding-top: 20px;
+}
+
+/* Docente */
+article.fullscreen .docente-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* Plataforma */
+article.fullscreen .card-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+article.fullscreen .card-footer-actions .platform {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Botão denunciar */
+article.fullscreen .btn-denunciar {
+  flex: 0 0 auto;
+}
+
+/* Botão expandir/fechar */
+article.fullscreen .expand-btn {
+  flex: 0 0 auto;
 }
 
 article.fullscreen .card-footer .netflix-icon {
@@ -480,32 +525,386 @@ article.fullscreen .card-footer {
 
 
 
-/* RESPONSIVO */
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+/*
+   Estratégia:
+   - Acima de 1300px: desktop com 2 cards + filtros na lateral.
+   - 901px até 1300px: 2 cards lado a lado e filtros abaixo.
+     Isso evita que os cards fiquem estreitos demais.
+   - Até 900px: uma coluna.
+   - Até 600px: layout específico para celular.
+   - Até 380px: ajustes para celulares muito pequenos.
+*/
+
+
+/* =========================================================
+   901px — 1300px
+   NOTEBOOK / TABLET HORIZONTAL
+   ========================================================= */
+
+/*
+   Os cards continuam lado a lado e com boa largura.
+   A sidebar NÃO é colocada embaixo.
+   Ela funciona como painel lateral recolhível, igual ao
+   comportamento mobile, mas com dimensões próprias para
+   notebook/tablet.
+*/
+
+@media (min-width: 901px) and (max-width: 1300px) {
+
+  .page {
+    width: 92%;
+    max-width: 1150px;
+    margin-inline: auto;
+    box-sizing: border-box;
+  }
+
+  .main-grid,
+  .main-grid.sidebar-collapsed {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    grid-template-areas:
+      "card1 card2"
+      "card3 card4";
+
+    gap: 24px;
+
+    align-items: start;
+  }
+
+  .main-grid > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .main-grid article:nth-child(1) {
+    grid-area: card1;
+  }
+
+  .main-grid article:nth-child(2) {
+    grid-area: card2;
+  }
+
+  .main-grid article:nth-child(3) {
+    grid-area: card3;
+  }
+
+  .main-grid article:nth-child(4) {
+    grid-area: card4;
+  }
+
+
+  /* -------------------------------------------------------
+     SIDEBAR COMO PAINEL LATERAL
+     ------------------------------------------------------- */
+
+  .right-column {
+    width: 0;
+    height: 0;
+
+    position: static !important;
+
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar {
+    position: fixed !important;
+
+    top: 72px;
+    right: 0;
+    bottom: 0;
+
+    width: min(330px, 36vw);
+    max-width: 330px;
+
+    height: auto;
+
+    margin: 0 !important;
+    box-sizing: border-box;
+
+    border-radius: 16px 0 0 16px;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+
+    z-index: 2000;
+
+    overflow-y: auto;
+
+    background: #f5edf5;
+
+    box-shadow: -5px 0 18px rgba(0, 0, 0, 0.18);
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar .toggle-sidebar {
+    display: none;
+  }
+
+  /*
+     Botão de filtros fica visível nessa faixa.
+     No clique, a sidebar entra pela direita.
+  */
+  .sidebar-fab {
+    position: fixed;
+
+    right: 24px;
+    bottom: 75px;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    background: #1f7c5f;
+    color: white;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+
+    z-index: 2001;
+    cursor: pointer;
+  }
+
+  .sidebar-fab:hover {
+    background: #2eb086;
+  }
+
+  /*
+     O botão "Recomende algo" continua dentro do painel.
+  */
+  .recommend-btn {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+
+  /* -------------------------------------------------------
+     CARDS
+     ------------------------------------------------------- */
+
+  .main-grid article.extra-card1:not(.fullscreen) {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 28px 18px;
+
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: flex-start;
+
+    gap: 16px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner > img,
+  .main-grid article.extra-card1:not(.fullscreen) .poster-placeholder {
+    width: 120px;
+    height: 175px;
+
+    flex: 0 0 120px;
+
+    object-fit: cover;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text h3 {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text p,
+  .main-grid article.extra-card1:not(.fullscreen) .release-date {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+
+  /* -------------------------------------------------------
+     RODAPÉ
+     ------------------------------------------------------- */
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer-actions {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 7px;
+    flex-wrap: nowrap;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 6px;
+
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform img,
+  .main-grid article.extra-card1:not(.fullscreen) .platform .netflix-icon {
+    flex: 0 0 auto;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform span {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .btn-denunciar {
+    flex: 0 0 auto;
+    min-width: 0;
+
+    white-space: nowrap;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .expand-btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* =========================================================
+   ATÉ 900px
+   TABLET / CELULAR
+   ========================================================= */
+
 @media (max-width: 900px) {
-  .main-grid {
-    grid-template-columns: 1fr;
-    grid-template-areas: "right" "card1" "card2" "card3" "card4";
+
+  .page {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px;
+  }
+
+  .main-grid,
+  .main-grid.sidebar-collapsed {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr);
+
+    grid-template-areas:
+      "right"
+      "card1"
+      "card2"
+      "card3"
+      "card4";
+
+    gap: 20px;
+  }
+
+  .main-grid > * {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .right-column {
+    grid-area: right;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
     position: static !important;
-    z-index: auto !important;
+
+    align-items: stretch;
+    gap: 12px;
   }
 
-  /* Sidebar de filtros vira painel deslizante */
+  .recommend-btn {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+
+  /* -------------------------------------------------------
+     SIDEBAR MOBILE
+     ------------------------------------------------------- */
+
   .sidebar {
     position: fixed !important;
+
     top: 55px;
     right: 0;
-    height: calc(100vh - 55px);
-    width: 82%;
+    bottom: 0;
+
+    width: min(82vw, 300px);
     max-width: 300px;
-    margin: 0;
+    height: auto;
+
+    margin: 0 !important;
+    box-sizing: border-box;
+
     border-radius: 16px 0 0 16px;
+
     transform: translateX(100%);
     transition: transform 0.3s ease;
+
     z-index: 2000;
     overflow-y: auto;
+
     background: #f5edf5;
   }
 
@@ -519,19 +918,27 @@ article.fullscreen .card-footer {
 
   .sidebar-fab {
     position: fixed;
+
     bottom: 90px;
     right: 28px;
+
     width: 52px;
     height: 52px;
+
     border-radius: 50%;
+
     background: #1f7c5f;
     color: white;
     border: none;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     font-size: 20px;
+
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+
     z-index: 2001;
     cursor: pointer;
   }
@@ -539,56 +946,898 @@ article.fullscreen .card-footer {
   .sidebar-fab:hover {
     background: #2eb086;
   }
-}
 
-@media (min-width: 901px) {
-  .sidebar-fab {
-    display: none;
+
+  /* -------------------------------------------------------
+     CARDS FECHADOS
+     ------------------------------------------------------- */
+
+  .main-grid article.extra-card1:not(.fullscreen) {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    padding: 24px 18px;
+
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text h3 {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text p,
+  .main-grid article.extra-card1:not(.fullscreen) .release-date {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+
+  /* -------------------------------------------------------
+     RODAPÉ
+     ------------------------------------------------------- */
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer-actions {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 7px;
+    flex-wrap: nowrap;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 5px;
+
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform span {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .btn-denunciar {
+    flex: 0 0 auto;
+    min-width: 0;
+
+    white-space: nowrap;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .expand-btn {
+    flex: 0 0 auto;
   }
 }
 
-/* Celulares: o card-inner ficava sempre em linha e apertava a imagem+texto */
+
+/* =========================================================
+   ATÉ 600px
+   CELULAR
+   ========================================================= */
+
 @media (max-width: 600px) {
+
   .page {
-    width: 92%;
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
   }
 
-  .card-inner {
+  .title {
+    margin: 20px 0 28px;
+    font-size: 22px;
+    line-height: 1.3;
+  }
+
+  .main-grid {
+    gap: 18px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) {
+    padding: 20px 14px;
+    border-radius: 16px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner {
     flex-direction: column;
     align-items: center;
+    gap: 16px;
+
     text-align: center;
   }
 
-  .card-inner img {
-    width: 100%;
-    max-width: 220px;
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner > img,
+  .main-grid article.extra-card1:not(.fullscreen) .poster-placeholder {
+    width: min(100%, 200px);
     height: auto;
+
     aspect-ratio: 2 / 3;
+    object-fit: cover;
+
+    flex: 0 0 auto;
   }
 
-  .card-text {
+  .main-grid article.extra-card1:not(.fullscreen) .card-text {
+    width: 100%;
+    max-width: 100%;
+
     align-items: center;
+    overflow: visible;
   }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text h3 {
+    font-size: 19px;
+    line-height: 1.35;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-text p,
+  .main-grid article.extra-card1:not(.fullscreen) .card-text .release-date {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /*
+     Sempre:
+     [ plataforma ] [ Denunciar ] [ Expandir ]
+  */
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer-actions {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    flex-wrap: nowrap;
+    gap: 6px;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 5px;
+
+    overflow: hidden;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform img,
+  .main-grid article.extra-card1:not(.fullscreen) .platform .netflix-icon {
+    width: 42px !important;
+    height: 42px !important;
+
+    flex: 0 0 42px;
+    object-fit: contain;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform span {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    font-size: 12px;
+    line-height: 1.2;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .btn-denunciar {
+    flex: 0 0 auto;
+
+    width: auto !important;
+    min-width: 0;
+
+    padding: 4px 6px;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .expand-btn {
+    flex: 0 0 40px;
+
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+
+    padding: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     SIDEBAR
+     ------------------------------------------------------- */
+
+  .sidebar {
+    width: min(85vw, 300px);
+  }
+
+  .sidebar-fab {
+    right: 20px;
+    bottom: 75px;
+  }
+
+
+  /* -------------------------------------------------------
+     CARD EXPANDIDO
+     ------------------------------------------------------- */
 
   article.fullscreen {
-    width: 95vw;
-    max-width: 95vw;
-    padding: 25px;
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+
+    height: auto;
+    max-height: calc(100vh - 24px);
+
+    box-sizing: border-box;
+
+    padding: 22px 18px;
+
+    overflow-y: auto;
+
+    border-radius: 16px;
   }
 
   article.fullscreen .card-inner {
+    width: 100%;
+
+    display: flex;
     flex-direction: column;
+
     align-items: center;
+    gap: 18px;
+
     text-align: center;
   }
 
   article.fullscreen .card-inner img {
-    width: 60%;
+    width: min(70%, 220px);
     height: auto;
+
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+
+    border-radius: 10px;
+  }
+
+  article.fullscreen .card-text {
+    width: 100%;
+    min-width: 0;
+  }
+
+  article.fullscreen h3 {
+    font-size: 21px;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  article.fullscreen .card-content {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0;
+
+    text-align: left;
   }
 
   article.fullscreen .card-footer {
-    flex-wrap: wrap;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
     justify-content: center;
+
+    flex-wrap: wrap;
+    gap: 10px;
   }
+
+  article.fullscreen .card-footer-actions {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  article.fullscreen .platform {
+    min-width: 0;
+    flex: 1 1 auto;
+
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  article.fullscreen .platform span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  article.fullscreen .btn-denunciar {
+    flex: 0 0 auto;
+  }
+
+  article.fullscreen .expand-btn {
+    flex: 0 0 auto;
+  }
+
+  article.fullscreen .docente-info {
+    justify-content: center;
+
+    width: 100%;
+
+    flex-wrap: wrap;
+    text-align: center;
+  }
+}
+
+
+/* =========================================================
+   ATÉ 380px
+   CELULAR MUITO PEQUENO
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .page {
+    padding-inline: 10px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) {
+    padding: 16px 12px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner {
+    gap: 12px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-inner > img,
+  .main-grid article.extra-card1:not(.fullscreen) .poster-placeholder {
+    max-width: 170px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer-actions {
+    gap: 4px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform {
+    gap: 4px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform img,
+  .main-grid article.extra-card1:not(.fullscreen) .platform .netflix-icon {
+    width: 36px !important;
+    height: 36px !important;
+
+    flex-basis: 36px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .platform span {
+    font-size: 11px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .btn-denunciar {
+    padding: 4px 4px;
+    font-size: 11px;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) .expand-btn {
+    flex-basis: 36px;
+
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+  }
+
+  article.fullscreen {
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+
+    padding: 18px 14px;
+  }
+
+  article.fullscreen .card-footer-actions {
+    gap: 5px;
+  }
+
+  article.fullscreen .btn-denunciar {
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   DESKTOP GRANDE — ACIMA DE 1300px
+   ========================================================= */
+
+@media (min-width: 1301px) {
+
+  .sidebar-fab {
+    display: none;
+  }
+
+  .main-grid {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      300px;
+
+    grid-template-areas:
+      "card1 card2 right"
+      "card3 card4 right";
+  }
+
+  .right-column {
+    width: 300px;
+    min-width: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* =========================================================
+   RODAPÉ DO CARD — PLATAFORMA + DENUNCIAR + EXPANDIR
+   (o estilo do botão Denunciar fica em denuncia.css)
+   ========================================================= */
+
+.card-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+  max-width: 100%;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+}
+
+.card-footer-actions .btn-denunciar {
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+
+/* Plataforma não pode ser esmagada */
+.card-footer-actions .platform {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* Ícone da plataforma */
+.card-footer-actions .platform img,
+.card-footer-actions .platform .netflix-icon {
+  flex-shrink: 0;
+}
+
+/* Texto "Acesse na Disney+" / "Acesse na Netflix" */
+.card-footer-actions .platform span {
+  white-space: nowrap;
+  overflow: visible;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* =========================================================
+   BOTÃO EXPANDIR
+   ========================================================= */
+
+.card-footer-actions .expand-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px 10px;
+
+  border: 1px solid #1f7c5f;
+  border-radius: 10px;
+
+  background: #fff;
+  color: #1f7c5f;
+
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.card-footer-actions .expand-btn:hover {
+  background: #1f7c5f;
+  color: #fff;
+}
+
+/* =========================================================
+   AJUSTE FINAL — CENTRALIZAÇÃO E ÁREA SEGURA
+   ========================================================= */
+
+/*
+   Estas regras ficam no final de propósito, para corrigir
+   qualquer regra anterior que possa causar deslocamento
+   horizontal em algumas larguras.
+*/
+
+/* ---------------------------------------------------------
+   901px — 1300px
+   --------------------------------------------------------- */
+
+@media (min-width: 901px) and (max-width: 1300px) {
+
+  .page {
+    width: calc(100% - 48px);
+    max-width: 1150px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid {
+    width: 100%;
+    max-width: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    box-sizing: border-box;
+  }
+
+  /*
+     A sidebar nunca pode ser maior que a largura disponível.
+  */
+  .sidebar {
+    width: min(330px, calc(100vw - 40px)) !important;
+    max-width: calc(100vw - 40px) !important;
+
+    right: 20px !important;
+
+    border-radius: 16px;
+  }
+
+  /*
+     Deixa o FAB dos filtros separado do FAB de acessibilidade.
+  */
+  .sidebar-fab {
+    right: 24px !important;
+    bottom: 92px !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   601px — 900px
+   --------------------------------------------------------- */
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+  .page {
+    width: calc(100% - 32px);
+    max-width: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid {
+    width: 100%;
+    max-width: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   ATÉ 600px
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+  /*
+     Em vez de width:100% + padding interno do .page,
+     usamos uma largura já descontada das margens.
+     Isso impede o card de encostar na borda ou criar
+     overflow horizontal.
+  */
+  .page {
+    width: calc(100% - 24px) !important;
+    max-width: calc(100% - 24px) !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    box-sizing: border-box;
+  }
+
+  .title {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    text-align: center;
+
+    overflow-wrap: break-word;
+  }
+
+  .main-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    box-sizing: border-box;
+  }
+
+  .main-grid article.extra-card1:not(.fullscreen) {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    box-sizing: border-box;
+  }
+
+  /*
+     Evita que o rodapé seja maior que o card.
+  */
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer,
+  .main-grid article.extra-card1:not(.fullscreen) .card-footer-actions {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    box-sizing: border-box;
+  }
+
+  /*
+     FAB dos filtros acima e afastado do FAB de acessibilidade.
+  */
+  .sidebar-fab {
+    right: 20px !important;
+    bottom: 92px !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   ATÉ 380px
+   --------------------------------------------------------- */
+
+@media (max-width: 380px) {
+
+  .page {
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+  }
+
+  .sidebar-fab {
+    right: 16px !important;
+    bottom: 88px !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   PROTEÇÃO CONTRA OVERFLOW HORIZONTAL
+   --------------------------------------------------------- */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.main-grid,
+.page,
+.extra-card1 {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   FAB DE FILTROS — ALINHAMENTO EXATO COM ACESSIBILIDADE
+   ========================================================= */
+
+.sidebar-fab {
+    position: fixed !important;
+
+    width: 52px !important;
+    height: 52px !important;
+
+    right: 28px !important;
+    bottom: 90px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    z-index: 9997 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    transform: none !important;
+}
+
+/* =========================================================
+   BOTÃO DA SIDEBAR
+   Só aparece quando a sidebar vira painel recolhível
+   ========================================================= */
+
+/* Notebook grande / desktop:
+   sidebar normal, sem botão flutuante */
+.sidebar-fab {
+    display: none !important;
+}
+
+
+/* Telas intermediárias:
+   sidebar recolhida + botão para abrir */
+@media (min-width: 901px) and (max-width: 1300px) {
+    .sidebar-fab {
+        display: flex !important;
+
+        position: fixed !important;
+
+        width: 52px !important;
+        height: 52px !important;
+
+        right: 28px !important;
+        bottom: 90px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        box-sizing: border-box !important;
+
+        z-index: 9997 !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        transform: none !important;
+    }
+}
+
+
+/* Tablet/celular */
+@media (max-width: 900px) {
+    .sidebar-fab {
+        display: flex !important;
+
+        position: fixed !important;
+
+        width: 52px !important;
+        height: 52px !important;
+
+        right: 28px !important;
+        bottom: 90px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        box-sizing: border-box !important;
+
+        z-index: 9997 !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        transform: none !important;
+    }
+}
+
+
+/* Celular pequeno — acompanha o posicionamento do FAB
+   de acessibilidade */
+@media (max-width: 480px) {
+    .sidebar-fab {
+        right: 28px !important;
+        bottom: 90px !important;
+    }
 }
