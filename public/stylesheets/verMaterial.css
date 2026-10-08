@@ -530,15 +530,20 @@
   flex-wrap: wrap;
 }
 
-.vm-estrelas-input {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 4px;
-  font-size: 1.3rem;
+.vm-estrelas-input input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  opacity: 0;
 }
 
-.vm-estrelas-input input {
-  display: none;
+.vm-estrelas-input input:focus-visible + label {
+  outline: 3px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .vm-estrelas-input label {

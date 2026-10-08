@@ -16,7 +16,6 @@ block content
 
           //- --- Card lateral: docente / metadados ---
           aside.vm-info-card
-            
 
             button.vm-minimize-btn(type="button" aria-label="Minimizar informações" aria-expanded="true")
               i.bi.bi-dash-lg(aria-hidden="true")
@@ -115,9 +114,9 @@ block content
           if podeAvaliar
             form.vm-form-avaliacao(action=`/material/${material.id}/avaliar` method="POST")
               label.sr-only(for="comentario") Deixe um comentário e uma avaliação
-            textarea#comentario.vm-textarea(name="comentario" placeholder="Deixe um comentário e uma avaliação...")
+              textarea#comentario.vm-textarea(name="comentario" placeholder="Deixe um comentário e uma avaliação...")
               .vm-form-footer
-                .vm-estrelas-input
+                .vm-estrelas-input(role="radiogroup" aria-label="Nota de 1 a 5 estrelas")
                   each i in [5,4,3,2,1]
                     input(type="radio" name="nota" id=`estrela-${i}` value=i required)
                     label(for=`estrela-${i}`)

@@ -10,6 +10,12 @@ import {
 
 const router = express.Router();
 
+
+// Links antigos de notificações de denúncia: /biblioteca/material/ID -> /material/ID
+router.get('/biblioteca/material/:id', (req, res) => {
+  res.redirect(`/material/${req.params.id}`);
+});
+
 // Qualquer usuário logado pode denunciar
 router.post('/denuncias', auth, criarDenuncia);
 

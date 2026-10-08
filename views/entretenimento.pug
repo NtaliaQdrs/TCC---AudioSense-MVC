@@ -57,7 +57,8 @@ block content
 
                       button.btn-denunciar(
                         type="button"
-                        onclick=`abrirDenuncia('material', ${rec.obra.id})`
+                        aria-label=`Denunciar ${rec.obra.titulo}`
+                        onclick=`abrirDenuncia('recomendacao', ${rec.id})`
                       )
                         i.bi.bi-flag(aria-hidden="true")
                         | Denunciar

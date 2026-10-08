@@ -1574,7 +1574,12 @@
    ALTO CONTRASTE — AudioSense
    Claro : fundo branco, texto e bordas pretos
    Escuro: fundo preto,  texto e bordas amarelos
-   Nada é preenchido: só texto e bordas usam a cor de destaque.
+
+   REGRA DE OURO: nada neste bloco pode mudar tamanho ou posição.
+   Aqui só entram propriedades de COR (color, background-color,
+   border-color, outline, box-shadow, filter, accent-color).
+   Nunca definir border-width, border-style, border, padding,
+   margin, width, height, font-weight, font-size ou border-radius.
    ═══════════════════════════════════════════════════════════ */
 
 :root.high-contrast {
@@ -1584,7 +1589,11 @@
 }
 :root.high-contrast.high-contrast-dark {
   --hc-bg: #000000;
-  --hc-fg: #ffff00;
+  /* Amarelo-ouro. O #ffff00 puro dá 19,6:1 sobre preto (passa em tudo), mas
+     ofusca; o #ffd700 dá ~15:1 (ainda acima dos 7:1 do nível AAA) e cansa
+     menos a vista. Para trocar o tom, altere só esta linha (e o hue-rotate
+     do filtro dos ícones, mais abaixo). */
+  --hc-fg: #ffd700;
   color-scheme: dark;
 }
 
@@ -1604,35 +1613,16 @@
   text-shadow: none !important;
 }
 
-/* 2) Bordas: controles e blocos de conteúdo */
-:root.high-contrast.high-contrast.high-contrast body :is(
-  button, [role="button"], summary, select, textarea,
-  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
-  a[class*="btn"], a[class*="button"], a.read-more,
-  .option-button, .btn-social, .social-icons a, .sub-menu a,
-  .filter-btn, .btn-filter, .pagination-btn, .toolbar-btn, .expand-btn,
-  .input-group, .upload-area, .tipo-midia-option,
-  .card, .post-card, .material-card, .extra-card, .extra-card1, .collab-box,
-  .practice, .sidebar, .sidebar-box, .welcome-container, .stats-container,
-  .learning-extra-container, .container-form, .projeto-resumo, .exemplo-item,
-  .alert-pendente, .alert-rejeitado, .aviso-analise, .ad-card, .status-badge,
-  .disciplinas-lista, .fab-panel, .profile-dropdown, .modal-box
-) {
-  border: 2px solid var(--hc-fg) !important;
-}
-:root.high-contrast.high-contrast.high-contrast body :is(.top-bar) {
-  border: 0 solid var(--hc-fg) !important;
-  border-bottom-width: 2px !important;
-}
-:root.high-contrast.high-contrast.high-contrast body :is(.footer) {
-  border: 0 solid var(--hc-fg) !important;
-  border-top-width: 2px !important;
-}
-:root.high-contrast.high-contrast.high-contrast body :is(.footer-bottom, .fab-panel__footer, .fab-panel__titulo, .dropdown-tabs) {
+/* 2) Bordas: só RECOLORE as que já existem. Onde não havia borda
+      (border-style none) continua não havendo, então nada se mexe. */
+:root.high-contrast.high-contrast.high-contrast body *,
+:root.high-contrast.high-contrast.high-contrast body *::before,
+:root.high-contrast.high-contrast.high-contrast body *::after {
   border-color: var(--hc-fg) !important;
 }
-:root.high-contrast.high-contrast.high-contrast body :is(hr, .dropdown-divider, .form-divider, .header-divider) {
-  border-color: var(--hc-fg) !important;
+/* Bordas transparentes usadas só para layout (abas inativas) continuam invisíveis */
+:root.high-contrast.high-contrast.high-contrast body .tab-btn:not(.tab-active):not(.active) {
+  border-color: transparent !important;
 }
 
 /* 3) Filhos de botões/links herdam, sem criar camadas coloridas */
@@ -1653,7 +1643,8 @@
   input[type="checkbox"], input[type="radio"], input[type="range"], progress, meter
 ) { accent-color: var(--hc-fg) !important; }
 
-/* 5) Hover e ativo: borda interna extra + negrito (sem preencher) */
+/* 5) Hover e ativo: contorno interno (box-shadow inset não ocupa espaço).
+      Sem negrito: font-weight muda a largura do texto e empurra o layout. */
 :root.high-contrast.high-contrast.high-contrast body :is(
   button, [role="button"], summary, a[class*="btn"], a[class*="button"],
   .option-button, .sub-menu a, .menu-links a, .dropdown-item, .filter-btn, .tab-btn
@@ -1665,10 +1656,9 @@
   .fab-btn-opt--active, .fab-btn-opt[aria-pressed="true"]
 ) {
   box-shadow: inset 0 0 0 3px var(--hc-fg) !important;
-  font-weight: 800 !important;
 }
 
-/* 6) Foco do teclado bem visível */
+/* 6) Foco do teclado bem visível (box-shadow externo, não ocupa espaço) */
 :root.high-contrast.high-contrast.high-contrast body :is(
   button, a, [role="button"], summary, input, textarea, select
 ):focus-visible {
@@ -1676,31 +1666,63 @@
   box-shadow: 0 0 0 2px var(--hc-bg), 0 0 0 5px var(--hc-fg) !important;
 }
 
-/* 7) SVG, seleção, scrollbar, botão de arquivo */
+/* 7) Contornos: nenhum controle pode "flutuar" sem forma.
+      Usa OUTLINE com offset negativo: ele é desenhado por dentro do elemento e
+      não ocupa espaço, então nada muda de tamanho nem de lugar. */
+
+/* 7a) Barra do menu: borda grossa */
+:root.high-contrast.high-contrast.high-contrast body .top-bar {
+  outline: 3px solid var(--hc-fg) !important;
+  outline-offset: -3px !important;
+}
+
+/* 7b) Controles da barra do menu e menu do perfil (não têm borda no tema normal) */
+:root.high-contrast.high-contrast.high-contrast body :is(
+  .menu-links a, #profileBtn, .search-box1 input, .profile-dropdown,
+  .dropdown-item, .category-toggle
+) {
+  outline: 2px solid var(--hc-fg) !important;
+  outline-offset: -2px !important;
+}
+
+/* 7c) Todos os botões do sistema, menos os que JÁ têm borda própria
+       (para não ficar com borda dupla). Se um botão novo aparecer com borda
+       dupla, acrescente a classe dele na lista do :not(). */
+:root.high-contrast.high-contrast.high-contrast body :is(
+  button, [role="button"], summary, a[class*="btn"], a[class*="button"], .avatar-badge
+):not(:is(
+  .sub-menu a, .filter-btn, .btn-filter, .btn-insert, .option-button, .btn-social,
+  .expand-btn, .vm-minimize-btn, .fab-btn-opt, .fab-btn-close, .btn-delete-material,
+  .btn-editar-perfil, .tab-btn
+)) {
+  outline: 2px solid var(--hc-fg) !important;
+  outline-offset: -2px !important;
+}
+
+/* 8) SVG, seleção, scrollbar, botão de arquivo */
 :root.high-contrast svg [fill]:not([fill="none"])     { fill: currentColor !important; }
 :root.high-contrast svg [stroke]:not([stroke="none"]) { stroke: currentColor !important; }
 :root.high-contrast ::selection { color: var(--hc-bg) !important; background: var(--hc-fg) !important; }
-:root.high-contrast ::-webkit-scrollbar-track { background: var(--hc-bg) !important; }
-:root.high-contrast ::-webkit-scrollbar-thumb { background: var(--hc-fg) !important; }
+/* Barra de rolagem: scrollbar-color muda SÓ a cor e mantém a largura nativa.
+   (Estilizar ::-webkit-scrollbar com outra largura muda a área útil da página
+   e faz as grades de cards se reorganizarem.) */
+:root.high-contrast { scrollbar-color: var(--hc-fg) var(--hc-bg); }
 :root.high-contrast input[type="file"]::file-selector-button {
   color: var(--hc-fg) !important;
   background: var(--hc-bg) !important;
-  border: 2px solid var(--hc-fg) !important;
+  border-color: var(--hc-fg) !important;
 }
 
-/* 8) Overlays de modal e guia de leitura não podem esconder o conteúdo */
+/* 9) Overlays de modal não podem esconder o conteúdo */
 :root.high-contrast.high-contrast.high-contrast :is(.card-overlay.active, .modal-overlay) {
   background: var(--hc-bg) !important;
   opacity: .92;
 }
 :root.high-contrast.high-contrast.high-contrast body #fab-reading-guide {
   background-color: transparent !important;
-  border: 0 solid var(--hc-fg) !important;
-  border-top-width: 2px !important;
-  border-bottom-width: 2px !important;
 }
 
-/* 9) Sublinhado: só quando a opção do FAB estiver ligada, e nunca em botões */
+/* 10) Sublinhado: só quando a opção do FAB estiver ligada, e nunca em botões */
 :root.high-contrast:not(.underline-links) body * { text-decoration: none !important; }
 :root.high-contrast.underline-links body a { text-decoration: underline !important; }
 :root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt),
@@ -1708,52 +1730,21 @@
   text-decoration: none !important;
 }
 
-/* 10) Imagens mantêm o conteúdo; a logo da autenticação acompanha a paleta */
+/* 11) Imagens mantêm o conteúdo; a logo da autenticação acompanha a paleta */
 :root.high-contrast :is(img, video, canvas, iframe) { filter: none !important; }
 :root.high-contrast:not(.high-contrast-dark) .logo-contrast { filter: grayscale(1) contrast(2.2) !important; }
 :root.high-contrast.high-contrast-dark .logo-contrast {
   filter: invert(1) hue-rotate(25deg) saturate(2.5) contrast(1.25) !important;
 }
 
-/* 11) Qualquer borda que já exista passa para a cor do contraste.
-   Só recolore: não cria borda onde não havia (border-style none continua none). */
-:root.high-contrast.high-contrast.high-contrast body *,
-:root.high-contrast.high-contrast.high-contrast body *::before,
-:root.high-contrast.high-contrast.high-contrast body *::after {
-  border-color: var(--hc-fg) !important;
-}
-/* Bordas transparentes usadas só para layout (abas inativas) continuam invisíveis */
-:root.high-contrast.high-contrast.high-contrast body .tab-btn:not(.tab-active):not(.active) {
-  border-color: transparent !important;
-}
-
-/* 12) Raio padrão com especificidade ZERO: só vale para quem não definiu raio,
-   então botões redondos (pílulas, círculos) continuam como estavam. */
-:where(:root.high-contrast body) :where(
-  button, [role="button"], summary, select, textarea,
-  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
-  a[class*="btn"], a[class*="button"], .view-btn
-) {
-  border-radius: 8px;
-}
-
-/* 13) Contraste escuro: ícones pretos viram amarelos.
-   brightness(0) garante que o ícone fique 100% preto antes de colorir,
-   e o resto da cadeia converte preto em #ffff00. */
+/* 12) Contraste escuro: ícones pretos viram amarelos.
+       O fundo da <img> tem de ficar transparente, senão vira um quadrado amarelo. */
 :root.high-contrast.high-contrast-dark.high-contrast-dark body :is(
   .option-button img,
   img[src$=".svg"],
-  img.img-icone
+  img.img-icone,
+  .avatar-badge img
 ):not(.logo-contrast) {
-  filter: brightness(0) invert(93%) sepia(96%) saturate(7000%) hue-rotate(2deg) brightness(105%) contrast(105%) !important;
-}
-
-/* 14) Contraste escuro: ícone do tipo de perfil fica amarelo. */
-:root.high-contrast.high-contrast-dark.high-contrast-dark body .avatar-badge img {
   background-color: transparent !important;
-  filter: brightness(0) invert(93%) sepia(96%) saturate(7000%) hue-rotate(2deg) brightness(105%) contrast(105%) !important;
-}
-:root.high-contrast.high-contrast-dark.high-contrast-dark body .avatar-badge {
-  background-color: var(--hc-bg) !important;
-  border: 2px solid var(--hc-fg) !important;
+  filter: brightness(0) invert(93%) sepia(96%) saturate(7000%) hue-rotate(2deg) brightness(105%) contrast(105%) hue-rotate(-9deg) !important;
 }

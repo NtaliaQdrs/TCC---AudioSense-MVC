@@ -5,6 +5,9 @@ block styles
   link(rel="stylesheet", href="/stylesheets/painelDenuncias.css")
 
 block content
+  //- Matérias que realmente existem nos materiais listados (sem repetir)
+  - const disciplinas = [...new Set(materiais.map(m => m.disciplinaNome).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'))
+
   main.page
     h1.title Biblioteca de materiais acessibilizados
 
@@ -19,24 +22,27 @@ block content
           i.bi.bi-plus(aria-hidden="true")
           |  Inserir conteúdo
 
-    //- Filtros por matéria
+    //- Filtros por matéria (um botão por matéria que existe na biblioteca)
     .filters-section(role="group" aria-label="Filtrar por matéria")
-      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 1
-      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 2
-      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 3
-      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 4
-      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 5
-      button.filter-btn(data-filter="all" aria-pressed="false") Matéria 6
+      button.filter-btn.active(type="button" data-filter="__todas__" aria-pressed="true") Todas as matérias
+      each disciplina in disciplinas
+        button.filter-btn(type="button" data-filter=disciplina aria-pressed="false")= disciplina
+
+    //- Avisa leitores de tela quantos materiais ficaram na lista
+    p#filtro-status.sr-only(role="status" aria-live="polite")
 
     //- Seção de materiais disponíveis
     .materials-section
-      h2.materials-title Materiais disponíveis (#{materiais.length})
+      h2.materials-title
+        | Materiais disponíveis (
+        span#contagem-materiais= materiais.length
+        | )
 
       if materiais.length === 0
         p Nenhum material disponível ainda.
 
       each material in materiais
-        .material-card(data-href=`/material/${material.id}`)
+        .material-card(data-href=`/material/${material.id}` data-disciplina=material.disciplinaNome)
 
           .card-icon(class=material.tipo_material === 'video' ? 'purple' : (material.tipo_material === 'artigo' ? 'blue' : ''))
             if material.tipo_material === 'video'
@@ -109,7 +115,67 @@ block content
                   i.bi.bi-trash(aria-hidden="true")
                   | Apagar
 
+      p#sem-resultados.sem-resultados(hidden) Nenhum material encontrado nesta matéria.
+
   //- Modal de denúncia (compartilhado entre as telas)
   include partials/denuncia-modal
 
   script(src="../javascripts/biblioteca.js")
+  script.
+    // ===== Filtro por matéria =====
+    (function () {
+      var secao = document.querySelector('.filters-section');
+      if (!secao) return;
+
+      var TODAS = '__todas__';
+      var botoes = Array.prototype.slice.call(secao.querySelectorAll('.filter-btn'));
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.material-card'));
+      var contagem = document.getElementById('contagem-materiais');
+      var semResultados = document.getElementById('sem-resultados');
+      var status = document.getElementById('filtro-status');
+
+      function filtrar(materia, atualizarEndereco) {
+        var mostrarTodas = materia === TODAS;
+        var visiveis = 0;
+
+        cards.forEach(function (card) {
+          var combina = mostrarTodas || card.getAttribute('data-disciplina') === materia;
+          card.classList.toggle('oculto-filtro', !combina);
+          if (combina) visiveis++;
+        });
+
+        botoes.forEach(function (botao) {
+          var ativo = botao.getAttribute('data-filter') === materia;
+          botao.classList.toggle('active', ativo);
+          botao.setAttribute('aria-pressed', String(ativo));
+        });
+
+        if (contagem) contagem.textContent = visiveis;
+        if (semResultados) semResultados.hidden = visiveis !== 0 || cards.length === 0;
+
+        if (status) {
+          status.textContent = mostrarTodas
+            ? visiveis + (visiveis === 1 ? ' material exibido.' : ' materiais exibidos.')
+            : visiveis + (visiveis === 1 ? ' material' : ' materiais') + ' em ' + materia + '.';
+        }
+
+        // Guarda a escolha no endereço, para sobreviver a F5 e ao botão Voltar
+        if (atualizarEndereco && window.history && history.replaceState) {
+          var url = new URL(window.location.href);
+          if (mostrarTodas) url.searchParams.delete('materia');
+          else url.searchParams.set('materia', materia);
+          history.replaceState(null, '', url);
+        }
+      }
+
+      botoes.forEach(function (botao) {
+        botao.addEventListener('click', function () {
+          filtrar(botao.getAttribute('data-filter'), true);
+        });
+      });
+
+      // Se a página abriu com ?materia=Biologia, já aplica
+      var inicial = new URLSearchParams(window.location.search).get('materia');
+      var existe = botoes.some(function (b) { return b.getAttribute('data-filter') === inicial; });
+      if (inicial && existe) filtrar(inicial, false);
+    })();

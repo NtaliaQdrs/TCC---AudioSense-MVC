@@ -1,5 +1,6 @@
 // Model que representa a tabela 'denuncia'
-// Guarda denúncias feitas por usuários contra materiais, posts e comentários.
+// Guarda denúncias feitas por usuários contra materiais, posts, comentários
+// e recomendações do entretenimento.
 import { DataTypes } from 'sequelize';
 
 export default (sequelize) => {
@@ -15,7 +16,7 @@ export default (sequelize) => {
     // aponta para tabelas diferentes dependendo do tipo (e o conteúdo pode
     // ser apagado depois — a denúncia continua no histórico).
     tipo_conteudo: {
-      type: DataTypes.ENUM('material', 'publicacao', 'comentario'),
+      type: DataTypes.ENUM('material', 'publicacao', 'comentario', 'recomendacao'),
       allowNull: false
     },
 

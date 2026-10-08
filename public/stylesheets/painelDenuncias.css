@@ -179,7 +179,8 @@
 }
 #denuncia-modal .btn-perigo:hover { background: #b71c1c; }
 
-#denuncia-modal button:disabled {
+#denuncia-modal button:disabled,
+#denuncia-modal button[aria-disabled="true"] {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -191,7 +192,7 @@
   gap: 6px;
   background: none;
   border: none;
-  color: #9ca3af;
+  color: #5b6270;
   font-size: 0.85rem;
   font-weight: 600;
   white-space: nowrap;
@@ -239,4 +240,29 @@ html.dark-theme #denuncia-modal .modal-close:hover { background: #2a2a3e; color:
   #denuncia-modal .modal-actions { flex-direction: column-reverse; }
   #denuncia-modal .btn-secundario,
   #denuncia-modal .btn-perigo { width: 100%; }
+}
+
+/* A caixa recebe foco por script (tabindex -1) para o leitor de tela anunciar
+   o título; não é um controle, então não precisa de contorno. */
+#denuncia-modal .modal-box:focus { outline: none; }
+
+/* ── Aviso para quem não está logado ────────────────────────── */
+#denuncia-modal .btn-login-denuncia {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: #6c4bd1;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: 'Poppins', Arial, sans-serif;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+#denuncia-modal .btn-login-denuncia:hover { background: #5538b0; }
+
+@media (max-width: 480px) {
+  #denuncia-modal .btn-login-denuncia { width: 100%; }
 }

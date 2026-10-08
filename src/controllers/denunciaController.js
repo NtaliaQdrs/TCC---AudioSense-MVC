@@ -1,5 +1,5 @@
 // Controller de denúncias:
-//  - qualquer usuário logado denuncia um material, post ou comentário
+//  - qualquer usuário logado denuncia um material, post, comentário ou recomendação
 //  - o autor do conteúdo recebe um aviso (notificação + e-mail) na hora
 //  - o administrador analisa no painel e decide: excluir ou manter
 import db from '../models/index.js';
@@ -7,8 +7,14 @@ import { enviarEmail } from '../config/email.js';
 
 const APP_URL = process.env.APP_URL || 'http://localhost:3000';
 
-// ⚠️ AJUSTE AQUI: rota real da página que exibe um material da biblioteca
-const rotaMaterial = (id) => `/biblioteca/material/${id}`;
+// Rota da página que exibe um material (a mesma usada em biblioteca.pug: /material/:id)
+const rotaMaterial = (id) => `/material/${id}`;
+
+// ⚠️ AJUSTE AQUI: nome do model das recomendações da tela de entretenimento
+// (o mesmo que o controller do entretenimento usa em db.<Nome>.findAll).
+// Ele precisa ter as associações "obra" (com a coluna titulo) e "docente"
+// (com a coluna usuario_id), que é o que a view entretenimento.pug já usa.
+const MODELO_RECOMENDACAO = 'Recomendacao';
 
 // Motivos aceitos. As chaves precisam bater com os "value" dos radios
 // em views/partials/denuncia-modal.pug.
@@ -21,12 +27,38 @@ export const MOTIVOS = {
   outro: 'Outro motivo'
 };
 
-const TIPOS = ['material', 'publicacao', 'comentario'];
-const ROTULO_TIPO = { material: 'Material', publicacao: 'Post do fórum', comentario: 'Comentário' };
+// Tipos aceitos. Os nomes precisam bater com o 1º argumento de abrirDenuncia():
+//   biblioteca     -> 'material'
+//   fórum (post)   -> 'publicacao'
+//   comentário     -> 'comentario'
+//   entretenimento -> 'recomendacao'
+const TIPOS = ['material', 'publicacao', 'comentario', 'recomendacao'];
+const ROTULO_TIPO = {
+  material: 'Material',
+  publicacao: 'Post do fórum',
+  comentario: 'Comentário',
+  recomendacao: 'Recomendação (entretenimento)'
+};
+// Como cada tipo aparece nas mensagens ("um post seu...", "sua denúncia sobre o post...")
+const OQUE = {
+  material: 'material',
+  publicacao: 'post',
+  comentario: 'comentário',
+  recomendacao: 'recomendação'
+};
 const ROTULO_STATUS = {
   pendente: 'Pendente',
   procedente: 'Procedente — conteúdo removido',
   improcedente: 'Improcedente — conteúdo mantido'
+};
+
+// Model de cada tipo (usado para checar, em lote, se o conteúdo ainda existe)
+const modeloDoTipo = (tipo) => {
+  if (tipo === 'material') return db.MaterialDidatico;
+  if (tipo === 'publicacao') return db.Publicacao;
+  if (tipo === 'comentario') return db.Comentario;
+  if (tipo === 'recomendacao') return db[MODELO_RECOMENDACAO];
+  return null;
 };
 
 // ─── AUXILIARES ───────────────────────────────────────────────────────────
@@ -46,6 +78,7 @@ const linkConteudo = (tipo, id, publicacaoRefId) => {
   if (tipo === 'publicacao') return `/forum/${id}`;
   if (tipo === 'comentario') return publicacaoRefId ? `/forum/${publicacaoRefId}#comentarios` : null;
   if (tipo === 'material') return rotaMaterial(id);
+  if (tipo === 'recomendacao') return '/entretenimento';
   return null;
 };
 
@@ -79,7 +112,48 @@ const carregarConteudo = async (tipo, id) => {
     };
   }
 
+  if (tipo === 'recomendacao') {
+    const Recomendacao = db[MODELO_RECOMENDACAO];
+    if (!Recomendacao) return null;
+    const rec = await Recomendacao.findByPk(id, {
+      include: [
+        { association: 'obra', attributes: ['titulo'] },
+        { association: 'docente', attributes: ['usuario_id'] }
+      ]
+    });
+    if (!rec) return null;
+    return {
+      autorUsuarioId: rec.docente?.usuario_id ?? null,
+      resumo: rec.obra?.titulo ?? 'Recomendação'
+    };
+  }
+
   return null;
+};
+
+// Descobre, com UMA consulta por tipo, quais conteúdos denunciados ainda existem.
+// Antes eram 1–2 consultas por denúncia (até 100 ao mesmo tempo), e isso
+// deixava o painel lento.
+const idsQueAindaExistem = async (denuncias) => {
+  const idsPorTipo = {};
+  denuncias.forEach((d) => {
+    if (d.status === 'procedente') return; // procedente = já foi removido
+    if (!idsPorTipo[d.tipo_conteudo]) idsPorTipo[d.tipo_conteudo] = new Set();
+    idsPorTipo[d.tipo_conteudo].add(d.conteudo_id);
+  });
+
+  const existentes = {};
+  await Promise.all(Object.entries(idsPorTipo).map(async ([tipo, ids]) => {
+    const modelo = modeloDoTipo(tipo);
+    if (!modelo) { existentes[tipo] = new Set(); return; }
+    const linhas = await modelo.findAll({
+      where: { id: [...ids] },
+      attributes: ['id'],
+      raw: true
+    });
+    existentes[tipo] = new Set(linhas.map((l) => l.id));
+  }));
+  return existentes;
 };
 
 // Apaga registros de OUTRAS tabelas que apontam para o conteúdo (curtidas,
@@ -123,6 +197,12 @@ const removerConteudo = async (tipo, id, t) => {
     await db.Publicacao.destroy({ where: { id }, transaction: t });
   } else if (tipo === 'comentario') {
     await removerComentario(id, t);
+  } else if (tipo === 'recomendacao') {
+    // Remove só a recomendação; a obra e a plataforma continuam no catálogo
+    const Recomendacao = db[MODELO_RECOMENDACAO];
+    if (!Recomendacao) return;
+    await apagarDependentes('recomendacao_id', id, t, [MODELO_RECOMENDACAO]);
+    await Recomendacao.destroy({ where: { id }, transaction: t });
   }
 };
 
@@ -136,7 +216,7 @@ const avisarDenunciado = async (motivo, tipo, conteudo, conteudoId) => {
   });
   if (!autor) return;
 
-  const oQue = { material: 'material', publicacao: 'post', comentario: 'comentário' }[tipo];
+  const oQue = OQUE[tipo];
   const resumo = conteudo.resumo || '';
 
   try {
@@ -167,6 +247,24 @@ const avisarDenunciado = async (motivo, tipo, conteudo, conteudoId) => {
     );
   } catch (err) {
     console.error('Erro ao enviar e-mail de aviso de denúncia:', err);
+  }
+};
+
+// Confirma para quem denunciou que a denúncia foi recebida (notificação no site).
+// Falhas aqui NÃO impedem a denúncia de ser registrada.
+const notificarDenunciante = async (denuncianteId, motivo, tipo, conteudo, conteudoId) => {
+  const oQue = OQUE[tipo];
+  const resumo = conteudo.resumo || '';
+
+  try {
+    await db.Notificacao.create({
+      usuario_id: denuncianteId,
+      titulo: 'Denúncia enviada',
+      mensagem: `Recebemos a sua denúncia sobre o ${oQue} "${resumo}". Motivo: ${MOTIVOS[motivo]}. A moderação irá analisar. Sua identidade não é divulgada.`,
+      link: linkConteudo(tipo, conteudoId, conteudo.publicacaoRefId)
+    });
+  } catch (err) {
+    console.error('Erro ao criar notificação para quem denunciou:', err);
   }
 };
 
@@ -219,7 +317,15 @@ export const criarDenuncia = async (req, res) => {
       descricao: (descricao || '').toString().trim().slice(0, 500) || null
     });
 
-    await avisarDenunciado(motivo, tipo_conteudo, conteudo, idConteudo);
+    // Responde na hora. O aviso ao autor (notificação + e-mail) roda em
+    // segundo plano: enviar e-mail pode levar vários segundos e não deve
+    // travar quem denunciou.
+    avisarDenunciado(motivo, tipo_conteudo, conteudo, idConteudo).catch((err) => {
+      console.error('Erro ao avisar o autor da denúncia:', err);
+    });
+    notificarDenunciante(denuncianteId, motivo, tipo_conteudo, conteudo, idConteudo).catch((err) => {
+      console.error('Erro ao notificar quem denunciou:', err);
+    });
 
     return res.status(201).json({
       mensagem: 'Denúncia enviada. Obrigado por ajudar a manter a plataforma segura.'
@@ -249,23 +355,22 @@ export const verPainelDenuncias = async (req, res) => {
       limit: 100
     });
 
-    const itens = await Promise.all(denuncias.map(async (d) => {
-      // conteúdo de denúncia procedente foi removido; nos outros casos confere se ainda existe
-      const existe = d.status === 'procedente'
-        ? false
-        : !!(await carregarConteudo(d.tipo_conteudo, d.conteudo_id));
+    // Uma consulta por tipo (no máximo 4), em vez de uma por denúncia
+    const existentes = await idsQueAindaExistem(denuncias);
 
-      return {
-        ...d.toJSON(),
-        rotuloTipo: ROTULO_TIPO[d.tipo_conteudo],
-        rotuloMotivo: MOTIVOS[d.motivo],
-        rotuloStatus: ROTULO_STATUS[d.status],
-        dataDenuncia: formatarData(d.data_denuncia),
-        dataDenunciaISO: new Date(d.data_denuncia).toISOString(),
-        dataDecisao: d.data_decisao ? formatarData(d.data_decisao) : null,
-        link: linkConteudo(d.tipo_conteudo, d.conteudo_id, d.publicacao_ref_id),
-        conteudoExiste: existe
-      };
+    const itens = denuncias.map((d) => ({
+      ...d.toJSON(),
+      rotuloTipo: ROTULO_TIPO[d.tipo_conteudo],
+      rotuloMotivo: MOTIVOS[d.motivo],
+      rotuloStatus: ROTULO_STATUS[d.status],
+      dataDenuncia: formatarData(d.data_denuncia),
+      dataDenunciaISO: new Date(d.data_denuncia).toISOString(),
+      dataDecisao: d.data_decisao ? formatarData(d.data_decisao) : null,
+      link: linkConteudo(d.tipo_conteudo, d.conteudo_id, d.publicacao_ref_id),
+      // conteúdo de denúncia procedente foi removido; nos outros casos confere o lote
+      conteudoExiste: d.status === 'procedente'
+        ? false
+        : !!existentes[d.tipo_conteudo]?.has(d.conteudo_id)
     }));
 
     const linhas = await db.Denuncia.findAll({

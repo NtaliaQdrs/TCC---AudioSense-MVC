@@ -46,17 +46,35 @@ body {
 /* ==========================================================================
    POSTS (MODO GRID - PADRÃO)
    ========================================================================== */
+/* Cards em colunas (estilo "mural"): cada card se encaixa logo abaixo do
+   anterior da mesma coluna, então não sobram buracos quando os posts têm
+   alturas diferentes. A ordem de leitura desce pela 1ª coluna, depois pela 2ª...
+   (a mesma ordem do Tab, o que é bom para leitor de tela).
+   O número de colunas vem da LARGURA DA JANELA, não de auto-fit, para que
+   uma diferença de poucos pixels (ex.: tema escuro) não faça os cards
+   pularem de 2 para 3 colunas. */
 .forum-posts {
   flex: 2;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  align-items: start;
+  min-width: 0;
+  display: block;
+  column-count: 1;
+  column-gap: 25px;
+}
+
+@media (min-width: 1100px) {
+  .forum-posts { column-count: 2; }
+}
+
+@media (min-width: 1450px) {
+  .forum-posts { column-count: 3; }
 }
 
 .post-card {
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   background: #f6edf6;
   border-radius: 20px;
   padding: 30px;
@@ -116,7 +134,9 @@ body {
 
 .post-actions {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
   margin-top: auto;
   padding-top: 15px;
   color: #2f4f7f;
@@ -141,7 +161,8 @@ body {
 /* Botão Denunciar: estilo base em denuncia.css, ajuste de tamanho aqui */
 .post-actions .btn-denunciar {
   font-size: 15px;
-  color: #a3a3ad;
+  color: #5b6270;
+  padding: 4px 6px;
 }
 
 .post-actions .btn-denunciar:hover {
