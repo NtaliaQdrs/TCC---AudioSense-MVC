@@ -1453,6 +1453,7 @@ article.fullscreen .card-footer {
 
 .card-footer-actions {
   display: flex;
+  flex-wrap: wrap;          /* só quebra se nem a menor versão de tudo couber */
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
@@ -1467,15 +1468,17 @@ article.fullscreen .card-footer {
   font-size: 14px;
 }
 
-/* Plataforma não pode ser esmagada */
+/* A plataforma ocupa o que sobrar ao lado de Denunciar e expandir. Se faltar
+   espaço, o texto passa para duas linhas ("Acesse na" / "Disney+"), mas
+   nunca fica mais estreito que o ícone + a maior palavra (min-content). */
 .card-footer-actions .platform {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  flex: 0 1 auto;
-  min-width: 0;
-  white-space: nowrap;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 0;
+  min-width: min-content;
+  text-align: left;
 }
 
 /* Ícone da plataforma */
@@ -1486,10 +1489,16 @@ article.fullscreen .card-footer {
 
 /* Texto "Acesse na Disney+" / "Acesse na Netflix" */
 .card-footer-actions .platform span {
-  white-space: nowrap;
-  overflow: visible;
-  word-break: normal;
+  white-space: normal;
+  line-height: 1.25;
   overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Denunciar e expandir nunca encolhem */
+.card-footer-actions .btn-denunciar,
+.card-footer-actions .expand-btn {
+  flex: 0 0 auto;
 }
 
 /* =========================================================

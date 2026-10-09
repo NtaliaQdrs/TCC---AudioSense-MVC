@@ -37,39 +37,40 @@ block content
                   .card-content(id=`card-content-${index}` aria-hidden="true")
                     p= rec.obra.sinopse
 
-                  .card-footer
-                    .docente-info
-                      if rec.docente && rec.docente.usuario
-                        if rec.docente.usuario.foto_perfil
-                          img.docente-foto(src=rec.docente.usuario.foto_perfil alt=rec.docente.usuario.nome_usuario)
-                        else
-                          img.docente-foto(src='/images/foto-perfil-default.png' alt="")
-                        span.docente-nome Recomendado por @#{rec.docente.usuario.nome_usuario}
+              //- Rodapé fora da coluna do texto: usa a largura inteira do card
+              .card-footer
+                .docente-info
+                  if rec.docente && rec.docente.usuario
+                    if rec.docente.usuario.foto_perfil
+                      img.docente-foto(src=rec.docente.usuario.foto_perfil alt=rec.docente.usuario.nome_usuario)
+                    else
+                      img.docente-foto(src='/images/foto-perfil-default.png' alt="")
+                    span.docente-nome Recomendado por @#{rec.docente.usuario.nome_usuario}
 
-                    .card-footer-actions
-                      .platform
-                        if rec.plataforma.logo_url
-                          img.netflix-icon(
-                            src=rec.plataforma.logo_url
-                            alt=rec.plataforma.nome
-                          )
-                        span Acesse na #{rec.plataforma.nome}
-
-                      button.btn-denunciar(
-                        type="button"
-                        aria-label=`Denunciar ${rec.obra.titulo}`
-                        onclick=`abrirDenuncia('recomendacao', ${rec.id})`
+                .card-footer-actions
+                  .platform
+                    if rec.plataforma.logo_url
+                      img.netflix-icon(
+                        src=rec.plataforma.logo_url
+                        alt=rec.plataforma.nome
                       )
-                        i.bi.bi-flag(aria-hidden="true")
-                        | Denunciar
+                    span Acesse na #{rec.plataforma.nome}
 
-                      button.expand-btn(
-                        type="button"
-                        onclick="toggleFullscreen(this)"
-                        aria-label="Ver mais detalhes"
-                        aria-expanded="false"
-                        aria-controls=`card-content-${index}`
-                      ) ⤢
+                  button.btn-denunciar(
+                    type="button"
+                    aria-label=`Denunciar ${rec.obra.titulo}`
+                    onclick=`abrirDenuncia('recomendacao', ${rec.id})`
+                  )
+                    i.bi.bi-flag(aria-hidden="true")
+                    | Denunciar
+
+                  button.expand-btn(
+                    type="button"
+                    onclick="toggleFullscreen(this)"
+                    aria-label="Ver mais detalhes"
+                    aria-expanded="false"
+                    aria-controls=`card-content-${index}`
+                  ) ⤢
 
         else
           p.sem-conteudo Nenhuma recomendação cadastrada ainda.
