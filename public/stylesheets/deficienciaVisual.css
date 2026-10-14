@@ -237,6 +237,54 @@ article.fullscreen .toggle-card {
 .card-overlay.active { display: block; }
 .card-overlay.active.show { opacity: 1; }
 
+/* FOTOS DOS CARDS
+   Ocultas no card fechado; aparecem apenas quando toggleFullscreen adiciona
+   a classe .fullscreen ao artigo. */
+article.card .card-photo {
+  display: none;
+}
+
+article.card.fullscreen .card-photo {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 24px 0;
+  text-align: center;
+}
+
+/* A regra geral `article.fullscreen img` define 120x120 para o ícone do topo.
+   Esta regra mais específica evita que ela encolha também a foto do conteúdo. */
+article.card.fullscreen .card-photo img {
+  display: block;
+  width: 100%;
+  max-width: min(100%, 760px);
+  height: auto;
+  max-height: min(52vh, 420px);
+  object-fit: contain;
+  object-position: center;
+  margin: 0 auto;
+  border-radius: 14px;
+  border: 3px solid #d8c4e4;
+  box-sizing: border-box;
+}
+
+/* O modal já é rolável; manter esta garantia para fotos/conteúdo altos. */
+article.card.fullscreen {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 600px) {
+  article.card.fullscreen .card-photo {
+    margin: 18px 0;
+  }
+
+  article.card.fullscreen .card-photo img {
+    max-height: 42vh;
+  }
+}
+
+
 /* ==========================================================================
    RESPONSIVO
    ========================================================================== */

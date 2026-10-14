@@ -248,6 +248,20 @@ function aplicarPreferenciasSalvas() {
   }
 
   styleTag.innerHTML = css;
+
+  // O espaçamento entre linhas e a fonte mudam a altura do menu
+  publicarAlturaDoMenu();
+}
+
+// ─── ALTURA DO MENU ───────────────────────────────────────────────────────
+// A barra do topo é fixa e cresce junto com o espaçamento entre linhas e o
+// tamanho da fonte (menu.css usa min-height). Aqui a altura real dela vai
+// para --topbar-h, e o CSS usa essa variável para empurrar o submenu e o
+// conteúdo, senão a barra cobriria o que está logo abaixo.
+function publicarAlturaDoMenu() {
+  const barra = document.querySelector('.top-bar');
+  if (!barra) return;
+  document.documentElement.style.setProperty('--topbar-h', barra.offsetHeight + 'px');
 }
 
 // ─── ANUNCIAR TÍTULO PARA LEITORES DE TELA ────────────────────────────────
@@ -277,6 +291,15 @@ aplicarPreferenciasSalvas();
 document.addEventListener('DOMContentLoaded', () => {
   aplicarPreferenciasSalvas();
   anunciarTituloDaPagina();
+
+  // Acompanha a barra do topo: se ela mudar de tamanho por qualquer motivo
+  // (fonte carregando, espaçamento, janela redimensionada), a altura é
+  // republicada sozinha.
+  const barra = document.querySelector('.top-bar');
+  if (barra && typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(publicarAlturaDoMenu).observe(barra);
+  }
+  window.addEventListener('resize', publicarAlturaDoMenu);
 });
 
 window.addEventListener('storage', (e) => {

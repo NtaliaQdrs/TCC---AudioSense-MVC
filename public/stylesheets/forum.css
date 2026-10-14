@@ -685,3 +685,84 @@ html.dark-theme .btn-filter[aria-pressed="true"] {
     font-size: 20px;
   }
 }
+
+/* ── Aviso de login (curtir sem estar logado) ── */
+.aviso-login {
+  position: fixed;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 32px);
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 2px solid #1d5fc7;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.aviso-login > i {
+  font-size: 20px;
+  color: #1d5fc7;
+  flex-shrink: 0;
+}
+
+.aviso-login p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2f4f7f;
+}
+
+.aviso-login-link {
+  background: #1d5fc7;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.aviso-login-link:hover {
+  background: #174a9c;
+}
+
+.aviso-login-fechar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #2f4f7f;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+}
+
+@media (max-width: 600px) {
+  .aviso-login {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+html.dark-theme .aviso-login {
+  background: #2a2a3e;
+  border-color: #52a7de;
+}
+
+html.dark-theme .aviso-login > i {
+  color: #52a7de;
+}
+
+html.dark-theme .aviso-login p {
+  color: #e0e0e0 !important;
+}
+
+html.dark-theme .aviso-login-fechar {
+  color: #e0e0e0;
+}

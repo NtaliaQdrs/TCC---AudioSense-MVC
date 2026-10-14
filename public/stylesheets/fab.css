@@ -251,12 +251,13 @@ html.underline-links a {
     text-decoration: underline !important;
 }
 
-/* ── Fonte legível (NOVO) — mais espaçamento, ajuda leitura/dislexia ── */
+/* Fonte legível: mais espaço entre letras e palavras. O espaçamento entre
+   LINHAS vem da configuração "Espaçamento entre linhas", por isso não é
+   definido aqui. */
 html.readable-font body,
 html.readable-font body * {
     letter-spacing: 0.03em !important;
     word-spacing: 0.12em !important;
-    line-height: 1.6 !important;
 }
 
 /* ═══════════════════════════════════════════════════════
