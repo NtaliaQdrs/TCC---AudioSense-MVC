@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import db from '../models/index.js';
 import crypto from 'crypto';
 import { enviarEmail } from '../config/email.js';
+import { validarSenhaNova } from '../utils/senha.js';
 
 
 const Usuario = db.Usuario;
@@ -21,8 +22,14 @@ export const cadastrarDiscente = async (req, res) => {
             return res.status(400).json({ erro: 'Email já cadastrado.' });
         }
 
+        const erroSenha = validarSenhaNova(senha);             
+        if (erroSenha) {                                       
+            return res.status(400).json({ erro: erroSenha });    
+        } 
+
         // Criptografa a senha antes de salvar
         const senhaCriptografada = await bcrypt.hash(senha, 10);
+
 
         // Salva os dados temporariamente na sessão — usuário ainda não criado
         req.session.cadastroPendente = {
@@ -481,6 +488,8 @@ export const esqueceuSenha = async (req, res) => {
                 erro: 'Email não encontrado.'
             });
         }
+
+        
 
         // Gera token único
         const token = crypto.randomBytes(32).toString('hex');
