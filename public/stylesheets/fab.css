@@ -133,6 +133,17 @@
     gap: 5px;
 }
 
+.fab-group__btns--theme > .fab-btn-opt {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.fab-group__btns--theme > .fab-btn-opt span {
+    white-space: nowrap;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+}
+
 /* ── Botões de opção dentro do FAB ── */
 .fab-btn-opt {
     flex: 1;

@@ -35,7 +35,28 @@ html(lang="pt-br")
         .alert-rejeitado
           i.bi.bi-x-circle-fill(aria-hidden="true")
           | Selecione pelo menos uma disciplina.
-          
+
+      if erro === 'oauth_indisponivel'
+        .alert-rejeitado(role="alert") O login social ainda não foi configurado nesta instalação.
+      if erro === 'oauth_cancelado'
+        .alert-rejeitado(role="alert") A autorização foi cancelada. Tente novamente ou entre com e-mail e senha.
+      if erro === 'oauth_invalido'
+        .alert-rejeitado(role="alert") A solicitação expirou ou não pôde ser validada. Tente novamente.
+      if erro === 'oauth_email_nao_verificado'
+        .alert-rejeitado(role="alert") O provedor não confirmou um e-mail válido para esta conta.
+      if erro === 'oauth_dados_invalidos'
+        .alert-rejeitado(role="alert") Os dados do perfil social não podem ser usados para criar uma conta AudioSense.
+      if erro === 'oauth_email_divergente'
+        .alert-rejeitado(role="alert") O e-mail da conta social mudou. Entre com a conta originalmente vinculada.
+      if erro === 'oauth_conta_indisponivel'
+        .alert-rejeitado(role="alert") Esta conta está desativada ou banida.
+      if erro === 'oauth_erro'
+        .alert-rejeitado(role="alert") Não foi possível concluir o acesso social. Tente novamente mais tarde.
+      if erro === 'oauth_sem_conta'
+        .alert-pendente(role="status")
+          | Ainda não há uma conta vinculada a este e-mail.
+          a(href="/usuario/cadastro") Crie uma conta discente usando Google ou Facebook.
+
       if status === 'pendente'
         .alert-pendente
           i.bi.bi-clock-fill(aria-hidden="true")
@@ -55,7 +76,12 @@ html(lang="pt-br")
           | Senha redefinida com sucesso! Faça login com sua nova senha.
 
       .social-login
-        p Login por Google ou Facebook não está disponível.
+        a.btn-social(href="/usuario/oauth/google?flow=login" aria-label="Entrar com Google")
+          i.bi.bi-google(aria-hidden="true")
+          | Entrar com Google
+        a.btn-social(href="/usuario/oauth/facebook?flow=login" aria-label="Entrar com Facebook")
+          i.bi.bi-facebook(aria-hidden="true")
+          | Entrar com Facebook
 
       .divider
         span ou

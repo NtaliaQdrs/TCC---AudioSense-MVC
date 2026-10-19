@@ -21,7 +21,13 @@ html(lang="pt-br")
         h1 Bem vindo(a) ao AudioSense!
 
       .social-login
-        p Cadastro por Google ou Facebook não está disponível.
+        a.btn-social(href="/usuario/oauth/google?flow=register" aria-label="Cadastrar-se como discente usando Google")
+          i.bi.bi-google(aria-hidden="true")
+          | Cadastrar-se com Google
+        a.btn-social(href="/usuario/oauth/facebook?flow=register" aria-label="Cadastrar-se como discente usando Facebook")
+          i.bi.bi-facebook(aria-hidden="true")
+          | Cadastrar-se com Facebook
+        p O cadastro social cria uma conta discente. Para cadastro docente, use o formulário com comprovante.
 
       .divider
         span ou
