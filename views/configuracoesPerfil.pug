@@ -82,7 +82,7 @@ block content
 
     //- Modal: Alterar nome
     .modal-overlay(id="modal-nome" hidden)
-      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-nome-titulo")
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-nome-titulo" tabindex="-1")
         button.modal-close(type="button" data-fechar aria-label="Fechar") ×
         h2#modal-nome-titulo Alterar nome de usuário
         p.modal-aviso Você só pode trocar o nome de usuário a cada 30 dias.
@@ -96,7 +96,7 @@ block content
 
     //- Modal: Alterar email
     .modal-overlay(id="modal-email" hidden)
-      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-email-titulo")
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-email-titulo" tabindex="-1")
         button.modal-close(type="button" data-fechar aria-label="Fechar") ×
         h2#modal-email-titulo Alterar e-mail
         form.modal-form(data-endpoint="/usuario/alterar-email")
@@ -111,7 +111,7 @@ block content
 
     //- Modal: Alterar senha
     .modal-overlay(id="modal-senha" hidden)
-      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-senha-titulo")
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-senha-titulo" tabindex="-1")
         button.modal-close(type="button" data-fechar aria-label="Fechar") ×
         h2#modal-senha-titulo Alterar senha
         form.modal-form(data-endpoint="/usuario/alterar-senha")
@@ -129,7 +129,7 @@ block content
 
     //- Modal: Excluir conta
     .modal-overlay(id="modal-excluir" hidden)
-      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-excluir-titulo")
+      .modal-box(role="dialog" aria-modal="true" aria-labelledby="modal-excluir-titulo" tabindex="-1")
         button.modal-close(type="button" data-fechar aria-label="Fechar") ×
         h2#modal-excluir-titulo Excluir conta
         p.modal-aviso Esta ação é permanente. Todos os seus dados serão apagados e não poderão ser recuperados.

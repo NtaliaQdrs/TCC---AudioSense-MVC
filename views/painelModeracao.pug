@@ -4,7 +4,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/painelModeracao.css')
 
 block content
-  main.moderacao-container(aria-labelledby="titulo-moderacao")
+  .moderacao-container(aria-labelledby="titulo-moderacao")
     header.moderacao-header
       div
         p.moderacao-eyebrow PAINEL ADMINISTRATIVO
@@ -62,8 +62,10 @@ block content
                   rows="3"
                   maxlength="1000"
                   required
+                  aria-describedby=`aviso-limite-${item.tipo}-${item.id}`
                   placeholder="Explique ao usuário o motivo do aviso..."
                 )
+                span.sr-only(id=`aviso-limite-${item.tipo}-${item.id}`) Limite de 1.000 caracteres.
                 button.moderacao-btn.moderacao-btn-aviso(type="submit")
                   i.bi.bi-envelope(aria-hidden="true")
                   |  Enviar aviso

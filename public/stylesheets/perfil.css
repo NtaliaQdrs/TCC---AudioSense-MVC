@@ -374,6 +374,8 @@ body {
   box-sizing: border-box;
 }
 
+.modal-overlay[hidden] { display: none !important; }
+
 .modal-edicao {
   background: #E9CCEF;
   border-radius: 10px;

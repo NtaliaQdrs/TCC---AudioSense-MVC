@@ -5,54 +5,57 @@ block styles
   link(rel='stylesheet', href='/stylesheets/inserirAudiodescricao.css')
 
 block content
-  main.page
+  .page
     h1.title Introdução a audiodescrição
 
     section.container-form
       h2.form-title Inserir Audiodescrição
 
+      if erro
+        p.form-error(role="alert" tabindex="-1")= erro
+
       form(action="/inserir-audiodescricao" method="POST" enctype="multipart/form-data")
         .form-group
           label(for="titulo") Titulo
-          input#titulo.form-control(type="text" name="titulo" placeholder="Insira um título para a sua descrição...")
+          input#titulo.form-control(type="text" name="titulo" maxlength="255" required value=valores && valores.titulo || '' placeholder="Insira um título para a sua descrição...")
 
         .form-group
           label(for="descricao") Descrição
-          input#descricao.form-control(type="text" name="descricao" placeholder="Descreva sobre o conteúdo...")
+          input#descricao.form-control(type="text" name="descricao" maxlength="100" value=valores && valores.descricao || '' placeholder="Descreva sobre o conteúdo...")
 
         .form-group
           fieldset.tipo-midia-fieldset
             legend.form-group-label Tipo de mídia
             .tipo-midia-group
               label.tipo-midia-option
-                input(type="radio" name="tipo_midia" value="imagem" checked)
+                input(type="radio" name="tipo_midia" value="imagem" checked=(!valores || valores.tipo_midia === 'imagem'))
                 span
                   span(aria-hidden="true") 
                   |  Imagem
               label.tipo-midia-option
-                input(type="radio" name="tipo_midia" value="video")
+                input(type="radio" name="tipo_midia" value="video" checked=(valores && valores.tipo_midia === 'video'))
                 span
                   span(aria-hidden="true") 
                   |  Vídeo
 
         .form-group
-          p.form-group-label Upload de mídia (imagem ou vídeo)
-          .upload-area(onclick="document.getElementById('midia').click()")
-            input#midia(type="file" name="midia" style="display: none;")
+          label.form-group-label(for="midia") Upload de mídia (imagem ou vídeo)
+          label.upload-area(for="midia")
+            input#midia.sr-only-file(type="file" name="midia" aria-describedby="upload-label")
             svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg")
               rect(x="35" y="10" width="30" height="5" rx="2" fill="#582d86")
               rect(x="25" y="18" width="50" height="5" rx="2" fill="#582d86")
               rect(x="15" y="30" width="70" height="50" rx="10" stroke="#582d86" stroke-width="6")
               path(d="M45 45L60 55L45 65V45Z" fill="#582d86")
             .upload-text
-              p#upload-label Faça upload ou solte a mídia aqui
-              button.btn-upload(type="button") Escolher arquivo
+              p#upload-label(aria-live="polite") Faça upload ou solte a mídia aqui
+              span.btn-upload Escolher arquivo
           br
           p Lembrete: Caso a mídia seja do tipo VÍDEO e contenha falas, é necessário que o vídeo possua legendas para que a audiodescrição seja compreendida.
 
         .form-group
           label(for="roteiro") Roteiro
-          textarea#roteiro.form-control.textarea-large(name="roteiro" placeholder="Escreva aqui o roteiro da sua audiodescrição...")
+          textarea#roteiro.form-control.textarea-large(name="roteiro" placeholder="Escreva aqui o roteiro da sua audiodescrição...")= valores && valores.roteiro || ''
 
         .button-group
           button.btn-cancel(type="button" onclick="window.location.href='/audiodescricao'") Cancelar
@@ -83,6 +86,7 @@ block content
     inputMidia.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
+      uploadLabel.textContent = 'Arquivo selecionado: ' + file.name;
 
       const uploadArea = document.querySelector('.upload-area');
       const previewAnterior = uploadArea.querySelector('.preview-midia');

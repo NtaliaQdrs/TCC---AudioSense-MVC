@@ -45,6 +45,15 @@
     color: #999;
 }
 
+.form-error {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 2px solid #a61b1b;
+  border-radius: 8px;
+  background: #fff2f2;
+  color: #7a1111;
+}
+
 .form-control:focus {
     border-color: #1f4677;
 }
@@ -118,6 +127,11 @@ textarea.form-control {
 
 .upload-area:hover {
     background-color: #eee1fc;
+}
+
+.upload-area:focus-within {
+    outline: 3px solid #ffbf47;
+    outline-offset: 3px;
 }
 
 .upload-icon {

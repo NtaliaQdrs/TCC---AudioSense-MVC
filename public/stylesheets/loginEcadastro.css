@@ -902,7 +902,9 @@ html.high-contrast .logo-contrast {
 
 /* 10) Sublinhado: só quando a opção do FAB estiver ligada, e nunca em botões */
 :root.high-contrast:not(.underline-links) body * { text-decoration: none !important; }
-:root.high-contrast.underline-links body a { text-decoration: underline !important; }
+:root.high-contrast.underline-links body :not(input):not(textarea):not(select):not(option):not(svg):not(svg *):not(.bi):not([aria-hidden="true"]):not(button):not(button *) {
+  text-decoration: underline !important;
+}
 :root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt),
 :root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt) * {
   text-decoration: none !important;

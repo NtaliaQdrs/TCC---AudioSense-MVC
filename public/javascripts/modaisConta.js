@@ -4,8 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const overlays = document.querySelectorAll('.modal-overlay');
-  const conteudoPrincipal = document.querySelector('.config-conteudo-principal');
   let elementoComFocoAntes = null;
+  let elementosInert = [];
 
   // ─── ABRIR MODAL ────────────────────────────────────────────────────────
   document.querySelectorAll('[data-modal]').forEach(gatilho => {
@@ -16,6 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
       abrirModal(modal);
     });
   });
+
+  function bloquearFundo(modal) {
+    elementosInert = [];
+    let node = modal;
+    while (node && node !== document.body) {
+      const parent = node.parentElement;
+      if (parent) {
+        Array.from(parent.children).forEach(irmao => {
+          if (irmao === node || ['SCRIPT', 'STYLE', 'LINK'].includes(irmao.tagName) || irmao.hasAttribute('inert')) return;
+          irmao.setAttribute('inert', '');
+          elementosInert.push(irmao);
+        });
+      }
+      node = parent;
+    }
+  }
 
   // ─── FECHAR MODAL (botão X, Cancelar, clique fora, Esc) ────────────────
   overlays.forEach(overlay => {
@@ -43,17 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!overlayAberto) return;
 
     const focaveis = overlayAberto.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
     );
-    if (focaveis.length === 0) return;
+    const visiveis = Array.from(focaveis).filter(el => el.offsetParent !== null);
+    if (visiveis.length === 0) {
+      e.preventDefault();
+      overlayAberto.querySelector('[role="dialog"]')?.focus();
+      return;
+    }
 
-    const primeiro = focaveis[0];
-    const ultimo = focaveis[focaveis.length - 1];
+    const primeiro = visiveis[0];
+    const ultimo = visiveis[visiveis.length - 1];
 
-    if (e.shiftKey && document.activeElement === primeiro) {
+    if (e.shiftKey && (document.activeElement === primeiro || overlayAberto.querySelector('[role="dialog"]') === document.activeElement)) {
       e.preventDefault();
       ultimo.focus();
-    } else if (!e.shiftKey && document.activeElement === ultimo) {
+    } else if (!e.shiftKey && (document.activeElement === ultimo || !overlayAberto.contains(document.activeElement))) {
       e.preventDefault();
       primeiro.focus();
     }
@@ -62,19 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function abrirModal(modal) {
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
-
-    // Esconde o conteúdo de fundo de leitores de tela e do Tab
-    if (conteudoPrincipal) conteudoPrincipal.setAttribute('inert', '');
-
-    const primeiroInput = modal.querySelector('input');
-    if (primeiroInput) primeiroInput.focus();
+    bloquearFundo(modal);
+    const primeiroFocavel = modal.querySelector(
+      'input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), a[href]'
+    );
+    (primeiroFocavel || modal.querySelector('[role="dialog"]'))?.focus();
   }
 
   function fecharModal(modal) {
     modal.hidden = true;
     document.body.style.overflow = '';
 
-    if (conteudoPrincipal) conteudoPrincipal.removeAttribute('inert');
+    elementosInert.forEach(el => el.removeAttribute('inert'));
+    elementosInert = [];
 
     // Devolve o foco pro botão que abriu o modal
     if (elementoComFocoAntes) {

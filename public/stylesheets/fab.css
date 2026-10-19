@@ -68,7 +68,11 @@
 }
 
 /* Todos os textos filhos do FAB ignoram o font-size global */
-.fab-panel *,
+.fab-panel[hidden] {
+    display: none !important;
+}
+
+.fab-panel * ,
 .fab-panel *::before,
 .fab-panel *::after {
     font-size: inherit !important;
@@ -203,6 +207,11 @@
     font-size: 11px !important;
     color: #5d3fd3;
     text-decoration: underline;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
 }
 
 .fab-link-reset:hover {
@@ -247,7 +256,7 @@ html.reading-guide-on #fab-reading-guide {
 }
 
 /* ── Sublinhar textos legíveis e links em qualquer página ── */
-html.underline-links body :is(a, p, li, span, h1, h2, h3, h4, h5, h6, label, dt, dd, summary, blockquote, figcaption, legend) {
+html.underline-links body :not(input):not(textarea):not(select):not(option):not(svg):not(svg *):not(.bi):not([aria-hidden="true"]):not(button):not(button *) {
     text-decoration: underline !important;
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.12em;

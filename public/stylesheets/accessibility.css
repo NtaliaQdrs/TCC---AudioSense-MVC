@@ -1,0 +1,51 @@
+:is(
+  a[href],
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [role="button"],
+  [role="tab"],
+  [contenteditable="true"],
+  [tabindex]
+):focus-visible {
+  outline: 3px solid #ffbf47 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 2px #1f4677 !important;
+}
+
+.upload-area:focus-within,
+.modal-avatar-section:focus-within {
+  outline: 3px solid #ffbf47 !important;
+  outline-offset: 3px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :is(
+    a[href],
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [role="button"],
+    [role="tab"],
+    [contenteditable="true"],
+    [tabindex]
+  ):focus-visible {
+    outline: 3px solid Highlight !important;
+    box-shadow: none !important;
+  }
+}

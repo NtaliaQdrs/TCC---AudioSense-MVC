@@ -5,12 +5,13 @@ html(lang="pt-br")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel="icon" type="image/png" href="/images/boasvindas.png")
     title Login
+    script(src="/javascripts/theme-bootstrap.js")
     link(rel="stylesheet" href="/stylesheets/loginEcadastro.css")
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap")
 
   body
-    main.container(role="main")
+    .container
       .saudacao
         
         //- Logo para tema CLARO
@@ -54,12 +55,7 @@ html(lang="pt-br")
           | Senha redefinida com sucesso! Faça login com sua nova senha.
 
       .social-login
-        a.btn-social(href="#" aria-label="Fazer login usando sua conta do Google")
-          img(src="https://www.google.com/favicon.ico" width="20" alt="Google")
-          |  Login com Google
-        a.btn-social(href="#" aria-label="Fazer login usando sua conta do Facebook")
-          img(src="https://www.facebook.com/favicon.ico" width="20" alt="Facebook")
-          |  Login com Facebook
+        p Login por Google ou Facebook não está disponível.
 
       .divider
         span ou

@@ -1,5 +1,5 @@
 doctype html
-html(lang="pt-br")
+html(lang="pt-BR")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
@@ -9,20 +9,21 @@ html(lang="pt-br")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
 
   body
-    main.containercust(role="main")
+    .containercust
       .saudacao
         img.logo(src="../images/audiosense-login.png" alt="AudioSense Logo")
         h1 Customizar perfil
 
       .content-wrapper
         .image-card
-          img#preview(src="../images/foto-perfil-default.png" alt="Foto do usuário")
+          img#preview(src="../images/foto-perfil-default.png" alt="Prévia da foto de perfil")
           label.btn-foto(for="foto-upload")
             i.bi.bi-pencil(aria-hidden="true")
             | Escolha uma foto
+          input#foto-upload.sr-only-file(type="file" name="foto" accept="image/*" form="form-customizar" aria-label="Selecionar foto de perfil" aria-describedby="foto-upload-status")
+          p#foto-upload-status(role="status" aria-live="polite") Nenhuma foto selecionada.
 
-        form.form-area(action="/usuario/customizar" method="POST" enctype="multipart/form-data" aria-label="Formulário de Customização de Perfil")
-          input#foto-upload(type="file" name="foto" accept="image/*" hidden)
+        form#form-customizar.form-area(action="/usuario/customizar" method="POST" enctype="multipart/form-data" aria-label="Formulário de customização de perfil")
           
           .input-group
             i.bi.bi-person-fill(aria-hidden="true")

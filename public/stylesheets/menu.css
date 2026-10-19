@@ -725,26 +725,83 @@ a.skip-link {
 
     a:focus,
     button:focus,
-    input:focus {
-        outline: 3px solid #007bff;
+    input:focus,
+    select:focus,
+    textarea:focus,
+    [tabindex]:focus {
+        outline: 3px solid #ffbf47;
         outline-offset: 2px;
+    }
+
+    :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+        outline: 3px solid #ffbf47;
+        outline-offset: 3px;
+        box-shadow: 0 0 0 2px #1f4677;
+    }
+
+    :where(a, button, input, select, textarea, summary, [role="button"], [role="tab"], [tabindex]):focus-visible {
+        outline: 3px solid #ffbf47;
+        outline-offset: 3px;
+        box-shadow: 0 0 0 2px #1f4677;
+    }
+
+    :where(a, button, input, select, textarea, [tabindex]):focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            scroll-behavior: auto !important;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
     }
 
     .skip-link {
         position: absolute;
-        top: -100px;
+        top: 0;
         left: 10px;
+        transform: translateY(-150%);
         background: #1f4677;
         color: white;
         padding: 12px 20px;
-        z-index: 2000;
+        z-index: 10001;
         text-decoration: none;
         border-radius: 0 0 10px 10px;
-        transition: top 0.2s;
+        transition: transform 0.2s;
     }
 
     .skip-link:focus {
-        top: 0;
+        transform: translateY(0);
+    }
+
+    .sr-only,
+    .visually-hidden {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+    }
+
+    .sr-only-file {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
     }
 
     html {
@@ -809,6 +866,12 @@ a.skip-link {
 
     .tab-pane {
         display: none;
+    }
+
+    .profile-dropdown[hidden],
+    .category-dropdown[hidden],
+    .tab-pane[hidden] {
+        display: none !important;
     }
 
     .tab-pane-active {
@@ -1781,7 +1844,9 @@ a.skip-link {
 
 /* 10) Sublinhado: só quando a opção do FAB estiver ligada, e nunca em botões */
 :root.high-contrast:not(.underline-links) body * { text-decoration: none !important; }
-:root.high-contrast.underline-links body a { text-decoration: underline !important; }
+:root.high-contrast.underline-links body :not(input):not(textarea):not(select):not(option):not(svg):not(svg *):not(.bi):not([aria-hidden="true"]):not(button):not(button *) {
+  text-decoration: underline !important;
+}
 :root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt),
 :root.high-contrast.high-contrast body :is(button, [role="button"], summary, .fab-btn-opt) * {
   text-decoration: none !important;

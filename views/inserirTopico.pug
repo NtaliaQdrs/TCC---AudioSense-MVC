@@ -12,6 +12,9 @@ block content
 
         p.perfil-username #{usuario && usuario.nome_usuario ? usuario.nome_usuario : "Usuário Logado"}
 
+      if erro
+        p.form-error#erro-post(role="alert" tabindex="-1")= erro
+
       form(action="/forum/criar" method="POST")
 
         .form-group
@@ -19,6 +22,8 @@ block content
           input#titulo.form-control-titulo(
             type="text"
             name="titulo"
+            maxlength="255"
+            value=valores.titulo || ''
             placeholder="Insira um título para o seu tópico..."
             required
           )
@@ -33,8 +38,8 @@ block content
             rows="8"
             maxlength="560"
             required
-            aria-describedby="contador-corpo"
-          )
+            aria-describedby=erro ? "contador-corpo erro-post" : "contador-corpo"
+          )= valores.corpo || ''
           p#contador-corpo.contador-caracteres(role="status" aria-live="polite") 0/280 caracteres
 
 
@@ -47,6 +52,7 @@ block content
           input#tags.form-control-tags(
             type="text"
             name="tags"
+            value=valores.tags || ''
             placeholder="Adicione tags relacionadas, separadas por vírgulas"
             autocomplete="off"
           )

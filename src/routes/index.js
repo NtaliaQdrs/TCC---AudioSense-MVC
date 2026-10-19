@@ -2,6 +2,7 @@ import express from 'express';
 import auth from '../middlewares/auth.js';
 import uploadMidia from '../config/multerMidia.js';
 import uploadAudio from '../config/multerAudio.js';
+import { STORAGE_CONFIGURED } from '../config/storage.js';
 import db from '../models/index.js';
 
 import {
@@ -78,9 +79,32 @@ router.get('/biblioteca', listarMateriais);
 router.get('/audiodescricao', listarAudiodescricoes);
 
 router.get('/inserir-audiodescricao', auth, (req, res) =>
-    res.render('inserirAudiodescricao', { title: 'Inserir Audiodescrição', usuario: req.session.usuarioLogado || null })
+    res.render('inserirAudiodescricao', { title: 'Inserir Audiodescrição', usuario: req.session.usuarioLogado || null, valores: {} })
 );
-router.post('/inserir-audiodescricao', auth, uploadMidia.single('midia'), inserirAudiodescricao);
+router.post('/inserir-audiodescricao', auth, (req, res, next) => {
+    const renderErro = (status, mensagem) => res.status(status).render('inserirAudiodescricao', {
+        title: 'Inserir Audiodescrição',
+        usuario: req.session.usuarioLogado || null,
+        valores: req.body,
+        erro: mensagem
+    });
+
+    if (!STORAGE_CONFIGURED) {
+        return renderErro(503, 'O envio está indisponível porque o armazenamento de arquivos ainda não foi configurado.');
+    }
+
+    uploadMidia.single('midia')(req, res, (err) => {
+        if (!err) return next();
+        console.error('Erro ao enviar mídia da audiodescrição:', err);
+        const erroDeValidacao = err.name === 'MulterError' || err.message.startsWith('Apenas');
+        return renderErro(
+            erroDeValidacao ? 400 : 503,
+            erroDeValidacao
+                ? 'Não foi possível enviar esse arquivo. Selecione uma imagem JPEG, PNG ou WebP, ou um vídeo MP4 ou WebM.'
+                : 'Não foi possível armazenar o arquivo agora. Tente novamente mais tarde.'
+        );
+    });
+}, inserirAudiodescricao);
 
 router.post('/apagar-audiodescricao/:id', auth, apagarAudiodescricao);
 

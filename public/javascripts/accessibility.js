@@ -30,6 +30,8 @@ function salvarPreferencia(chave, valor) {
 // de garantir 100% de cobertura sem precisar listar cada seletor do site.
 
 const FONT_ORIGINAL_ATTR = 'data-font-original';
+const FONT_INLINE_ORIGINAL_ATTR = 'data-font-inline-original';
+const FONT_INLINE_PRIORITY_ATTR = 'data-font-inline-priority';
 let _fontScaleAtual = 100;
 
 function _elegivelParaEscala(el) {
@@ -50,6 +52,8 @@ function _guardarTamanhosOriginais(elementos) {
     const computado = parseFloat(getComputedStyle(el).fontSize);
     if (!computado) return;
     el.setAttribute(FONT_ORIGINAL_ATTR, computado);
+    el.setAttribute(FONT_INLINE_ORIGINAL_ATTR, el.style.getPropertyValue('font-size'));
+    el.setAttribute(FONT_INLINE_PRIORITY_ATTR, el.style.getPropertyPriority('font-size'));
   });
 }
 
@@ -69,7 +73,12 @@ function aplicarEscalaFonte(fontScale) {
 
   if (fontScale === 100) {
     document.querySelectorAll('[' + FONT_ORIGINAL_ATTR + ']').forEach((el) => {
-      el.style.removeProperty('font-size');
+      const original = el.getAttribute(FONT_INLINE_ORIGINAL_ATTR);
+      if (original) {
+        el.style.setProperty('font-size', original, el.getAttribute(FONT_INLINE_PRIORITY_ATTR) || '');
+      } else {
+        el.style.removeProperty('font-size');
+      }
     });
     return;
   }
@@ -264,18 +273,6 @@ function publicarAlturaDoMenu() {
   document.documentElement.style.setProperty('--topbar-h', barra.offsetHeight + 'px');
 }
 
-// ─── ANUNCIAR TÍTULO PARA LEITORES DE TELA ────────────────────────────────
-
-function anunciarTituloDaPagina() {
-  const tituloPrincipal = document.querySelector('h1, h2');
-  if (tituloPrincipal) {
-    if (!tituloPrincipal.hasAttribute('tabindex')) {
-      tituloPrincipal.setAttribute('tabindex', '-1');
-    }
-    setTimeout(() => tituloPrincipal.focus(), 100);
-  }
-}
-
 // ─── OUVIR MUDANÇA DE TEMA DO SISTEMA ─────────────────────────────────────
 
 const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -290,7 +287,45 @@ aplicarPreferenciasSalvas();
 
 document.addEventListener('DOMContentLoaded', () => {
   aplicarPreferenciasSalvas();
-  anunciarTituloDaPagina();
+
+  const sidebars = document.querySelectorAll('.sidebar, .forum-sidebar');
+  const breakpointSidebar = window.matchMedia('(max-width: 900px)');
+  const sidebarsInert = new WeakSet();
+  const observarSidebar = () => {
+    sidebars.forEach(sidebar => {
+      const aberta = sidebar.classList.contains('mobile-open');
+      const recolhida = breakpointSidebar.matches && !aberta;
+      const gatilho = document.querySelector('.sidebar-fab');
+      if (recolhida && sidebar.contains(document.activeElement)) gatilho?.focus();
+      if (recolhida && !sidebar.hasAttribute('inert')) {
+        sidebar.setAttribute('inert', '');
+        sidebarsInert.add(sidebar);
+      } else if (!recolhida && sidebarsInert.has(sidebar)) {
+        sidebar.removeAttribute('inert');
+        sidebarsInert.delete(sidebar);
+      }
+      if (gatilho && breakpointSidebar.matches) {
+        gatilho.setAttribute('aria-expanded', String(aberta));
+        gatilho.setAttribute('aria-label', aberta ? 'Fechar menu de filtros' : 'Abrir menu de filtros');
+      }
+    });
+  };
+  const observadorSidebar = new MutationObserver(observarSidebar);
+  sidebars.forEach(sidebar => observadorSidebar.observe(sidebar, { attributes: true, attributeFilter: ['class', 'inert'] }));
+  breakpointSidebar.addEventListener('change', observarSidebar);
+  observarSidebar();
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    const sidebarAberta = document.querySelector('.sidebar.mobile-open, .forum-sidebar.mobile-open');
+    if (!sidebarAberta) return;
+    sidebarAberta.classList.remove('mobile-open');
+    document.querySelector('.card-overlay')?.classList.remove('active');
+    const gatilho = document.querySelector('.sidebar-fab');
+    gatilho?.setAttribute('aria-expanded', 'false');
+    gatilho?.setAttribute('aria-label', 'Abrir menu de filtros');
+    observarSidebar();
+    gatilho?.focus();
+  });
 
   // Acompanha a barra do topo: se ela mudar de tamanho por qualquer motivo
   // (fonte carregando, espaçamento, janela redimensionada), a altura é

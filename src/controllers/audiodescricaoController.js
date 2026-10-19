@@ -2,9 +2,23 @@ import db from '../models/index.js';
 
 // INSERIR AUDIODESCRIÇÃO
 export const inserirAudiodescricao = async (req, res) => {
+  const renderErro = (status, mensagem) => res.status(status).render('inserirAudiodescricao', {
+    title: 'Inserir Audiodescrição',
+    usuario: req.session.usuarioLogado || null,
+    valores: req.body,
+    erro: mensagem
+  });
+
   try {
     const { titulo, descricao, roteiro, tipo_midia } = req.body;
     const usuarioId = req.session.usuarioLogado.id;
+    if (typeof titulo !== 'string' || !titulo.trim() || titulo.length > 255 ||
+        (descricao != null && (typeof descricao !== 'string' || descricao.length > 100)) ||
+        !['imagem', 'video'].includes(tipo_midia)) {
+      return req.accepts('html')
+        ? renderErro(400, 'Confira o título (até 255 caracteres), a descrição (até 100 caracteres) e o tipo de mídia.')
+        : res.status(400).json({ erro: 'Confira os campos obrigatórios e os limites de caracteres.' });
+    }
 
     const discente = await db.UsuarioDiscente.findOne({ where: { usuario_id: usuarioId } });
     if (!discente) {
@@ -25,7 +39,9 @@ export const inserirAudiodescricao = async (req, res) => {
     return res.redirect('/audiodescricao?sucesso=1');
   } catch (err) {
     console.error('Erro ao inserir audiodescrição:', err);
-    return res.status(500).json({ erro: 'Erro interno no servidor.' });
+    return req.accepts('html')
+      ? renderErro(500, 'Não foi possível enviar a audiodescrição agora. Seus textos foram preservados; tente novamente mais tarde.')
+      : res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 };
 

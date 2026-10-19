@@ -5,16 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!campo || !contador) return;
 
-  function atualizarContador() {
+  function atualizarContador(limitarEntrada = false) {
     const caracteres = Array.from(campo.value);
-    if (caracteres.length > LIMITE_CARACTERES) {
+    if (limitarEntrada && caracteres.length > LIMITE_CARACTERES) {
       campo.value = caracteres.slice(0, LIMITE_CARACTERES).join('');
     }
 
     const total = Array.from(campo.value).length;
     contador.textContent = `${total}/${LIMITE_CARACTERES} caracteres`;
+    contador.classList.toggle('limite-excedido', total > LIMITE_CARACTERES);
   }
 
-  campo.addEventListener('input', atualizarContador);
+  campo.addEventListener('input', () => atualizarContador(true));
   atualizarContador();
 });

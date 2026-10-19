@@ -1,8 +1,8 @@
 //- views/partials/fab.pug
 
 .fab-container
-  #fab-panel.fab-panel(role="dialog" aria-label="Acessibilidade rápida" aria-modal="true")
-    p.fab-panel__titulo
+  #fab-panel.fab-panel(role="region" aria-labelledby="fab-panel-title" hidden)
+    h2#fab-panel-title.fab-panel__titulo
       i.bi.bi-universal-access(aria-hidden="true")
       |  Acessibilidade
 
@@ -126,7 +126,7 @@
           span Animação
 
     .fab-panel__footer
-      a.fab-link-reset(href="#" id="fab-reset")
+      button.fab-link-reset(type="button" id="fab-reset")
         | Restaurar padrões
       button#fab-close.fab-btn-close(type="button" aria-label="Fechar painel de acessibilidade")
         i.bi.bi-x-lg(aria-hidden="true")

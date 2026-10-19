@@ -192,6 +192,8 @@ body { background-color: #E9CCEF; }
   z-index: 1000;
 }
 
+.modal-overlay[hidden] { display: none !important; }
+
 .modal-box {
   background-color: white;
   padding: 2rem;

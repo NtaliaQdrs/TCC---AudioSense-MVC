@@ -6,7 +6,7 @@ block styles
 
 block content
 
-  main.page
+  .page
     h1.sr-only Tópico do fórum
     .forum-header
       
@@ -30,7 +30,7 @@ block content
               each tag in topico.tags
                 li= `#${tag.tag}`
           if topico.imagem_url
-            img(src=topico.imagem_url alt="")
+            img(src=topico.imagem_url alt=`Imagem do tópico: ${topico.titulo}`)
           if topico.video_url
             video(src=topico.video_url controls)
         .post-actions

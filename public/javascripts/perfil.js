@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // GERENCIAMENTO DE ABAS
   // ============================================
 
-  const tabButtons = document.querySelectorAll(".tab-btn");
-  const tabContents = document.querySelectorAll(".tab-content");
+  const perfilTabs = document.querySelector(".perfil-tabs");
+  const tabButtons = perfilTabs?.querySelectorAll('[role="tab"]') || [];
+  const tabContents = perfilTabs?.querySelectorAll('[role="tabpanel"]') || [];
 
   tabButtons.forEach((button) => {
     button.addEventListener("click", function () {
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
       tabButtons.forEach((btn) => {
         btn.classList.remove("active");
         btn.setAttribute("aria-selected", "false");
+        btn.tabIndex = -1;
       });
 
       tabContents.forEach((content) => {
@@ -27,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       this.classList.add("active");
       this.setAttribute("aria-selected", "true");
+      this.tabIndex = 0;
 
       const activeContent = document.getElementById(`tab-${tabName}`);
       if (activeContent) {
@@ -44,18 +47,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   tabButtons.forEach((button, index) => {
     button.addEventListener("keydown", function (e) {
-      let targetButton = null;
-
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        targetButton =
-          tabButtons[index - 1] || tabButtons[tabButtons.length - 1];
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        targetButton = tabButtons[index + 1] || tabButtons[0];
+      let targetIndex;
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        targetIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        targetIndex = (index + 1) % tabButtons.length;
+      } else if (e.key === "Home") {
+        targetIndex = 0;
+      } else if (e.key === "End") {
+        targetIndex = tabButtons.length - 1;
       }
 
-      if (targetButton) {
+      if (targetIndex !== undefined) {
+        e.preventDefault();
+        const targetButton = tabButtons[targetIndex];
         targetButton.focus();
         targetButton.click();
       }
@@ -68,12 +73,18 @@ document.addEventListener("DOMContentLoaded", function () {
   // ============================================
 
   let ultimoFocoModalEditar = null;
+  let elementosInertModalEditar = [];
 
   function abrirModalEditar() {
+    const modal = document.getElementById("modalEditar");
     ultimoFocoModalEditar = document.activeElement;
-    document.getElementById("modalEditar").style.display = "flex";
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    bloquearFundoModalEditar(modal);
     document.getElementById("novo_nome_usuario")?.focus();
     document.addEventListener("keydown", fecharModalEditarComEsc);
+    document.addEventListener("keydown", prenderFocoModalEditar);
   }
 
   const btnEditarPerfil = document.querySelector(".btn-editar-perfil");
@@ -89,8 +100,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   window.fecharModalEditar = function () {
-    document.getElementById("modalEditar").style.display = "none";
+    const modal = document.getElementById("modalEditar");
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    elementosInertModalEditar.forEach(el => el.removeAttribute("inert"));
+    elementosInertModalEditar = [];
     document.removeEventListener("keydown", fecharModalEditarComEsc);
+    document.removeEventListener("keydown", prenderFocoModalEditar);
     if (ultimoFocoModalEditar) {
       ultimoFocoModalEditar.focus();
       ultimoFocoModalEditar = null;
@@ -99,6 +116,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function fecharModalEditarComEsc(e) {
     if (e.key === "Escape") fecharModalEditar();
+  }
+
+  function bloquearFundoModalEditar(modal) {
+    elementosInertModalEditar = [];
+    let node = modal;
+    while (node && node !== document.body) {
+      const parent = node.parentElement;
+      if (parent) {
+        Array.from(parent.children).forEach(irmao => {
+          if (irmao === node || ['SCRIPT', 'STYLE', 'LINK'].includes(irmao.tagName) || irmao.hasAttribute('inert')) return;
+          irmao.setAttribute('inert', '');
+          elementosInertModalEditar.push(irmao);
+        });
+      }
+      node = parent;
+    }
+  }
+
+  function prenderFocoModalEditar(event) {
+    if (event.key !== 'Tab') return;
+    const modal = document.getElementById('modalEditar');
+    const dialog = modal.querySelector('[role="dialog"]');
+    const focaveis = Array.from(modal.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null);
+    if (!focaveis.length) {
+      event.preventDefault();
+      dialog.focus();
+      return;
+    }
+    const primeiro = focaveis[0];
+    const ultimo = focaveis[focaveis.length - 1];
+    if (event.shiftKey && (document.activeElement === primeiro || document.activeElement === dialog)) {
+      event.preventDefault();
+      ultimo.focus();
+    } else if (!event.shiftKey && (document.activeElement === ultimo || !modal.contains(document.activeElement))) {
+      event.preventDefault();
+      primeiro.focus();
+    }
   }
 
   // Fecha modal ao clicar fora
@@ -114,7 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (file) {
       const reader = new FileReader();
       reader.onload = function (event) {
-        document.getElementById("previewAvatar").src = event.target.result;
+        const preview = document.getElementById("previewAvatar");
+        preview.src = event.target.result;
+        preview.alt = `Prévia da foto de perfil selecionada: ${file.name}`;
       };
       reader.readAsDataURL(file);
     }

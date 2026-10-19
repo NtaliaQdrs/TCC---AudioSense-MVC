@@ -41,7 +41,7 @@ export const mostrarFormulario = async (req, res) => {
             where: { id: req.usuario.id },
             attributes: ['id', 'nome_usuario', 'foto_perfil']
         });
-        return res.render('inserirTopico', { usuario });
+        return res.render('inserirTopico', { usuario, valores: {}, erro: null });
     } catch (err) {
         console.error('Erro ao carregar formulário:', err);
         return res.status(500).json({ erro: 'Erro interno no servidor.' });
@@ -50,18 +50,38 @@ export const mostrarFormulario = async (req, res) => {
 
 // Criar novo tópico
 export const criarTopico = async (req, res) => {
+    const renderFormulario = (status, erro) => res.status(status).render('inserirTopico', {
+        title: 'Criar tópico',
+        usuario: req.usuario,
+        valores: {
+            titulo: typeof req.body.titulo === 'string' ? req.body.titulo : '',
+            corpo: typeof req.body.corpo === 'string' ? req.body.corpo : '',
+            tags: typeof req.body.tags === 'string' ? req.body.tags : ''
+        },
+        erro
+    });
+
     try {
         const { titulo, corpo } = req.body;
         const usuario_id = req.usuario.id;
 
         if (typeof titulo !== 'string' || !titulo.trim() || typeof corpo !== 'string' || !corpo.trim()) {
-            return res.status(400).json({ erro: 'Título e conteúdo são obrigatórios.' });
+            return req.accepts('html')
+                ? renderFormulario(400, 'Preencha o título e o conteúdo do tópico.')
+                : res.status(400).json({ erro: 'Título e conteúdo são obrigatórios.' });
+        }
+
+        if (titulo.length > 255) {
+            return req.accepts('html')
+                ? renderFormulario(400, 'O título deve ter no máximo 255 caracteres.')
+                : res.status(400).json({ erro: 'O título deve ter no máximo 255 caracteres.' });
         }
 
         if (Array.from(corpo).length > LIMITE_CARACTERES_POST) {
-            return res.status(400).json({
-                erro: `O conteúdo do tópico deve ter no máximo ${LIMITE_CARACTERES_POST} caracteres.`
-            });
+            const mensagem = `O conteúdo do tópico deve ter no máximo ${LIMITE_CARACTERES_POST} caracteres.`;
+            return req.accepts('html')
+                ? renderFormulario(400, mensagem)
+                : res.status(400).json({ erro: mensagem });
         }
 
         const tags = [];
@@ -79,7 +99,10 @@ export const criarTopico = async (req, res) => {
             });
 
         if (tags.length > 10 || tags.some(tag => tag.length > 50)) {
-            return res.status(400).json({ erro: 'Informe até 10 tags, com no máximo 50 caracteres cada.' });
+            const mensagem = 'Informe até 10 tags, com no máximo 50 caracteres cada.';
+            return req.accepts('html')
+                ? renderFormulario(400, mensagem)
+                : res.status(400).json({ erro: mensagem });
         }
 
         const transaction = await db.sequelize.transaction();
@@ -106,7 +129,9 @@ export const criarTopico = async (req, res) => {
         return res.redirect(`/forum/${novaPublicacao.id}`);
     } catch (err) {
         console.error('Erro ao criar tópico:', err);
-        return res.status(500).json({ erro: 'Erro interno no servidor.' });
+        return req.accepts('html')
+            ? renderFormulario(500, 'Não foi possível publicar o tópico agora. O texto foi preservado; tente novamente mais tarde.')
+            : res.status(500).json({ erro: 'Erro interno no servidor.' });
     }
 };
 

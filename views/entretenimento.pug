@@ -6,7 +6,7 @@ block styles
 
 block content
 
-  main.page
+  .page
     h1.title Entretenimento acessível
 
     section.cards-extra
@@ -17,7 +17,7 @@ block content
             article.extra-card1(id=`obra-${rec.obra.id}` data-categoria=rec.obra.tipo_obra)
               .card-inner
                 if rec.obra.poster_url
-                  img(src=rec.obra.poster_url alt="")
+                  img(src=rec.obra.poster_url alt=`Pôster de ${rec.obra.titulo}`)
                 else
                   .poster-placeholder
                     i.bi.bi-film
@@ -54,7 +54,7 @@ block content
                         src=rec.plataforma.logo_url
                         alt=rec.plataforma.nome
                       )
-                    span Acesse na #{rec.plataforma.nome}
+                    span Plataforma indicada: #{rec.plataforma.nome}. Link de acesso não informado.
 
                   button.btn-denunciar(
                     type="button"
@@ -77,7 +77,7 @@ block content
 
         div.right-column
 
-          aside.sidebar(aria-labelledby="sidebar-title")
+          aside#entretenimento-sidebar.sidebar(aria-labelledby="sidebar-title")
             h3#sidebar-title Filtrar por categoria
 
             div.filter-group(role="group" aria-labelledby="sidebar-title")
@@ -122,6 +122,7 @@ block content
             button.toggle-sidebar(
               onclick="toggleSidebar()"
               aria-expanded="true"
+              aria-controls="entretenimento-sidebar"
               aria-label="Expandir ou recolher menu") ↑
 
   // Botão flutuante que abre/fecha a sidebar de filtros no mobile (fica fora
@@ -131,6 +132,7 @@ block content
     type="button"
     aria-label="Abrir filtros"
     aria-expanded="false"
+    aria-controls="entretenimento-sidebar"
   )
     i.bi.bi-funnel(aria-hidden="true")
 

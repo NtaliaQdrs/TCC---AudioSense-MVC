@@ -6,7 +6,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/verMaterial.css')
 
 block content
-  main.vm-page
+  .vm-page
     .vm-wrapper
       h1.vm-page-title Biblioteca de materiais acessibilizados
 
@@ -113,10 +113,11 @@ block content
 
           if podeAvaliar
             form.vm-form-avaliacao(action=`/material/${material.id}/avaliar` method="POST")
-              label.sr-only(for="comentario") Deixe um comentário e uma avaliação
+              label(for="comentario") Escreva sua avaliação
               textarea#comentario.vm-textarea(name="comentario" placeholder="Deixe um comentário e uma avaliação...")
               .vm-form-footer
-                .vm-estrelas-input(role="radiogroup" aria-label="Nota de 1 a 5 estrelas")
+                fieldset.vm-estrelas-input
+                  legend.sr-only Nota da avaliação
                   each i in [5,4,3,2,1]
                     input(type="radio" name="nota" id=`estrela-${i}` value=i required)
                     label(for=`estrela-${i}`)
@@ -124,8 +125,7 @@ block content
                       span.sr-only= i + (i === 1 ? ' estrela' : ' estrelas')
                 button.vm-submit-btn(type="submit") Enviar resenha
               p.vm-aviso(style="font-size: 13px; color: var(--vm-text-muted); margin-top: 10px;")
-                | Ao enviar, você concorda com nossa 
-                a(href="#" style="color: var(--vm-accent); text-decoration: none;") política de privacidade
+                | As informações da avaliação serão exibidas junto ao material.
           else if !usuario
             p.vm-aviso
               | 
@@ -149,7 +149,7 @@ block content
                     span.vm-avaliacao-nome= avaliacao.discente.Usuario.nome_completo
                     .vm-rating-estrelas.vm-rating-estrelas-sm(style="font-size: 16px;" aria-label=`${avaliacao.nota} de 5 estrelas`)
                       each i in [1,2,3,4,5]
-                        i.bi(class=i <= avaliacao.nota ? 'bi-star-fill' : 'bi-star')(aria-hidden="true")
+                        i.bi(class=i <= avaliacao.nota ? 'bi-star-fill' : 'bi-star' aria-hidden="true")
                     span.vm-avaliacao-data= new Date(avaliacao.data_avaliacao).toLocaleDateString('pt-BR')
                   if avaliacao.comentario
                     p.vm-avaliacao-comentario= avaliacao.comentario

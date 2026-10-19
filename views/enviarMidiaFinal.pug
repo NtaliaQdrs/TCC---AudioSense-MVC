@@ -5,7 +5,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
 
 block content
-  main.page
+  .page
     h1.title= projeto.tipo_midia === 'video' ? 'Enviar Vídeo Final' : 'Enviar Áudio Final'
 
     section.container-form
@@ -27,8 +27,8 @@ block content
 
       form(action=`/enviar-midia-final/${projeto.id}` method="POST" enctype="multipart/form-data")
         .form-group
-          p.form-group-label= projeto.tipo_midia === 'video' ? 'Arquivo de vídeo' : 'Arquivo de áudio'
-          .upload-area(onclick="document.getElementById('midia-final').click()")
+          label.form-group-label(for="midia-final")= projeto.tipo_midia === 'video' ? 'Arquivo de vídeo' : 'Arquivo de áudio'
+          label.upload-area(for="midia-final")
             i.bi.bi-cloud-arrow-up(style="font-size: 48px; color: #582d86;" aria-hidden="true")
             .upload-text
               if projeto.tipo_midia === 'video'
@@ -37,14 +37,14 @@ block content
               else
                 p Clique para selecionar o arquivo de áudio
                 p(style="font-size:14px; color:#999") Formatos aceitos: MP3, WAV, OGG
-            button.btn-upload(type="button") Selecionar arquivo
+            span.btn-upload Selecionar arquivo
 
           if projeto.tipo_midia === 'video'
-            input#midia-final(type="file" name="midia" accept="video/mp4,video/webm" hidden required)
+            input#midia-final.sr-only-file(type="file" name="midia" accept="video/mp4,video/webm" required aria-describedby="nome-arquivo")
           else
-            input#midia-final(type="file" name="audio" accept="audio/*" hidden required)
+            input#midia-final.sr-only-file(type="file" name="audio" accept="audio/*" required aria-describedby="nome-arquivo")
 
-          p#nome-arquivo(style="margin-top:10px; color:#2eb086; font-weight:600; display:none" aria-live="polite")
+          p#nome-arquivo(style="margin-top:10px; color:#2eb086; font-weight:600" aria-live="polite")
 
         .button-group
           button.btn-submit(type="submit")= projeto.tipo_midia === 'video' ? 'Enviar vídeo' : 'Enviar áudio'
@@ -56,5 +56,4 @@ block content
       if (!file) return;
       const label = document.getElementById('nome-arquivo');
       label.textContent = 'Arquivo selecionado: ' + file.name;
-      label.style.display = 'block';
     });

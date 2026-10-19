@@ -4,7 +4,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/audiodescricao.css')
 
 block content
-  main.page(role="main")
+  .page
   
     h1.title Introdução a audiodescrição
 
@@ -32,7 +32,7 @@ block content
               p Este recurso beneficia principalmente pessoas com deficiência visual, entre elas cegas e com baixa visão.
               p E amplia a compreensão, como uma segunda forma de acesso à comunicação, para pessoas com deficiência intelectual, com TDAH, autistas, disléxicos, idosos e crianças.
               p No contexto educacional, ela auxilia estudantes a focarem em detalhes importantes de imagens técnicas ou mapas, tornando o aprendizado mais robusto para todos os tipos de perfis cognitivos.
-            button.read-more(onclick="toggleFullscreen(this)") Ler mais
+            button.read-more(type="button" onclick="toggleFullscreen(this)" aria-expanded="false" aria-controls="card-content-2") Ler mais
 
         article.extra-card.card3
           .card-inner
@@ -50,7 +50,7 @@ block content
               p  - o acesso a internet com autonomia;
 
 
-            button.read-more(onclick="toggleFullscreen(this)") Ler mais
+            button.read-more(type="button" onclick="toggleFullscreen(this)" aria-expanded="false" aria-controls="card-content-3") Ler mais
 
         article.extra-card1.card4
           .card-inner
@@ -76,10 +76,10 @@ block content
                     strong Exemplo 3:
                     |  Cartaz vertical com informações em texto nas extremidades superior e inferior. Um homem com bigode vestindo camisa clara, uma mulher de vestido branco com colar colorido e duas crianças à frente estão em um local ao ar livre, diante do mar e de um céu azul claro. O homem e as crianças mostram os dentes em um sorriso direcionado à câmera, enquanto a mulher olha para a frente com os lábios fechados e segura uma mecha do cabelo da criança ao seu lado. 
 
-            button.read-more(onclick="toggleFullscreen(this)") Ler mais
+            button.read-more(type="button" onclick="toggleFullscreen(this)" aria-expanded="false" aria-controls="card-content-4") Ler mais
 
         // SIDEBAR
-        aside.sidebar(aria-labelledby="sidebar-title")
+        aside#audiodescricao-sidebar.sidebar(aria-labelledby="sidebar-title")
           h3#sidebar-title Sugestão de conteúdo adicional
 
           nav(aria-label="Links complementares")
@@ -124,6 +124,7 @@ block content
             type="button"
             onclick="toggleSidebar()"
             aria-expanded="true"
+            aria-controls="audiodescricao-sidebar"
             aria-label="Expandir ou recolher menu"
           ) ↑
 
@@ -178,6 +179,7 @@ block content
     type="button"
     aria-label="Abrir sugestões de conteúdo"
     aria-expanded="false"
+    aria-controls="audiodescricao-sidebar"
   )
     i.bi.bi-funnel(aria-hidden="true")
 

@@ -530,6 +530,14 @@
   flex-wrap: wrap;
 }
 
+.vm-estrelas-input {
+  display: flex;
+  gap: 4px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
 .vm-estrelas-input input {
   position: absolute;
   width: 1px;

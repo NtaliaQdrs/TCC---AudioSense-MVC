@@ -1,13 +1,7 @@
 // fab.js
 // Depende de accessibility.js (já carregado antes no layout).
 
-// ─── ABRIR / FECHAR PAINEL (com focus trap) ───────────────────────────────
-
-function _focaveisDoPainel(panel) {
-  return Array.from(
-    panel.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])')
-  ).filter((el) => !el.hasAttribute('disabled'));
-}
+// ─── ABRIR / FECHAR PAINEL ────────────────────────────────────────────────
 
 function inicializarFab() {
   const fabBtn = document.getElementById('fab-btn');
@@ -18,17 +12,18 @@ function inicializarFab() {
   fabBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const aberto = fabPanel.classList.toggle('fab-panel--open');
+    fabPanel.hidden = !aberto;
     fabBtn.setAttribute('aria-expanded', aberto);
 
     if (aberto) {
-      const focaveis = _focaveisDoPainel(fabPanel);
-      if (focaveis.length) focaveis[0].focus();
+      fabPanel.querySelector('button, a[href], input, [tabindex]:not([tabindex="-1"])')?.focus();
     }
   });
 
   if (fabClose) {
     fabClose.addEventListener('click', () => {
       fabPanel.classList.remove('fab-panel--open');
+      fabPanel.hidden = true;
       fabBtn.setAttribute('aria-expanded', 'false');
       fabBtn.focus();
     });
@@ -37,6 +32,7 @@ function inicializarFab() {
   document.addEventListener('click', (e) => {
     if (!fabPanel.contains(e.target) && e.target !== fabBtn) {
       fabPanel.classList.remove('fab-panel--open');
+      fabPanel.hidden = true;
       fabBtn.setAttribute('aria-expanded', 'false');
     }
   });
@@ -47,26 +43,12 @@ function inicializarFab() {
 
     if (e.key === 'Escape') {
       fabPanel.classList.remove('fab-panel--open');
+      fabPanel.hidden = true;
       fabBtn.setAttribute('aria-expanded', 'false');
       fabBtn.focus();
       return;
     }
 
-    // Focus trap: enquanto o painel está aberto, Tab/Shift+Tab não escapa dele
-    if (e.key === 'Tab') {
-      const focaveis = _focaveisDoPainel(fabPanel);
-      if (!focaveis.length) return;
-      const primeiro = focaveis[0];
-      const ultimo = focaveis[focaveis.length - 1];
-
-      if (e.shiftKey && document.activeElement === primeiro) {
-        e.preventDefault();
-        ultimo.focus();
-      } else if (!e.shiftKey && document.activeElement === ultimo) {
-        e.preventDefault();
-        primeiro.focus();
-      }
-    }
   });
 }
 

@@ -93,44 +93,52 @@ block content
       .tabs-header(role="tablist" aria-label="Conteúdo do perfil")
         if usuario.tipo_usuario === 'docente'
           button#tab-btn-audiodescricoes.tab-btn.active(
+            type="button"
             role="tab"
             data-tab="audiodescricoes"
             aria-selected="true"
             aria-controls="tab-audiodescricoes"
+            tabindex="0"
           )
             i.bi.bi-volume-up(aria-hidden="true")
             span Audiodescrições corrigidas
         else
           button#tab-btn-audiodescricoes.tab-btn.active(
+            type="button"
             role="tab"
             data-tab="audiodescricoes"
             aria-selected="true"
             aria-controls="tab-audiodescricoes"
+            tabindex="0"
           )
             i.bi.bi-volume-up(aria-hidden="true")
             span Audiodescrições
 
         button#tab-btn-forum.tab-btn(
+          type="button"
           role="tab"
           data-tab="forum"
           aria-selected="false"
           aria-controls="tab-forum"
+          tabindex="-1"
         )
           i.bi.bi-chat-left-text(aria-hidden="true")
           span Fórum
 
         if usuario.tipo_usuario === 'docente'
           button#tab-btn-materiais.tab-btn(
+            type="button"
             role="tab"
             data-tab="materiais"
             aria-selected="false"
             aria-controls="tab-materiais"
+            tabindex="-1"
           )
             i.bi.bi-file-earmark-pdf(aria-hidden="true")
             span Materiais
 
       //- TAB: AUDIODESCRIÇÕES
-      .tab-content#tab-audiodescricoes.tab-pane.active(role="tabpanel" aria-labelledby="tab-btn-audiodescricoes")
+      .tab-content#tab-audiodescricoes.tab-pane.active(role="tabpanel" aria-labelledby="tab-btn-audiodescricoes" tabindex="0")
         .audiodescricoes-list
           if audiodescricoes.length === 0
             p(style="color:#6B7280; padding: 20px") Nenhuma audiodescrição encontrada.
@@ -159,7 +167,7 @@ block content
           a(href="/usuario/minhas-audiodescricoes" aria-label="Ver todas as audiodescrições") Ver todas
 
       //- TAB: FÓRUM
-      .tab-content#tab-forum.tab-pane(role="tabpanel" aria-labelledby="tab-btn-forum" hidden)
+      .tab-content#tab-forum.tab-pane(role="tabpanel" aria-labelledby="tab-btn-forum" tabindex="0" hidden)
         .forum-list
           if postagensForum.length === 0
             p(style="color:#6B7280; padding: 20px") Você ainda não postou no fórum.
@@ -183,7 +191,7 @@ block content
           a(href="/forum" aria-label="Ver todas as postagens no fórum") Ver todas
 
       //- TAB: MATERIAIS
-      .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais" hidden)
+      .tab-content#tab-materiais.tab-pane(role="tabpanel" aria-labelledby="tab-btn-materiais" tabindex="0" hidden)
         .materiais-list
           if materiais.length === 0
             p(style="color:#6B7280; padding: 20px") Você ainda não publicou nenhum material.
@@ -205,11 +213,11 @@ block content
           a(href="/biblioteca" aria-label="Ver todos os materiais") Ver todas
 
   
-  .modal-overlay#modalEditar(style="display:none" role="dialog" aria-modal="true" aria-labelledby="modal-editar-titulo")
-    .modal-edicao
+  .modal-overlay#modalEditar(hidden aria-hidden="true")
+    .modal-edicao(role="dialog" aria-modal="true" aria-labelledby="modal-editar-titulo" tabindex="-1")
       .modal-header
         h3#modal-editar-titulo Editar perfil
-        button.btn-fechar-modal(type="button" onclick="fecharModalEditar()" aria-label="Fechar")
+        button.btn-fechar-modal(type="button" onclick="fecharModalEditar()" aria-label="Fechar janela de edição do perfil")
           i.bi.bi-x-lg(aria-hidden="true")
 
       form#formEditarPerfil(action="/usuario/editar-perfil" method="POST" enctype="multipart/form-data")
@@ -219,7 +227,7 @@ block content
             label.btn-foto(for="novaFoto")
               i.bi.bi-camera-fill(aria-hidden="true")
               | Alterar foto
-            input#novaFoto(type="file" name="foto" accept="image/*" hidden)
+            input#novaFoto.sr-only-file(type="file" name="foto" accept="image/*" aria-label="Selecionar foto de perfil")
 
           .modal-campos
             .input-group

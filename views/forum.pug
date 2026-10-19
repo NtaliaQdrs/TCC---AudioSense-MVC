@@ -6,7 +6,7 @@ block styles
 
 block content
 
-  main.page
+  .page
     .forum-header
       h1.title Fórum: Interaja e compartilhe
       .view-options
@@ -39,14 +39,14 @@ block content
                       each tag in topico.tags
                         li= `#${tag.tag}`
                   if topico.imagem_url
-                    img(src=topico.imagem_url alt="")
+                    img(src=topico.imagem_url alt=`Imagem do tópico: ${topico.titulo}`)
                   br
               .post-actions
                 a.btn-comentar(href=`/forum/${topico.id}#comentarios` aria-label=`Ver ${totalComentarios} comentário(s)`)
                   i.bi.bi-chat-left(aria-hidden="true")
                   |  #{totalComentarios}
                 - const curtido = idsCurtidos.includes(topico.id)
-                button.btn-curtir(type="button" data-id=topico.id data-curtido=curtido aria-label="Curtir tópico")
+                button.btn-curtir(type="button" data-id=topico.id data-curtido=curtido aria-pressed=curtido aria-label=`${curtido ? 'Descurtir' : 'Curtir'} tópico de ${nomeAutor}`)
                   i.bi(class=curtido ? 'bi-heart-fill' : 'bi-heart')
                   |  #{topico.curtidas}
                 if usuarioLogadoId && topico.usuario_id === usuarioLogadoId
@@ -66,8 +66,10 @@ block content
         else
           p.no-posts Ainda não há tópicos no fórum. Seja o primeiro a postar!
 
+      p#forum-action-status.sr-only(role="status" aria-live="polite" aria-atomic="true")
+
       //- Barra Lateral (Sidebar)
-      aside.forum-sidebar
+      aside#forum-sidebar.forum-sidebar
         //- Caixa branca com os filtros
         .sidebar-box(role="group" aria-label="Ordenar tópicos")
           button#btn-recentes.btn-filter(type="button" aria-pressed="true") Recentes
@@ -75,8 +77,10 @@ block content
           span#ordenacao-status.sr-only(aria-live="polite" role="status")
           br
           button.toggle-sidebar(
+            type="button"
             onclick="toggleSidebar()"
             aria-expanded="true"
+            aria-controls="forum-sidebar"
             aria-label="Expandir ou recolher menu"
           ) ↑
           a.btn-criar-post(href="/forum/inserir-topico")
@@ -90,6 +94,7 @@ block content
     type="button"
     aria-label="Abrir filtros e criar post"
     aria-expanded="false"
+    aria-controls="forum-sidebar"
   )
     i.bi.bi-funnel(aria-hidden="true")
 

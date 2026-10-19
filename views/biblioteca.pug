@@ -8,7 +8,7 @@ block content
   //- Matérias que realmente existem nos materiais listados (sem repetir)
   - const disciplinas = [...new Set(materiais.map(m => m.disciplinaNome).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'))
 
-  main.page
+  .page
     h1.title Biblioteca de materiais acessibilizados
 
     //- Barra de busca e botão de inserir

@@ -18,30 +18,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================
     // ABAS NO DROPDOWN
     // =============================
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabPanes = document.querySelectorAll('.tab-pane');
+    const tabBtns = profileDropdown?.querySelectorAll('.tab-btn') || [];
+    const tabPanes = profileDropdown?.querySelectorAll('.tab-pane') || [];
+
+    function selecionarAba(btn, moverFoco = false) {
+        const tabName = btn.getAttribute('data-tab');
+        tabBtns.forEach(tab => {
+            const ativa = tab === btn;
+            tab.classList.toggle('tab-active', ativa);
+            tab.setAttribute('aria-selected', String(ativa));
+            tab.tabIndex = ativa ? 0 : -1;
+        });
+        tabPanes.forEach(pane => {
+            const ativa = pane.id === `${tabName}-tab`;
+            pane.classList.toggle('tab-pane-active', ativa);
+            pane.hidden = !ativa;
+        });
+        if (moverFoco) btn.focus();
+    }
 
     tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabName = btn.getAttribute('data-tab');
-
-            tabBtns.forEach(b => {
-                b.classList.remove('tab-active');
-                b.setAttribute('aria-selected', 'false');
-            });
-            tabPanes.forEach(pane => {
-                pane.classList.remove('tab-pane-active');
-                pane.setAttribute('hidden', '');
-            });
-
-            btn.classList.add('tab-active');
-            btn.setAttribute('aria-selected', 'true');
-
-            const pane = document.getElementById(tabName + '-tab');
-            if (pane) {
-                pane.classList.add('tab-pane-active');
-                pane.removeAttribute('hidden');
+        btn.addEventListener('click', () => selecionarAba(btn));
+        btn.addEventListener('keydown', event => {
+            const index = Array.from(tabBtns).indexOf(btn);
+            let nextIndex;
+            if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                nextIndex = (index + 1) % tabBtns.length;
+            } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                nextIndex = (index - 1 + tabBtns.length) % tabBtns.length;
+            } else if (event.key === 'Home') {
+                nextIndex = 0;
+            } else if (event.key === 'End') {
+                nextIndex = tabBtns.length - 1;
+            } else {
+                return;
             }
+            event.preventDefault();
+            selecionarAba(tabBtns[nextIndex], true);
         });
     });
 
@@ -53,7 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             const aberto = profileDropdown.classList.toggle('show');
+            profileDropdown.hidden = !aberto;
             profileBtn.setAttribute('aria-expanded', aberto);
+            if (aberto) tabBtns[0]?.focus();
         });
     }
 
@@ -65,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             const aberto = categoryDropdown.classList.toggle('active');
+            categoryDropdown.hidden = !aberto;
             categoryToggle.setAttribute('aria-expanded', aberto);
 
             const icon = categoryToggle.querySelector('i');
@@ -76,6 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+        categoryToggle.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowDown' && categoryDropdown.hidden) {
+                event.preventDefault();
+                categoryToggle.click();
+                categoryDropdown.querySelector('a[href]')?.focus();
+            }
+        });
     }
 
     // =============================
@@ -84,12 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         if (profileDropdown && !e.target.closest('.profile-menu')) {
             profileDropdown.classList.remove('show');
+            profileDropdown.hidden = true;
             profileBtn?.setAttribute('aria-expanded', 'false');
         }
 
-        if (categoryDropdown && !categoryDropdown.contains(e.target) && !categoryToggle.contains(e.target)) {
-            categoryDropdown.classList.remove('active');
-            categoryToggle?.setAttribute('aria-expanded', 'false');
+        if (categoryDropdown && !categoryDropdown.contains(e.target) && !categoryToggle?.contains(e.target)) {
+        categoryDropdown.classList.remove('active');
+        categoryDropdown.hidden = true;
+        categoryToggle?.setAttribute('aria-expanded', 'false');
             const icon = categoryToggle?.querySelector('i');
             if (icon) icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
         }
@@ -99,18 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') {
             const perfilAberto = profileDropdown?.classList.contains('show');
             const categoriasAberto = categoryDropdown?.classList.contains('active');
+            const focoNoPerfil = profileDropdown?.contains(document.activeElement);
+            const focoNasCategorias = categoryDropdown?.contains(document.activeElement);
 
             profileDropdown?.classList.remove('show');
+            if (profileDropdown) profileDropdown.hidden = true;
             profileBtn?.setAttribute('aria-expanded', 'false');
 
             categoryDropdown?.classList.remove('active');
+            if (categoryDropdown) categoryDropdown.hidden = true;
             categoryToggle?.setAttribute('aria-expanded', 'false');
             const icon = categoryToggle?.querySelector('i');
             if (icon) icon.classList.replace('bi-x', 'bi-grid-3x3-gap-fill');
 
             // Devolve o foco pro botão que estava aberto
-            if (perfilAberto) profileBtn?.focus();
-            else if (categoriasAberto) categoryToggle?.focus();
+            if (perfilAberto && focoNoPerfil) profileBtn?.focus();
+            else if (categoriasAberto && focoNasCategorias) categoryToggle?.focus();
         }
     });
 
@@ -205,26 +234,31 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!tab) return;
 
             if (notificacoes.length === 0) {
-                tab.innerHTML = '<p style="padding: 15px; color: #666; font-size: 14px;">Nenhuma notificação.</p>';
+                tab.innerHTML = '<p role="status" style="padding: 15px; color: #666; font-size: 14px;">Nenhuma notificação.</p>';
                 return;
             }
 
-            const itens = notificacoes.map(n => `
-            <a class="dropdown-item nao-lida" href="${escaparHtml(n.link || '#')}" data-notif-id="${escaparHtml(n.id)}">
-                <div class="notif-content">
-                <p class="notif-title">${escaparHtml(n.titulo)}</p>
-                <p class="notif-desc">${escaparHtml(n.mensagem)}</p>
-                <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
-                </div>
-            </a>
-            `).join('');
+            const itens = notificacoes.map(n => {
+                const conteudo = `
+                    <div class="notif-content">
+                    <p class="notif-title">${escaparHtml(n.titulo)}</p>
+                    <p class="notif-desc">${escaparHtml(n.mensagem)}</p>
+                    <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
+                    </div>
+                `;
+                const id = escaparHtml(n.id);
+                return n.link
+                    ? `<a class="dropdown-item nao-lida" href="${escaparHtml(n.link)}" data-notif-id="${id}">${conteudo}</a>`
+                    : `<button type="button" class="dropdown-item nao-lida" data-notif-id="${id}" aria-label="Marcar notificação como lida: ${escaparHtml(n.titulo)}">${conteudo}</button>`;
+            }).join('');
 
             tab.innerHTML = itens + `
             <hr class="dropdown-divider">
-            <button type="button" class="dropdown-item" onclick="marcarTodasLidas()" style="text-align: center; font-size: 12px; width: 100%; background: none; border: none; cursor: pointer;">
+            <button type="button" class="dropdown-item" id="marcarTodasLidas" style="text-align: center; font-size: 12px; width: 100%; background: none; border: none; cursor: pointer;">
                 Marcar todas como lidas
             </button>
             `;
+            document.getElementById('marcarTodasLidas')?.addEventListener('click', marcarTodasLidas);
 
         } catch (err) {
             console.error('Erro ao carregar notificações:', err);

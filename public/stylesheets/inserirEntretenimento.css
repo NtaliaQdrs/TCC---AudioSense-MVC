@@ -75,6 +75,11 @@ textarea.form-control {
     background-color: #d1e7fa;
 }
 
+.upload-area:focus-within {
+    outline: 3px solid #ffbf47;
+    outline-offset: 3px;
+}
+
 .upload-icon {
     width: 200px;
     height: auto;

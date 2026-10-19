@@ -5,7 +5,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/inserirEntretenimento.css')
 
 block content
-  main.page
+  .page
     h1.title Entretenimento acessível
 
     section.container-form
@@ -22,7 +22,7 @@ block content
           .column-upload
             .form-group
               label(for="poster") Poster
-              .upload-area#uploadArea(onclick="document.getElementById('poster').click()")
+              label.upload-area#uploadArea(for="poster")
                 input#poster.sr-only-file(type="file" name="poster" accept="image/*" onchange="previewPoster(event)")
                 
                 svg#uploadIcon.upload-icon(viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg")
@@ -37,7 +37,7 @@ block content
                 //- Texto e botão dentro da upload-area
                 .upload-text
                   p Faça upload ou solte a mídia aqui
-                  button.btn-upload(type="button" onclick="event.stopPropagation(); document.getElementById('poster').click()") Escolher arquivo
+                  span.btn-upload Escolher arquivo
 
           //- Coluna direita: título e sinopse
           .column-info

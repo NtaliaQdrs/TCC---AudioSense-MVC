@@ -5,7 +5,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/inserirMaterial.css')
 
 block content
-  main.page
+  .page
     h1.title Biblioteca de materiais acessibilizados
 
     section.container-form
@@ -38,22 +38,22 @@ block content
           input#disciplina_outro.form-control(type="text" name="disciplina_outro" placeholder="Digite o nome da disciplina..." maxlength="60")
 
         .form-group
-          p.form-group-label Capa do Material (opcional)
-          .upload-area(onclick="document.getElementById('capa').click()")
-            input#capa(type="file" name="capa" style="display: none;" accept="image/jpeg,image/png,image/webp")
+          label.form-group-label(for="capa") Capa do Material (opcional)
+          label.upload-area(for="capa")
+            input#capa.sr-only-file(type="file" name="capa" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar capa do material")
             svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false")
               rect(x="15" y="20" width="70" height="55" rx="8" stroke="#2eb086" stroke-width="6")
               circle(cx="32" cy="38" r="6" fill="#2eb086")
               path(d="M20 65L40 45L55 58L68 42L80 60" stroke="#2eb086" stroke-width="6" stroke-linecap="round" stroke-linejoin="round")
             .upload-text
               p Faça upload de uma imagem de capa
-              button.btn-upload(type="button") Escolher arquivo
+              span.btn-upload Escolher arquivo
 
 
         .form-group
-          p.form-group-label Arquivo do Material
-          .upload-area(onclick="document.getElementById('arquivo').click()")
-            input#arquivo(type="file" name="arquivo" style="display: none;" required)
+          label.form-group-label(for="arquivo") Arquivo do Material
+          label.upload-area(for="arquivo")
+            input#arquivo.sr-only-file(type="file" name="arquivo" required aria-describedby="label-arquivo")
             svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false")
               path(d="M30 10H55L75 30V85C75 87 73 90 70 90H30C27 90 25 87 25 85V15C25 12 27 10 30 10Z" stroke="#2eb086" stroke-width="6" stroke-linejoin="round")
               path(d="M55 10V28C55 30 57 32 59 32H75" stroke="#2eb086" stroke-width="6" stroke-linejoin="round")
@@ -61,12 +61,12 @@ block content
               path(d="M38 58L50 70L62 58" stroke="#2eb086" stroke-width="6" stroke-linecap="round" stroke-linejoin="round")
             .upload-text
               p#label-arquivo Faça upload do arquivo principal aqui
-              button.btn-upload(type="button") Escolher arquivo
+              span.btn-upload Escolher arquivo
 
         .form-group#grupo-audio
           label(for="audio_descricao") Arquivo de Audiodescrição (Áudio)
-          .upload-area(onclick="document.getElementById('audio_descricao').click()")
-            input#audio_descricao(type="file" name="audio_descricao" style="display: none;" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg")
+          label.upload-area(for="audio_descricao")
+            input#audio_descricao.sr-only-file(type="file" name="audio_descricao" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg" aria-describedby="label-audio")
             svg.upload-icon(viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false")
               rect(x="20" y="45" width="6" height="10" rx="3" fill="#2eb086")
               rect(x="32" y="35" width="6" height="30" rx="3" fill="#2eb086")
@@ -76,7 +76,7 @@ block content
               rect(x="80" y="47" width="6" height="6" rx="3" fill="#2eb086")
             .upload-text
               p#label-audio Faça upload do áudio de audiodescrição aqui
-              button.btn-upload(type="button") Escolher arquivo
+              span.btn-upload Escolher arquivo
           p *Obrigatório para artigo, slide e outros tipos de material.
 
         .form-group#grupo-roteiro

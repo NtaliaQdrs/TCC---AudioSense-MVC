@@ -4,7 +4,7 @@ block styles
   link(rel='stylesheet', href='/stylesheets/painelDenuncias.css')
 
 block content
-  main.admin-panel-container(role="main")
+  .admin-panel-container
     .admin-header-banner
       i.bi.bi-flag-fill(aria-hidden="true")
       h1 Painel de Denúncias
@@ -66,7 +66,8 @@ block content
           if d.status === 'pendente'
             .denuncia-acoes
               form(method="POST" action=`/admin/denuncias/${d.id}/excluir` onsubmit="return confirm('Excluir este conteúdo? Essa ação não pode ser desfeita.')")
-                input(type="text" name="observacao" placeholder="Observação (opcional)" maxlength="500")
+                label.sr-only(for=`observacao-${d.id}`) Observação para o histórico da denúncia
+                input(id=`observacao-${d.id}` type="text" name="observacao" placeholder="Observação (opcional)" maxlength="500")
                 button.btn-acao-danger(type="submit")
                   i.bi.bi-trash(aria-hidden="true")
                   |  Excluir conteúdo
