@@ -1,0 +1,29 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/contentPages.css')
+
+block content
+  section.content-page(aria-labelledby="titulo-busca")
+    h1#titulo-busca Buscar conteúdo
+    p.busca-descricao Busque em tópicos do fórum, materiais da biblioteca e obras audiovisuais recomendadas.
+    form.busca-form(action="/buscar" method="get" role="search")
+      label(for="consulta") O que você procura?
+      .busca-campo
+        input#consulta(type="search" name="q" value=consulta maxlength="100" required)
+        button(type="submit") Pesquisar
+    if erro
+      p.busca-erro(role="alert")= erro
+    else if consulta
+      if resultados.length
+        p.busca-total(role="status") Resultados para “#{consulta}”
+        ul.busca-resultados
+          each resultado in resultados
+            li.busca-resultado
+              span.resultado-tipo= resultado.tipo
+              h2
+                a(href=resultado.href)= resultado.titulo
+              if resultado.resumo
+                p= resultado.resumo
+      else
+        p.busca-vazia(role="status") Nenhum resultado encontrado para “#{consulta}”. Tente outros termos.

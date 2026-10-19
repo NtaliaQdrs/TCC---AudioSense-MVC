@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const minhasAudiodescricoes = document.getElementById('minhasAudiodescricoes');
     const meusMateriais = document.getElementById('meusMateriais');
     const adminPainel = document.getElementById('adminPainel');
+    const adminModeracao = document.getElementById('adminModeracao');
     const welcomeAuthBtn = document.getElementById('welcomeAuthBtn');
 
     const categoryToggle = document.getElementById('categoryToggle');
@@ -129,11 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (minhasAudiodescricoes) minhasAudiodescricoes.style.display = 'none';
         if (meusMateriais) meusMateriais.style.display = 'none';
         if (adminPainel) adminPainel.style.display = 'none';
+        if (adminModeracao) adminModeracao.style.display = 'none';
 
         if (!usuarioLogado) return;
 
         const tipo = usuarioLogado.tipo_usuario;
         const isAdmin = usuarioLogado.is_admin;
+
+        if (isAdmin && adminModeracao) adminModeracao.style.display = 'flex';
 
         if (tipo === 'docente') {
             if (meusMateriais) meusMateriais.style.display = 'flex';
@@ -167,6 +171,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // NOTIFICAÇÕES
     // =============================
 
+    function escaparHtml(valor) {
+        return String(valor ?? '').replace(/[&<>"']/g, caractere => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        })[caractere]);
+    }
+
     async function carregarNotificacoes() {
         try {
             const res = await fetch('/notificacoes');
@@ -196,10 +210,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const itens = notificacoes.map(n => `
-            <a class="dropdown-item nao-lida" href="${n.link || '#'}" data-notif-id="${n.id}">
+            <a class="dropdown-item nao-lida" href="${escaparHtml(n.link || '#')}" data-notif-id="${escaparHtml(n.id)}">
                 <div class="notif-content">
-                <p class="notif-title">${n.titulo}</p>
-                <p class="notif-desc">${n.mensagem}</p>
+                <p class="notif-title">${escaparHtml(n.titulo)}</p>
+                <p class="notif-desc">${escaparHtml(n.mensagem)}</p>
                 <p class="notif-time">${new Date(n.data_criacao).toLocaleDateString('pt-BR')}</p>
                 </div>
             </a>

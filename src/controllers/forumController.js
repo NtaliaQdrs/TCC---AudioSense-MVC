@@ -2,6 +2,7 @@ import db from '../models/index.js';
 
 const Publicacao = db.Publicacao;
 const Comentario = db.Comentario;
+const LIMITE_CARACTERES_POST = 280;
 
 // Listar todos os tópicos do fórum
 export const listarTopicos = async (req, res) => {
@@ -9,7 +10,8 @@ export const listarTopicos = async (req, res) => {
         const topicos = await Publicacao.findAll({
             include: [
                 { model: db.Usuario, as: 'autor', attributes: ['id', 'nome_usuario', 'foto_perfil'] },
-                { model: Comentario, as: 'comentarios', attributes: ['id'] }
+                { model: Comentario, as: 'comentarios', attributes: ['id'] },
+                { model: db.PublicacaoTag, as: 'tags', attributes: ['tag'] }
             ],
             order: [['data_postagem', 'DESC']]
         });
@@ -52,15 +54,54 @@ export const criarTopico = async (req, res) => {
         const { titulo, corpo } = req.body;
         const usuario_id = req.usuario.id;
 
-        if (!titulo || !corpo) {
+        if (typeof titulo !== 'string' || !titulo.trim() || typeof corpo !== 'string' || !corpo.trim()) {
             return res.status(400).json({ erro: 'Título e conteúdo são obrigatórios.' });
         }
 
-        const novaPublicacao = await Publicacao.create({
-            titulo,
-            corpo_texto: corpo,
-            usuario_id
-        });
+        if (Array.from(corpo).length > LIMITE_CARACTERES_POST) {
+            return res.status(400).json({
+                erro: `O conteúdo do tópico deve ter no máximo ${LIMITE_CARACTERES_POST} caracteres.`
+            });
+        }
+
+        const tags = [];
+        const tagsNormalizadas = new Set();
+        String(req.body.tags || '')
+            .split(',')
+            .map(tag => tag.trim().replace(/^#+/, '').trim())
+            .filter(Boolean)
+            .forEach(tag => {
+                const tagNormalizada = tag.toLocaleLowerCase('pt-BR');
+                if (!tagsNormalizadas.has(tagNormalizada)) {
+                    tagsNormalizadas.add(tagNormalizada);
+                    tags.push(tag);
+                }
+            });
+
+        if (tags.length > 10 || tags.some(tag => tag.length > 50)) {
+            return res.status(400).json({ erro: 'Informe até 10 tags, com no máximo 50 caracteres cada.' });
+        }
+
+        const transaction = await db.sequelize.transaction();
+        let novaPublicacao;
+        try {
+            novaPublicacao = await Publicacao.create({
+                titulo,
+                corpo_texto: corpo,
+                usuario_id
+            }, { transaction });
+
+            if (tags.length) {
+                await db.PublicacaoTag.bulkCreate(
+                    tags.map(tag => ({ publicacao_id: novaPublicacao.id, tag })),
+                    { transaction }
+                );
+            }
+            await transaction.commit();
+        } catch (err) {
+            await transaction.rollback();
+            throw err;
+        }
 
         return res.redirect(`/forum/${novaPublicacao.id}`);
     } catch (err) {
@@ -76,7 +117,10 @@ export const verTopico = async (req, res) => {
 
         const topico = await Publicacao.findOne({
             where: { id },
-            include: [{ model: db.Usuario, as: 'autor', attributes: ['id', 'nome_usuario', 'foto_perfil'] }]
+            include: [
+                { model: db.Usuario, as: 'autor', attributes: ['id', 'nome_usuario', 'foto_perfil'] },
+                { model: db.PublicacaoTag, as: 'tags', attributes: ['tag'] }
+            ]
         });
 
         if (!topico) return res.status(404).send('Tópico não encontrado');

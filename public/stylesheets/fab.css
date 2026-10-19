@@ -246,9 +246,11 @@ html.reading-guide-on #fab-reading-guide {
     display: block;
 }
 
-/* ── Sublinhar links (NOVO) ── */
-html.underline-links a {
+/* ── Sublinhar textos legíveis e links em qualquer página ── */
+html.underline-links body :is(a, p, li, span, h1, h2, h3, h4, h5, h6, label, dt, dd, summary, blockquote, figcaption, legend) {
     text-decoration: underline !important;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.12em;
 }
 
 /* Fonte legível: mais espaço entre letras e palavras. O espaçamento entre

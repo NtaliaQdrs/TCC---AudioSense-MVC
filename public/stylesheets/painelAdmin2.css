@@ -18,6 +18,13 @@ body { background-color: #E9CCEF; }
   font-weight: bold;
 }
 
+.admin-mod-link {
+  align-self: center;
+  margin-left: auto;
+  color: #fff;
+  text-align: right;
+}
+
 .admin-section {
   background-color: #f6edf6;
   padding: 20px;

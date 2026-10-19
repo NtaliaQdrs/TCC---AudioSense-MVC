@@ -1,0 +1,25 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/contentPages.css')
+
+block content
+  section.content-page(aria-labelledby="titulo-sobre")
+    h1#titulo-sobre Sobre nós
+    p AudioSense é uma plataforma sobre audiodescrição e deficiência visual.
+    p O espaço reúne conteúdos e recursos para profissionais especializados, educadores e estudantes interessados em compartilhar e ampliar conhecimentos sobre acessibilidade.
+
+    h2 O que você encontra na plataforma
+    ul.sobre-links
+      li
+        a(href="/deficiencia-visual") Conteúdos sobre deficiência visual
+      li
+        a(href="/audiodescricao") Audiodescrição
+      li
+        a(href="/entretenimento") Entretenimento acessível
+      li
+        a(href="/forum") Fórum colaborativo
+      li
+        a(href="/biblioteca") Biblioteca de materiais
+
+    p As informações sobre a equipe responsável e a instituição vinculada não estão disponíveis no projeto.

@@ -396,6 +396,9 @@ export const verPainelDenuncias = async (req, res) => {
 // ─── POST /admin/denuncias/:id/excluir  (denúncia procedente) ─────────────
 export const excluirConteudoDenunciado = async (req, res) => {
   const t = await db.sequelize.transaction();
+  const destinoPainel = req.body.retorno === '/admin/moderacao'
+    ? '/admin/moderacao'
+    : '/admin/denuncias';
   try {
     const denuncia = await db.Denuncia.findByPk(req.params.id, { transaction: t });
 
@@ -405,7 +408,7 @@ export const excluirConteudoDenunciado = async (req, res) => {
     }
     if (denuncia.status !== 'pendente') {
       await t.rollback();
-      return res.redirect('/admin/denuncias');
+      return res.redirect(destinoPainel);
     }
 
     await removerConteudo(denuncia.tipo_conteudo, denuncia.conteudo_id, t);
@@ -430,7 +433,7 @@ export const excluirConteudoDenunciado = async (req, res) => {
     );
 
     await t.commit();
-    return res.redirect('/admin/denuncias');
+    return res.redirect(`${destinoPainel}?resultado=conteudo-removido`);
   } catch (err) {
     await t.rollback();
     console.error('Erro ao excluir conteúdo denunciado:', err);

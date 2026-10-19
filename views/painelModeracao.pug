@@ -1,0 +1,88 @@
+extends layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/painelModeracao.css')
+
+block content
+  main.moderacao-container(aria-labelledby="titulo-moderacao")
+    header.moderacao-header
+      div
+        p.moderacao-eyebrow PAINEL ADMINISTRATIVO
+        h1#titulo-moderacao Moderação de conteúdo
+        p Acompanhe posts e materiais denunciados, avise seus autores ou remova conteúdo inadequado.
+      a.moderacao-voltar(href="/painelAdmin1/painel-admin") Voltar ao painel de administração
+
+    if resultado === 'aviso-enviado'
+      p.moderacao-feedback(role="status") Aviso registrado como notificação; o envio de e-mail é complementar e depende da configuração do serviço.
+    else if resultado === 'conteudo-removido'
+      p.moderacao-feedback(role="status") Conteúdo removido e denúncias pendentes encerradas.
+    else if resultado === 'aviso-invalido'
+      p.moderacao-feedback.moderacao-feedback--erro(role="alert") Escreva um aviso de até 1.000 caracteres.
+
+    section.moderacao-resumo(aria-label="Resumo da fila")
+      strong= itens.length
+      span conteúdo(s) na fila
+      strong= totalPendentes
+      span denúncia(s) pendente(s)
+
+    section.moderacao-fila(aria-label="Posts e materiais denunciados")
+      if !itens.length
+        p.moderacao-vazio Nenhum post ou material denunciado aguarda moderação.
+      else
+        each item in itens
+          article.moderacao-card
+            header.moderacao-card-header
+              span.moderacao-tipo= item.rotuloTipo
+              span.moderacao-contagem #{item.totalDenuncias} denúncia(s) no total · #{item.pendentes} pendente(s)
+            h2
+              if item.link
+                a(href=item.link target="_blank" rel="noopener")= item.titulo || '(sem título)'
+              else
+                = item.titulo || '(sem título)'
+            if item.resumo
+              p.moderacao-resumo-conteudo= item.resumo
+            .moderacao-detalhes
+              p
+                strong Autor:
+                |  #{item.autor ? (item.autor.nome_usuario || item.autor.nome_completo) : 'Autor não disponível'}
+              p
+                strong Denúncias por motivo:
+                each quantidade, motivo in item.motivos
+                  |  #{motivo}: #{quantidade}
+              p
+                strong Denúncia mais recente:
+                |  #{item.dataDenuncia}
+
+            if item.autor
+              form.moderacao-aviso(action=`/admin/moderacao/${item.tipo}/${item.id}/avisar` method="POST")
+                label(for=`aviso-${item.tipo}-${item.id}`) Enviar aviso ao autor
+                textarea(
+                  id=`aviso-${item.tipo}-${item.id}`
+                  name="mensagem"
+                  rows="3"
+                  maxlength="1000"
+                  required
+                  placeholder="Explique ao usuário o motivo do aviso..."
+                )
+                button.moderacao-btn.moderacao-btn-aviso(type="submit")
+                  i.bi.bi-envelope(aria-hidden="true")
+                  |  Enviar aviso
+
+            if item.denunciaId && item.link
+              form.moderacao-remover(
+                action=`/admin/denuncias/${item.denunciaId}/excluir`
+                method="POST"
+                onsubmit="return confirm('Remover este conteúdo e encerrar todas as denúncias pendentes relacionadas? Essa ação não pode ser desfeita.')"
+              )
+                input(type="hidden" name="retorno" value="/admin/moderacao")
+                label(for=`observacao-${item.tipo}-${item.id}`) Motivo/observação da remoção (opcional)
+                input(
+                  id=`observacao-${item.tipo}-${item.id}`
+                  type="text"
+                  name="observacao"
+                  maxlength="500"
+                  placeholder="Observação para o histórico da denúncia"
+                )
+                button.moderacao-btn.moderacao-btn-remover(type="submit")
+                  i.bi.bi-trash(aria-hidden="true")
+                  |  Remover conteúdo

@@ -30,6 +30,7 @@ import { inserirMaterial,
         avaliarMaterial, 
         meusMateriais } from '../controllers/materialDidaticoController.js';
 import { criarUpload } from '../config/uploadService.js';
+import { buscarConteudo } from '../controllers/buscaController.js';
 
 const router = express.Router();
 const uploadPoster = criarUpload('posters', ['image/jpeg', 'image/png', 'image/webp']);
@@ -55,6 +56,10 @@ const uploadMaterial = criarUpload('materiais', [
 router.get('/', (req, res) =>
     res.render('index', { title: 'Página Inicial', usuario: req.user || null })
 );
+router.get('/sobre-nos', (req, res) =>
+    res.render('sobreNos', { title: 'Sobre nós', usuario: req.session.usuarioLogado || null })
+);
+router.get('/buscar', buscarConteudo);
 router.get('/configuracoes', (req, res) =>
     res.render('configuracoes', { title: 'Configurações', usuario: req.user || null })
 );

@@ -58,6 +58,11 @@ export default (sequelize) => {
             foreignKey: 'publicacao_id',
             as: 'comentarios'
         });
+        Publicacao.hasMany(models.PublicacaoTag, {
+            foreignKey: 'publicacao_id',
+            as: 'tags',
+            onDelete: 'CASCADE'
+        });
     };
 
     return Publicacao;

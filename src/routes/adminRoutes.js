@@ -18,6 +18,8 @@ router.patch('/admin/usuarios/:id/desbanir', auth, authAdmin, adminUsuariosContr
 router.delete('/admin/usuarios/:id', auth, authAdmin, adminUsuariosController.excluirUsuario);
 
 // ─── MODERAÇÃO DE CONTEÚDO ─────────────────────────────────────────────
+router.get('/admin/moderacao', auth, authAdmin, adminModeracaoController.listarFilaDenuncias);
+router.post('/admin/moderacao/:tipo/:id/avisar', auth, authAdmin, adminModeracaoController.enviarAvisoModeracao);
 router.get('/admin/moderacao/resumo', auth, authAdmin, adminModeracaoController.resumoModeracao);
 router.delete('/admin/forum/:id', auth, authAdmin, adminModeracaoController.excluirPublicacao);
 router.delete('/admin/materiais/:id', auth, authAdmin, adminModeracaoController.excluirMaterial);

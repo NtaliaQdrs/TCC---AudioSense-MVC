@@ -157,6 +157,14 @@ CREATE TABLE publicacao (
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
+CREATE TABLE publicacao_tag (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    publicacao_id INT NOT NULL,
+    tag VARCHAR(50) NOT NULL,
+    UNIQUE (publicacao_id, tag),
+    FOREIGN KEY (publicacao_id) REFERENCES publicacao(id) ON DELETE CASCADE
+);
+
 CREATE TABLE comentario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     publicacao_id INT NOT NULL,

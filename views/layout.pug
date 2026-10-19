@@ -45,16 +45,21 @@ html(lang="pt-br")
         nav.menu-links(aria-label="Menu Principal")
           a(href="/") Início
           a(href="/configuracoes") Configurações
-          a(href="#") Sobre nós
+          a(href="/sobre-nos") Sobre nós
 
         .menu-right
-          .search-box1(role="search")
+          form.search-box1(action="/buscar" method="get" role="search")
             i.bi.bi-search(aria-hidden="true")
             input(
-              type="text"
-              placeholder="Pesquise..."
-              aria-label="Pesquisar conteúdo no AudioSense"
+              type="search"
+              name="q"
+              placeholder="Buscar tópicos, materiais..."
+              aria-label="Buscar tópicos, materiais e obras no AudioSense"
+              maxlength="100"
+              required
             )
+            button.search-submit(type="submit" aria-label="Pesquisar")
+              i.bi.bi-arrow-return-left(aria-hidden="true")
 
           .profile-menu
             button#profileBtn.profile-button(
@@ -118,6 +123,10 @@ html(lang="pt-br")
                   i.bi.bi-shield-lock(aria-hidden="true")
                   |   Painel do Administrador
 
+                a#adminModeracao.dropdown-item(href="/admin/moderacao" style="display: none;")
+                  i.bi.bi-flag(aria-hidden="true")
+                  |   Moderação de conteúdo
+
                 hr.dropdown-divider
 
                 a#logoutBtn.dropdown-item.logout(href="/usuario/logout")
@@ -127,8 +136,8 @@ html(lang="pt-br")
               .tab-pane#notifications-tab(role="tabpanel" aria-labelledby="tab-notifications" hidden)
                 p(style="padding: 15px; color: #666; font-size: 14px;") Sem novas notificações.
                 hr.dropdown-divider
-                a.dropdown-item(href="#" style="text-align: center; font-size: 12px;")
-                  | Ver todas as notificações
+                p(style="padding: 0 15px 15px; color: #666; font-size: 12px;")
+                  | As notificações disponíveis são exibidas aqui.
 
     section.sub-menu
       nav(aria-label="Menu de Páginas")
@@ -164,13 +173,13 @@ html(lang="pt-br")
             |  Links úteis
           ul
             li
-              a(href="#") Política de Privacidade
+              a(href="/sobre-nos") Sobre nós
             li
-              a(href="#") Termos de Uso
+              a(href="/forum") Fórum
             li
-              a(href="#") Perguntas Frequentes
+              a(href="/biblioteca") Biblioteca
             li
-              a(href="#") Central de Suporte
+              a(href="/configuracoes") Configurações de acessibilidade
 
         .footer-column
           h3
@@ -179,10 +188,7 @@ html(lang="pt-br")
           ul
             li
               i.bi.bi-envelope(aria-hidden="true")
-              |  contato.audiosense@gmail.com
-            li
-              i.bi.bi-telephone(aria-hidden="true")
-              |  +55 (48) 99999-9999
+              a(href="mailto:contato.audiosense@gmail.com") contato.audiosense@gmail.com
             li
               i.bi.bi-geo-alt(aria-hidden="true")
               |  Sombrio, SC - Brasil
@@ -191,20 +197,11 @@ html(lang="pt-br")
           h3
             i.bi.bi-share(aria-hidden="true")
             |  Redes Sociais
-          p Acompanhe-nos nas redes sociais para dicas e novidades
-          .social-icons
-            a(href="#" aria-label="Instagram")
-              i.bi.bi-instagram(aria-hidden="true")
-            a(href="#" aria-label="Facebook")
-              i.bi.bi-facebook(aria-hidden="true")
-            a(href="#" aria-label="Twitter")
-              i.bi.bi-twitter(aria-hidden="true")
+          p Os canais oficiais da AudioSense ainda não foram informados.
 
       .footer-bottom
         p
-          | © 2025 AudioSense. Plataforma educacional pública sem fins lucrativos.
-          br
-          |
+          | © #{new Date().getFullYear()} AudioSense. Desenvolvido pelo projeto AudioSense.
 
     script.
       const usuarioLogado = !{JSON.stringify(usuarioLogado)};

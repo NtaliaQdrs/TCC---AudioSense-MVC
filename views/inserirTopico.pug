@@ -31,8 +31,11 @@ block content
             name="corpo"
             placeholder="Escreva sobre o que você quer discutir..."
             rows="8"
+            maxlength="560"
             required
+            aria-describedby="contador-corpo"
           )
+          p#contador-corpo.contador-caracteres(role="status" aria-live="polite") 0/280 caracteres
 
 
         .form-divider
@@ -44,9 +47,11 @@ block content
           input#tags.form-control-tags(
             type="text"
             name="tags"
-            placeholder="Adicione tags relacionadas ao tópico"
+            placeholder="Adicione tags relacionadas, separadas por vírgulas"
             autocomplete="off"
           )
+          small As tags serão exibidas no tópico publicado.
+          small Limite: 10 tags, com até 50 caracteres cada.
 
         .form-divider
 
@@ -62,3 +67,6 @@ block content
           .button-group
             button.btn-cancel(type="button" onclick="history.back()") Fechar
             button.btn-submit(type="submit") Postar
+
+block scripts
+  script(src="/javascripts/forum-post.js")

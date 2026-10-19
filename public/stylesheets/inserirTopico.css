@@ -107,6 +107,13 @@
         border-color: #1f4677;
     }
 
+    .contador-caracteres {
+        margin: 8px 4px 0;
+        color: #555;
+        font-size: 14px;
+        text-align: right;
+    }
+
     /* DIVISOR */
     .form-divider {
         border: none;

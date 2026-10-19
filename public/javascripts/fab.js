@@ -76,7 +76,7 @@ const _rotulos = {
   theme: 'Tema',
   fontScale: 'Tamanho da fonte',
   contrast: 'Contraste',
-  underlineLinks: 'Sublinhar links',
+  underlineLinks: 'Sublinhar textos e links',
   readableFont: 'Fonte legível',
   readingGuide: 'Guia de leitura',
   reduceMotion: 'Reduzir animação',

@@ -14,7 +14,7 @@ block content
 
         if recomendacoes && recomendacoes.length
           each rec, index in recomendacoes
-            article.extra-card1(data-categoria=rec.obra.tipo_obra)
+            article.extra-card1(id=`obra-${rec.obra.id}` data-categoria=rec.obra.tipo_obra)
               .card-inner
                 if rec.obra.poster_url
                   img(src=rec.obra.poster_url alt="")

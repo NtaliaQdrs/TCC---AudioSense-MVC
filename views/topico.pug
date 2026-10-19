@@ -25,6 +25,10 @@ block content
         .post-content
           h2= topico.titulo
           p= topico.corpo_texto
+          if topico.tags && topico.tags.length
+            ul.post-tags(aria-label="Tags do tópico")
+              each tag in topico.tags
+                li= `#${tag.tag}`
           if topico.imagem_url
             img(src=topico.imagem_url alt="")
           if topico.video_url
