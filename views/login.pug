@@ -46,11 +46,9 @@ html(lang="pt-br")
         .alert-rejeitado(role="alert") O provedor não forneceu um e-mail válido para continuar.
       if erro === 'oauth_dados_invalidos'
         .alert-rejeitado(role="alert") Os dados do perfil social não podem ser usados nesta conta.
-      if erro === 'oauth_email_existente'
-        .alert-rejeitado(role="alert") Já existe uma conta com esse e-mail. Entre com sua senha; por segurança, contas não são vinculadas automaticamente.
       if erro === 'oauth_sem_conta'
         .alert-pendente(role="status")
-          | Não existe uma conta vinculada ao Google. Para criar uma conta discente, use a opção de cadastro com Google.
+          | Não encontramos uma conta com esse Google. Use a opção de cadastro discente para criar uma conta.
       if erro === 'oauth_conta_indisponivel'
         .alert-rejeitado(role="alert") Esta conta está desativada ou banida.
       if erro === 'oauth_erro'

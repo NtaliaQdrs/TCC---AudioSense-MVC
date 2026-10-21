@@ -22,7 +22,7 @@ GOOGLE_CALLBACK_URL=http://localhost:3000/usuario/oauth/google/callback
 
 `GOOGLE_CALLBACK_URL` pode ser omitida se `APP_BASE_URL` estiver definida. Em produção, use callback HTTPS e cadastre exatamente a mesma URL no Google Cloud. O cliente Google precisa permitir os escopos `openid`, `email` e `profile`. O cadastro social aparece apenas na tela de cadastro discente; a escolha inicial entre discente e docente permanece inalterada. O modelo cria a tabela `oauth_identity` durante o `sequelize.sync()`.
 
-Uma identidade Google já cadastrada pode entrar pela tela de login. Contas existentes não são vinculadas automaticamente por e-mail; se o endereço já pertencer a uma conta local, entre com e-mail e senha. O projeto não contém credenciais do Google, portanto cada instalação precisa configurá-las antes de usar OAuth.
+Uma identidade Google já cadastrada pode entrar pela tela de login. Se ainda não houver vínculo, um e-mail confirmado pelo Google pode ser associado à conta existente com o mesmo endereço; contas docentes continuam sujeitas às regras de aprovação existentes. Se não existir uma conta com esse endereço, o fluxo de cadastro cria uma conta discente. O projeto não contém credenciais do Google, portanto cada instalação precisa configurá-las antes de usar OAuth.
 
 ## Funcionalidades e informações pendentes
 

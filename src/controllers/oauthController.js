@@ -249,10 +249,17 @@ export async function concluirOAuth(req, res) {
       user = await db.Usuario.findByPk(identity.usuario_id);
       if (!user) return redirectToLogin(res, 'oauth_erro');
     } else {
-      const existingUser = await findUserByEmail(email);
-      if (existingUser) return redirectToLogin(res, 'oauth_email_existente');
-      if (transaction.flow !== 'register') return redirectToLogin(res, 'oauth_sem_conta');
-      user = await createStudentAccount(provider, profile);
+      user = await findUserByEmail(email);
+      if (user) {
+        await db.OAuthIdentity.create({
+          usuario_id: user.id,
+          provider,
+          provider_subject: providerSubject
+        });
+      } else {
+        if (transaction.flow !== 'register') return redirectToLogin(res, 'oauth_sem_conta');
+        user = await createStudentAccount(provider, profile);
+      }
     }
 
     const authenticated = await authenticateUser(req, res, user);
