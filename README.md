@@ -3,12 +3,11 @@ Repositório do Audiosense - Versão com mvc
 
 ## Executar localmente
 
-1. Copie `.env.example` para `.env` na raiz do projeto (`Copy-Item .env.example .env` no PowerShell).
-2. Preencha `DB_DATABASE`, `DB_USER`, `DB_HOST` e `JWT_SECRET` com os valores do seu ambiente. É necessário ter um PostgreSQL acessível; o repositório não fornece banco ou credenciais.
-3. Para enviar arquivos, configure também as variáveis `R2_*` com credenciais de um bucket Cloudflare R2. Sem R2, o servidor pode iniciar, mas os uploads ficam indisponíveis e mostram um erro de configuração.
-4. Instale as dependências com `npm ci` e inicie o servidor com `npm start`.
+1. Copie `.env.example` para `.env` na raiz do projeto.
+2. Preencha as variáveis do PostgreSQL (`DB_*`), do Cloudflare R2 (`R2_*`) e `JWT_SECRET` com os valores do seu ambiente. Uploads dependem do R2; não use valores de exemplo como credenciais.
+3. Instale as dependências com `npm ci` e inicie o servidor com `npm start`.
 
-O `.env` contém segredos e está ignorado pelo Git. Não publique nem envie esses valores em mensagens.
+O `.env` contém segredos e está ignorado pelo Git. Não publique nem envie esses valores em mensagens. Sem configuração do banco e do bucket R2, o servidor não inicia corretamente.
 
 ### Login e cadastro com Google/Facebook
 
