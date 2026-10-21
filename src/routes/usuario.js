@@ -2,7 +2,6 @@ import express from 'express';
 import upload from '../config/multer.js';
 import uploadComprovante from '../config/multerComprovante.js';
 import auth from '../middlewares/auth.js';
-import { iniciarOAuth, concluirOAuth } from '../controllers/oauthController.js';
 import {
     // Views autenticadas
     verPerfil,
@@ -42,8 +41,6 @@ router.get('/', (req, res) =>
         erro:   req.query.erro   || null,
     })
 );
-router.get('/oauth/:provider', iniciarOAuth);
-router.get('/oauth/:provider/callback', concluirOAuth);
 
 // Cadastro — escolha de tipo
 router.get('/cadastro', (req, res) =>

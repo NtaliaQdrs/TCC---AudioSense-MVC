@@ -72,21 +72,6 @@ html.dark-theme .logo-dark {
     box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.232);
 }
 
-.btn-social:hover {
-    background: #f5f8fc;
-    border-color: #1f4677;
-}
-
-.btn-social:focus-visible {
-    outline: 3px solid #ffbf47;
-    outline-offset: 3px;
-}
-
-.social-login p {
-    margin: 0;
-    color: #122e51;
-}
-
 .divider {
     margin: 20px 0;
     font-size: 19px;
