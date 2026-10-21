@@ -9,6 +9,10 @@ import createError from './utils/createError.js';
 import db from './models/index.js';
 import session from 'express-session';
 
+if (!process.env.JWT_SECRET) {
+  throw new Error('Configure JWT_SECRET no arquivo .env antes de iniciar o servidor.');
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
