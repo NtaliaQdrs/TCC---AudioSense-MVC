@@ -50,7 +50,7 @@ html(lang="pt-br")
         .alert-rejeitado(role="alert") Já existe uma conta com esse e-mail. Entre com sua senha; por segurança, contas não são vinculadas automaticamente.
       if erro === 'oauth_sem_conta'
         .alert-pendente(role="status")
-          | Não existe uma conta social vinculada. Para criar uma conta discente, use a opção de cadastro com Google ou Facebook.
+          | Não existe uma conta vinculada ao Google. Para criar uma conta discente, use a opção de cadastro com Google.
       if erro === 'oauth_conta_indisponivel'
         .alert-rejeitado(role="alert") Esta conta está desativada ou banida.
       if erro === 'oauth_erro'
@@ -78,9 +78,6 @@ html(lang="pt-br")
         a.btn-social(href="/usuario/oauth/google?flow=login" aria-label="Entrar com Google")
           i.bi.bi-google(aria-hidden="true")
           | Entrar com Google
-        a.btn-social(href="/usuario/oauth/facebook?flow=login" aria-label="Entrar com Facebook")
-          i.bi.bi-facebook(aria-hidden="true")
-          | Entrar com Facebook
 
       .divider
         span ou

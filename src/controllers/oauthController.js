@@ -11,12 +11,6 @@ const PROVIDERS = {
     tokenUrl: 'https://oauth2.googleapis.com/token',
     scopes: 'openid email profile'
   },
-  facebook: {
-    clientId: () => process.env.FACEBOOK_CLIENT_ID,
-    clientSecret: () => process.env.FACEBOOK_CLIENT_SECRET,
-    callbackUrl: () => process.env.FACEBOOK_CALLBACK_URL || callbackFromBaseUrl('facebook'),
-    scopes: 'email public_profile'
-  }
 };
 
 function callbackFromBaseUrl(provider) {
@@ -29,15 +23,9 @@ function callbackFromBaseUrl(provider) {
   }
 }
 
-function facebookGraphVersion() {
-  const version = process.env.FACEBOOK_GRAPH_VERSION?.trim();
-  return /^v\d+\.\d+$/.test(version || '') ? version : null;
-}
-
 function providerIsConfigured(provider) {
   const config = PROVIDERS[provider];
   if (!config || !config.clientId() || !config.clientSecret()) return false;
-  if (provider === 'facebook' && !facebookGraphVersion()) return false;
 
   try {
     const callback = config.callbackUrl();
@@ -58,10 +46,7 @@ function redirectToLogin(res, error) {
 function createAuthorizationUrl(provider, state) {
   const config = PROVIDERS[provider];
   const callbackUrl = config.callbackUrl();
-  const graphVersion = facebookGraphVersion();
-  const url = new URL(provider === 'google'
-    ? config.authorizationUrl
-    : `https://www.facebook.com/${graphVersion}/dialog/oauth`);
+  const url = new URL(config.authorizationUrl);
   url.search = new URLSearchParams({
     client_id: config.clientId(),
     redirect_uri: callbackUrl,
@@ -99,49 +84,29 @@ async function exchangeCodeForProfile(provider, code) {
     redirect_uri: callbackUrl,
     grant_type: 'authorization_code'
   });
-  const graphVersion = facebookGraphVersion();
-  let tokenResponse;
-
-  if (provider === 'google') {
-    tokenResponse = await fetch(config.tokenUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: tokenParameters,
-      signal: AbortSignal.timeout(10000)
-    });
-  } else {
-    const tokenUrl = new URL(`https://graph.facebook.com/${graphVersion}/oauth/access_token`);
-    tokenUrl.search = tokenParameters.toString();
-    tokenResponse = await fetch(tokenUrl, { signal: AbortSignal.timeout(10000) });
-  }
+  const tokenResponse = await fetch(config.tokenUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: tokenParameters,
+    signal: AbortSignal.timeout(10000)
+  });
 
   const tokenData = await tokenResponse.json();
   if (!tokenResponse.ok || typeof tokenData.access_token !== 'string') {
     throw new Error('OAuth token exchange failed');
   }
 
-  const profileUrl = provider === 'google'
-    ? 'https://openidconnect.googleapis.com/v1/userinfo'
-    : `https://graph.facebook.com/${graphVersion}/me?fields=id,name,email`;
-  const profileResponse = await fetch(profileUrl, {
+  const profileResponse = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
     headers: { Authorization: `Bearer ${tokenData.access_token}` },
     signal: AbortSignal.timeout(10000)
   });
   const profile = await profileResponse.json();
   if (!profileResponse.ok) throw new Error('OAuth profile request failed');
 
-  if (provider === 'google') {
-    return {
-      subject: profile.sub,
-      email: profile.email,
-      emailVerified: profile.email_verified === true,
-      name: profile.name
-    };
-  }
-
   return {
-    subject: profile.id,
+    subject: profile.sub,
     email: profile.email,
+    emailVerified: profile.email_verified === true,
     name: profile.name
   };
 }
@@ -263,7 +228,7 @@ export async function concluirOAuth(req, res) {
       typeof profile.name === 'string' &&
       profile.name.trim().length > 0 &&
       profile.email.trim().length > 0;
-    if (!validIdentity || (provider === 'google' && !profile.emailVerified)) {
+    if (!validIdentity || !profile.emailVerified) {
       return redirectToLogin(res, 'oauth_email_nao_verificado');
     }
 

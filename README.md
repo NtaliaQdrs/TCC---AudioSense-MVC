@@ -9,7 +9,7 @@ Repositório do Audiosense - Versão com mvc
 
 O `.env` contém segredos e está ignorado pelo Git. Não publique nem envie esses valores em mensagens. Sem configuração do banco e do bucket R2, o servidor não inicia corretamente.
 
-### Login e cadastro discente com Google/Facebook
+### Login e cadastro discente com Google
 
 Configure as credenciais OAuth no `.env` e cadastre estas URLs de callback nos consoles dos provedores:
 
@@ -18,15 +18,11 @@ APP_BASE_URL=http://localhost:3000
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 GOOGLE_CALLBACK_URL=http://localhost:3000/usuario/oauth/google/callback
-FACEBOOK_CLIENT_ID=
-FACEBOOK_CLIENT_SECRET=
-FACEBOOK_CALLBACK_URL=http://localhost:3000/usuario/oauth/facebook/callback
-FACEBOOK_GRAPH_VERSION=vXX.0
 ```
 
-Use a versão do Graph API atualmente suportada pela Meta no lugar de `vXX.0`. As variáveis individuais de callback podem ser omitidas se `APP_BASE_URL` estiver definida. Em produção, use callbacks HTTPS e cadastre exatamente a mesma URL em cada provedor. O Google precisa permitir os escopos `openid`, `email` e `profile`; o Facebook precisa permitir `email` e `public_profile`. O cadastro social aparece apenas na tela de cadastro discente; a escolha inicial entre discente e docente permanece inalterada. O modelo cria a tabela `oauth_identity` durante o `sequelize.sync()`.
+`GOOGLE_CALLBACK_URL` pode ser omitida se `APP_BASE_URL` estiver definida. Em produção, use callback HTTPS e cadastre exatamente a mesma URL no Google Cloud. O cliente Google precisa permitir os escopos `openid`, `email` e `profile`. O cadastro social aparece apenas na tela de cadastro discente; a escolha inicial entre discente e docente permanece inalterada. O modelo cria a tabela `oauth_identity` durante o `sequelize.sync()`.
 
-Uma identidade social já cadastrada pode entrar pela tela de login. Contas existentes não são vinculadas automaticamente por e-mail; se o endereço já pertencer a uma conta local, entre com e-mail e senha. O projeto não contém credenciais de provedor, portanto cada instalação precisa configurá-las antes de usar OAuth.
+Uma identidade Google já cadastrada pode entrar pela tela de login. Contas existentes não são vinculadas automaticamente por e-mail; se o endereço já pertencer a uma conta local, entre com e-mail e senha. O projeto não contém credenciais do Google, portanto cada instalação precisa configurá-las antes de usar OAuth.
 
 ## Funcionalidades e informações pendentes
 
